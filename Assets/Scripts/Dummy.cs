@@ -21,8 +21,6 @@ public class Dummy : MonoBehaviour
 
     public void GetDamage(int damage)
     {
-        if (isDestroy == true) return;
-
         hp -= damage;
 
         if (hp <= 0)

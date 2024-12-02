@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ public class BulletManager : MonoBehaviour
         for (int i = 0; i < poolingAmount; i++)
         {
             Bullet bullet = Instantiate(prefabBullet);
-            bullet.transform.parent = transform;
+            // bullet.transform.parent = transform;
             bullet.gameObject.SetActive(false);
             bullets.Enqueue(bullet);
         }

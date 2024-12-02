@@ -2,20 +2,17 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class Gun : MonoBehaviour
+public class Gun : NetworkBehaviour
 {
     public UnityEvent OnGunShoot;
     public float FireCoolDown;
 
-    private bool isShoot;
-    private bool isAim;
-    private bool isReload;
-
-    [SerializeField] private ShootEffect shootEffect;
-
-    [SerializeField] private Vector3 aimPosition;
+    private Vector3 aimPosition;
     private Vector3 normalPosition;
+
+    public Vector3 aimOffset;
 
     public Image crossHair;
 
@@ -23,15 +20,17 @@ public class Gun : MonoBehaviour
 
     private float CurrentCoolDown;
 
-    [SerializeField] private Magazine magazine;
+    private Inventory inventory;
 
     //private float delayTime = 1f;
     //private float counter = 0f;
 
+    //public GameObject muzzleFlash;
+
     [SerializeField]
     private GameObject bulletSpawnPoint;
-    //[SerializeField]
-    //private Transform orientation;
+    [SerializeField]
+    private Transform orientation;
     [SerializeField]
     private float fireRate;
     [SerializeField]
@@ -39,6 +38,10 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
+        //muzzleFlash.gameObject.SetActive(false);
+
+        inventory = PlayerInput.Instance.GetInventory();
+
         CurrentCoolDown = FireCoolDown;
 
         normalPosition = transform.localPosition;
@@ -49,38 +52,57 @@ public class Gun : MonoBehaviour
 
     private void OnShoot()
     {
-        if (magazine.IsMagazineEmpty()) return;
-        if (magazine.IsReloading()) return;
+        Debug.Log(Inventory.currentMagazineAmmo);
+        Debug.Log("(Gun.cs) isReloading" + Inventory.isReloading);
+        if (IsOwner) {
+            if (!PauseMenu.isPaused && !ChatManager.isChatting) {
+                if (inventory.IsMagazineEmpty()) return;
+                if (inventory.IsReloading()) return;
 
-        if (Automatic)
-        {
-            if (Input.GetMouseButton(0))
-            {
-                if (CurrentCoolDown <= 0f && OnGunShoot != null)
+                if (Automatic)
                 {
-                    OnGunShoot.Invoke();
-                    CurrentCoolDown = FireCoolDown;
-                    ShootBullet();
-                    shootEffect.ActiveShootEffect();
+                    if (Input.GetMouseButton(0))
+                    {
+                        if (CurrentCoolDown <= 0f && OnGunShoot != null)
+                        {
+                            OnGunShoot.Invoke();
+                            CurrentCoolDown = FireCoolDown;
+                            ShootBullet();
+
+                            //muzzleFlash.gameObject.SetActive(true);
+                            Invoke("abc", FireCoolDown);
+
+                            inventory.UpdateBulletsHud();
+                        }
+                    }
+                }
+
+                else
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (CurrentCoolDown <= 0f && OnGunShoot != null)
+                        {
+                            OnGunShoot.Invoke();
+                            CurrentCoolDown = FireCoolDown;
+                            ShootBullet();
+
+                            //muzzleFlash.gameObject.SetActive(true);
+                            Invoke("abc", FireCoolDown);
+
+                            inventory.UpdateBulletsHud();
+                        }
+                    }
                 }
             }
-        }
 
-        else
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (CurrentCoolDown <= 0f && OnGunShoot != null)
-                {
-                    OnGunShoot.Invoke();
-                    CurrentCoolDown = FireCoolDown;
-                    ShootBullet();
-                    shootEffect.ActiveShootEffect();
-                }
-            }
+            CurrentCoolDown -= Time.deltaTime;
         }
+    }
 
-        CurrentCoolDown -= Time.deltaTime;
+    void abc()
+    {
+        //muzzleFlash.gameObject.SetActive(false);
     }
 
     private Vector3 forceDirection = Vector3.zero;
@@ -97,48 +119,36 @@ public class Gun : MonoBehaviour
         forceDirection = bulletSpawnPoint.transform.forward * speed;
         bullet.GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
         bullet.StartCountingToDisappear();
-
-        magazine.UpdateBulletsHud();
     }
-
-    private float smooth = 10f;
-    float smoothRotation = 12f;
+    
     private void OnAim()
     {
-        if (Input.GetMouseButton(1))
-        {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, aimPosition, Time.deltaTime * smooth);
-            crossHair.gameObject.SetActive(false);
+        if (!PauseMenu.isPaused && !ChatManager.isChatting) {
+            if (Input.GetMouseButtonDown(1))
+            {
+                transform.localPosition = aimPosition;
+                crossHair.gameObject.SetActive(false);
 
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, Time.deltaTime * smoothRotation);
-
-            //Debug.Log("Hold right click");
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, normalPosition, Time.deltaTime * smooth);
-            crossHair.gameObject.SetActive(true);
-            //Debug.Log("Release right click");
-        }
-    }
-
-    private void OnReload()
-    {
-        if (PlayerInput.Instance.GetPlayerAssetsInputs().reload == true)
-        {
-            magazine.Reload();
-            PlayerInput.Instance.GetPlayerAssetsInputs().reload = false;
+                //Debug.Log("Hold right click");
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                transform.localPosition = normalPosition;
+                crossHair.gameObject.SetActive(true);
+                //Debug.Log("Release right click");
+            }
         }
     }
 
     private void Update()
     {
-        // isShoot = PlayerInput.Instance
-        // isAim = 
-        //isReload = PlayerInput.Instance.GetIsReloaded();
+        aimPosition = normalPosition - aimOffset;
 
         OnShoot();
         OnAim();
-        OnReload();
+
+        //counter += Time.deltaTime * fireRate;
+        //if (counter <= delayTime) return;
+        //counter = 0f;
     }
 }

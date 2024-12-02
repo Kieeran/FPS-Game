@@ -9,27 +9,26 @@ public class StartButton : MonoBehaviour
 
     [SerializeField] private Renderer buttonRenderer;
 
-    [SerializeField] private Dummy dummyPrefab;
-    private Dummy dummy;
+    [SerializeField] private Dummy dummy;
 
-    public int dummyAmount;
+    private int dummyAmount;
     private int dummyCount;
 
     private bool isStartPractice;
 
-    public bool GetIsStartPractice() { return isStartPractice; }
-
-    [SerializeField] private Transform limitMin;
-    [SerializeField] private Transform limitMax;
+    [SerializeField] private Transform limitX;
+    [SerializeField] private Transform limitZ;
 
     private void Start()
     {
-        dummy = Instantiate(dummyPrefab);
+        dummy = Instantiate(dummy);
         dummy.gameObject.SetActive(false);
 
         buttonRenderer.material = redColor;
 
         isStartPractice = false;
+
+        dummyAmount = 2;
         dummyCount = 0;
     }
 
@@ -45,8 +44,8 @@ public class StartButton : MonoBehaviour
 
     private void SpawnDummyAtRandomPos()
     {
-        float posX = Random.Range(limitMin.position.x, limitMax.position.x);
-        float posZ = Random.Range(limitMax.position.z, limitMin.position.z);
+        float posX = Random.Range(limitX.position.x, limitZ.position.x);
+        float posZ = Random.Range(limitX.position.z, limitZ.position.z);
         dummy.transform.position = new Vector3(posX, dummy.transform.position.y, posZ);
     }
 
@@ -63,8 +62,6 @@ public class StartButton : MonoBehaviour
                     isStartPractice = false;
                     buttonRenderer.material = redColor;
                     dummy.ResetDummy();
-
-                    return;
                 }
 
                 dummy.ResetDummy();

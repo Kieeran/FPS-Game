@@ -1,76 +1,103 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using PlayerAssets;
+using Unity.Netcode;
 
-public class WeaponSwitching : MonoBehaviour
+public class WeaponSwitching : NetworkBehaviour
 {
-    [SerializeField] private List<Image> weaponImages;
+    public GameObject[] weapons;
+    public InputActionAsset inputActionAsset; // Reference to the Input Action Asset
 
-    private List<GameObject> playerWeapons;
-    private PlayerAssetsInputs playerAssetsInputs;
+    private NetworkVariable<int> currentWeaponIndex = new NetworkVariable<int>(
+        0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
+    private InputAction switchToWeapon1;
+    private InputAction switchToWeapon2;
+    private InputAction switchToWeapon3;
+    private InputAction switchToWeapon4;
+
+    public override void OnNetworkSpawn()
+    {
+        weapons[1].SetActive(false);
+        weapons[2].SetActive(false);
+        weapons[3].SetActive(false);
+    }
+
     private void Start()
     {
-        playerWeapons = Player.Instance.GetPlayerWeapon().GetPlayerWeapons();
-        playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
-        SetActiveWeapon(0);
+        if (IsOwner)
+        {
+            ActivateWeapon(0); // Default active weapon
+        }
+
+        currentWeaponIndex.OnValueChanged += (oldIndex, newIndex) => ActivateWeapon(newIndex);
     }
 
-    private void SetActiveWeapon(int WeaponID)
+    private void OnEnable()
     {
-        for (int i = 0; i < playerWeapons.Count; i++)
+        if (inputActionAsset == null)
         {
-            if (i == WeaponID)
-            {
-                playerWeapons[i].gameObject.SetActive(true);
-                weaponImages[i].color = new Color(1, 1, 1, 1);
-            }
-
-            else
-            {
-                playerWeapons[i].gameObject.SetActive(false);
-                weaponImages[i].color = new Color(1, 1, 1, 0.5f);
-            }
+            Debug.LogError("InputActionAsset is not assigned!");
+            return;
         }
+
+        switchToWeapon1 = inputActionAsset.FindAction("SwitchToWeapon1");
+        switchToWeapon2 = inputActionAsset.FindAction("SwitchToWeapon2");
+        switchToWeapon3 = inputActionAsset.FindAction("SwitchToWeapon3");
+        switchToWeapon4 = inputActionAsset.FindAction("SwitchToWeapon4");
+
+        if (switchToWeapon1 != null) switchToWeapon1.performed += _ => OnSwitchWeapon(0);
+        if (switchToWeapon2 != null) switchToWeapon2.performed += _ => OnSwitchWeapon(1);
+        if (switchToWeapon3 != null) switchToWeapon3.performed += _ => OnSwitchWeapon(2);
+        if (switchToWeapon4 != null) switchToWeapon4.performed += _ => OnSwitchWeapon(3);
+
+        switchToWeapon1?.Enable();
+        switchToWeapon2?.Enable();
+        switchToWeapon3?.Enable();
+        switchToWeapon4?.Enable();
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        if (playerAssetsInputs.hotkey1 == true)
-        {
-            SetActiveWeapon(0);
-            playerAssetsInputs.hotkey1 = false;
-        }
+        switchToWeapon1?.Disable();
+        switchToWeapon2?.Disable();
+        switchToWeapon3?.Disable();
+        switchToWeapon4?.Disable();
 
-        else if (playerAssetsInputs.hotkey2 == true)
-        {
-            SetActiveWeapon(1);
-            playerAssetsInputs.hotkey2 = false;
-        }
+        if (switchToWeapon1 != null) switchToWeapon1.performed -= _ => OnSwitchWeapon(0);
+        if (switchToWeapon2 != null) switchToWeapon2.performed -= _ => OnSwitchWeapon(1);
+        if (switchToWeapon3 != null) switchToWeapon3.performed -= _ => OnSwitchWeapon(2);
+        if (switchToWeapon4 != null) switchToWeapon4.performed -= _ => OnSwitchWeapon(3);
+    }
 
-        else if (playerAssetsInputs.hotkey3 == true)
+    private void OnSwitchWeapon(int weaponIndex)
+    {
+        if (IsOwner && weaponIndex >= 0 && weaponIndex < weapons.Length)
         {
-            SetActiveWeapon(2);
-            playerAssetsInputs.hotkey3 = false;
-        }
-
-        else if (playerAssetsInputs.hotkey4 == true)
-        {
-            SetActiveWeapon(3);
-            playerAssetsInputs.hotkey4 = false;
+            RequestWeaponSwitchServerRpc(weaponIndex);
         }
     }
 
-    // void SwitchBulletsHud(GameObject obj)
-    // {
-    //     Magazine magazine = obj.GetComponent<Magazine>();
-    //     if (magazine == null) return;
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestWeaponSwitchServerRpc(int weaponIndex, ServerRpcParams rpcParams = default)
+    {
+        currentWeaponIndex.Value = weaponIndex;
+        SyncWeaponStateClientRpc(weaponIndex);
+    }
 
-    //     int currentMagazineAmmo = magazine.GetCurrentMagazineAmmo();
-    //     int totalAmmo = weapon1.GetComponent<Magazine>().GetTotalAmmo();
+    [ClientRpc]
+    private void SyncWeaponStateClientRpc(int weaponIndex)
+    {
+        ActivateWeapon(weaponIndex);
+    }
 
-    //     Inventory.Instance.SetText(currentMagazineAmmo, totalAmmo);
-    // }
+    private void ActivateWeapon(int weaponIndex)
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            weapons[i].SetActive(i == weaponIndex);
+        }
+    }
 }

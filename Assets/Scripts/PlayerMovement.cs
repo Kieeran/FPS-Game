@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [Header("Movement")]
     private float moveSpeed;
@@ -60,13 +61,20 @@ public class PlayerMovement : MonoBehaviour
         //startYScale = transform.localScale.y;
     }
 
+    public override void OnNetworkSpawn() {
+        Debug.Log("isPaused = " + PauseMenu.isPaused + " | isChatting = " + ChatManager.isChatting);
+    }
+
     private void Update()
     {
         //isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
-
-        MyInput();
-        SpeedControl();
-        StateHandler();
+        if (IsOwner) {
+            if (!PauseMenu.isPaused && !ChatManager.isChatting) {
+                MyInput();
+                SpeedControl();
+                StateHandler();
+            }
+        }
 
         //if (isGrounded)
         //    rb.drag = groundDrag;
@@ -91,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
             isGrounded = false;
-            PlayerInput.Instance.GetPlayerAssetsInputs().jump = false;
         }
 
         //if (Input.GetKeyDown(crouchKey))

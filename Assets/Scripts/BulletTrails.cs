@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class BulletTrails : MonoBehaviour
+public class BulletTrails : NetworkBehaviour
 {
     private float delayTime = 1f;
     private float counter = 0f;
@@ -47,40 +48,42 @@ public class BulletTrails : MonoBehaviour
 
     private void OnShoot()
     {
-        if (Automatic)
-        {
-            if (Input.GetKey(KeyCode.V))
+        if (IsOwner) {
+            if (Automatic)
             {
-                if (CurrentCoolDown <= 0f)
+                if (Input.GetKey(KeyCode.V))
                 {
-                    CurrentCoolDown = FireCoolDown;
-                    //
-                    Bullet bullet = BulletManager.Instance.GetBullet();
-                    bullet.transform.position = bulletSpawnPoint.position;
+                    if (CurrentCoolDown <= 0f)
+                    {
+                        CurrentCoolDown = FireCoolDown;
+                        //
+                        Bullet bullet = BulletManager.Instance.GetBullet();
+                        bullet.transform.position = bulletSpawnPoint.position;
 
-                    Vector3 forceDirection = transform.forward * speed;
+                        Vector3 forceDirection = transform.forward * speed;
 
-                    bullet.GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
-                    bullet.StartCountingToDisappear();
+                        bullet.GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
+                        bullet.StartCountingToDisappear();
+                    }
                 }
             }
-        }
 
-        else
-        {
-            if (Input.GetKey(KeyCode.V))
+            else
             {
-                if (CurrentCoolDown <= 0f)
+                if (Input.GetKey(KeyCode.V))
                 {
-                    CurrentCoolDown = FireCoolDown;
-                    //
-                    Bullet bullet = BulletManager.Instance.GetBullet();
-                    bullet.transform.position = bulletSpawnPoint.position;
+                    if (CurrentCoolDown <= 0f)
+                    {
+                        CurrentCoolDown = FireCoolDown;
+                        //
+                        Bullet bullet = BulletManager.Instance.GetBullet();
+                        bullet.transform.position = bulletSpawnPoint.position;
 
-                    Vector3 forceDirection = transform.forward * speed;
+                        Vector3 forceDirection = transform.forward * speed;
 
-                    bullet.GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
-                    bullet.StartCountingToDisappear();
+                        bullet.GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
+                        bullet.StartCountingToDisappear();
+                    }
                 }
             }
         }

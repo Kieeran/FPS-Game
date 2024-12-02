@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class SwayAndBob : MonoBehaviour
+public class SwayAndBob : NetworkBehaviour
 {
     [Header("External references")]
     public Rigidbody rb;
@@ -21,7 +22,6 @@ public class SwayAndBob : MonoBehaviour
         walkInput = PlayerInput.Instance.GetMoveInput();
 
         if (Input.GetMouseButton(1)) return;
-        //if (Input.GetMouseButton(0)) return;
 
         Sway();
         SwayRotation();
@@ -78,7 +78,7 @@ public class SwayAndBob : MonoBehaviour
     {
         bobPosition.x = curveCos * bobLimit.x;
         bobPosition.y = curveSin * bobLimit.y - rb.velocity.y * travelLimit.y;
-        bobPosition.z = -walkInput.y * travelLimit.z;
+        //bobPosition.z = -walkInput.y * travelLimit.z;
 
         //bobPosition.x = curveCos * bobLimit.x;
         //bobPosition.y = curveSin * bobLimit.y;

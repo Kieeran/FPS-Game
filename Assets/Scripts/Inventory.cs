@@ -1,59 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class Inventory : MonoBehaviour
+public class Inventory : NetworkBehaviour
 {
-    public static Inventory Instance;
-    private void Awake()
-    {
-        if (Instance != null)
-            Destroy(Instance);
-        else
-            Instance = this;
-    }
-
-    private bool isReloading;
-
-    private int currentMagazineAmmo;
+    public static int currentMagazineAmmo;
     private int totalAmmo;
+    private int magazineCapacity;
+    public static bool isReloading;
+    private int flag = 0;
 
-    private float fillAmountOffset;
-    private float alphaOffset;
+    private float fillAmountOffset = 0.01f;
+    private float alphaOffset = 0.01f;
+
     private float startAlpha;
 
-    public bool GetIsReloading() { return isReloading; }
+    private TMP_Text _currentMagazineAmmo;
+    private TMP_Text _totalAmmo;
+    // [SerializeField] private Image reloadUI;
+    private Image reloadUI;
 
-    [SerializeField] private TMP_Text currentMagazineAmmoText;
-    [SerializeField] private TMP_Text totalAmmoText;
-    [SerializeField] private Image reloadUI;
+    public bool IsMagazineEmpty() { return currentMagazineAmmo <= 0; }
+    public bool IsOutOfAmmo() { return totalAmmo <= 0; }
+
+    public bool IsReloading() { return isReloading; }
+
+    public override void OnGainedOwnership()
+    {
+        reloadUI = GameObject.Find("Reload").GetComponentInChildren<Image>();
+        _currentMagazineAmmo.text = currentMagazineAmmo.ToString();
+        _totalAmmo.text = totalAmmo.ToString();
+    }
 
     private void Start()
     {
-        fillAmountOffset = 0.01f;
-        alphaOffset = 0.01f;
+        reloadUI = GameObject.Find("Reload").GetComponentInChildren<Image>();
+        
+        magazineCapacity = 30;
+        currentMagazineAmmo = 30;
+        totalAmmo = 90;
 
         startAlpha = reloadUI.color.a;
+
+        SetText();
         reloadUI.gameObject.SetActive(false);
-    }
-
-    public void SetText(int currentMagazineAmmo, int totalAmmo)
-    {
-        currentMagazineAmmoText.text = currentMagazineAmmo.ToString();
-        totalAmmoText.text = totalAmmo.ToString();
-    }
-
-    public void StartReloadUI(int currentMagazineAmmo, int totalAmmo)
-    {
-        this.currentMagazineAmmo = currentMagazineAmmo;
-        this.totalAmmo = totalAmmo;
-
-        isReloading = true;
-        reloadUI.gameObject.SetActive(true);
     }
 
     private void Update()
     {
+        Debug.Log("(Update) isReloading = " + isReloading);
         if (isReloading == true)
         {
             if (reloadUI.fillAmount < 1f)
@@ -69,11 +67,87 @@ public class Inventory : MonoBehaviour
                     reloadUI.fillAmount = 0;
 
                     isReloading = false;
-                    SetText(currentMagazineAmmo, totalAmmo);
+                    SetText();
 
                     //Debug.Log("Reloading done!!!");
                 }
             }
         }
+    }
+
+    public void UpdateBulletsHud()
+    {
+        currentMagazineAmmo--;
+        SetText();
+    }
+
+    private void SetText()
+    {
+        Debug.Log("(SetText) isReloading = " + isReloading);
+        magazineCapacity = 30;
+        
+        
+        _currentMagazineAmmo = GameObject.Find("CurrentMagazineAmmo").GetComponentInChildren<TextMeshProUGUI>();
+        _totalAmmo = GameObject.Find("TotalAmmo").GetComponentInChildren<TextMeshProUGUI>();
+        if (flag == 0)
+        {
+            reloadUI = GameObject.Find("Reload").GetComponentInChildren<Image>();
+            totalAmmo = 90;
+            flag = 1; 
+        }
+        
+        _currentMagazineAmmo.text = currentMagazineAmmo.ToString();
+        _totalAmmo.text = totalAmmo.ToString();
+    }
+
+    private void StartReloadUI()
+    {
+        isReloading = true;
+        reloadUI.gameObject.SetActive(true);
+    }
+
+    public void Reload()
+    {
+        Debug.Log("Reload");
+        Debug.Log(currentMagazineAmmo + " - " + magazineCapacity + " - " + totalAmmo);
+        if (IsOutOfAmmo())
+        {
+            Debug.Log("Out of ammo");
+            return;
+        }
+
+        StartReloadUI();
+
+        if (IsMagazineEmpty())
+        {
+            
+            if (totalAmmo >= magazineCapacity)
+            {
+                currentMagazineAmmo = magazineCapacity;
+                totalAmmo -= magazineCapacity;
+            }
+
+            else
+            {
+                currentMagazineAmmo = totalAmmo;
+                totalAmmo = 0;
+            }
+        }
+        else
+        {
+            if (totalAmmo >= magazineCapacity - currentMagazineAmmo)
+            {
+                totalAmmo -= magazineCapacity - currentMagazineAmmo;
+                currentMagazineAmmo = magazineCapacity;
+            }
+
+            else
+            {
+                currentMagazineAmmo += totalAmmo;
+                totalAmmo = 0;
+            }
+        }
+
+        //Debug.Log("Reloading...");
     }
 }

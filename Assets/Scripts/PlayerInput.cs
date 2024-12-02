@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using PlayerAssets;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,17 +16,18 @@ public class PlayerInput : MonoBehaviour
             Instance = this;
     }
 
-    [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
-
-    public PlayerAssetsInputs GetPlayerAssetsInputs() { return playerAssetsInputs; }
-
     private Vector2 mousePos;
     private Vector2 moveInput;
     private bool isJumped;
     private bool isReloaded;
 
+    public Inventory inventory;
+
+    public Inventory GetInventory() { return inventory; }
+
     public void OnMove(InputValue value)
     {
+
         moveInput = value.Get<Vector2>();
     }
 
@@ -38,6 +38,7 @@ public class PlayerInput : MonoBehaviour
             if (value.isPressed == true)
             {
                 isReloaded = true;
+                inventory.Reload();
             }
 
             else
@@ -66,13 +67,9 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    //public bool GetIsJumped() { return isJumped; }
-    public bool GetIsJumped() { return playerAssetsInputs.jump; }
-    //public bool GetIsReloaded() { return isReloaded; }
-    public bool GetIsReloaded() { return playerAssetsInputs.reload; }
-    //public Vector2 GetMoveInput() { return moveInput; }
-    public Vector2 GetMoveInput() { return playerAssetsInputs.move; }
+    public bool GetIsJumped() { return isJumped; }
+    public bool GetIsReloaded() { return isReloaded; }
+    public Vector2 GetMoveInput() { return moveInput; }
 
-    //public Vector2 GetMousePos() { return mousePos; }
-    public Vector2 GetMousePos() { return playerAssetsInputs.look; }
+    public Vector2 GetMousePos() { return mousePos; }
 }
