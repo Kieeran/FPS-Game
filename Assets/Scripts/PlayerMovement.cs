@@ -1,8 +1,8 @@
 using PlayerAssets;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
@@ -79,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (IsOwner == false) return;
+
         MovePlayer();
     }
 

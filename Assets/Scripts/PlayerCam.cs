@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerCam : MonoBehaviour
+public class PlayerCam : NetworkBehaviour
 {
     public float sensX;
     public float sensY;
@@ -17,27 +16,27 @@ public class PlayerCam : MonoBehaviour
 
     private bool toggleOut;
 
-    // public override void OnNetworkSpawn()
-    // {
-    //     base.OnNetworkSpawn();
-
-    //     Cursor.lockState = CursorLockMode.Locked;
-    //     Cursor.visible = false;
-    //     toggleOut = false;
-
-    //     if (IsOwner == true) _camera.gameObject.SetActive(true);
-    // }
-
-    private void Start()
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         toggleOut = false;
+
+        if (IsOwner == true) _camera.gameObject.SetActive(true);
     }
+
+    // private void Start()
+    // {
+    //     Cursor.lockState = CursorLockMode.Locked;
+    //     Cursor.visible = false;
+    //     toggleOut = false;
+    // }
 
     private void Update()
     {
-        //if (IsOwner == false) return;
+        if (IsOwner == false) return;
 
         if (Input.GetKeyDown(KeyCode.Q))
         {

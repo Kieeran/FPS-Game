@@ -12,6 +12,8 @@ using UnityEngine;
 
 public class TestRelay : MonoBehaviour
 {
+    public GameObject _camera;
+
     // Start is called before the first frame update
     private async void Start()
     {
@@ -40,6 +42,8 @@ public class TestRelay : MonoBehaviour
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
+            Destroy(_camera);
+
             NetworkManager.Singleton.StartHost();
         }
         catch (RelayServiceException e)
@@ -59,6 +63,8 @@ public class TestRelay : MonoBehaviour
             RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
+            Destroy(_camera);
 
             NetworkManager.Singleton.StartClient();
         }
