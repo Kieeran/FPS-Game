@@ -141,13 +141,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        //moveDirection = orientation.forward * moveInput.y + orientation.right * moveInput.x;
-        Vector2 moveInput = playerAssetsInputs.move;
-
-        moveDirection.x = moveInput.x;
-        moveDirection.z = moveInput.y;
-
-        Debug.Log(moveDirection);
+        moveInput = playerAssetsInputs.move;
+        moveDirection = orientation.forward * moveInput.y + orientation.right * moveInput.x;
 
         rb.AddForce(moveDirection * moveSpeed * 10f, ForceMode.Force);
         //if (isGrounded)

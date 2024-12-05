@@ -7,15 +7,26 @@ public class PlayerCam : MonoBehaviour
     public float sensX;
     public float sensY;
 
+    public Transform orientation;
+    public GameObject _camera;
+
     private float xRotation;
     private float yRotation;
-
-    public Transform orientation;
 
     private Vector2 mousePos;
 
     private bool toggleOut;
 
+    // public override void OnNetworkSpawn()
+    // {
+    //     base.OnNetworkSpawn();
+
+    //     Cursor.lockState = CursorLockMode.Locked;
+    //     Cursor.visible = false;
+    //     toggleOut = false;
+
+    //     if (IsOwner == true) _camera.gameObject.SetActive(true);
+    // }
 
     private void Start()
     {
@@ -26,6 +37,8 @@ public class PlayerCam : MonoBehaviour
 
     private void Update()
     {
+        //if (IsOwner == false) return;
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             toggleOut = !toggleOut;
@@ -33,20 +46,19 @@ public class PlayerCam : MonoBehaviour
 
         if (toggleOut == false)
         {
-            mousePos = PlayerInput.Instance.GetMousePos();
+            mousePos.x = Input.GetAxis("Mouse X");
+            mousePos.y = Input.GetAxis("Mouse Y");
 
             mousePos.x *= Time.deltaTime * sensX;
             mousePos.y *= Time.deltaTime * sensY;
 
-            //Debug.Log(mouseX + "; " + mouseY);
-
             yRotation += mousePos.x;
-            xRotation += mousePos.y;
+            xRotation -= mousePos.y;
 
             xRotation = Mathf.Clamp(xRotation, -80f, 50f);
 
-            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
-            orientation.rotation = Quaternion.Euler(0f, yRotation, 0f);
+            orientation.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
+            //transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
         }
     }
 }
