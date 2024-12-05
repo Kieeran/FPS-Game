@@ -1,12 +1,15 @@
+using PlayerAssets;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    private float moveSpeed;
+    public float moveSpeed;
     public float walkSpeed;
     public float sprintSpeed;
+
+    public PlayerAssetsInputs playerAssetsInputs;
 
     //public float groundDrag;
 
@@ -37,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 moveDirection;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
 
     public MovementState state;
 
@@ -51,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -64,9 +67,9 @@ public class PlayerMovement : MonoBehaviour
     {
         //isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
 
-        MyInput();
-        SpeedControl();
-        StateHandler();
+        //MyInput();
+        //SpeedControl();
+        //StateHandler();
 
         //if (isGrounded)
         //    rb.drag = groundDrag;
@@ -138,9 +141,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        moveDirection = orientation.forward * moveInput.y + orientation.right * moveInput.x;
+        //moveDirection = orientation.forward * moveInput.y + orientation.right * moveInput.x;
+        Vector2 moveInput = playerAssetsInputs.move;
 
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        moveDirection.x = moveInput.x;
+        moveDirection.z = moveInput.y;
+
+        Debug.Log(moveDirection);
+
+        rb.AddForce(moveDirection * moveSpeed * 10f, ForceMode.Force);
         //if (isGrounded)
         //    rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
         //else
