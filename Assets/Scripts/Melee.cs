@@ -11,7 +11,7 @@ public class Melee : Weapon
 
     private void Start()
     {
-        playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
+        //playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
     }
 
     public void SetBoolFalse()

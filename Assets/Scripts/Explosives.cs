@@ -12,7 +12,7 @@ public class Explosives : Weapon
     // Start is called before the first frame update
     void Start()
     {
-        playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
+        //playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
     }
 
     public Rigidbody GetRigibody() { return grenadeRB; }

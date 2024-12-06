@@ -86,18 +86,18 @@ public class PlayerMovement : NetworkBehaviour
 
     private void MyInput()
     {
-        moveInput = new Vector2(
-            PlayerInput.Instance.GetMoveInput().x,
-            PlayerInput.Instance.GetMoveInput().y);
+        // moveInput = new Vector2(
+        //     PlayerInput.Instance.GetMoveInput().x,
+        //     PlayerInput.Instance.GetMoveInput().y);
 
-        isJumped = PlayerInput.Instance.GetIsJumped();
+        // isJumped = PlayerInput.Instance.GetIsJumped();
 
-        if (isJumped && isGrounded)
-        {
-            Jump();
-            isGrounded = false;
-            PlayerInput.Instance.GetPlayerAssetsInputs().jump = false;
-        }
+        // if (isJumped && isGrounded)
+        // {
+        //     Jump();
+        //     isGrounded = false;
+        //     PlayerInput.Instance.GetPlayerAssetsInputs().jump = false;
+        // }
 
         //if (Input.GetKeyDown(crouchKey))
         //{
@@ -143,9 +143,9 @@ public class PlayerMovement : NetworkBehaviour
 
     private void MovePlayer()
     {
-        //moveInput = playerAssetsInputs.move;
-        moveInput.x = Input.GetAxis("Horizontal");
-        moveInput.y = Input.GetAxis("Vertical");
+        moveInput = playerAssetsInputs.move;
+        // moveInput.x = Input.GetAxis("Horizontal");
+        // moveInput.y = Input.GetAxis("Vertical");
 
         moveDirection = orientation.forward * moveInput.y + orientation.right * moveInput.x;
 

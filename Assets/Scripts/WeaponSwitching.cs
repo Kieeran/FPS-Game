@@ -14,7 +14,7 @@ public class WeaponSwitching : MonoBehaviour
     private void Start()
     {
         playerWeapons = Player.Instance.GetPlayerWeapon().GetPlayerWeapons();
-        playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
+        //playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
         SetActiveWeapon(0);
     }
 

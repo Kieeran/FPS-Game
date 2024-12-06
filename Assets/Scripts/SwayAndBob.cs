@@ -17,8 +17,8 @@ public class SwayAndBob : MonoBehaviour
 
     private void Update()
     {
-        lookInput = PlayerInput.Instance.GetMousePos();
-        walkInput = PlayerInput.Instance.GetMoveInput();
+        //lookInput = PlayerInput.Instance.GetMousePos();
+        //walkInput = PlayerInput.Instance.GetMoveInput();
 
         if (Input.GetMouseButton(1)) return;
         //if (Input.GetMouseButton(0)) return;

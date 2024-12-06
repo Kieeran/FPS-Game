@@ -124,11 +124,11 @@ public class Gun : MonoBehaviour
 
     private void OnReload()
     {
-        if (PlayerInput.Instance.GetPlayerAssetsInputs().reload == true)
-        {
-            magazine.Reload();
-            PlayerInput.Instance.GetPlayerAssetsInputs().reload = false;
-        }
+        // if (PlayerInput.Instance.GetPlayerAssetsInputs().reload == true)
+        // {
+        //     magazine.Reload();
+        //     PlayerInput.Instance.GetPlayerAssetsInputs().reload = false;
+        // }
     }
 
     private void Update()
