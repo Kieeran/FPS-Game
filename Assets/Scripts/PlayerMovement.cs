@@ -52,16 +52,16 @@ public class PlayerMovement : NetworkBehaviour
         air
     }
 
-    private void Awake()
-    {
-        //rb = GetComponent<Rigidbody>();
-    }
+    // private void Awake()
+    // {
+    //     //rb = GetComponent<Rigidbody>();
+    // }
 
-    private void Start()
-    {
-        //isReadyToJump = true;
-        //startYScale = transform.localScale.y;
-    }
+    // private void Start()
+    // {
+    //     //isReadyToJump = true;
+    //     //startYScale = transform.localScale.y;
+    // }
 
     private void Update()
     {
@@ -143,7 +143,10 @@ public class PlayerMovement : NetworkBehaviour
 
     private void MovePlayer()
     {
-        moveInput = playerAssetsInputs.move;
+        //moveInput = playerAssetsInputs.move;
+        moveInput.x = Input.GetAxis("Horizontal");
+        moveInput.y = Input.GetAxis("Vertical");
+
         moveDirection = orientation.forward * moveInput.y + orientation.right * moveInput.x;
 
         rb.AddForce(moveDirection * moveSpeed * 10f, ForceMode.Force);
