@@ -12,7 +12,25 @@ using UnityEngine;
 
 public class TestRelay : MonoBehaviour
 {
+    public static TestRelay Instance;
+
+    private void Awake()
+    {
+        if (Instance != null)
+            Destroy(Instance);
+        else
+            Instance = this;
+    }
+
     public GameObject _camera;
+    public GameObject playerCamera;
+    public GameObject playerFollowCamera;
+
+    private void EnableCamera()
+    {
+        playerCamera.gameObject.SetActive(true);
+        playerFollowCamera.gameObject.SetActive(true);
+    }
 
     // Start is called before the first frame update
     private async void Start()
@@ -43,6 +61,7 @@ public class TestRelay : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             Destroy(_camera);
+            EnableCamera();
 
             NetworkManager.Singleton.StartHost();
         }
@@ -65,6 +84,7 @@ public class TestRelay : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             Destroy(_camera);
+            EnableCamera();
 
             NetworkManager.Singleton.StartClient();
         }
