@@ -759,7 +759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &320510855
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5201,7 +5201,6 @@ GameObject:
   m_Component:
   - component: {fileID: 218475645827405022}
   - component: {fileID: 218475645827405023}
-  - component: {fileID: 218475645827405019}
   - component: {fileID: 218475645827405018}
   m_Layer: 0
   m_Name: cm
@@ -5234,23 +5233,6 @@ MonoBehaviour:
   CameraRadius: 0.15
   DampingIntoCollision: 0
   DampingFromCollision: 0
---- !u!114 &218475645827405019
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 218475645827405017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
-  m_PivotOffset: {x: 0, y: 0, z: 1}
-  m_AmplitudeGain: 0.5
-  m_FrequencyGain: 0.3
-  mNoiseOffsets: {x: -451.37964, y: 684.7062, z: 648.0488}
 --- !u!4 &218475645827405022
 Transform:
   m_ObjectHideFlags: 3
