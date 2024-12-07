@@ -7091,7 +7091,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1cbd2f06d57f248bfacfb094dc8600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 183998512}
 --- !u!1 &185391656
 GameObject:
   m_ObjectHideFlags: 0
@@ -19493,9 +19492,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e83a98d52fde3241af5d30d569ad064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 0
   walkSpeed: 5
   sprintSpeed: 10
+  playerAssetsInputs: {fileID: 0}
+  rb: {fileID: 0}
+  crouchSpeed: 0
+  playerHeight: 0
   jumpForce: 8
+  jumpCooldown: 0
+  airMultiplier: 0
   orientation: {fileID: 1929586882}
   state: 0
 --- !u!114 &531413553
@@ -19505,7 +19511,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 531413545}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e37c3d523548321419a1d76083d65787, type: 3}
   m_Name: 
@@ -19519,7 +19525,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 531413545}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2690516c81d2c2a49a43c13c424d62c0, type: 3}
   m_Name: 
@@ -51161,7 +51167,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385657053}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d3ec0a081bade24fba34994441cb854, type: 3}
   m_Name: 
@@ -52217,7 +52223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1440015407
 Transform:
   m_ObjectHideFlags: 0
@@ -68733,9 +68739,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e83a98d52fde3241af5d30d569ad064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 0
   walkSpeed: 0
   sprintSpeed: 0
+  playerAssetsInputs: {fileID: 0}
+  rb: {fileID: 0}
+  crouchSpeed: 0
+  playerHeight: 0
   jumpForce: 0
+  jumpCooldown: 0
+  airMultiplier: 0
   orientation: {fileID: 0}
   state: 0
 --- !u!114 &1924926120
@@ -76729,6 +76742,7 @@ MonoBehaviour:
   sensX: 120
   sensY: 120
   orientation: {fileID: 1929586882}
+  _camera: {fileID: 0}
 --- !u!81 &2141988756
 AudioListener:
   m_ObjectHideFlags: 0

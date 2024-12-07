@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2636039207499882258}
+  - {fileID: 1361866436246344933}
   m_Father: {fileID: 4096432851114855942}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5893974905767700072
@@ -231,9 +232,13 @@ MonoBehaviour:
   walkSpeed: 5
   sprintSpeed: 10
   playerAssetsInputs: {fileID: 5987217424753585116}
-  jumpForce: 8
-  orientation: {fileID: 8677612495289826469}
   rb: {fileID: 17677339032450834}
+  groundDrag: 0.5
+  playerHeight: 1
+  jumpForce: 8
+  jumpCooldown: 0.2
+  airMultiplier: 1
+  orientation: {fileID: 8677612495289826469}
   state: 0
 --- !u!114 &2494949342433445523
 MonoBehaviour:
@@ -457,7 +462,7 @@ GameObject:
   - component: {fileID: 3736407736227248584}
   - component: {fileID: 940383843399048679}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -471,13 +476,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7320527549666892009}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.167, z: 0.44}
-  m_LocalScale: {x: 0.5, y: 0.172505, z: 0.215505}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.12524998, z: 0.30075}
+  m_LocalScale: {x: 0.375, y: 0.12937875, z: 0.16162875}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7546697858750596962}
-  m_Father: {fileID: 2636039207499882258}
+  m_Father: {fileID: 8677612495289826469}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3736407736227248584
 MeshFilter:
@@ -541,7 +546,7 @@ GameObject:
   - component: {fileID: 2264634326840061482}
   - component: {fileID: 5184065151960714369}
   m_Layer: 0
-  m_Name: Player Camera
+  m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -652,8 +657,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 1361866436246344933}
+  m_Children: []
   m_Father: {fileID: 8677612495289826469}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &492785331065327599
