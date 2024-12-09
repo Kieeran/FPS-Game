@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mono.CSharp;
 using PlayerAssets;
 using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private GameObject BulletSpawnPoint;
-    [SerializeField] private GameObject hitScanSphere;
+    [SerializeField] private GameObject hitEffect;
     [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
     [SerializeField] private float FireCoolDown;
     private float CurrentCoolDown;
@@ -40,18 +41,17 @@ public class PlayerShoot : MonoBehaviour
         {
             Debug.Log(hit.point);
 
-            GameObject sphere = Instantiate(hitScanSphere);
-            sphere.transform.position = hit.point;
+            GameObject effect = Instantiate(hitEffect);
+            effect.transform.position = hit.point;
+
+            StartCoroutine(DestroyEffect(effect));
         }
+    }
 
-        // Ray gunRay = new Ray(BulletSpawnPoint.transform.position, BulletSpawnPoint.transform.forward);
+    IEnumerator DestroyEffect(GameObject effect)
+    {
+        yield return new WaitForSeconds(1);
 
-        // if (Physics.Raycast(gunRay, out RaycastHit hit))
-        // {
-        //     Debug.Log(hit.point);
-
-        //     GameObject sphere = Instantiate(hitScanSphere);
-        //     sphere.transform.position = hit.point;
-        // }
+        Destroy(effect);
     }
 }
