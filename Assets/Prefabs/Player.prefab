@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletSpawnPoint: {fileID: 1972134987204318308}
-  hitScanSphere: {fileID: 5238538877814813142, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
+  hitEffect: {fileID: 5238538877814813142, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
   playerAssetsInputs: {fileID: 7795738832339507943}
   FireCoolDown: 0.2
 --- !u!1 &3930439843237405038
@@ -454,6 +454,7 @@ GameObject:
   - component: {fileID: 7659002970131291369}
   - component: {fileID: 5665761947739835567}
   - component: {fileID: 3418291941056157307}
+  - component: {fileID: 8780086469145685072}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -547,6 +548,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8780086469145685072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3930439843237405038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3ec0a081bade24fba34994441cb854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4036424223234089295
 GameObject:
   m_ObjectHideFlags: 0
