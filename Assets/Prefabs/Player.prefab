@@ -441,6 +441,7 @@ MonoBehaviour:
   BulletSpawnPoint: {fileID: 1972134987204318308}
   hitScanSphere: {fileID: 1839641589785182476, guid: fa6502b094e532e428f0913b06329886, type: 3}
   playerAssetsInputs: {fileID: 7795738832339507943}
+  FireCoolDown: 0.2
 --- !u!1 &3930439843237405038
 GameObject:
   m_ObjectHideFlags: 0
