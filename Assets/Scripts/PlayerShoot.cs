@@ -53,14 +53,42 @@ public class PlayerShoot : NetworkBehaviour
 
             if (playerBody != null)
             {
-                if (IsOwner == true)
-                    playerBody.Hit();
+                // if (IsOwner == true)
+                // {
+                //     playerBody.Hit();
+                // }
+
+                // Transform player = hit.collider.transform.parent;
+
+                // if (player != null)
+                // {
+                //     NetworkObject networkObject = player.GetComponent<NetworkObject>();
+
+                //     if (networkObject != null)
+                //     {
+                //         player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId);
+                //     }
+                // }
             }
 
             if (playerHead != null)
             {
-                if (IsOwner == true)
-                    playerHead.Hit();
+                // if (IsOwner == true)
+                // {
+                //     playerHead.Hit();
+                // }
+
+                // Transform player = hit.collider.transform.parent.parent;
+
+                // if (player != null)
+                // {
+                //     NetworkObject networkObject = player.GetComponent<NetworkObject>();
+
+                //     if (networkObject != null)
+                //     {
+                //         player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId);
+                //     }
+                // }
             }
         }
     }

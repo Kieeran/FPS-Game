@@ -11,16 +11,20 @@ public class PlayerTakeDamage : NetworkBehaviour
 
     [SerializeField] private Image health;
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float damage, ulong targetClientId)
     {
-        Debug.Log(OwnerClientId + " take damage");
+        if (!IsOwner) return;
 
-        HP.Value -= amount;
-        if (HP.Value == 0) HP.Value = 1;
+        Debug.Log(OwnerClientId + " take damage");
+        ChangeHPServerRpc(damage, targetClientId);
+    }
+
+    private void Update()
+    {
+        if (!IsOwner) return;
 
         health.fillAmount = HP.Value;
-
-        Debug.Log(OwnerClientId + " current HP: " + HP.Value);
+        //Debug.Log(OwnerClientId + " current HP: " + HP.Value);
     }
 
     [ServerRpc]

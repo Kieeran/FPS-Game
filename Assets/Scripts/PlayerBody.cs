@@ -12,8 +12,8 @@ public class PlayerBody : NetworkBehaviour
     {
         //playerNetwork.TakeDamage(0.05f);
         //UIManager.Instance.UpdateHealth(0.05f);
-        playerTakeDamage.TakeDamage(0.05f);
+        //     playerTakeDamage.TakeDamage(0.05f);
 
-        Debug.Log("Hit " + OwnerClientId + " body");
+        //     Debug.Log("Hit " + OwnerClientId + " body");
     }
 }

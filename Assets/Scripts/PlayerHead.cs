@@ -13,8 +13,8 @@ public class PlayerHead : NetworkBehaviour
         //playerNetwork.TakeDamage(0.1f);
         //UIManager.Instance.UpdateHealth(0.1f);
 
-        playerTakeDamage.TakeDamage(0.1f);
+        // playerTakeDamage.TakeDamage(0.1f);
 
-        Debug.Log("Hit " + OwnerClientId + " head");
+        // Debug.Log("Hit " + OwnerClientId + " head");
     }
 }

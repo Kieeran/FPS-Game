@@ -12,9 +12,9 @@ using TMPro;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-    // private NetworkVariable<float> HP = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private NetworkVariable<int> randomNumber = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    // public TMP_Text tMP_Text;
+    public TMP_Text tMP_Text;
 
     public PlayerInput playerInput;
     public CharacterController characterController;
@@ -86,15 +86,38 @@ public class PlayerNetwork : NetworkBehaviour
 
         //playerInput.enabled = IsOwner;
 
-        // if (IsOwner)
-        // {
-        //     if (Input.GetKeyDown(KeyCode.T))
-        //     {
-        //         HP.Value = Random.Range(0, 100);
+        tMP_Text.text = randomNumber.Value.ToString();
 
-        //         Debug.Log(OwnerClientId + " randomNumber: " + HP.Value);
-        //         tMP_Text.text = HP.Value.ToString();
-        //     }
-        // }
+        if (IsOwner)
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                // randomNumber.Value = Random.Range(0, 100);
+                ChangeRandomNumberServerRpc(Random.Range(0, 100), transform.GetComponent<NetworkObject>().OwnerClientId);
+
+                Debug.Log(OwnerClientId + " randomNumber: " + randomNumber.Value);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                if (transform.GetComponent<NetworkObject>().OwnerClientId == 0)
+                    ChangeRandomNumberServerRpc(Random.Range(0, 100), 1);
+
+                else
+                    ChangeRandomNumberServerRpc(Random.Range(0, 100), 0);
+            }
+        }
+    }
+
+    // [ServerRpc(RequireOwnership = false)]
+    [ServerRpc]
+    public void ChangeRandomNumberServerRpc(int num, ulong targetClientId)
+    {
+        // Tìm đối tượng của client mục tiêu
+        var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
+        if (targetPlayer.TryGetComponent<PlayerNetwork>(out var player))
+        {
+            player.randomNumber.Value = num;
+        }
     }
 }
