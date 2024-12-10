@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Mono.CSharp;
 using PlayerAssets;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerShoot : MonoBehaviour
+public class PlayerShoot : NetworkBehaviour
 {
     [SerializeField] private GameObject BulletSpawnPoint;
     [SerializeField] private GameObject hitEffect;
@@ -39,12 +40,28 @@ public class PlayerShoot : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log(hit.point);
+            // Debug.Log(hit.point);
 
             GameObject effect = Instantiate(hitEffect);
             effect.transform.position = hit.point;
 
             StartCoroutine(DestroyEffect(effect));
+
+            PlayerBody playerBody = hit.collider.GetComponent<PlayerBody>();
+            PlayerHead playerHead = hit.collider.GetComponent<PlayerHead>();
+
+
+            if (playerBody != null)
+            {
+                if (IsOwner == true)
+                    playerBody.Hit();
+            }
+
+            if (playerHead != null)
+            {
+                if (IsOwner == true)
+                    playerHead.Hit();
+            }
         }
     }
 

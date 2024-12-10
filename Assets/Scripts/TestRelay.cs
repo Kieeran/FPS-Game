@@ -26,10 +26,13 @@ public class TestRelay : MonoBehaviour
     public GameObject playerCamera;
     public GameObject playerFollowCamera;
 
+    // public GameObject playerUI;
+
     private void EnableCamera()
     {
         playerCamera.gameObject.SetActive(true);
         playerFollowCamera.gameObject.SetActive(true);
+        //playerUI.gameObject.SetActive(true);
     }
 
     // Start is called before the first frame update
