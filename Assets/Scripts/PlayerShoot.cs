@@ -58,17 +58,18 @@ public class PlayerShoot : NetworkBehaviour
                 //     playerBody.Hit();
                 // }
 
-                // Transform player = hit.collider.transform.parent;
+                Transform player = hit.collider.transform.parent;
 
-                // if (player != null)
-                // {
-                //     NetworkObject networkObject = player.GetComponent<NetworkObject>();
+                if (player != null)
+                {
+                    NetworkObject networkObject = player.GetComponent<NetworkObject>();
 
-                //     if (networkObject != null)
-                //     {
-                //         player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId);
-                //     }
-                // }
+                    if (networkObject != null)
+                    {
+                        //Debug.Log($"Detech {networkObject.OwnerClientId} body");
+                        player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId);
+                    }
+                }
             }
 
             if (playerHead != null)
@@ -78,17 +79,18 @@ public class PlayerShoot : NetworkBehaviour
                 //     playerHead.Hit();
                 // }
 
-                // Transform player = hit.collider.transform.parent.parent;
+                Transform player = hit.collider.transform.parent.parent;
 
-                // if (player != null)
-                // {
-                //     NetworkObject networkObject = player.GetComponent<NetworkObject>();
+                if (player != null)
+                {
+                    NetworkObject networkObject = player.GetComponent<NetworkObject>();
 
-                //     if (networkObject != null)
-                //     {
-                //         player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId);
-                //     }
-                // }
+                    if (networkObject != null)
+                    {
+                        //Debug.Log($"Detech {networkObject.OwnerClientId} head");
+                        player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId);
+                    }
+                }
             }
         }
     }
