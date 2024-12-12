@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using TMPro;
+using Cinemachine;
 
 public class PlayerNetwork : NetworkBehaviour
 {
@@ -68,7 +69,7 @@ public class PlayerNetwork : NetworkBehaviour
         {
             EnableScripts();
 
-            CinemachineVirtualCamera _camera = TestRelay.Instance.playerFollowCamera.GetComponent<CinemachineVirtualCamera>();
+            CinemachineVirtualCamera _camera = GameManager.Instance.playerFollowCamera.GetComponent<CinemachineVirtualCamera>();
             if (_camera != null)
             {
                 Transform playerCameraRoot = transform.Find("PlayerCameraRoot");

@@ -16,17 +16,11 @@ using Cinemachine;
 
 public class TestRelay : MonoBehaviour
 {
-    public static TestRelay Instance { get; private set; }
-
-    private Camera _camera;
-    private Camera playerCamera;
-    private CinemachineVirtualCamera playerFollowCamera;
+    public static TestRelay Instance;
 
     private void Start()
     {
-        _camera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        playerCamera = GameObject.Find("Camera").GetComponent<Camera>();
-        playerFollowCamera = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
+
     }
 
     // Update is called once per frame
@@ -42,13 +36,6 @@ public class TestRelay : MonoBehaviour
             Instance = this;
     }
 
-    private void EnableCamera()
-    {
-        playerCamera.gameObject.SetActive(true);
-        playerFollowCamera.gameObject.SetActive(true);
-        //playerUI.gameObject.SetActive(true);
-    }
-
     [Command]
     public async Task<string> CreateRelay() {
         try {
@@ -61,9 +48,6 @@ public class TestRelay : MonoBehaviour
             RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
-
-            Destroy(_camera);
-            EnableCamera();
 
             NetworkManager.Singleton.StartHost();
 
@@ -84,10 +68,8 @@ public class TestRelay : MonoBehaviour
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
-            Destroy(_camera);
-            EnableCamera();
-            
             NetworkManager.Singleton.StartClient();
+
         } catch (RelayServiceException e) {
             Debug.Log(e);
         }
