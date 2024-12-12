@@ -9,7 +9,6 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using TMPro;
-using Cinemachine;
 
 public class PlayerNetwork : NetworkBehaviour
 {
