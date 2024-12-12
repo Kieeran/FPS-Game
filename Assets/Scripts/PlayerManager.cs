@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using PlayerAssets;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
-    public static Player Instance;
+    public static PlayerManager Instance;
     private void Awake()
     {
         if (Instance != null)

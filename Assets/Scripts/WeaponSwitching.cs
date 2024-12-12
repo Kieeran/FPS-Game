@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using PlayerAssets;
+using UnityEditor;
 
 public class WeaponSwitching : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class WeaponSwitching : MonoBehaviour
     private PlayerAssetsInputs playerAssetsInputs;
     private void Start()
     {
-        playerWeapons = Player.Instance.GetPlayerWeapon().GetPlayerWeapons();
+        playerWeapons = PlayerManager.Instance.GetPlayerWeapon().GetPlayerWeapons();
         //playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
         SetActiveWeapon(0);
     }
