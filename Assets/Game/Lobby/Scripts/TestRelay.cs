@@ -15,18 +15,15 @@ using System.Threading.Tasks;
 
 public class TestRelay : MonoBehaviour
 {
-    // Start is called before the first frame update
     public static TestRelay Instance { get; private set; }
+
+    public GameObject _camera;
+    public GameObject playerCamera;
+    public GameObject playerFollowCamera;
 
     private void Start()
     {
-        // await UnityServices.InitializeAsync();
 
-        // AuthenticationService.Instance.SignedIn += () => {
-        //     Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
-        // };
-        
-        // await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
     // Update is called once per frame
@@ -36,7 +33,17 @@ public class TestRelay : MonoBehaviour
     }
 
     private void Awake() {
-        Instance = this;
+        if (Instance != null)
+            Destroy(Instance);
+        else
+            Instance = this;
+    }
+
+    private void EnableCamera()
+    {
+        playerCamera.gameObject.SetActive(true);
+        playerFollowCamera.gameObject.SetActive(true);
+        //playerUI.gameObject.SetActive(true);
     }
 
     [Command]
@@ -51,6 +58,9 @@ public class TestRelay : MonoBehaviour
             RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
+            Destroy(_camera);
+            EnableCamera();
 
             NetworkManager.Singleton.StartHost();
 
@@ -71,6 +81,9 @@ public class TestRelay : MonoBehaviour
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
+            Destroy(_camera);
+            EnableCamera();
+            
             NetworkManager.Singleton.StartClient();
         } catch (RelayServiceException e) {
             Debug.Log(e);
