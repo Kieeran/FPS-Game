@@ -25,16 +25,7 @@ public class PlayerTakeDamage : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        health.fillAmount = HP.Value;
-
-        // if (hitEffect.color.a != 0)
-        // {
-        //     hitEffect.color = new Color(1, 0, 0, hitEffect.color.a - Time.deltaTime / 1.5f);
-        //     if (hitEffect.color.a <= 0)
-        //     {
-        //         hitEffect.color = new Color(1, 0, 0, 0);
-        //     }
-        // }
+        //health.fillAmount = HP.Value;
     }
 
     public void UpdateUI(float damage, ulong targetClientId)
@@ -57,6 +48,32 @@ public class PlayerTakeDamage : NetworkBehaviour
 
             //Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
         }
+
+        ChangeHPClientRpc(
+            new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new List<ulong> { targetClientId }
+                }
+            }
+        );
+    }
+
+    [ClientRpc]
+    public void ChangeHPClientRpc(ClientRpcParams clientRpcParams)
+    {
+        // var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
+        // if (targetPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
+        // {
+        //     targetHealth.HP.Value -= damage;
+
+        //     if (targetHealth.HP.Value <= 0) targetHealth.HP.Value = 1;
+
+        //     //Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
+        // }
+
+        health.fillAmount = HP.Value;
     }
 
     [ServerRpc(RequireOwnership = false)]
