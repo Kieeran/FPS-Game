@@ -27,14 +27,14 @@ public class PlayerTakeDamage : NetworkBehaviour
 
         health.fillAmount = HP.Value;
 
-        if (hitEffect.color.a != 0)
-        {
-            hitEffect.color = new Color(1, 0, 0, hitEffect.color.a - Time.deltaTime / 1.5f);
-            if (hitEffect.color.a <= 0)
-            {
-                hitEffect.color = new Color(1, 0, 0, 0);
-            }
-        }
+        // if (hitEffect.color.a != 0)
+        // {
+        //     hitEffect.color = new Color(1, 0, 0, hitEffect.color.a - Time.deltaTime / 1.5f);
+        //     if (hitEffect.color.a <= 0)
+        //     {
+        //         hitEffect.color = new Color(1, 0, 0, 0);
+        //     }
+        // }
     }
 
     public void UpdateUI(float damage, ulong targetClientId)
@@ -77,25 +77,23 @@ public class PlayerTakeDamage : NetworkBehaviour
     public void UpdateUIClientRpc(float alpha, ClientRpcParams clientRpcParams)
     {
         //Debug.Log($"{OwnerClientId} start hit UI with alpha: {alpha}");
-        hitEffect.color = new Color(1, 0, 0, alpha);
+        //hitEffect.color = new Color(1, 0, 0, alpha);
+        StartCoroutine(FadeHitEffect(hitEffect, alpha));
     }
 
-    // private IEnumerator FadeHitEffect(Image hitEffect, float targetAlpha, ulong targetClientId)
-    // {
-    //     if (OwnerClientId == targetClientId)
-    //     {
-    //         float currentAlpha = targetAlpha;
+    private IEnumerator FadeHitEffect(Image hitEffect, float targetAlpha)
+    {
+        float currentAlpha = targetAlpha;
 
-    //         // if (!IsOwner) currentAlpha = 0;
+        //Debug.Log($"{OwnerClientId} has alpha: {targetAlpha}");
 
-    //         float fadeTime = 50f; // Adjust fade time as needed
+        while (currentAlpha > 0)
+        {
+            Debug.Log(OwnerClientId);
 
-    //         while (currentAlpha > targetAlpha)
-    //         {
-    //             hitEffect.color = new Color(1, 0, 0, currentAlpha);
-    //             currentAlpha -= Time.deltaTime / fadeTime;
-    //             yield return null;
-    //         }
-    //     }
-    // }
+            hitEffect.color = new Color(1, 0, 0, currentAlpha);
+            currentAlpha -= Time.deltaTime;
+            yield return null;
+        }
+    }
 }
