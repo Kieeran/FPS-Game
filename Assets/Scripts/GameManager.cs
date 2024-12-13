@@ -26,8 +26,10 @@ public class GameManager : MonoBehaviour
     }
  
     void Update () {
-        Destroy(_camera);
-        EnableCamera();
+        if (currentIndex == 2) {
+            Destroy(_camera);
+            EnableCamera();
+        }
         // // LoadChatUI();
         // if (currentIndex == 2) {
         //     // Destroy(TestRelay._camera);
