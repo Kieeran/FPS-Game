@@ -611,14 +611,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3886448254532219147, guid: f15a0640c6298dd41b2fdd863824074f, type: 3}
-      propertyPath: magazine
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3886448254532219147, guid: f15a0640c6298dd41b2fdd863824074f, type: 3}
-      propertyPath: OnGunShoot.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6882,7 +6874,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4735409533822482928}
   m_HandleRect: {fileID: 4844316182294497604}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7659,7 +7651,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!224 &4845573536577272670

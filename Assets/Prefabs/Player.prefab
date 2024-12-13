@@ -3873,9 +3873,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6638264270122290065}
-  - component: {fileID: 3886448254532219147}
-  - component: {fileID: 267965986926198848}
-  - component: {fileID: 8700489642117473038}
+  - component: {fileID: 2053359508281917396}
+  - component: {fileID: 4408351372258032429}
+  - component: {fileID: 8810445502544219488}
   m_Layer: 0
   m_Name: Primary Weapon
   m_TagString: Untagged
@@ -3899,7 +3899,7 @@ Transform:
   - {fileID: 1054746444034571631}
   m_Father: {fileID: 1957954801315663397}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3886448254532219147
+--- !u!114 &2053359508281917396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3908,34 +3908,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 8998480706496305286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34bbfb266c61cc24b91ed55c4ffbdad3, type: 3}
+  m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   OnGunShoot:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DamageGun, Assembly-CSharp
-        m_MethodName: Shoot
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  FireCoolDown: 0.1
-  shootEffect: {fileID: 8700489642117473038}
-  aimPosition: {x: -0.46, y: 0.055, z: 0.11}
+      m_Calls: []
+  FireCoolDown: 0
+  shootEffect: {fileID: 0}
+  aimPosition: {x: 0, y: 0, z: 0}
   crossHair: {fileID: 0}
-  Automatic: 1
+  Automatic: 0
   magazine: {fileID: 0}
-  bulletSpawnPoint: {fileID: 7881487473193525934}
-  fireRate: 1
-  speed: 20
---- !u!114 &267965986926198848
+  bulletSpawnPoint: {fileID: 0}
+  fireRate: 0
+  speed: 0
+--- !u!114 &4408351372258032429
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3944,36 +3932,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 8998480706496305286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd454e3c6e0d0574d9eb72c3842f273b, type: 3}
+  m_Script: {fileID: 11500000, guid: 405505ce71c960349b92a26e63caf1ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRifle: 0
+  IsPistol: 0
+  muzzleFlash: {fileID: 0}
+  muzzleFlashCD: 0
+  enableRecoil: 0
+  randomizeRecoil: 0
+  randomRecoilConStraints: {x: 0, y: 0}
+--- !u!114 &8810445502544219488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8998480706496305286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  step: 0.05
-  maxStepDistance: 0.2
-  rotationStep: 0.5
+  step: 0.1
+  maxStepDistance: 0.5
+  rotationStep: 4
   maxRotationStep: 5
   speedCurve: 0
   travelLimit: {x: 0.025, y: 0.025, z: 0.025}
   bobLimit: {x: 0.01, y: 0.01, z: 0.01}
---- !u!114 &8700489642117473038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8998480706496305286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8a01545c1a35954497d18d1d8c14911, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsRifle: 1
-  IsPistol: 0
-  muzzleFlash: {fileID: 1896364062454686586}
-  muzzleFlashCD: 0.05
-  enableRecoil: 1
-  randomizeRecoil: 1
-  randomRecoilConStraints: {x: -1, y: 1}
 --- !u!1 &9040921716485134013
 GameObject:
   m_ObjectHideFlags: 0
