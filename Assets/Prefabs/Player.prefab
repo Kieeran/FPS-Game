@@ -1171,7 +1171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1366484869190439173
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1265,7 +1265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1957954801315663397}
   m_Layer: 0
-  m_Name: Weapons
+  m_Name: WeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1280,7 +1280,7 @@ Transform:
   m_GameObject: {fileID: 2323722425924976332}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.677, z: 0.912}
+  m_LocalPosition: {x: 0.78, y: -0.53, z: 1.48}
   m_LocalScale: {x: 1.39, y: 1.39, z: 1.39}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1052643866
+  GlobalObjectIdHash: 128090178
   InScenePlacedSourceGlobalObjectIdHash: 2741875015
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1681,7 +1681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletSpawnPoint: {fileID: 1972134987204318308}
-  hitEffect: {fileID: 5238538877814813142, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
+  hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
   playerAssetsInputs: {fileID: 7795738832339507943}
   FireCoolDown: 0.2
 --- !u!1 &3178423577864192447
@@ -3780,6 +3780,7 @@ GameObject:
   - component: {fileID: 1054746444034571631}
   - component: {fileID: 7745463732404959767}
   - component: {fileID: 2390694321342922910}
+  - component: {fileID: 256288833906964178}
   m_Layer: 0
   m_Name: AK 47
   m_TagString: Untagged
@@ -3864,6 +3865,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &256288833906964178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8736071773473957380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &8998480706496305286
 GameObject:
   m_ObjectHideFlags: 0
@@ -3873,9 +3905,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6638264270122290065}
-  - component: {fileID: 2053359508281917396}
-  - component: {fileID: 4408351372258032429}
-  - component: {fileID: 8810445502544219488}
+  - component: {fileID: 7925898660836190188}
+  - component: {fileID: 658481321800075550}
+  - component: {fileID: 1893330006743442060}
+  - component: {fileID: 7552866726633489549}
   m_Layer: 0
   m_Name: Primary Weapon
   m_TagString: Untagged
@@ -3899,7 +3932,7 @@ Transform:
   - {fileID: 1054746444034571631}
   m_Father: {fileID: 1957954801315663397}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2053359508281917396
+--- !u!114 &7925898660836190188
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3911,38 +3944,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnGunShoot:
-    m_PersistentCalls:
-      m_Calls: []
-  FireCoolDown: 0
-  shootEffect: {fileID: 0}
-  aimPosition: {x: 0, y: 0, z: 0}
-  crossHair: {fileID: 0}
-  Automatic: 0
-  magazine: {fileID: 0}
-  bulletSpawnPoint: {fileID: 0}
-  fireRate: 0
-  speed: 0
---- !u!114 &4408351372258032429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8998480706496305286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 405505ce71c960349b92a26e63caf1ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsRifle: 0
-  IsPistol: 0
-  muzzleFlash: {fileID: 0}
-  muzzleFlashCD: 0
-  enableRecoil: 0
-  randomizeRecoil: 0
-  randomRecoilConStraints: {x: 0, y: 0}
---- !u!114 &8810445502544219488
+  playerAssetsInputs: {fileID: 7795738832339507943}
+  playerShoot: {fileID: 6360967479396315239}
+  FireCoolDown: 0.1
+  shootEffect: {fileID: 1893330006743442060}
+  Automatic: 1
+--- !u!114 &658481321800075550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3954,14 +3961,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  playerAssetsInputs: {fileID: 7795738832339507943}
   step: 0.1
   maxStepDistance: 0.5
   rotationStep: 4
   maxRotationStep: 5
-  speedCurve: 0
-  travelLimit: {x: 0.025, y: 0.025, z: 0.025}
-  bobLimit: {x: 0.01, y: 0.01, z: 0.01}
+--- !u!114 &1893330006743442060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8998480706496305286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 405505ce71c960349b92a26e63caf1ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRifle: 1
+  IsPistol: 0
+  muzzleFlash: {fileID: 1896364062454686586}
+  canvas: {fileID: 8709844160412979067}
+  muzzleFlashCD: 0.05
+  enableRecoil: 0
+  randomizeRecoil: 0
+  randomRecoilConStraints: {x: 0, y: 0}
+--- !u!114 &7552866726633489549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8998480706496305286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &9040921716485134013
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class _ShootEffect : MonoBehaviour
+public class _ShootEffect : NetworkBehaviour
 {
     [SerializeField] private bool IsRifle;
     [SerializeField] private bool IsPistol;
 
     // Muzzle flash
     [SerializeField] private Image muzzleFlash;
+    public Canvas canvas;
     public float muzzleFlashCD;
 
     // Weapon recoil
@@ -18,13 +20,21 @@ public class _ShootEffect : MonoBehaviour
     [SerializeField] private Vector2 randomRecoilConStraints;
     //[SerializeField] private Vector2[] RecoilPattern;
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        muzzleFlash.gameObject.SetActive(false);
+        base.OnNetworkSpawn();
+
+        if (IsOwner)
+        {
+            canvas.gameObject.SetActive(true);
+            muzzleFlash.gameObject.SetActive(false);
+        }
     }
 
     public void ActiveShootEffect()
     {
+        if (IsOwner == false) return;
+
         if (IsRifle)
         {
             RifleRecoil();
@@ -39,6 +49,8 @@ public class _ShootEffect : MonoBehaviour
     }
     void RifleRecoil()
     {
+        if (IsOwner == false) return;
+
         transform.localPosition -= Vector3.forward * Time.deltaTime * 10f;
         if (enableRecoil == true)
         {
