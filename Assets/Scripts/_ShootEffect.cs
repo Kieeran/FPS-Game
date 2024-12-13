@@ -17,7 +17,7 @@ public class _ShootEffect : NetworkBehaviour
     // Weapon recoil
     [SerializeField] private bool enableRecoil;
     [SerializeField] private bool randomizeRecoil;
-    [SerializeField] private Vector2 randomRecoilConStraints;
+    [SerializeField] private Vector2 randomRecoilConstraints;
     //[SerializeField] private Vector2[] RecoilPattern;
 
     public override void OnNetworkSpawn()
@@ -56,8 +56,8 @@ public class _ShootEffect : NetworkBehaviour
         {
             if (randomizeRecoil == true)
             {
-                float xRecoil = Random.Range(-randomRecoilConStraints.x, randomRecoilConStraints.x);
-                float yRecoil = Random.Range(-randomRecoilConStraints.y, randomRecoilConStraints.y);
+                float xRecoil = Random.Range(-randomRecoilConstraints.x, randomRecoilConstraints.x);
+                float yRecoil = Random.Range(-randomRecoilConstraints.y, randomRecoilConstraints.y);
 
                 transform.localRotation *= Quaternion.Euler(xRecoil, yRecoil, 1f);
             }
