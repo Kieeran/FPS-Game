@@ -137,9 +137,11 @@ public class LobbyUI : MonoBehaviour {
     }
 
     public void ClearLobby() {
-        foreach (Transform child in container) {
-            if (child == playerSingleTemplate) continue;
-            Destroy(child.gameObject);
+        if (GameManager.currentIndex != 2) {
+            foreach (Transform child in container) {
+                if (child == playerSingleTemplate) continue;
+                Destroy(child.gameObject);
+            }
         }
     }
 
