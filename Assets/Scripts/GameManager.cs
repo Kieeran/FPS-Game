@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static int currentIndex;
 
@@ -26,13 +28,14 @@ public class GameManager : MonoBehaviour
     }
 
     void Awake () {
-        if (Instance != null)
-            Destroy(Instance);
-        else Instance = this;
+        // if (Instance != null)
+        //     Destroy(Instance);
+        // else 
+        Instance = this;
 
         scoreboard.SetActive(false);
     }
- 
+
     void Update () {
         if (currentIndex == 2) {
             Destroy(_camera);
@@ -46,15 +49,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Tab)) {
             scoreboard.SetActive(false);
         }
+
         // // LoadChatUI();
-        // if (currentIndex == 2) {
-        //     // Destroy(TestRelay._camera);
-        //     // if (TestRelay._camera == null) Debug.Log("_camera = null");
-        //     // if (TestRelay.playerCamera == null) Debug.Log("playerCamera = null");
-        //     // if (TestRelay.playerFollowCamera == null) Debug.Log("playerFollowCamera = null");
-        //     Destroy(_camera);
-        //     EnableCamera();
-        // }
     }
 
     // public void LoadChatUI() {

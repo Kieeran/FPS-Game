@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
 using UnityEngine;
 
 public class PlayerCard : MonoBehaviour
@@ -11,7 +12,7 @@ public class PlayerCard : MonoBehaviour
 
     public void Initialize(string name)
     {
-        nameText.text = name;
+        nameText.text = name.ToString();
         killsText.text = "0";
         deathsText.text = "0";
     }
@@ -21,8 +22,8 @@ public class PlayerCard : MonoBehaviour
         killsText.text = kills.ToString();
     }
 
-    public void SetDeaths(string name)
+    public void SetDeaths(int deaths)
     {
-        deathsText.text = deathsText.ToString();
+        deathsText.text = deaths.ToString();
     }
 }
