@@ -26,7 +26,7 @@ public class Explosives : Weapon
             grenade.gameObject.transform.position = transform.position + new Vector3(0, 1f, 0);
 
             Rigidbody rb = grenade.GetRigibody();
-            Transform player = Player.Instance.transform;
+            Transform player = PlayerManager.Instance.transform;
             float force = 20f;
 
             rb.useGravity = true;
