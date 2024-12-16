@@ -22,19 +22,21 @@ public class PlayerShoot : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerAssetsInputs.shoot == true)
-        {
-            if (CurrentCoolDown <= 0)
-            {
-                CurrentCoolDown = FireCoolDown;
-                Shoot();
-            }
-        }
-        CurrentCoolDown -= Time.deltaTime;
+        // if (playerAssetsInputs.shoot == true)
+        // {
+        //     if (CurrentCoolDown <= 0)
+        //     {
+        //         CurrentCoolDown = FireCoolDown;
+        //         Shoot();
+        //     }
+        // }
+        // CurrentCoolDown -= Time.deltaTime;
     }
 
-    void Shoot()
+    public void Shoot()
     {
+        if (IsOwner == false) return;
+
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
@@ -42,14 +44,15 @@ public class PlayerShoot : NetworkBehaviour
         {
             // Debug.Log(hit.point);
 
-            GameObject effect = Instantiate(hitEffect);
-            effect.transform.position = hit.point;
+            // GameObject effect = Instantiate(hitEffect);
+            // effect.transform.position = hit.point;
 
-            StartCoroutine(DestroyEffect(effect));
+            // StartCoroutine(DestroyEffect(effect));
+
+            BulletHitSpawnServerRpc(hit.point);
 
             PlayerBody playerBody = hit.collider.GetComponent<PlayerBody>();
             PlayerHead playerHead = hit.collider.GetComponent<PlayerHead>();
-
 
             if (playerBody != null)
             {
@@ -93,6 +96,20 @@ public class PlayerShoot : NetworkBehaviour
                 }
             }
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void BulletHitSpawnServerRpc(Vector3 spawnPos)
+    {
+        BulletHitSpawnClientRpc(spawnPos);
+    }
+
+    [ClientRpc]
+    public void BulletHitSpawnClientRpc(Vector3 spawnPos)
+    {
+        GameObject effect = Instantiate(hitEffect);
+        effect.transform.position = spawnPos;
+        StartCoroutine(DestroyEffect(effect));
     }
 
     IEnumerator DestroyEffect(GameObject effect)
