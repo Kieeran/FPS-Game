@@ -420,5 +420,4 @@ public class LobbyManager : MonoBehaviour {
             }
         }
     }
-
 }
