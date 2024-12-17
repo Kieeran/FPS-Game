@@ -4,13 +4,13 @@ using TMPro;
 using Unity.Collections;
 using UnityEngine;
 
-public class PlayerCard : MonoBehaviour
+public class PlayerScoreboardItem : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI killsText;
     [SerializeField] private TextMeshProUGUI deathsText;
 
-    public void Initialize(string name)
+    public void Setup(string name)
     {
         nameText.text = name.ToString();
         killsText.text = "0";

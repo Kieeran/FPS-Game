@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4845261362735384538}
   - component: {fileID: 4910967711977794627}
-  - component: {fileID: 8815053733534301805}
+  - component: {fileID: 7061387833460177831}
   m_Layer: 5
-  m_Name: PlayerCard
+  m_Name: PlayerScoreboardItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8815053733534301805
+--- !u!114 &7061387833460177831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 391833806404409984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6cb64041e1c34f41906c9ae0f971bcc, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b95d2b4b47823849b84d2710d3b52f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nameText: {fileID: 6381671590798889780}

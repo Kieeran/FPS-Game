@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Cinemachine;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
+using System.Linq;
 
 public class GameManager : NetworkBehaviour
 {
@@ -16,37 +17,36 @@ public class GameManager : NetworkBehaviour
     public GameObject playerCamera;
     public GameObject playerFollowCamera;
 
-    [SerializeField] private GameObject scoreboard;
-    [SerializeField] private PlayerCard playerCardPrefab;
-    [SerializeField] private Transform playerCardParent;
+    [SerializeField] GameObject scoreboard;
 
-    private Dictionary<string, PlayerCard> _playerCards = new Dictionary<string, PlayerCard>();
-
-    void Start () {
+    void Start ()
+    {
         Scene currentScene = SceneManager.GetActiveScene();;
         currentIndex = currentScene.buildIndex;
+
+        // scoreboard.SetActive(false);
     }
 
-    void Awake () {
-        // if (Instance != null)
-        //     Destroy(Instance);
-        // else 
+    void Awake ()
+    {
+        if (Instance != null)
+            Destroy(Instance);
+        else 
         Instance = this;
-
-        scoreboard.SetActive(false);
     }
 
-    void Update () {
+    void Update ()
+    {
         if (currentIndex == 2) {
             Destroy(_camera);
             EnableCamera();
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab)) {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
             scoreboard.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.Tab)) {
+        } else if (Input.GetKeyUp(KeyCode.Tab))
+        {
             scoreboard.SetActive(false);
         }
 
@@ -67,19 +67,18 @@ public class GameManager : NetworkBehaviour
         //playerUI.gameObject.SetActive(true);
     }
 
-    public static void PlayerJoined(string playerName)
+    #region Player tracking
+    
+    private const string PLAYER_ID_PREFIX = "Player ";
+
+    public static Dictionary<string, Player> players = new Dictionary<string, Player>() ;
+
+    // public static Player[] GetAllPlayers (Player player)
+    public static Player[] GetAllPlayers ()
     {
-        PlayerCard newCard = Instantiate(Instance.playerCardPrefab, Instance.playerCardParent);
-        Instance._playerCards.Add(EditPlayerName.Instance.GetPlayerName(), newCard);
-        newCard.Initialize(EditPlayerName.Instance.GetPlayerName());
+        // player = players.DATA;
+        return players.Values.ToArray();
     }
 
-    public static void PlayerLeft(string playerName)
-    {
-        if (Instance._playerCards.TryGetValue(EditPlayerName.Instance.GetPlayerName(), out PlayerCard playerCard))
-        {
-            Destroy(playerCard.gameObject);
-            Instance._playerCards.Remove(EditPlayerName.Instance.GetPlayerName());
-        }
-    }
+    #endregion
 }

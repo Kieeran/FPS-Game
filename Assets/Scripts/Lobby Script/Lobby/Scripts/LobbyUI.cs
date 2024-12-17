@@ -119,6 +119,8 @@ public class LobbyUI : MonoBehaviour {
                 player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
             );
 
+            if (!GameManager.players.ContainsKey(player.Id)) GameManager.players.Add(player.Id, player);
+
             lobbyPlayerSingleUI.UpdatePlayer(player);
         }
 
@@ -138,11 +140,11 @@ public class LobbyUI : MonoBehaviour {
     }
 
     public void ClearLobby() {
-        if (GameManager.currentIndex != 2) {
-            foreach (Transform child in container) {
-                if (child == playerSingleTemplate) continue;
-                Destroy(child.gameObject);
-            }
+        if (GameManager.currentIndex == 2) return;
+
+        foreach (Transform child in container) {
+            if (child == playerSingleTemplate) continue;
+            Destroy(child.gameObject);
         }
     }
 
