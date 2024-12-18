@@ -31,12 +31,12 @@ public class UI_InputWindow : MonoBehaviour
 
     private void RegisterEvents()
     {
-        okBtn.onClick.AddListener(() =>
+        okBtn?.onClick.AddListener(() =>
         {
             ok_Click?.Invoke();
         });
 
-        cancelBtn.onClick.AddListener(() =>
+        cancelBtn?.onClick.AddListener(() =>
         {
             cancel_Click?.Invoke();
         });
