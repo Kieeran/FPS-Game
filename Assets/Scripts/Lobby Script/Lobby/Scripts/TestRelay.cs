@@ -18,18 +18,8 @@ public class TestRelay : MonoBehaviour
 {
     public static TestRelay Instance;
 
-    private void Start()
+    private void Awake()
     {
-
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        
-    }
-
-    private void Awake() {
         if (Instance != null)
             Destroy(Instance);
         else
@@ -37,8 +27,10 @@ public class TestRelay : MonoBehaviour
     }
 
     [Command]
-    public async Task<string> CreateRelay() {
-        try {
+    public async Task<string> CreateRelay()
+    {
+        try
+        {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
@@ -54,15 +46,19 @@ public class TestRelay : MonoBehaviour
             GameManager.PlayerJoined(EditPlayerName.Instance.GetPlayerName());
 
             return joinCode;
-        } catch (RelayServiceException e) {
+        }
+        catch (RelayServiceException e)
+        {
             Debug.Log(e);
             return null;
         }
     }
 
     [Command]
-    public async void JoinRelay(string joinCode) {
-        try {
+    public async void JoinRelay(string joinCode)
+    {
+        try
+        {
             Debug.Log("Joining Relay with " + joinCode);
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
@@ -74,7 +70,9 @@ public class TestRelay : MonoBehaviour
 
             GameManager.PlayerJoined(EditPlayerName.Instance.GetPlayerName());
 
-        } catch (RelayServiceException e) {
+        }
+        catch (RelayServiceException e)
+        {
             Debug.Log(e);
         }
     }
