@@ -56,7 +56,6 @@ public class LobbyManager : MonoBehaviour
     private string playerName;
     private string joinedLobbyCode;
 
-
     private void Awake()
     {
         Instance = this;
