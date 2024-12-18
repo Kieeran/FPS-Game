@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,22 +17,31 @@ public class EditPlayerName : MonoBehaviour
 
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            UI_InputWindow.Show_Static("Player Name", playerName, "abcdefghijklmnopqrstuvxywzABCDEFGHIJKLMNOPQRSTUVXYWZ .,-", 20,
-            () =>
-            {
-                // Cancel
-            },
-            (string newName) =>
-            {
-                playerName = newName;
-
-                playerNameText.text = playerName;
-
-                OnNameChanged?.Invoke(this, EventArgs.Empty);
-            });
+            UI_InputWindow.Show_Static(
+                "Player Name",
+                playerName,
+                "abcdefghijklmnopqrstuvxywzABCDEFGHIJKLMNOPQRSTUVXYWZ .,-",
+                20,
+                onCancel,
+                onOk
+            );
         });
 
         playerNameText.text = playerName;
+    }
+
+    private void onCancel()
+    {
+        // Cancel
+    }
+
+    private void onOk(string newName)
+    {
+        playerName = newName;
+
+        playerNameText.text = playerName;
+
+        OnNameChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void Start()

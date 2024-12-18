@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using CodeMonkey.Utils;
 using TMPro;
-
 public class UI_InputWindow : MonoBehaviour
 {
     private static UI_InputWindow instance;
 
-    private Button_UI okBtn;
-    private Button_UI cancelBtn;
+    private Button okBtn;
+    private Button cancelBtn;
+
+    private Action ok_Click = null;
+    private Action cancel_Click = null;
+
     private TextMeshProUGUI titleText;
     private TMP_InputField inputField;
 
@@ -19,23 +19,40 @@ public class UI_InputWindow : MonoBehaviour
     {
         instance = this;
 
-        okBtn = transform.Find("okBtn").GetComponent<Button_UI>();
-        cancelBtn = transform.Find("cancelBtn").GetComponent<Button_UI>();
+        okBtn = transform.Find("okBtn").GetComponent<Button>();
+        cancelBtn = transform.Find("cancelBtn").GetComponent<Button>();
         titleText = transform.Find("titleText").GetComponent<TextMeshProUGUI>();
         inputField = transform.Find("inputField").GetComponent<TMP_InputField>();
 
+        RegisterEvents();
+
         Hide();
+    }
+
+    private void RegisterEvents()
+    {
+        okBtn.onClick.AddListener(() =>
+        {
+            ok_Click?.Invoke();
+        });
+
+        cancelBtn.onClick.AddListener(() =>
+        {
+            cancel_Click?.Invoke();
+        });
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            okBtn.ClickFunc();
+            //okBtn.ClickFunc();
+            ok_Click?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            cancelBtn.ClickFunc();
+            //cancelBtn.ClickFunc();
+            cancel_Click?.Invoke();
         }
     }
 
@@ -55,13 +72,25 @@ public class UI_InputWindow : MonoBehaviour
         inputField.text = inputString;
         inputField.Select();
 
-        okBtn.ClickFunc = () =>
+        // okBtn.ClickFunc = () =>
+        // {
+        //     Hide();
+        //     onOk(inputField.text);
+        // };
+
+        // cancelBtn.ClickFunc = () =>
+        // {
+        //     Hide();
+        //     onCancel();
+        // };
+
+        ok_Click = () =>
         {
             Hide();
             onOk(inputField.text);
         };
 
-        cancelBtn.ClickFunc = () =>
+        cancel_Click = () =>
         {
             Hide();
             onCancel();
