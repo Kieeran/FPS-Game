@@ -19,7 +19,6 @@ public class LobbyManager : MonoBehaviour
     public const string KEY_START_GAME = "Start";
 
     public event EventHandler OnLeftLobby;
-
     public event EventHandler<LobbyEventArgs> OnJoinedLobby;
     public event EventHandler<LobbyEventArgs> OnJoinedLobbyUpdate;
     public event EventHandler<LobbyEventArgs> OnKickedFromLobby;
@@ -285,8 +284,9 @@ public class LobbyManager : MonoBehaviour
             options.Filters = new List<QueryFilter> {
                 new QueryFilter(
                     field: QueryFilter.FieldOptions.AvailableSlots,
-                    op: QueryFilter.OpOptions.GT,
-                    value: "0")
+                    value: "0",
+                    op: QueryFilter.OpOptions.GT
+                    )
             };
 
             // Order by newest lobbies first
