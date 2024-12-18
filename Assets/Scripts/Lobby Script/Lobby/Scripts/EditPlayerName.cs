@@ -57,14 +57,10 @@ public class EditPlayerName : MonoBehaviour
         }
     }
 
-    public void UpdatePlayerName(string name)
-    {
-
-    }
-
     private void EditPlayerName_OnNameChanged(object sender, EventArgs e)
     {
-        LobbyManager.Instance.UpdatePlayerName(GetPlayerName());
+        // LobbyManager.Instance.UpdatePlayerName(GetPlayerName());
+        GameSceneManager.Instance.playerName = playerName;
     }
 
     public string GetPlayerName()
