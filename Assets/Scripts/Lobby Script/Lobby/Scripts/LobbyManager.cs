@@ -60,6 +60,14 @@ public class LobbyManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        if (GameSceneManager.Instance.playerName != "")
+        {
+            playerName = GameSceneManager.Instance.playerName;
+        }
+    }
+
     private void Update()
     {
         HandleRefreshLobbyList(); // Disabled Auto Refresh for testing with multiple builds

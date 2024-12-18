@@ -49,6 +49,17 @@ public class EditPlayerName : MonoBehaviour
         // if (AuthenticateUI.editNameFlag == 0) 
         OnNameChanged += EditPlayerName_OnNameChanged;
         // playerName = GetPlayerName();
+
+        if (GameSceneManager.Instance.playerName != "")
+        {
+            playerName = GameSceneManager.Instance.playerName;
+            playerNameText.text = playerName;
+        }
+    }
+
+    public void UpdatePlayerName(string name)
+    {
+
     }
 
     private void EditPlayerName_OnNameChanged(object sender, EventArgs e)
@@ -60,6 +71,4 @@ public class EditPlayerName : MonoBehaviour
     {
         return playerName;
     }
-
-
 }
