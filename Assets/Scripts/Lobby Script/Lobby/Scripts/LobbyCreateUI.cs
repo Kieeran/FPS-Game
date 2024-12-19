@@ -6,10 +6,7 @@ using UnityEngine.UI;
 
 public class LobbyCreateUI : MonoBehaviour
 {
-
-
     public static LobbyCreateUI Instance { get; private set; }
-
 
     [SerializeField] private Button createButton;
     [SerializeField] private Button lobbyNameButton;

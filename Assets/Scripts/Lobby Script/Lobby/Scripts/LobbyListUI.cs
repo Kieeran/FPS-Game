@@ -107,5 +107,5 @@ public class LobbyListUI : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
-
+    
 }
