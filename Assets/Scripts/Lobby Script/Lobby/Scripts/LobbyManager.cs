@@ -62,7 +62,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Start()
     {
-        if (GameSceneManager.Instance.playerName != "")
+        if (GameSceneManager.Instance != null)
         {
             playerName = GameSceneManager.Instance.playerName;
         }

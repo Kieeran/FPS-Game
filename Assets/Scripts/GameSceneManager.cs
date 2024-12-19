@@ -20,13 +20,15 @@ public class GameSceneManager : MonoBehaviour
 
             DontDestroyOnLoad(gameObject);
         }
+
+        playerName = "PlayerName";
     }
 
     public string playerName;
 
     private void Start()
     {
-        playerName = "";
+        //playerName = "PlayerName";
     }
 
     public void LoadNextScene()
