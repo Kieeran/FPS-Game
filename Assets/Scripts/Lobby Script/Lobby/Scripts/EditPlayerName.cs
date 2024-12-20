@@ -27,6 +27,10 @@ public class EditPlayerName : MonoBehaviour
             );
         });
 
+        if (LobbyManager.Instance != null)
+        {
+            playerName = LobbyManager.Instance.GetPlayerName();
+        }
         playerNameText.text = playerName;
     }
 
@@ -52,15 +56,15 @@ public class EditPlayerName : MonoBehaviour
 
         if (GameSceneManager.Instance != null)
         {
-            playerName = GameSceneManager.Instance.playerName;
+            playerName = GameSceneManager.Instance.GetPlayerName();
             playerNameText.text = playerName;
         }
     }
 
     private void EditPlayerName_OnNameChanged(object sender, EventArgs e)
     {
-        // LobbyManager.Instance.UpdatePlayerName(GetPlayerName());
-        GameSceneManager.Instance.playerName = playerName;
+        LobbyManager.Instance.UpdatePlayerName(GetPlayerName());
+        //GameSceneManager.Instance.playerName = playerName;
     }
 
     public string GetPlayerName()

@@ -58,15 +58,22 @@ public class LobbyManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        if (GameSceneManager.Instance != null)
+        {
+            playerName = GameSceneManager.Instance.GetPlayerName();
+        }
     }
 
     private void Start()
     {
         if (GameSceneManager.Instance != null)
         {
-            playerName = GameSceneManager.Instance.playerName;
+            playerName = GameSceneManager.Instance.GetPlayerName();
         }
     }
+
+    public string GetPlayerName() { return playerName; }
 
     private void Update()
     {
