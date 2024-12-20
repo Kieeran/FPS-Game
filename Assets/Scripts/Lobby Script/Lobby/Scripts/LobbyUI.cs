@@ -65,7 +65,8 @@ public class LobbyUI : MonoBehaviour
 
         startGameButton.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene("Playground");
+            //SceneManager.LoadScene("Playground");
+            GameSceneManager.Instance.LoadNextScene();
             LobbyManager.Instance.StartGame();
         });
     }
