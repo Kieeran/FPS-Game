@@ -24,11 +24,20 @@ public class LobbyListUI : MonoBehaviour
 
         lobbySingleTemplate.gameObject.SetActive(false);
 
-        refreshButton.onClick.AddListener(RefreshButtonClick);
+        refreshButton.onClick.AddListener(() =>
+        {
+            LobbyManager.Instance.RefreshLobbyList();
+        });
 
-        createLobbyButton.onClick.AddListener(CreateLobbyButtonClick);
+        createLobbyButton.onClick.AddListener(() =>
+        {
+            LobbyCreateUI.Instance.Show();
+        });
 
-        joinButton.onClick.AddListener(JoinLobbyWithCode);
+        joinButton.onClick.AddListener(() =>
+        {
+            LobbyManager.Instance.JoinLobbyByCode(lobbyCodeInput.text);
+        });
 
         // Hide();
     }
@@ -41,6 +50,21 @@ public class LobbyListUI : MonoBehaviour
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
     }
 
+    private void LobbyManager_OnLobbyListChanged(object sender, LobbyManager.OnLobbyListChangedEventArgs e)
+    {
+        UpdateLobbyList(e.lobbyList);
+    }
+
+    private void LobbyManager_OnJoinedLobby(object sender, LobbyManager.LobbyEventArgs e)
+    {
+        Hide();
+    }
+
+    private void LobbyManager_OnLeftLobby(object sender, EventArgs e)
+    {
+        Show();
+    }
+
     private void LobbyManager_OnKickedFromLobby(object sender, EventArgs e)
     {
         Show();
@@ -49,22 +73,7 @@ public class LobbyListUI : MonoBehaviour
     // private void LobbyManager_OnJoinedLobbyByCode(object sender, LobbyManager.LobbyEventArgs e) {
     //     Hide();
     // }
-
-    private void LobbyManager_OnLeftLobby(object sender, EventArgs e)
-    {
-        Show();
-    }
-
-    private void LobbyManager_OnJoinedLobby(object sender, LobbyManager.LobbyEventArgs e)
-    {
-        Hide();
-    }
-
-    private void LobbyManager_OnLobbyListChanged(object sender, LobbyManager.OnLobbyListChangedEventArgs e)
-    {
-        UpdateLobbyList(e.lobbyList);
-    }
-
+    
     private void UpdateLobbyList(List<Lobby> lobbyList)
     {
         foreach (Transform child in container)
@@ -83,20 +92,20 @@ public class LobbyListUI : MonoBehaviour
         }
     }
 
-    private void RefreshButtonClick()
-    {
-        LobbyManager.Instance.RefreshLobbyList();
-    }
+    // private void RefreshButtonClick()
+    // {
+    //     LobbyManager.Instance.RefreshLobbyList();
+    // }
 
-    private void CreateLobbyButtonClick()
-    {
-        LobbyCreateUI.Instance.Show();
-    }
+    // private void CreateLobbyButtonClick()
+    // {
+    //     LobbyCreateUI.Instance.Show();
+    // }
 
-    private void JoinLobbyWithCode()
-    {
-        LobbyManager.Instance.JoinLobbyByCode(lobbyCodeInput.text);
-    }
+    // private void JoinLobbyWithCode()
+    // {
+    //     LobbyManager.Instance.JoinLobbyByCode(lobbyCodeInput.text);
+    // }
 
     private void Hide()
     {
@@ -107,5 +116,5 @@ public class LobbyListUI : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
-    
+
 }
