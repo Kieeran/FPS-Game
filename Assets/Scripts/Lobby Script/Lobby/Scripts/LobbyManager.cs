@@ -8,9 +8,10 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
-public class LobbyManager : MonoBehaviour
-{
+public class LobbyManager : MonoBehaviour {
+
     public static LobbyManager Instance { get; private set; }
 
     public const string KEY_PLAYER_NAME = "PlayerName";
@@ -52,7 +53,7 @@ public class LobbyManager : MonoBehaviour
     private float lobbyPollTimer;
     private float refreshLobbyListTimer = 5f;
     public static Lobby joinedLobby;
-    private string playerName;
+    public static string playerName;
     private string joinedLobbyCode;
 
     private void Awake()
@@ -82,9 +83,8 @@ public class LobbyManager : MonoBehaviour
         HandleLobbyPolling();
     }
 
-    public async void Authenticate(string playerName)
-    {
-        this.playerName = playerName;
+    public async void Authenticate(string pName) {
+        playerName = pName;
         InitializationOptions initializationOptions = new InitializationOptions();
         initializationOptions.SetProfile(playerName);
 
@@ -176,8 +176,8 @@ public class LobbyManager : MonoBehaviour
                     if (joinedLobby != null && joinedLobby.Data[KEY_START_GAME].Value != "0")
                     {
                         // Start Game!
-                        if (!IsLobbyHost())
-                        { // Lobby Host already joined Relay
+                        if (!IsLobbyHost()) // Lobby Host already joined Relay
+                        {
                             TestRelay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                         }
 
@@ -235,18 +235,15 @@ public class LobbyManager : MonoBehaviour
         return false;
     }
 
-    private Player GetPlayer()
-    {
+    public static Player GetPlayer() {
         return new Player(AuthenticationService.Instance.PlayerId, null, new Dictionary<string, PlayerDataObject> {
             { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName) },
             { KEY_PLAYER_CHARACTER, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, PlayerCharacter.Marine.ToString()) }
         });
     }
-
-    public void ChangeGameMode()
-    {
-        if (IsLobbyHost())
-        {
+    
+    public void ChangeGameMode() {
+        if (IsLobbyHost()) {
             GameMode gameMode =
                 Enum.Parse<GameMode>(joinedLobby.Data[KEY_GAME_MODE].Value);
 
@@ -352,9 +349,8 @@ public class LobbyManager : MonoBehaviour
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
     }
 
-    public async void UpdatePlayerName(string playerName)
-    {
-        this.playerName = playerName;
+    public async void UpdatePlayerName(string pName) {
+        playerName = pName;
 
         if (joinedLobby != null)
         {

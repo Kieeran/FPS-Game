@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Cinemachine;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
+using System.Linq;
 
 public class GameManager : NetworkBehaviour
 {
@@ -17,31 +18,34 @@ public class GameManager : NetworkBehaviour
     public GameObject playerFollowCamera;
 
     [SerializeField] private GameObject scoreboard;
+
     void Start () {
         Scene currentScene = SceneManager.GetActiveScene();;
         currentIndex = currentScene.buildIndex;
+
+        // scoreboard.SetActive(false);
     }
 
-    void Awake () {
-        // if (Instance != null)
-        //     Destroy(Instance);
-        // else 
+    void Awake ()
+    {
+        if (Instance != null)
+            Destroy(Instance);
+        else 
         Instance = this;
-
-        scoreboard.SetActive(false);
     }
 
-    void Update () {
+    void Update ()
+    {
         if (currentIndex == 2) {
             Destroy(_camera);
             EnableCamera();
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab)) {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
             scoreboard.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.Tab)) {
+        } else if (Input.GetKeyUp(KeyCode.Tab))
+        {
             scoreboard.SetActive(false);
         }
 
@@ -60,5 +64,12 @@ public class GameManager : NetworkBehaviour
         playerCamera.gameObject.SetActive(true);
         playerFollowCamera.gameObject.SetActive(true);
         //playerUI.gameObject.SetActive(true);
+    }
+
+    public static Dictionary<string, Player> players = new Dictionary<string, Player>();
+
+    public static Player[] GetAllPlayers ()
+	{
+		return players.Values.ToArray();
     }
 }

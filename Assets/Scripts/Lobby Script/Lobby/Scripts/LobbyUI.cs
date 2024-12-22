@@ -86,7 +86,7 @@ public class LobbyUI : MonoBehaviour
     private void LobbyManager_OnGameStarted(object sender, System.EventArgs e)
     {
         LobbyManager.joinedLobby = null;
-        SceneManager.LoadScene("Playground");
+        SceneManager.LoadScene("Play Scene");
         // ChatCanvasUI.Instance.Show();
     }
 
@@ -134,6 +134,8 @@ public class LobbyUI : MonoBehaviour
                 player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
             );
 
+            if (!GameManager.players.ContainsKey(player.Id)) GameManager.players.Add(player.Id, player);
+
             lobbyPlayerSingleUI.UpdatePlayer(player);
         }
 
@@ -153,15 +155,12 @@ public class LobbyUI : MonoBehaviour
         if (LobbyManager.Instance.IsLobbyHost()) Show();
     }
 
-    public void ClearLobby()
-    {
-        if (GameManager.currentIndex != 2)
-        {
-            foreach (Transform child in container)
-            {
-                if (child == playerSingleTemplate) continue;
-                Destroy(child.gameObject);
-            }
+    public void ClearLobby() {
+        if (GameManager.currentIndex == 2) return;
+
+        foreach (Transform child in container) {
+            if (child == playerSingleTemplate) continue;
+            Destroy(child.gameObject);
         }
     }
 
