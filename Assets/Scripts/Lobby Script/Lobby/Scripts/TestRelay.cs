@@ -1,81 +1,75 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using QFSW.QC;
-// using Unity.Netcode;
-// using Unity.Netcode.Transports.UTP;
-// using Unity.Networking.Transport.Relay;
-// using Unity.Services.Authentication;
-// using Unity.Services.Core;
-// using Unity.Services.Lobbies;
-// using Unity.Services.Lobbies.Models;
-// using Unity.Services.Relay;
-// using Unity.Services.Relay.Models;
-// using UnityEngine;
-// using System.Threading.Tasks;
-// using Cinemachine;
+using System.Collections;
+using System.Collections.Generic;
+using QFSW.QC;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
+using UnityEngine;
+using System.Threading.Tasks;
+using Cinemachine;
 
-// public class TestRelay : MonoBehaviour
-// {
-//     public static TestRelay Instance;
+public class TestRelay : MonoBehaviour
+{
+    public static TestRelay Instance;
 
-//     private void Start()
-//     {
+    private void Awake()
+    {
+        if (Instance != null)
+            Destroy(Instance);
+        else
+            Instance = this;
+    }
 
-//     }
+    [Command]
+    public async Task<string> CreateRelay()
+    {
+        try
+        {
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
-//     // Update is called once per frame
-//     private void Update()
-//     {
-        
-//     }
+            string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
-//     private void Awake() {
-//         if (Instance != null)
-//             Destroy(Instance);
-//         else
-//             Instance = this;
-//     }
+            Debug.Log(joinCode);
 
-//     [Command]
-//     public async Task<string> CreateRelay() {
-//         try {
-//             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
+            RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
 
-//             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
-//             Debug.Log(joinCode);
+            NetworkManager.Singleton.StartHost();
 
-//             RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
+            return joinCode;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.Log(e);
+            return null;
+        }
+    }
 
-//             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+    [Command]
+    public async void JoinRelay(string joinCode)
+    {
+        try
+        {
+            Debug.Log("Joining Relay with " + joinCode);
+            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
-//             NetworkManager.Singleton.StartHost();
+            RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
 
-//             GameManager.PlayerJoined(EditPlayerName.Instance.GetPlayerName());
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
-//             return joinCode;
-//         } catch (RelayServiceException e) {
-//             Debug.Log(e);
-//             return null;
-//         }
-//     }
+            NetworkManager.Singleton.StartClient();
 
-//     [Command]
-//     public async void JoinRelay(string joinCode) {
-//         try {
-//             Debug.Log("Joining Relay with " + joinCode);
-//             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
-
-//             RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
-
-//             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
-
-//             NetworkManager.Singleton.StartClient();
-
-//             GameManager.PlayerJoined(EditPlayerName.Instance.GetPlayerName());
-
-//         } catch (RelayServiceException e) {
-//             Debug.Log(e);
-//         }
-//     }
-// }
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+}

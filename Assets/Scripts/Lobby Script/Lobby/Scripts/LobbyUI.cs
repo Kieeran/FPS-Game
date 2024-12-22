@@ -8,9 +8,8 @@ using Unity.Netcode;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class LobbyUI : MonoBehaviour {
-
-
+public class LobbyUI : MonoBehaviour
+{
     public static LobbyUI Instance { get; private set; }
 
     private Player player;
@@ -30,86 +29,102 @@ public class LobbyUI : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI lobbyCode;
 
 
-    private void Awake() {
+    private void Awake()
+    {
         Instance = this;
 
         playerSingleTemplate.gameObject.SetActive(false);
 
-        changeMarineButton.onClick.AddListener(() => {
+        changeMarineButton.onClick.AddListener(() =>
+        {
             LobbyManager.Instance.UpdatePlayerCharacter(LobbyManager.PlayerCharacter.Marine);
         });
-        changeNinjaButton.onClick.AddListener(() => {
+        changeNinjaButton.onClick.AddListener(() =>
+        {
             LobbyManager.Instance.UpdatePlayerCharacter(LobbyManager.PlayerCharacter.Ninja);
         });
-        changeZombieButton.onClick.AddListener(() => {
+        changeZombieButton.onClick.AddListener(() =>
+        {
             LobbyManager.Instance.UpdatePlayerCharacter(LobbyManager.PlayerCharacter.Zombie);
         });
 
-        leaveLobbyButton.onClick.AddListener(() => {
+        leaveLobbyButton.onClick.AddListener(() =>
+        {
             LobbyManager.Instance.LeaveLobby();
         });
 
-        kickPlayerButton.onClick.AddListener(() => {
+        kickPlayerButton.onClick.AddListener(() =>
+        {
             LobbyManager.Instance.KickPlayer(player.Id);
         });
 
-        changeGameModeButton.onClick.AddListener(() => {
+        changeGameModeButton.onClick.AddListener(() =>
+        {
             LobbyManager.Instance.ChangeGameMode();
         });
 
-        startGameButton.onClick.AddListener(() => {
-            SceneManager.LoadScene("Playground");
+        startGameButton.onClick.AddListener(() =>
+        {
+            //SceneManager.LoadScene("Playground");
+            GameSceneManager.Instance.LoadNextScene();
             LobbyManager.Instance.StartGame();
         });
     }
 
-    private void Start() {
+    private void Start()
+    {
         LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
         LobbyManager.Instance.OnLobbyGameModeChanged += UpdateLobby_Event;
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
-        LobbyManager.Instance.OnGameStarted += LobbyManager_OnGameStarted; 
+        LobbyManager.Instance.OnGameStarted += LobbyManager_OnGameStarted;
 
         Hide();
     }
 
-    private void LobbyManager_OnGameStarted (object sender, System.EventArgs e) {
+    private void LobbyManager_OnGameStarted(object sender, System.EventArgs e)
+    {
         LobbyManager.joinedLobby = null;
         SceneManager.LoadScene("Playground");
         // ChatCanvasUI.Instance.Show();
     }
 
-    private void LobbyManager_OnLeftLobby(object sender, System.EventArgs e) {
+    private void LobbyManager_OnLeftLobby(object sender, System.EventArgs e)
+    {
         LobbyManager.joinedLobby = null;
         ClearLobby();
         Hide();
     }
 
-    private void LobbyManager_OnKickedFromLobby(object sender, System.EventArgs e) {
+    private void LobbyManager_OnKickedFromLobby(object sender, System.EventArgs e)
+    {
         LobbyManager.joinedLobby = null;
         ClearLobby();
         Hide();
 
         // Show Lobby Create UI when kicked
         LobbyListUI.Instance.Show();
-}
+    }
 
-
-    private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e) {
+    private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
+    {
         UpdateLobby();
     }
 
-    private void UpdateLobby() {
+    private void UpdateLobby()
+    {
 
         UpdateLobby(LobbyManager.Instance.GetJoinedLobby());
     }
 
-    private void UpdateLobby(Lobby lobby) {
+    private void UpdateLobby(Lobby lobby)
+    {
         ClearLobby();
         ShowLobbyCode();
 
-        foreach (Player player in lobby.Players) {
+        foreach (Player player in lobby.Players)
+        {
             Transform playerSingleTransform = Instantiate(playerSingleTemplate, container);
             playerSingleTransform.gameObject.SetActive(true);
             LobbyPlayerSingleUI lobbyPlayerSingleUI = playerSingleTransform.GetComponent<LobbyPlayerSingleUI>();
@@ -134,7 +149,8 @@ public class LobbyUI : MonoBehaviour {
         Show();
     }
 
-    private void ShowLobbyCode() {
+    private void ShowLobbyCode()
+    {
         lobbyCode.text = "Code: " + LobbyManager.Instance.GetJoinedLobbyCode();
         if (LobbyManager.Instance.IsLobbyHost()) Show();
     }
@@ -148,11 +164,13 @@ public class LobbyUI : MonoBehaviour {
         }
     }
 
-    public void Hide() {
+    public void Hide()
+    {
         gameObject.SetActive(false);
     }
 
-    private void Show() {
+    private void Show()
+    {
         gameObject.SetActive(true);
     }
 

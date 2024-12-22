@@ -17,10 +17,9 @@ public class GameManager : NetworkBehaviour
     public GameObject playerCamera;
     public GameObject playerFollowCamera;
 
-    [SerializeField] GameObject scoreboard;
+    [SerializeField] private GameObject scoreboard;
 
-    void Start ()
-    {
+    void Start () {
         Scene currentScene = SceneManager.GetActiveScene();;
         currentIndex = currentScene.buildIndex;
 
@@ -67,18 +66,19 @@ public class GameManager : NetworkBehaviour
         //playerUI.gameObject.SetActive(true);
     }
 
-    #region Player tracking
-    
-    private const string PLAYER_ID_PREFIX = "Player ";
-
-    public static Dictionary<string, Player> players = new Dictionary<string, Player>() ;
-
-    // public static Player[] GetAllPlayers (Player player)
-    public static Player[] GetAllPlayers ()
+    public static void PlayerJoined(string playerName)
     {
-        // player = players.DATA;
-        return players.Values.ToArray();
+        PlayerCard newCard = Instantiate(Instance.playerCardPrefab, Instance.playerCardParent);
+        Instance._playerCards.Add(EditPlayerName.Instance.GetPlayerName(), newCard);
+        newCard.Initialize(EditPlayerName.Instance.GetPlayerName());
     }
 
-    #endregion
+    public static void PlayerLeft(string playerName)
+    {
+        if (Instance._playerCards.TryGetValue(EditPlayerName.Instance.GetPlayerName(), out PlayerCard playerCard))
+        {
+            Destroy(playerCard.gameObject);
+            Instance._playerCards.Remove(EditPlayerName.Instance.GetPlayerName());
+        }
+    }
 }
