@@ -43,8 +43,6 @@ public class TestRelay : MonoBehaviour
 
             NetworkManager.Singleton.StartHost();
 
-            GameManager.PlayerJoined(EditPlayerName.Instance.GetPlayerName());
-
             return joinCode;
         }
         catch (RelayServiceException e)
@@ -67,8 +65,6 @@ public class TestRelay : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartClient();
-
-            GameManager.PlayerJoined(EditPlayerName.Instance.GetPlayerName());
 
         }
         catch (RelayServiceException e)

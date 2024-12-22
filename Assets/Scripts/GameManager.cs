@@ -17,11 +17,6 @@ public class GameManager : NetworkBehaviour
     public GameObject playerFollowCamera;
 
     [SerializeField] private GameObject scoreboard;
-    [SerializeField] private PlayerCard playerCardPrefab;
-    [SerializeField] private Transform playerCardParent;
-
-    private Dictionary<string, PlayerCard> _playerCards = new Dictionary<string, PlayerCard>();
-
     void Start () {
         Scene currentScene = SceneManager.GetActiveScene();;
         currentIndex = currentScene.buildIndex;
@@ -65,21 +60,5 @@ public class GameManager : NetworkBehaviour
         playerCamera.gameObject.SetActive(true);
         playerFollowCamera.gameObject.SetActive(true);
         //playerUI.gameObject.SetActive(true);
-    }
-
-    public static void PlayerJoined(string playerName)
-    {
-        PlayerCard newCard = Instantiate(Instance.playerCardPrefab, Instance.playerCardParent);
-        Instance._playerCards.Add(EditPlayerName.Instance.GetPlayerName(), newCard);
-        newCard.Initialize(EditPlayerName.Instance.GetPlayerName());
-    }
-
-    public static void PlayerLeft(string playerName)
-    {
-        if (Instance._playerCards.TryGetValue(EditPlayerName.Instance.GetPlayerName(), out PlayerCard playerCard))
-        {
-            Destroy(playerCard.gameObject);
-            Instance._playerCards.Remove(EditPlayerName.Instance.GetPlayerName());
-        }
     }
 }
