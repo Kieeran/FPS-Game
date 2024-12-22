@@ -12,14 +12,12 @@ using System.Linq;
 
 public class LobbyManager : MonoBehaviour {
 
-
     public static LobbyManager Instance { get; private set; }
 
     public const string KEY_PLAYER_NAME = "PlayerName";
     public const string KEY_PLAYER_CHARACTER = "Character";
     public const string KEY_GAME_MODE = "GameMode";
     public const string KEY_START_GAME = "Start";
-
 
     public event EventHandler OnLeftLobby;
 
@@ -199,7 +197,7 @@ public class LobbyManager : MonoBehaviour {
             { KEY_PLAYER_CHARACTER, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, PlayerCharacter.Marine.ToString()) }
         });
     }
-
+    
     public void ChangeGameMode() {
         if (IsLobbyHost()) {
             GameMode gameMode =

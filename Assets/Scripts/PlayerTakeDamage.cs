@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Services.Lobbies.Models;
+using UnityEngine.InputSystem;
 
 public class PlayerTakeDamage : NetworkBehaviour
 {
@@ -15,7 +17,7 @@ public class PlayerTakeDamage : NetworkBehaviour
 
     public void TakeDamage(float damage, ulong targetClientId)
     {
-        //Debug.Log($"{OwnerClientId} take {damage} damage");
+        // Debug.Log($"{OwnerClientId} take {damage} damage");
         ChangeHPServerRpc(damage, targetClientId);
 
         UpdateUI(damage, targetClientId);
@@ -31,9 +33,13 @@ public class PlayerTakeDamage : NetworkBehaviour
     public void UpdateUI(float damage, ulong targetClientId)
     {
         if (damage == 0.05f)
+        {
             UpdateUIServerRpc(hitBodyAlpha / 255, targetClientId);
+        }
         else if (damage == 0.1f)
+        {
             UpdateUIServerRpc(hitHeadAlpha / 255, targetClientId);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -44,9 +50,12 @@ public class PlayerTakeDamage : NetworkBehaviour
         {
             targetHealth.HP.Value -= damage;
 
-            if (targetHealth.HP.Value <= 0) targetHealth.HP.Value = 1;
-
-            //Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
+            if (targetHealth.HP.Value <= 0)
+            {
+                targetHealth.HP.Value = 1;
+            }
+            
+            Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
         }
 
         ChangeHPClientRpc(
@@ -106,7 +115,7 @@ public class PlayerTakeDamage : NetworkBehaviour
 
         while (currentAlpha > 0)
         {
-            Debug.Log(OwnerClientId);
+            // Debug.Log(OwnerClientId);
 
             hitEffect.color = new Color(1, 0, 0, currentAlpha);
             currentAlpha -= Time.deltaTime;

@@ -10,20 +10,14 @@ public class PlayerScoreboardItem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI killsText;
     [SerializeField] private TextMeshProUGUI deathsText;
 
-    public void Setup(string name)
+    void Start()
     {
-        nameText.text = name.ToString();
         killsText.text = "0";
         deathsText.text = "0";
     }
 
-    public void SetKills(int kills)
+    public void Setup(string name)
     {
-        killsText.text = kills.ToString();
-    }
-
-    public void SetDeaths(int deaths)
-    {
-        deathsText.text = deaths.ToString();
+        nameText.text = name.ToString();
     }
 }

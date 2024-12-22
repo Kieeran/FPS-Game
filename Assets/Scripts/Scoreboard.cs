@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class Scoreboard : MonoBehaviour
 {
     [SerializeField] GameObject playerScoreboardItem;
-
     [SerializeField] Transform playerScoreboardList;
 
     void OnEnable()
     {
         Player[] players = GameManager.GetAllPlayers();
-        // Player player0 = players[0];
 
         foreach (Player player in players)
         {
@@ -22,8 +23,6 @@ public class Scoreboard : MonoBehaviour
             {
                 item.Setup(player.Data[LobbyManager.KEY_PLAYER_NAME].Value);
             }
-
-            Debug.Log("Player's name: " + player.Data[LobbyManager.KEY_PLAYER_NAME].Value + " | Player's ID: " + player.Id);
         }
     }
 
@@ -34,4 +33,5 @@ public class Scoreboard : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
+
 }
