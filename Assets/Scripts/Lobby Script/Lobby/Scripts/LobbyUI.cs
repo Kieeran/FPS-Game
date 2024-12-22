@@ -86,7 +86,7 @@ public class LobbyUI : MonoBehaviour
     private void LobbyManager_OnGameStarted(object sender, System.EventArgs e)
     {
         LobbyManager.joinedLobby = null;
-        SceneManager.LoadScene("Playground");
+        SceneManager.LoadScene("Play Scene");
         // ChatCanvasUI.Instance.Show();
     }
 

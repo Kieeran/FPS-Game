@@ -66,19 +66,10 @@ public class GameManager : NetworkBehaviour
         //playerUI.gameObject.SetActive(true);
     }
 
-    public static void PlayerJoined(string playerName)
-    {
-        PlayerCard newCard = Instantiate(Instance.playerCardPrefab, Instance.playerCardParent);
-        Instance._playerCards.Add(EditPlayerName.Instance.GetPlayerName(), newCard);
-        newCard.Initialize(EditPlayerName.Instance.GetPlayerName());
-    }
+    public static Dictionary<string, Player> players = new Dictionary<string, Player>();
 
-    public static void PlayerLeft(string playerName)
-    {
-        if (Instance._playerCards.TryGetValue(EditPlayerName.Instance.GetPlayerName(), out PlayerCard playerCard))
-        {
-            Destroy(playerCard.gameObject);
-            Instance._playerCards.Remove(EditPlayerName.Instance.GetPlayerName());
-        }
+    public static Player[] GetAllPlayers ()
+	{
+		return players.Values.ToArray();
     }
 }
