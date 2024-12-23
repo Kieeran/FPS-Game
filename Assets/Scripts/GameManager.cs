@@ -19,24 +19,26 @@ public class GameManager : NetworkBehaviour
 
     [SerializeField] private GameObject scoreboard;
 
-    void Start () {
-        Scene currentScene = SceneManager.GetActiveScene();;
+    void Start()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
         currentIndex = currentScene.buildIndex;
 
         // scoreboard.SetActive(false);
     }
 
-    void Awake ()
+    void Awake()
     {
         if (Instance != null)
             Destroy(Instance);
-        else 
-        Instance = this;
+        else
+            Instance = this;
     }
 
-    void Update ()
+    void Update()
     {
-        if (currentIndex == 2) {
+        if (currentIndex == 2)
+        {
             Destroy(_camera);
             EnableCamera();
         }
@@ -44,7 +46,8 @@ public class GameManager : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             scoreboard.SetActive(true);
-        } else if (Input.GetKeyUp(KeyCode.Tab))
+        }
+        else if (Input.GetKeyUp(KeyCode.Tab))
         {
             scoreboard.SetActive(false);
         }
@@ -68,8 +71,8 @@ public class GameManager : NetworkBehaviour
 
     public static Dictionary<string, Player> players = new Dictionary<string, Player>();
 
-    public static Player[] GetAllPlayers ()
-	{
-		return players.Values.ToArray();
+    public static Player[] GetAllPlayers()
+    {
+        return players.Values.ToArray();
     }
 }
