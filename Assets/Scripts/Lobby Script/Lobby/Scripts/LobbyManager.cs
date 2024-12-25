@@ -10,7 +10,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class LobbyManager : MonoBehaviour {
+public class LobbyManager : MonoBehaviour
+{
 
     public static LobbyManager Instance { get; private set; }
 
@@ -83,7 +84,8 @@ public class LobbyManager : MonoBehaviour {
         HandleLobbyPolling();
     }
 
-    public async void Authenticate(string pName) {
+    public async void Authenticate(string pName)
+    {
         playerName = pName;
         InitializationOptions initializationOptions = new InitializationOptions();
         initializationOptions.SetProfile(playerName);
@@ -235,15 +237,18 @@ public class LobbyManager : MonoBehaviour {
         return false;
     }
 
-    public static Player GetPlayer() {
+    public static Player GetPlayer()
+    {
         return new Player(AuthenticationService.Instance.PlayerId, null, new Dictionary<string, PlayerDataObject> {
             { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName) },
             { KEY_PLAYER_CHARACTER, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, PlayerCharacter.Marine.ToString()) }
         });
     }
-    
-    public void ChangeGameMode() {
-        if (IsLobbyHost()) {
+
+    public void ChangeGameMode()
+    {
+        if (IsLobbyHost())
+        {
             GameMode gameMode =
                 Enum.Parse<GameMode>(joinedLobby.Data[KEY_GAME_MODE].Value);
 
@@ -349,7 +354,8 @@ public class LobbyManager : MonoBehaviour {
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
     }
 
-    public async void UpdatePlayerName(string pName) {
+    public async void UpdatePlayerName(string pName)
+    {
         playerName = pName;
 
         if (joinedLobby != null)

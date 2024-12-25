@@ -114,7 +114,6 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateLobby()
     {
-
         UpdateLobby(LobbyManager.Instance.GetJoinedLobby());
     }
 
@@ -129,9 +128,11 @@ public class LobbyUI : MonoBehaviour
             playerSingleTransform.gameObject.SetActive(true);
             LobbyPlayerSingleUI lobbyPlayerSingleUI = playerSingleTransform.GetComponent<LobbyPlayerSingleUI>();
 
+            // Don't allow kick self
+            // Chỉ có host mới hiện nút X (kick)
+            // Nếu host giữ script này và đang xét các player còn lại ngoài host thì đúng
             lobbyPlayerSingleUI.SetKickPlayerButtonVisible(
-                LobbyManager.Instance.IsLobbyHost() &&
-                player.Id != AuthenticationService.Instance.PlayerId // Don't allow kick self
+                LobbyManager.Instance.IsLobbyHost() && player.Id != AuthenticationService.Instance.PlayerId
             );
 
             if (!GameManager.players.ContainsKey(player.Id)) GameManager.players.Add(player.Id, player);
@@ -155,10 +156,12 @@ public class LobbyUI : MonoBehaviour
         if (LobbyManager.Instance.IsLobbyHost()) Show();
     }
 
-    public void ClearLobby() {
+    public void ClearLobby()
+    {
         if (GameManager.currentIndex == 2) return;
 
-        foreach (Transform child in container) {
+        foreach (Transform child in container)
+        {
             if (child == playerSingleTemplate) continue;
             Destroy(child.gameObject);
         }
