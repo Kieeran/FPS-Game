@@ -21,11 +21,11 @@ public class PlayerSettings : NetworkBehaviour
         };
 
         // If this instance is owned by the local player, set the name from the local data
-        if (IsOwner)
-        {
-            string name = EditPlayerName.Instance.GetPlayerName();
-            UpdatePlayerNameServerRpc(name);
-        }
+        // if (IsOwner)
+        // {
+        //     string name = EditPlayerName.Instance.GetPlayerName();
+        //     UpdatePlayerNameServerRpc(name);
+        // }
 
         // Apply the initial name
         playerNameText.text = playerName.Value.ToString();

@@ -27,25 +27,25 @@ public class ChatManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.BackQuote)) {
-            isChatting = true;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            if (Input.GetKeyDown(KeyCode.Return)) {
-                SendChatMessage(chatInput.text, EditPlayerName.Instance.GetPlayerName());
-                chatInput.text = "";
-                isChatting = false;
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            SendChatMessage(chatInput.text, EditPlayerName.Instance.GetPlayerName());
-            chatInput.text = "";
-            isChatting = false;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        // if (Input.GetKeyDown(KeyCode.BackQuote)) {
+        //     isChatting = true;
+        //     Cursor.visible = true;
+        //     Cursor.lockState = CursorLockMode.None;
+        //     if (Input.GetKeyDown(KeyCode.Return)) {
+        //         SendChatMessage(chatInput.text, EditPlayerName.Instance.GetPlayerName());
+        //         chatInput.text = "";
+        //         isChatting = false;
+        //         Cursor.visible = false;
+        //         Cursor.lockState = CursorLockMode.Locked;
+        //     }
+        // }
+        // if (Input.GetKeyDown(KeyCode.Return)) {
+        //     SendChatMessage(chatInput.text, EditPlayerName.Instance.GetPlayerName());
+        //     chatInput.text = "";
+        //     isChatting = false;
+        //     Cursor.visible = false;
+        //     Cursor.lockState = CursorLockMode.Locked;
+        // }
     }
 
     public void SendChatMessage(string _message, string _fromWho = null) {
