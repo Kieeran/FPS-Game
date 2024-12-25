@@ -54,11 +54,11 @@ public class EditPlayerName : MonoBehaviour
         OnNameChanged += EditPlayerName_OnNameChanged;
         // playerName = GetPlayerName();
 
-        if (GameSceneManager.Instance != null)
-        {
-            playerName = GameSceneManager.Instance.GetPlayerName();
-            playerNameText.text = playerName;
-        }
+        // if (GameSceneManager.Instance != null)
+        // {
+        //     playerName = GameSceneManager.Instance.GetPlayerName();
+        //     playerNameText.text = playerName;
+        // }
     }
 
     private void EditPlayerName_OnNameChanged(object sender, EventArgs e)

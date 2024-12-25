@@ -17,7 +17,7 @@ public class AuthenticateUI : MonoBehaviour
             LobbyManager.Instance.Authenticate(EditPlayerName.Instance.GetPlayerName());
             // editNameFlag = 1;
             // SceneManager.LoadScene("Lobby");
-            GameSceneManager.Instance.SetPlayerName(LobbyManager.Instance.GetPlayerName());
+            //GameSceneManager.Instance.SetPlayerName(LobbyManager.Instance.GetPlayerName());
             GameSceneManager.Instance.LoadNextScene();
 
             //Debug.Log("Authenticate button clicked");

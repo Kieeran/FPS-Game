@@ -19,13 +19,9 @@ public class GameSceneManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private string playerName = "PlayerName";
-    public string GetPlayerName() { return playerName; }
-    public void SetPlayerName(string s) { playerName = s; }
-    private void Start()
-    {
-
-    }
+    // private string playerName = "PlayerName";
+    // public string GetPlayerName() { return playerName; }
+    // public void SetPlayerName(string s) { playerName = s; }
 
     public void LoadNextScene()
     {
