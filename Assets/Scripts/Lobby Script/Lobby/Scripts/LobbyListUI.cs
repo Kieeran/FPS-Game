@@ -20,7 +20,6 @@ public class LobbyListUI : MonoBehaviour
     [SerializeField] private TMP_InputField lobbyCodeInput;
     [SerializeField] private Button joinButton;
 
-
     private void Awake()
     {
         Instance = this;
@@ -50,7 +49,7 @@ public class LobbyListUI : MonoBehaviour
     private void Start()
     {
         LobbyManager.Instance.OnLobbyListChanged += LobbyManager_OnLobbyListChanged;
-        LobbyManager.Instance.OnJoinedLobby += LobbyManager_OnJoinedLobby;
+        //LobbyManager.Instance.OnJoinedLobby += LobbyManager_OnJoinedLobby;
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
     }
@@ -60,10 +59,10 @@ public class LobbyListUI : MonoBehaviour
         UpdateLobbyList(e.lobbyList);
     }
 
-    private void LobbyManager_OnJoinedLobby(object sender, LobbyManager.LobbyEventArgs e)
-    {
-        Hide();
-    }
+    // private void LobbyManager_OnJoinedLobby(object sender, LobbyManager.LobbyEventArgs e)
+    // {
+    //     Hide();
+    // }
 
     private void LobbyManager_OnLeftLobby(object sender, EventArgs e)
     {

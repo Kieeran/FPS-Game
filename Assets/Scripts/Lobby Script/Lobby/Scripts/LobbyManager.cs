@@ -91,6 +91,7 @@ public class LobbyManager : MonoBehaviour
 
     private void HandleRefreshLobbyList()
     {
+        // Nếu lobby đã được khởi tạo và player đã sign in thì mới có thể refresh lobby list được
         if (UnityServices.State == ServicesInitializationState.Initialized && AuthenticationService.Instance.IsSignedIn)
         {
             refreshLobbyListTimer -= Time.deltaTime;
