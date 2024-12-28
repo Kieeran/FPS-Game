@@ -1612,7 +1612,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e62dad883f69d8744897d642d8f21378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  authenticateButton: {fileID: 0}
 --- !u!1 &1809662431
 GameObject:
   m_ObjectHideFlags: 0
@@ -1722,7 +1721,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameText: {fileID: 371782144}
-  playerName: PlayerName
 --- !u!1 &2015260715
 GameObject:
   m_ObjectHideFlags: 0
