@@ -9,10 +9,15 @@ using Unity.Services.Lobbies.Models;
 
 public class SlotManager : MonoBehaviour
 {
+    public static SlotManager Instance { get; private set; }
     public TextMeshProUGUI lobbyCode;
     public SlotPlayer prefabSlotPlayer;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     void Start()
     {
         LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
