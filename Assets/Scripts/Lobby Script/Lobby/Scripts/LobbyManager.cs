@@ -42,12 +42,12 @@ public class LobbyManager : MonoBehaviour
         PvP
     }
 
-    public enum PlayerCharacter
-    {
-        Marine,
-        Ninja,
-        Zombie
-    }
+    // public enum PlayerCharacter
+    // {
+    //     Marine,
+    //     Ninja,
+    //     Zombie
+    // }
 
     private float heartbeatTimer;
     private float lobbyPollTimer;
@@ -227,7 +227,7 @@ public class LobbyManager : MonoBehaviour
     {
         return new Player(AuthenticationService.Instance.PlayerId, null, new Dictionary<string, PlayerDataObject> {
             { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName) },
-            { KEY_PLAYER_CHARACTER, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, PlayerCharacter.Marine.ToString()) }
+            /*{ KEY_PLAYER_CHARACTER, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, PlayerCharacter.Marine.ToString()) }*/
         });
     }
 
@@ -378,35 +378,35 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    public async void UpdatePlayerCharacter(PlayerCharacter playerCharacter)
-    {
-        if (joinedLobby != null)
-        {
-            try
-            {
-                UpdatePlayerOptions options = new UpdatePlayerOptions();
+    // public async void UpdatePlayerCharacter(PlayerCharacter playerCharacter)
+    // {
+    //     if (joinedLobby != null)
+    //     {
+    //         try
+    //         {
+    //             UpdatePlayerOptions options = new UpdatePlayerOptions();
 
-                options.Data = new Dictionary<string, PlayerDataObject>() {
-                    {
-                        KEY_PLAYER_CHARACTER, new PlayerDataObject(
-                            visibility: PlayerDataObject.VisibilityOptions.Public,
-                            value: playerCharacter.ToString())
-                    }
-                };
+    //             options.Data = new Dictionary<string, PlayerDataObject>() {
+    //                 {
+    //                     KEY_PLAYER_CHARACTER, new PlayerDataObject(
+    //                         visibility: PlayerDataObject.VisibilityOptions.Public,
+    //                         value: playerCharacter.ToString())
+    //                 }
+    //             };
 
-                string playerId = AuthenticationService.Instance.PlayerId;
+    //             string playerId = AuthenticationService.Instance.PlayerId;
 
-                Lobby lobby = await LobbyService.Instance.UpdatePlayerAsync(joinedLobby.Id, playerId, options);
-                joinedLobby = lobby;
+    //             Lobby lobby = await LobbyService.Instance.UpdatePlayerAsync(joinedLobby.Id, playerId, options);
+    //             joinedLobby = lobby;
 
-                OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
-            }
-            catch (LobbyServiceException e)
-            {
-                Debug.Log(e);
-            }
-        }
-    }
+    //             OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
+    //         }
+    //         catch (LobbyServiceException e)
+    //         {
+    //             Debug.Log(e);
+    //         }
+    //     }
+    // }
 
     public async void QuickJoinLobby()
     {

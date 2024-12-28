@@ -35,18 +35,18 @@ public class LobbyUI : MonoBehaviour
 
         playerSingleTemplate.gameObject.SetActive(false);
 
-        changeMarineButton.onClick.AddListener(() =>
-        {
-            LobbyManager.Instance.UpdatePlayerCharacter(LobbyManager.PlayerCharacter.Marine);
-        });
-        changeNinjaButton.onClick.AddListener(() =>
-        {
-            LobbyManager.Instance.UpdatePlayerCharacter(LobbyManager.PlayerCharacter.Ninja);
-        });
-        changeZombieButton.onClick.AddListener(() =>
-        {
-            LobbyManager.Instance.UpdatePlayerCharacter(LobbyManager.PlayerCharacter.Zombie);
-        });
+        // changeMarineButton.onClick.AddListener(() =>
+        // {
+        //     LobbyManager.Instance.UpdatePlayerCharacter(LobbyManager.PlayerCharacter.Marine);
+        // });
+        // changeNinjaButton.onClick.AddListener(() =>
+        // {
+        //     LobbyManager.Instance.UpdatePlayerCharacter(LobbyManager.PlayerCharacter.Ninja);
+        // });
+        // changeZombieButton.onClick.AddListener(() =>
+        // {
+        //     LobbyManager.Instance.UpdatePlayerCharacter(LobbyManager.PlayerCharacter.Zombie);
+        // });
 
         leaveLobbyButton.onClick.AddListener(() =>
         {
