@@ -2487,7 +2487,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &582617648
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3706,9 +3706,9 @@ RectTransform:
   - {fileID: 984109498}
   m_Father: {fileID: 1976166187}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 300, y: -35}
   m_SizeDelta: {x: 600, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &981936383
@@ -3769,7 +3769,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyNameText: {fileID: 1815455211}
   playersText: {fileID: 852470240}
-  gameModeText: {fileID: 984109499}
 --- !u!1 &984109497
 GameObject:
   m_ObjectHideFlags: 0
@@ -5413,12 +5412,8 @@ MonoBehaviour:
   lobbyNameText: {fileID: 1750547220}
   playerCountText: {fileID: 169512026}
   gameModeText: {fileID: 2141221048}
-  changeMarineButton: {fileID: 707667862}
-  changeNinjaButton: {fileID: 406927705}
-  changeZombieButton: {fileID: 707785356}
   leaveLobbyButton: {fileID: 1414316556}
   kickPlayerButton: {fileID: 1703463216}
-  changeGameModeButton: {fileID: 352283786}
   startGameButton: {fileID: 1578997773}
   lobbyCode: {fileID: 1163560311}
 --- !u!1 &1373798769
@@ -5706,7 +5701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1405406294
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8673,7 +8668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1922701748
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8717,15 +8712,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   createButton: {fileID: 1528355784}
-  lobbyNameButton: {fileID: 2136629994}
-  publicPrivateButton: {fileID: 1800913546}
-  maxPlayersButton: {fileID: 249057051}
-  gameModeButton: {fileID: 1638977519}
+  lobbyNameInputField: {fileID: 0}
+  maxPlayersInputField: {fileID: 0}
+  isPrivateToggle: {fileID: 0}
   returnButton: {fileID: 1985399164}
-  lobbyNameText: {fileID: 867586818}
-  publicPrivateText: {fileID: 218086239}
-  maxPlayersText: {fileID: 1691848153}
-  gameModeText: {fileID: 1005008993}
 --- !u!1 &1976166186
 GameObject:
   m_ObjectHideFlags: 0

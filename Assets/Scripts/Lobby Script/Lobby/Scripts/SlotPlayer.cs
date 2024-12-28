@@ -34,7 +34,7 @@ public class SlotPlayer : MonoBehaviour
         this.player = player;
 
         // gán tên
-        playerNameText.text = player.Data[TestLobby.KEY_PLAYER_NAME].Value;
+        playerNameText.text = player.Data[LobbyManager.KEY_PLAYER_NAME].Value;
 
         // LobbyManager.PlayerCharacter playerCharacter =
         //     System.Enum.Parse<LobbyManager.PlayerCharacter>(player.Data[LobbyManager.KEY_PLAYER_CHARACTER].Value);
@@ -45,7 +45,7 @@ public class SlotPlayer : MonoBehaviour
     {
         if (player != null)
         {
-            TestLobby.Instance.KickPlayer(player.Id);
+            LobbyManager.Instance.KickPlayer(player.Id);
         }
     }
 }
