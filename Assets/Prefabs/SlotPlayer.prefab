@@ -624,6 +624,7 @@ GameObject:
   - component: {fileID: 2903818960174272656}
   - component: {fileID: 4422693609059218644}
   - component: {fileID: 7324424390338016985}
+  - component: {fileID: 3598640430102641381}
   m_Layer: 0
   m_Name: SlotPlayer
   m_TagString: Untagged
@@ -699,6 +700,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3598640430102641381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8338531716616740178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6dcbc19c9b2c74f8c21d99519dd3b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNameText: {fileID: 3990091455574191418}
+  kickPlayerButton: {fileID: 8250176511876872972}
+  openKickPlayerButton: {fileID: 7477028415257194692}
 --- !u!1 &8366544845737700680
 GameObject:
   m_ObjectHideFlags: 0
