@@ -14,16 +14,16 @@ public class LobbyUI : MonoBehaviour
 
     private Player player;
 
-    [SerializeField] private Transform playerSingleTemplate;
-    [SerializeField] private Transform container;
+    // [SerializeField] private Transform playerSingleTemplate;
+    // [SerializeField] private Transform container;
     [SerializeField] private TextMeshProUGUI lobbyNameText;
     [SerializeField] private TextMeshProUGUI playerCountText;
-    [SerializeField] private TextMeshProUGUI gameModeText;
+    // [SerializeField] private TextMeshProUGUI gameModeText;
     // [SerializeField] private Button changeMarineButton;
     // [SerializeField] private Button changeNinjaButton;
     // [SerializeField] private Button changeZombieButton;
     [SerializeField] private Button leaveLobbyButton;
-    [SerializeField] private Button kickPlayerButton;
+    // [SerializeField] private Button kickPlayerButton;
     // [SerializeField] private Button changeGameModeButton;
     [SerializeField] private Button startGameButton;
     [SerializeField] private TextMeshProUGUI lobbyCode;
@@ -33,7 +33,7 @@ public class LobbyUI : MonoBehaviour
     {
         Instance = this;
 
-        playerSingleTemplate.gameObject.SetActive(false);
+        // playerSingleTemplate.gameObject.SetActive(false);
 
         // changeMarineButton.onClick.AddListener(() =>
         // {
@@ -53,10 +53,10 @@ public class LobbyUI : MonoBehaviour
             LobbyManager.Instance.LeaveLobby();
         });
 
-        kickPlayerButton.onClick.AddListener(() =>
-        {
-            LobbyManager.Instance.KickPlayer(player.Id);
-        });
+        // kickPlayerButton.onClick.AddListener(() =>
+        // {
+        //     LobbyManager.Instance.KickPlayer(player.Id);
+        // });
 
         // changeGameModeButton.onClick.AddListener(() =>
         // {
@@ -124,20 +124,20 @@ public class LobbyUI : MonoBehaviour
 
         foreach (Player player in lobby.Players)
         {
-            Transform playerSingleTransform = Instantiate(playerSingleTemplate, container);
-            playerSingleTransform.gameObject.SetActive(true);
-            LobbyPlayerSingleUI lobbyPlayerSingleUI = playerSingleTransform.GetComponent<LobbyPlayerSingleUI>();
+            // Transform playerSingleTransform = Instantiate(playerSingleTemplate, container);
+            // playerSingleTransform.gameObject.SetActive(true);
+            // LobbyPlayerSingleUI lobbyPlayerSingleUI = playerSingleTransform.GetComponent<LobbyPlayerSingleUI>();
 
-            // Don't allow kick self
-            // Chỉ có host mới hiện nút X (kick)
-            // Nếu host giữ script này và đang xét các player còn lại ngoài host thì đúng
-            lobbyPlayerSingleUI.SetKickPlayerButtonVisible(
-                LobbyManager.Instance.IsLobbyHost() && player.Id != AuthenticationService.Instance.PlayerId
-            );
+            // // Don't allow kick self
+            // // Chỉ có host mới hiện nút X (kick)
+            // // Nếu host giữ script này và đang xét các player còn lại ngoài host thì đúng
+            // lobbyPlayerSingleUI.SetKickPlayerButtonVisible(
+            //     LobbyManager.Instance.IsLobbyHost() && player.Id != AuthenticationService.Instance.PlayerId
+            // );
 
-            if (!GameManager.players.ContainsKey(player.Id)) GameManager.players.Add(player.Id, player);
+            // if (!GameManager.players.ContainsKey(player.Id)) GameManager.players.Add(player.Id, player);
 
-            lobbyPlayerSingleUI.UpdatePlayer(player);
+            // lobbyPlayerSingleUI.UpdatePlayer(player);
         }
 
         //changeGameModeButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
@@ -158,13 +158,13 @@ public class LobbyUI : MonoBehaviour
 
     public void ClearLobby()
     {
-        if (GameManager.currentIndex == 2) return;
+        // if (GameManager.currentIndex == 2) return;
 
-        foreach (Transform child in container)
-        {
-            if (child == playerSingleTemplate) continue;
-            Destroy(child.gameObject);
-        }
+        // foreach (Transform child in container)
+        // {
+        //     if (child == playerSingleTemplate) continue;
+        //     Destroy(child.gameObject);
+        // }
     }
 
     public void Hide()
