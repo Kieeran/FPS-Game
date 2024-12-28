@@ -6,26 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class AuthenticateUI : MonoBehaviour
 {
-    [SerializeField] private Button authenticateButton;
-
-    // public static uint editNameFlag = 0;
 
     private void Awake()
     {
-        authenticateButton.onClick.AddListener(() =>
+        GetComponent<Button>().onClick.AddListener(() =>
         {
             LobbyManager.Instance.Authenticate(EditPlayerName.Instance.playerName);
-            // editNameFlag = 1;
-            // SceneManager.LoadScene("Lobby");
-            //GameSceneManager.Instance.SetPlayerName(LobbyManager.Instance.GetPlayerName());
             GameSceneManager.Instance.LoadNextScene();
-
-            //Debug.Log("Authenticate button clicked");
         });
     }
-
-    // private void Hide()
-    // {
-    //     gameObject.SetActive(false);
-    // }
 }

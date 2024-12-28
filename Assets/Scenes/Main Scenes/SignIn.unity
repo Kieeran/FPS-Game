@@ -328,8 +328,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36.7
-  m_fontSizeBase: 36.7
+  m_fontSize: 27.1
+  m_fontSizeBase: 27.1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -817,7 +817,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1755432669}
+  - {fileID: 1769189781}
   - {fileID: 1809662432}
   - {fileID: 1624511301}
   m_Father: {fileID: 0}
@@ -1517,56 +1517,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624511300}
   m_CullTransparentMesh: 1
---- !u!1 &1755432668
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1755432669}
-  - component: {fileID: 1755432670}
-  m_Layer: 5
-  m_Name: AuthenticateUI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1755432669
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755432668}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75486, y: 0.75486, z: 0.75486}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1769189781}
-  m_Father: {fileID: 888787520}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1755432670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755432668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e62dad883f69d8744897d642d8f21378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  authenticateButton: {fileID: 1769189782}
 --- !u!1 &1769189780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,6 +1527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1769189781}
   - component: {fileID: 1769189782}
+  - component: {fileID: 1769189783}
   m_Layer: 5
   m_Name: AuthenticateButton
   m_TagString: Untagged
@@ -1598,12 +1549,12 @@ RectTransform:
   m_Children:
   - {fileID: 1077518973}
   - {fileID: 290391723}
-  m_Father: {fileID: 1755432669}
+  m_Father: {fileID: 888787520}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 88}
-  m_SizeDelta: {x: 450, y: 80}
+  m_AnchoredPosition: {x: 0, y: 66}
+  m_SizeDelta: {x: 340, y: 61.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1769189782
 MonoBehaviour:
@@ -1649,6 +1600,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1769189783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769189780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62dad883f69d8744897d642d8f21378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  authenticateButton: {fileID: 0}
 --- !u!1 &1809662431
 GameObject:
   m_ObjectHideFlags: 0
