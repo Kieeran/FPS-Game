@@ -70,9 +70,10 @@ public class LobbyManager : MonoBehaviour
         HandleLobbyPolling();
     }
 
-    public async void Authenticate(string pName)
+    public async void Authenticate(string name)
     {
-        playerName = pName;
+        playerName = name;
+
         InitializationOptions initializationOptions = new InitializationOptions();
         initializationOptions.SetProfile(playerName);
 
@@ -273,7 +274,7 @@ public class LobbyManager : MonoBehaviour
         joinedLobby = lobby;
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-
+        GameSceneManager.Instance.LoadNextScene();
         // Debug.Log("Created Lobby " + lobby.Name);
     }
 
@@ -322,6 +323,7 @@ public class LobbyManager : MonoBehaviour
         joinedLobby = lobby;
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
+        GameSceneManager.Instance.LoadNextScene();
     }
 
     public string GetJoinedLobbyCode()
@@ -331,7 +333,7 @@ public class LobbyManager : MonoBehaviour
 
     public async void JoinLobby(Lobby lobby)
     {
-        Unity.Services.Lobbies.Models.Player player = GetPlayer();
+        Player player = GetPlayer();
 
         joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id, new JoinLobbyByIdOptions
         {
@@ -409,22 +411,22 @@ public class LobbyManager : MonoBehaviour
     //     }
     // }
 
-    public async void QuickJoinLobby()
-    {
-        try
-        {
-            QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
+    // public async void QuickJoinLobby()
+    // {
+    //     try
+    //     {
+    //         QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
 
-            Lobby lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
-            joinedLobby = lobby;
+    //         Lobby lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
+    //         joinedLobby = lobby;
 
-            OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.Log(e);
-        }
-    }
+    //         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
+    //     }
+    //     catch (LobbyServiceException e)
+    //     {
+    //         Debug.Log(e);
+    //     }
+    // }
 
     public async void LeaveLobby()
     {
