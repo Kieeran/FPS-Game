@@ -8,11 +8,23 @@ public class EditPlayerName : MonoBehaviour
     public static EditPlayerName Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI playerNameText;
 
-    public string playerName = "PlayerName";
+    private string playerName;
+
+    public const string DEFAULT_PLAYER_NAME = "PlayerName";
+
+    public string GetPlayerName() { return playerName; }
+    public void SetPlayerName(string s) { playerName = s; }
 
     private void Awake()
     {
         Instance = this;
+
+        playerName = DEFAULT_PLAYER_NAME;
+
+        if (LobbyManager.Instance.GetPlayerName() != null)
+        {
+            playerName = LobbyManager.Instance.GetPlayerName();
+        }
     }
 
     private void Start()

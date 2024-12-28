@@ -12,7 +12,6 @@ using System.Linq;
 
 public class LobbyManager : MonoBehaviour
 {
-
     public static LobbyManager Instance { get; private set; }
 
     public const string KEY_PLAYER_NAME = "PlayerName";
@@ -60,19 +59,6 @@ public class LobbyManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
-        // if (GameSceneManager.Instance != null)
-        // {
-        //     playerName = GameSceneManager.Instance.GetPlayerName();
-        // }
-    }
-
-    private void Start()
-    {
-        // if (GameSceneManager.Instance != null)
-        // {
-        //     playerName = GameSceneManager.Instance.GetPlayerName();
-        // }
     }
 
     public string GetPlayerName() { return playerName; }
@@ -354,16 +340,20 @@ public class LobbyManager : MonoBehaviour
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
     }
 
-    public async void UpdatePlayerName(string pName)
+    public async void UpdatePlayerName(string name)
     {
-        playerName = pName;
 
+        // update player name
+        playerName = name;
+
+        // if player in lobby
         if (joinedLobby != null)
         {
             try
             {
                 UpdatePlayerOptions options = new UpdatePlayerOptions();
 
+                // update player name in options variable
                 options.Data = new Dictionary<string, PlayerDataObject>() {
                     {
                         KEY_PLAYER_NAME, new PlayerDataObject(
@@ -372,8 +362,10 @@ public class LobbyManager : MonoBehaviour
                     }
                 };
 
+                // find playerID in lobby
                 string playerId = AuthenticationService.Instance.PlayerId;
 
+                // update
                 Lobby lobby = await LobbyService.Instance.UpdatePlayerAsync(joinedLobby.Id, playerId, options);
                 joinedLobby = lobby;
 

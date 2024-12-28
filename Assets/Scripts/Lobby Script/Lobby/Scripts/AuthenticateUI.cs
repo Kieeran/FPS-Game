@@ -11,7 +11,7 @@ public class AuthenticateUI : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            LobbyManager.Instance.Authenticate(EditPlayerName.Instance.playerName);
+            LobbyManager.Instance.Authenticate(EditPlayerName.Instance.GetPlayerName());
             GameSceneManager.Instance.LoadNextScene();
         });
     }
