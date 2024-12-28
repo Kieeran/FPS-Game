@@ -27,9 +27,9 @@ public class LobbyPlayerSingleUI : MonoBehaviour {
     public void UpdatePlayer(Player player) {
         this.player = player;
         playerNameText.text = player.Data[LobbyManager.KEY_PLAYER_NAME].Value;
-        LobbyManager.PlayerCharacter playerCharacter = 
-            System.Enum.Parse<LobbyManager.PlayerCharacter>(player.Data[LobbyManager.KEY_PLAYER_CHARACTER].Value);
-        characterImage.sprite = LobbyAssets.Instance.GetSprite(playerCharacter);
+        // LobbyManager.PlayerCharacter playerCharacter = 
+        //     System.Enum.Parse<LobbyManager.PlayerCharacter>(player.Data[LobbyManager.KEY_PLAYER_CHARACTER].Value);
+        // characterImage.sprite = LobbyAssets.Instance.GetSprite(playerCharacter);
     }
 
     private void KickPlayer() {
