@@ -10,7 +10,10 @@ public class LobbyListUI : MonoBehaviour
 {
     public static LobbyListUI Instance { get; private set; }
 
+    // lobbySingleTemplate: An object representing each slot (lobby) in the lobby list
     [SerializeField] private Transform lobbySingleTemplate;
+
+    // container: contain all single lobby
     [SerializeField] private Transform container;
     [SerializeField] private Button refreshButton;
     [SerializeField] private Button createLobbyButton;
@@ -73,7 +76,7 @@ public class LobbyListUI : MonoBehaviour
     // private void LobbyManager_OnJoinedLobbyByCode(object sender, LobbyManager.LobbyEventArgs e) {
     //     Hide();
     // }
-    
+
     private void UpdateLobbyList(List<Lobby> lobbyList)
     {
         foreach (Transform child in container)
@@ -116,5 +119,4 @@ public class LobbyListUI : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
-
 }
