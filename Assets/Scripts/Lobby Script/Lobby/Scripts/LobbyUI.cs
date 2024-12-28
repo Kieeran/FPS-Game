@@ -79,8 +79,6 @@ public class LobbyUI : MonoBehaviour
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
         LobbyManager.Instance.OnGameStarted += LobbyManager_OnGameStarted;
-
-        Hide();
     }
 
     private void LobbyManager_OnGameStarted(object sender, System.EventArgs e)
@@ -93,15 +91,11 @@ public class LobbyUI : MonoBehaviour
     private void LobbyManager_OnLeftLobby(object sender, System.EventArgs e)
     {
         LobbyManager.joinedLobby = null;
-        ClearLobby();
-        Hide();
     }
 
     private void LobbyManager_OnKickedFromLobby(object sender, System.EventArgs e)
     {
         LobbyManager.joinedLobby = null;
-        ClearLobby();
-        Hide();
 
         // Show Lobby Create UI when kicked
         LobbyListUI.Instance.Show();
@@ -119,62 +113,26 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateLobby(Lobby lobby)
     {
-        ClearLobby();
         ShowLobbyCode();
-
-        foreach (Player player in lobby.Players)
-        {
-            // Transform playerSingleTransform = Instantiate(playerSingleTemplate, container);
-            // playerSingleTransform.gameObject.SetActive(true);
-            // LobbyPlayerSingleUI lobbyPlayerSingleUI = playerSingleTransform.GetComponent<LobbyPlayerSingleUI>();
-
-            // // Don't allow kick self
-            // // Chỉ có host mới hiện nút X (kick)
-            // // Nếu host giữ script này và đang xét các player còn lại ngoài host thì đúng
-            // lobbyPlayerSingleUI.SetKickPlayerButtonVisible(
-            //     LobbyManager.Instance.IsLobbyHost() && player.Id != AuthenticationService.Instance.PlayerId
-            // );
-
-            // if (!GameManager.players.ContainsKey(player.Id)) GameManager.players.Add(player.Id, player);
-
-            // lobbyPlayerSingleUI.UpdatePlayer(player);
-        }
-
-        //changeGameModeButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
         startGameButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
-
         lobbyNameText.text = lobby.Name;
         playerCountText.text = lobby.Players.Count + "/" + lobby.MaxPlayers;
         // gameModeText.text = lobby.Data[LobbyManager.KEY_GAME_MODE].Value;
-
-        Show();
     }
 
     private void ShowLobbyCode()
     {
         lobbyCode.text = "Code: " + LobbyManager.Instance.GetJoinedLobbyCode();
-        if (LobbyManager.Instance.IsLobbyHost()) Show();
     }
 
-    public void ClearLobby()
-    {
-        // if (GameManager.currentIndex == 2) return;
+    // public void ClearLobby()
+    // {
+    //     if (GameManager.currentIndex == 2) return;
 
-        // foreach (Transform child in container)
-        // {
-        //     if (child == playerSingleTemplate) continue;
-        //     Destroy(child.gameObject);
-        // }
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
-
-    private void Show()
-    {
-        gameObject.SetActive(true);
-    }
-
+    //     foreach (Transform child in container)
+    //     {
+    //         if (child == playerSingleTemplate) continue;
+    //         Destroy(child.gameObject);
+    //     }
+    // }
 }

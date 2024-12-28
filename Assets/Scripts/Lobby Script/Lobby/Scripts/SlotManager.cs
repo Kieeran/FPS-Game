@@ -10,7 +10,6 @@ using Unity.Services.Lobbies.Models;
 public class SlotManager : MonoBehaviour
 {
     public static SlotManager Instance { get; private set; }
-    public TextMeshProUGUI lobbyCode;
     public SlotPlayer prefabSlotPlayer;
 
     private void Awake()
@@ -26,21 +25,12 @@ public class SlotManager : MonoBehaviour
     }
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
     {
-        //if (TestLobby.Instance = null) return;
-
-        //Lobby lobby = TestLobby.Instance.GetJoinedLobby();
-
         if (LobbyManager.Instance.GetJoinedLobby() == null) return;
 
         Lobby lobby = LobbyManager.Instance.GetJoinedLobby();
 
-        // show lobby code
-        lobbyCode.text = lobby.LobbyCode;
-
-        //Debug.Log("Update lobby with code " + lobby.LobbyCode);
-
         ClearSlotPlayers();
-        //Debug.Log(lobbyCode.text);
+
         for (int i = 0; i < lobby.Players.Count; i++)
         {
             SlotPlayer slotPlayer = Instantiate(prefabSlotPlayer);
