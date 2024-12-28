@@ -711,7 +711,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1922701749}
+        m_TargetAssemblyTypeName: LobbyCreateUI, Assembly-CSharp
+        m_MethodName: ReadMaxPlayers
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1815,7 +1827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &582617648
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2826,9 +2838,9 @@ RectTransform:
   - {fileID: 984109498}
   m_Father: {fileID: 1976166187}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -35}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &981936383
@@ -2889,7 +2901,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyNameText: {fileID: 1815455211}
   playersText: {fileID: 852470240}
-  gameModeText: {fileID: 984109499}
 --- !u!1 &984109497
 GameObject:
   m_ObjectHideFlags: 0
@@ -3692,7 +3703,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1922701749}
+        m_TargetAssemblyTypeName: LobbyCreateUI, Assembly-CSharp
+        m_MethodName: ReadIsPrivate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1072766640
 GameObject:
@@ -7088,7 +7111,19 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1922701749}
+        m_TargetAssemblyTypeName: LobbyCreateUI, Assembly-CSharp
+        m_MethodName: ReadLobbyName
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -7224,15 +7259,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   createButton: {fileID: 1528355784}
-  lobbyNameButton: {fileID: 0}
-  publicPrivateButton: {fileID: 0}
-  maxPlayersButton: {fileID: 0}
-  gameModeButton: {fileID: 1638977519}
+  lobbyNameInputField: {fileID: 1893769585}
+  maxPlayersInputField: {fileID: 241602330}
+  isPrivateToggle: {fileID: 1058314434}
   returnButton: {fileID: 1985399164}
-  lobbyNameText: {fileID: 867586818}
-  publicPrivateText: {fileID: 218086239}
-  maxPlayersText: {fileID: 1691848153}
-  gameModeText: {fileID: 1005008993}
 --- !u!1 &1976166186
 GameObject:
   m_ObjectHideFlags: 0

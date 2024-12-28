@@ -35,6 +35,8 @@ public class LobbyListUI : MonoBehaviour
         createLobbyButton.onClick.AddListener(() =>
         {
             LobbyCreateUI.Instance.Show();
+
+            Hide();
         });
 
         joinButton.onClick.AddListener(() =>

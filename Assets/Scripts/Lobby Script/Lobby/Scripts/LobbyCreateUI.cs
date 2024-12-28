@@ -10,9 +10,13 @@ public class LobbyCreateUI : MonoBehaviour
 
     [SerializeField] private Button createButton;
     [SerializeField] private TMP_InputField lobbyNameInputField;
-    [SerializeField] private Toggle isPrivateToggle;
     [SerializeField] private TMP_InputField maxPlayersInputField;
+    [SerializeField] private Toggle isPrivateToggle;
     [SerializeField] private Button returnButton;
+
+    public const string DEFAULT_LOBBY_NAME = "Default name";
+    public const int DEFAULT_MAX_PLAYERS = 2;
+    public const bool DEFAULT_IS_PRIVATE = false;
 
     // [SerializeField] private Button lobbyNameButton;
     // [SerializeField] private Button publicPrivateButton;
@@ -102,12 +106,36 @@ public class LobbyCreateUI : MonoBehaviour
         Hide();
     }
 
+    public void ReadLobbyName(string s)
+    {
+        lobbyName = s;
+        if (s == "")
+        {
+            lobbyName = DEFAULT_LOBBY_NAME;
+        }
+        UpdateText();
+    }
+
+    public void ReadMaxPlayers(string s)
+    {
+        int playerNum = int.Parse(s);
+        maxPlayers = playerNum;
+
+        if (playerNum < 1 && playerNum > 5) maxPlayers = DEFAULT_MAX_PLAYERS;
+
+        UpdateText();
+    }
+
+    public void ReadIsPrivate(bool b)
+    {
+        isPrivate = b;
+    }
+
     private void UpdateText()
     {
-        // lobbyNameText.text = lobbyName;
-        // publicPrivateText.text = isPrivate ? "Private" : "Public";
-        // maxPlayersText.text = maxPlayers.ToString();
-        // gameModeText.text = gameMode.ToString();
+        lobbyNameInputField.text = lobbyName;
+        maxPlayersInputField.text = maxPlayers.ToString();
+        //gameModeText.text = gameMode.ToString();
     }
 
     private void Hide()
@@ -119,9 +147,9 @@ public class LobbyCreateUI : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        lobbyName = "MyLobby";
-        isPrivate = false;
-        maxPlayers = 2;
+        lobbyName = DEFAULT_LOBBY_NAME;
+        isPrivate = DEFAULT_IS_PRIVATE;
+        maxPlayers = DEFAULT_MAX_PLAYERS;
         // gameMode = LobbyManager.GameMode.PvE;
 
         UpdateText();
