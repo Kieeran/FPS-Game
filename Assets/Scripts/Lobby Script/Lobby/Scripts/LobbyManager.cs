@@ -348,6 +348,7 @@ public class LobbyManager : MonoBehaviour
         });
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
+        GameSceneManager.Instance.LoadNextScene();
     }
 
     public async void UpdatePlayerName(string name)
