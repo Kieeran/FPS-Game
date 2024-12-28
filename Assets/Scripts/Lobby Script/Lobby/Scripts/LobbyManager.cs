@@ -16,14 +16,14 @@ public class LobbyManager : MonoBehaviour
 
     public const string KEY_PLAYER_NAME = "PlayerName";
     public const string KEY_PLAYER_CHARACTER = "Character";
-    public const string KEY_GAME_MODE = "GameMode";
+    // public const string KEY_GAME_MODE = "GameMode";
     public const string KEY_START_GAME = "Start";
 
     public event EventHandler OnLeftLobby;
     public event EventHandler<LobbyEventArgs> OnJoinedLobby;
     public event EventHandler<LobbyEventArgs> OnJoinedLobbyUpdate;
     public event EventHandler<LobbyEventArgs> OnKickedFromLobby;
-    public event EventHandler<LobbyEventArgs> OnLobbyGameModeChanged;
+    // public event EventHandler<LobbyEventArgs> OnLobbyGameModeChanged;
     public event EventHandler<EventArgs> OnGameStarted;
     public class LobbyEventArgs : EventArgs
     {
@@ -36,11 +36,11 @@ public class LobbyManager : MonoBehaviour
         public List<Lobby> lobbyList;
     }
 
-    public enum GameMode
-    {
-        PvE,
-        PvP
-    }
+    // public enum GameMode
+    // {
+    //     PvE,
+    //     PvP
+    // }
 
     // public enum PlayerCharacter
     // {
@@ -231,29 +231,29 @@ public class LobbyManager : MonoBehaviour
         });
     }
 
-    public void ChangeGameMode()
-    {
-        if (IsLobbyHost())
-        {
-            GameMode gameMode =
-                Enum.Parse<GameMode>(joinedLobby.Data[KEY_GAME_MODE].Value);
+    // public void ChangeGameMode()
+    // {
+    //     if (IsLobbyHost())
+    //     {
+    //         GameMode gameMode =
+    //             Enum.Parse<GameMode>(joinedLobby.Data[KEY_GAME_MODE].Value);
 
-            switch (gameMode)
-            {
-                default:
-                case GameMode.PvE:
-                    gameMode = GameMode.PvP;
-                    break;
-                case GameMode.PvP:
-                    gameMode = GameMode.PvE;
-                    break;
-            }
+    //         switch (gameMode)
+    //         {
+    //             default:
+    //             case GameMode.PvE:
+    //                 gameMode = GameMode.PvP;
+    //                 break;
+    //             case GameMode.PvP:
+    //                 gameMode = GameMode.PvE;
+    //                 break;
+    //         }
 
-            UpdateLobbyGameMode(gameMode);
-        }
-    }
+    //         UpdateLobbyGameMode(gameMode);
+    //     }
+    // }
 
-    public async void CreateLobby(string lobbyName, int maxPlayers, bool isPrivate, GameMode gameMode)
+    public async void CreateLobby(string lobbyName, int maxPlayers, bool isPrivate/*, GameMode gameMode*/)
     {
         Unity.Services.Lobbies.Models.Player player = GetPlayer();
 
@@ -262,7 +262,7 @@ public class LobbyManager : MonoBehaviour
             Player = player,
             IsPrivate = isPrivate,
             Data = new Dictionary<string, DataObject> {
-                { KEY_GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString()) },
+                // { KEY_GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString()) },
                 { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0") }
             }
         };
@@ -459,28 +459,28 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    public async void UpdateLobbyGameMode(GameMode gameMode)
-    {
-        try
-        {
-            Debug.Log("UpdateLobbyGameMode " + gameMode);
+    // public async void UpdateLobbyGameMode(GameMode gameMode)
+    // {
+    //     try
+    //     {
+    //         Debug.Log("UpdateLobbyGameMode " + gameMode);
 
-            Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
-            {
-                Data = new Dictionary<string, DataObject> {
-                    { KEY_GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString()) }
-                }
-            });
+    //         Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
+    //         {
+    //             Data = new Dictionary<string, DataObject> {
+    //                 { KEY_GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString()) }
+    //             }
+    //         });
 
-            joinedLobby = lobby;
+    //         joinedLobby = lobby;
 
-            OnLobbyGameModeChanged?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.Log(e);
-        }
-    }
+    //         OnLobbyGameModeChanged?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
+    //     }
+    //     catch (LobbyServiceException e)
+    //     {
+    //         Debug.Log(e);
+    //     }
+    // }
 
     public async void StartGame()
     {

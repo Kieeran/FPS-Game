@@ -27,7 +27,7 @@ public class LobbyCreateUI : MonoBehaviour
     private string lobbyName;
     private bool isPrivate;
     private int maxPlayers;
-    private LobbyManager.GameMode gameMode;
+    // private LobbyManager.GameMode gameMode;
 
     private void Awake()
     {
@@ -44,8 +44,8 @@ public class LobbyCreateUI : MonoBehaviour
             LobbyManager.Instance.CreateLobby(
                 lobbyName,
                 maxPlayers,
-                isPrivate,
-                gameMode
+                isPrivate/*,
+                gameMode*/
             );
             Hide();
         });
@@ -122,7 +122,7 @@ public class LobbyCreateUI : MonoBehaviour
         lobbyName = "MyLobby";
         isPrivate = false;
         maxPlayers = 2;
-        gameMode = LobbyManager.GameMode.PvE;
+        // gameMode = LobbyManager.GameMode.PvE;
 
         UpdateText();
     }

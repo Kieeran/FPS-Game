@@ -19,12 +19,12 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI lobbyNameText;
     [SerializeField] private TextMeshProUGUI playerCountText;
     [SerializeField] private TextMeshProUGUI gameModeText;
-    [SerializeField] private Button changeMarineButton;
-    [SerializeField] private Button changeNinjaButton;
-    [SerializeField] private Button changeZombieButton;
+    // [SerializeField] private Button changeMarineButton;
+    // [SerializeField] private Button changeNinjaButton;
+    // [SerializeField] private Button changeZombieButton;
     [SerializeField] private Button leaveLobbyButton;
     [SerializeField] private Button kickPlayerButton;
-    [SerializeField] private Button changeGameModeButton;
+    // [SerializeField] private Button changeGameModeButton;
     [SerializeField] private Button startGameButton;
     [SerializeField] private TextMeshProUGUI lobbyCode;
 
@@ -58,10 +58,10 @@ public class LobbyUI : MonoBehaviour
             LobbyManager.Instance.KickPlayer(player.Id);
         });
 
-        changeGameModeButton.onClick.AddListener(() =>
-        {
-            LobbyManager.Instance.ChangeGameMode();
-        });
+        // changeGameModeButton.onClick.AddListener(() =>
+        // {
+        //     LobbyManager.Instance.ChangeGameMode();
+        // });
 
         startGameButton.onClick.AddListener(() =>
         {
@@ -75,7 +75,7 @@ public class LobbyUI : MonoBehaviour
     {
         LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
-        LobbyManager.Instance.OnLobbyGameModeChanged += UpdateLobby_Event;
+        // LobbyManager.Instance.OnLobbyGameModeChanged += UpdateLobby_Event;
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
         LobbyManager.Instance.OnGameStarted += LobbyManager_OnGameStarted;
@@ -140,12 +140,12 @@ public class LobbyUI : MonoBehaviour
             lobbyPlayerSingleUI.UpdatePlayer(player);
         }
 
-        changeGameModeButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
+        //changeGameModeButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
         startGameButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
 
         lobbyNameText.text = lobby.Name;
         playerCountText.text = lobby.Players.Count + "/" + lobby.MaxPlayers;
-        gameModeText.text = lobby.Data[LobbyManager.KEY_GAME_MODE].Value;
+        // gameModeText.text = lobby.Data[LobbyManager.KEY_GAME_MODE].Value;
 
         Show();
     }
