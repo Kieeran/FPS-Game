@@ -9,7 +9,7 @@ using System.Linq;
 
 public class GameManager : NetworkBehaviour
 {
-    public static int currentIndex;
+    // public static int currentIndex;
 
     public static GameManager Instance;
 
@@ -17,7 +17,7 @@ public class GameManager : NetworkBehaviour
     public GameObject playerCamera;
     public GameObject playerFollowCamera;
 
-    [SerializeField] private GameObject scoreboard;
+    // [SerializeField] private GameObject scoreboard;
 
     private void EnableCamera()
     {
@@ -28,8 +28,8 @@ public class GameManager : NetworkBehaviour
 
     void Start()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
-        currentIndex = currentScene.buildIndex;
+        // Scene currentScene = SceneManager.GetActiveScene();
+        // currentIndex = currentScene.buildIndex;
 
         // scoreboard.SetActive(false);
     }

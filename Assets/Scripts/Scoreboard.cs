@@ -13,17 +13,17 @@ public class Scoreboard : MonoBehaviour
 
     void OnEnable()
     {
-        Player[] players = GameManager.GetAllPlayers();
+        // Player[] players = GameManager.GetAllPlayers();
 
-        foreach (Player player in players)
-        {
-            GameObject itemGO = (GameObject)Instantiate(playerScoreboardItem, playerScoreboardList);
-            PlayerScoreboardItem item = itemGO.GetComponent<PlayerScoreboardItem>();
-            if (item != null)
-            {
-                item.Setup(player.Data[LobbyManager.KEY_PLAYER_NAME].Value);
-            }
-        }
+        // foreach (Player player in players)
+        // {
+        //     GameObject itemGO = (GameObject)Instantiate(playerScoreboardItem, playerScoreboardList);
+        //     PlayerScoreboardItem item = itemGO.GetComponent<PlayerScoreboardItem>();
+        //     if (item != null)
+        //     {
+        //         item.Setup(player.Data[LobbyManager.KEY_PLAYER_NAME].Value);
+        //     }
+        // }
     }
 
     void OnDisable()
