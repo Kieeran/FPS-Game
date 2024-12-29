@@ -36,10 +36,7 @@ public class GameManager : NetworkBehaviour
 
     void Awake()
     {
-        if (Instance != null)
-            Destroy(Instance);
-        else
-            Instance = this;
+        Instance = this;
     }
 
     void Update()
