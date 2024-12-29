@@ -68,7 +68,7 @@ public class PlayerNetwork : NetworkBehaviour
         {
             EnableScripts();
 
-            CinemachineVirtualCamera _camera = GameManager.Instance.playerFollowCamera.GetComponent<CinemachineVirtualCamera>();
+            CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
             if (_camera != null)
             {
                 Transform playerCameraRoot = transform.Find("PlayerCameraRoot");

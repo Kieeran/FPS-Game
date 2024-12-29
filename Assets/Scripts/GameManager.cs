@@ -13,18 +13,22 @@ public class GameManager : NetworkBehaviour
 
     public static GameManager Instance;
 
-    public GameObject _camera;
-    public GameObject playerCamera;
-    public GameObject playerFollowCamera;
+    // public GameObject _camera;
+    // public GameObject playerCamera;
+    // public GameObject playerFollowCamera;
+
+    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+
+    public CinemachineVirtualCamera GetCinemachineVirtualCamera() { return cinemachineVirtualCamera; }
 
     // [SerializeField] private GameObject scoreboard;
 
-    private void EnableCamera()
-    {
-        playerCamera.gameObject.SetActive(true);
-        playerFollowCamera.gameObject.SetActive(true);
-        //playerUI.gameObject.SetActive(true);
-    }
+    // private void EnableCamera()
+    // {
+    //     playerCamera.gameObject.SetActive(true);
+    //     playerFollowCamera.gameObject.SetActive(true);
+    //     //playerUI.gameObject.SetActive(true);
+    // }
 
     void Start()
     {
@@ -37,6 +41,8 @@ public class GameManager : NetworkBehaviour
     void Awake()
     {
         Instance = this;
+
+        // EnableCamera();
     }
 
     void Update()
