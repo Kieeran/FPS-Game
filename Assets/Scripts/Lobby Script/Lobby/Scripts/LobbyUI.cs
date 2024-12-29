@@ -84,7 +84,7 @@ public class LobbyUI : MonoBehaviour
     private void LobbyManager_OnGameStarted(object sender, System.EventArgs e)
     {
         LobbyManager.joinedLobby = null;
-        SceneManager.LoadScene("Play Scene");
+        GameSceneManager.Instance.LoadNextScene();
         // ChatCanvasUI.Instance.Show();
     }
 
@@ -122,7 +122,7 @@ public class LobbyUI : MonoBehaviour
 
     private void ShowLobbyCode()
     {
-        lobbyCode.text = "Code: " + LobbyManager.Instance.GetJoinedLobbyCode();
+        lobbyCode.text = LobbyManager.Instance.GetJoinedLobbyCode();
     }
 
     // public void ClearLobby()

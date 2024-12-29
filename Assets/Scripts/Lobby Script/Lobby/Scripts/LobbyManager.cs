@@ -72,7 +72,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Update()
     {
-        HandleRefreshLobbyList(); // Disabled Auto Refresh for testing with multiple builds
+        //HandleRefreshLobbyList(); // Disabled Auto Refresh for testing with multiple builds
         HandleLobbyHeartbeat();
         HandleLobbyPolling();
     }
