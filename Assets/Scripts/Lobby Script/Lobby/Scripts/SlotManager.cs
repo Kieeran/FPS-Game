@@ -34,6 +34,8 @@ public class SlotManager : MonoBehaviour
         LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
         LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnOutLobby;
         LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnOutLobby;
+
+        GameSceneManager.Instance.LoadPreviousScene();
     }
 
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)

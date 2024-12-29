@@ -144,44 +144,41 @@ public class LobbyManager : MonoBehaviour
 
             try
             {
-                if (joinedLobby != null)
+
+                // Attempt to get lobby details
+                joinedLobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+
+                if (!IsPlayerInLobby())
                 {
-                    // Attempt to get lobby details
-                    joinedLobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+                    // Player was kicked out of this lobby
+                    OnKickedFromLobby?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
 
-                    if (!IsPlayerInLobby())
-                    {
-                        // Player was kicked out of this lobby
-                        OnKickedFromLobby?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
-
-                        joinedLobby = null;
-
-                        GameSceneManager.Instance.LoadPreviousScene();
-                        return;
-                    }
-
-                    // if (joinedLobby == null)
-                    // {
-                    //     Debug.LogWarning("Failed to retrieve lobby details. Lobby might have been deleted.");
-                    //     return;
-                    // }
-
-                    OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
-
-                    if (joinedLobby != null && joinedLobby.Data[KEY_START_GAME].Value != "0")
-                    {
-                        // Start Game!
-                        if (!IsLobbyHost()) // Lobby Host already joined Relay
-                        {
-                            TestRelay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
-                        }
-
-                        joinedLobby = null;
-
-                        OnGameStarted?.Invoke(this, EventArgs.Empty);
-                    }
-                    else return;
+                    joinedLobby = null;
+                    return;
                 }
+
+                // if (joinedLobby == null)
+                // {
+                //     Debug.LogWarning("Failed to retrieve lobby details. Lobby might have been deleted.");
+                //     return;
+                // }
+
+                OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
+
+                if (joinedLobby != null && joinedLobby.Data[KEY_START_GAME].Value != "0")
+                {
+                    // Start Game!
+                    if (!IsLobbyHost()) // Lobby Host already joined Relay
+                    {
+                        TestRelay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
+                    }
+
+                    joinedLobby = null;
+
+                    OnGameStarted?.Invoke(this, EventArgs.Empty);
+                }
+                else return;
+
             }
             catch (LobbyServiceException e)
             {
@@ -445,7 +442,7 @@ public class LobbyManager : MonoBehaviour
 
                 OnLeftLobby?.Invoke(this, EventArgs.Empty);
 
-                GameSceneManager.Instance.LoadPreviousScene();
+                //GameSceneManager.Instance.LoadPreviousScene();
             }
             catch (LobbyServiceException e)
             {

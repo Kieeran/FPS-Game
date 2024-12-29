@@ -49,9 +49,11 @@ public class LobbyListUI : MonoBehaviour
     private void Start()
     {
         LobbyManager.Instance.OnLobbyListChanged += LobbyManager_OnLobbyListChanged;
+        LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
+        LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
         //LobbyManager.Instance.OnJoinedLobby += LobbyManager_OnJoinedLobby;
-        LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
-        LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
+        // LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
+        // LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
     }
 
     private void LobbyManager_OnLobbyListChanged(object sender, LobbyManager.OnLobbyListChangedEventArgs e)
@@ -59,20 +61,27 @@ public class LobbyListUI : MonoBehaviour
         UpdateLobbyList(e.lobbyList);
     }
 
+    private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
+    {
+        LobbyManager.Instance.OnLobbyListChanged -= LobbyManager_OnLobbyListChanged;
+        LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+        LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+    }
+
     // private void LobbyManager_OnJoinedLobby(object sender, LobbyManager.LobbyEventArgs e)
     // {
     //     Hide();
     // }
 
-    private void LobbyManager_OnLeftLobby(object sender, EventArgs e)
-    {
-        //Show();
-    }
+    // private void LobbyManager_OnLeftLobby(object sender, EventArgs e)
+    // {
+    //     //Show();
+    // }
 
-    private void LobbyManager_OnKickedFromLobby(object sender, EventArgs e)
-    {
-        Show();
-    }
+    // private void LobbyManager_OnKickedFromLobby(object sender, EventArgs e)
+    // {
+    //     //Show();
+    // }
 
     // private void LobbyManager_OnJoinedLobbyByCode(object sender, LobbyManager.LobbyEventArgs e) {
     //     Hide();
