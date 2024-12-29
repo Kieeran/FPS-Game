@@ -166,7 +166,8 @@ public class LobbyManager : MonoBehaviour
 
                         // Show Lobby Create UI when kicked
                         // LobbyUI.Instance.Hide();
-                        LobbyListUI.Instance.Show();
+                        //LobbyListUI.Instance.Show();
+                        GameSceneManager.Instance.LoadPreviousScene();
                         return;
                     }
 
@@ -203,7 +204,6 @@ public class LobbyManager : MonoBehaviour
             }
         }
     }
-
 
     public Lobby GetJoinedLobby()
     {
@@ -447,6 +447,8 @@ public class LobbyManager : MonoBehaviour
                 joinedLobby = null;
 
                 OnLeftLobby?.Invoke(this, EventArgs.Empty);
+
+                GameSceneManager.Instance.LoadPreviousScene();
             }
             catch (LobbyServiceException e)
             {
