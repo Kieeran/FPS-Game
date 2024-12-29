@@ -10,7 +10,8 @@ using Unity.Services.Lobbies.Models;
 public class SlotManager : MonoBehaviour
 {
     public static SlotManager Instance { get; private set; }
-    public SlotPlayer prefabSlotPlayer;
+    [SerializeField] private SlotPlayer prefabSlotPlayer;
+    [SerializeField] private Camera mainCamera;
 
     private void Awake()
     {
@@ -49,6 +50,8 @@ public class SlotManager : MonoBehaviour
             );
 
             slotPlayer.UpdatePlayer(lobby.Players[i]);
+
+            slotPlayer.GetSlotCanvas().worldCamera = mainCamera;
         }
     }
 

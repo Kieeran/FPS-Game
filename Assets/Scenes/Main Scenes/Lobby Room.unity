@@ -566,6 +566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabSlotPlayer: {fileID: 3598640430102641381, guid: cf67a7d4fc6e7e642a222a7e78575456, type: 3}
+  mainCamera: {fileID: 1883349387}
 --- !u!1 &318175862
 GameObject:
   m_ObjectHideFlags: 0
@@ -2623,7 +2624,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0

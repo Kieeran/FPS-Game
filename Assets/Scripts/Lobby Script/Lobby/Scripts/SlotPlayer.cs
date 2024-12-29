@@ -10,6 +10,9 @@ public class SlotPlayer : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerNameText;
     [SerializeField] private Button kickPlayerButton;
     [SerializeField] private Button openKickPlayerButton;
+    [SerializeField] private Canvas slotCanvas;
+
+    public Canvas GetSlotCanvas() { return slotCanvas; }
 
     private Player player;
 

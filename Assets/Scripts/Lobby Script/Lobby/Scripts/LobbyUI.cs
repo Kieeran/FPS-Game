@@ -28,7 +28,6 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private Button startGameButton;
     [SerializeField] private TextMeshProUGUI lobbyCode;
 
-
     private void Awake()
     {
         Instance = this;
