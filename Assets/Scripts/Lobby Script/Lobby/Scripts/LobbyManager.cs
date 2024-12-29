@@ -165,7 +165,7 @@ public class LobbyManager : MonoBehaviour
                         joinedLobby = null;
 
                         // Show Lobby Create UI when kicked
-                        LobbyUI.Instance.Hide();
+                        // LobbyUI.Instance.Hide();
                         LobbyListUI.Instance.Show();
                         return;
                     }
@@ -192,7 +192,7 @@ public class LobbyManager : MonoBehaviour
                     Debug.LogWarning("The lobby has been set to private or is no longer accessible. Redirecting to the Lobby List UI.");
 
                     // Assume the lobby is no longer accessible - handle this by redirecting
-                    LobbyUI.Instance.Hide();
+                    // LobbyUI.Instance.Hide();
                     LobbyListUI.Instance.Show();
                     return;
                 }
