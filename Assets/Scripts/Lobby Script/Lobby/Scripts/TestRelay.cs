@@ -31,11 +31,11 @@ public class TestRelay : MonoBehaviour
     }
 
     [Command]
-    public async Task<string> CreateRelay()
+    public async Task<string> CreateRelay(int playerNum)
     {
         try
         {
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(playerNum);
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 

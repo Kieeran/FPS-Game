@@ -493,7 +493,7 @@ public class LobbyManager : MonoBehaviour
             {
                 // Debug.Log("StartGame");
 
-                string relayCode = await TestRelay.Instance.CreateRelay();
+                string relayCode = await TestRelay.Instance.CreateRelay(joinedLobby.Players.Count);
 
                 Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
                 {
