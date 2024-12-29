@@ -144,7 +144,6 @@ public class LobbyManager : MonoBehaviour
 
             try
             {
-
                 // Attempt to get lobby details
                 joinedLobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
 
@@ -169,7 +168,7 @@ public class LobbyManager : MonoBehaviour
                         TestRelay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                     }
 
-                    joinedLobby = null;
+                    //joinedLobby = null;
 
                     OnGameStarted?.Invoke(this, EventArgs.Empty);
                 }

@@ -1882,6 +1882,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAssetsInputs: {fileID: 7795738832339507943}
   escapeUI: {fileID: 4899559789729042288}
+  quitGameButton: {fileID: 2505009646391887672}
 --- !u!114 &5948730102944647971
 MonoBehaviour:
   m_ObjectHideFlags: 0
