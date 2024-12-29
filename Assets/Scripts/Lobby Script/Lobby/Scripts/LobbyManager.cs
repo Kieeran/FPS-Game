@@ -149,14 +149,6 @@ public class LobbyManager : MonoBehaviour
                     // Attempt to get lobby details
                     joinedLobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
 
-                    if (joinedLobby == null)
-                    {
-                        Debug.LogWarning("Failed to retrieve lobby details. Lobby might have been deleted.");
-                        return;
-                    }
-
-                    OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
-
                     if (!IsPlayerInLobby())
                     {
                         // Player was kicked out of this lobby
@@ -164,12 +156,17 @@ public class LobbyManager : MonoBehaviour
 
                         joinedLobby = null;
 
-                        // Show Lobby Create UI when kicked
-                        // LobbyUI.Instance.Hide();
-                        //LobbyListUI.Instance.Show();
                         GameSceneManager.Instance.LoadPreviousScene();
                         return;
                     }
+
+                    // if (joinedLobby == null)
+                    // {
+                    //     Debug.LogWarning("Failed to retrieve lobby details. Lobby might have been deleted.");
+                    //     return;
+                    // }
+
+                    OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
 
                     if (joinedLobby != null && joinedLobby.Data[KEY_START_GAME].Value != "0")
                     {

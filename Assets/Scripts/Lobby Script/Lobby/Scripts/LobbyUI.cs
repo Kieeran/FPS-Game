@@ -74,9 +74,8 @@ public class LobbyUI : MonoBehaviour
     {
         LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
-        // LobbyManager.Instance.OnLobbyGameModeChanged += UpdateLobby_Event;
-        LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
-        LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
+        LobbyManager.Instance.OnLeftLobby += LobbyManager_OnOutLobby;
+        LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnOutLobby;
         LobbyManager.Instance.OnGameStarted += LobbyManager_OnGameStarted;
     }
 
@@ -87,18 +86,29 @@ public class LobbyUI : MonoBehaviour
         // ChatCanvasUI.Instance.Show();
     }
 
-    private void LobbyManager_OnLeftLobby(object sender, System.EventArgs e)
-    {
-        LobbyManager.joinedLobby = null;
-    }
-
-    private void LobbyManager_OnKickedFromLobby(object sender, System.EventArgs e)
+    private void LobbyManager_OnOutLobby(object sender, System.EventArgs e)
     {
         LobbyManager.joinedLobby = null;
 
-        // Show Lobby Create UI when kicked
-        LobbyListUI.Instance.Show();
+        LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+        LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+        LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnOutLobby;
+        LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnOutLobby;
+        LobbyManager.Instance.OnGameStarted -= LobbyManager_OnGameStarted;
     }
+
+    // private void LobbyManager_OnLeftLobby(object sender, System.EventArgs e)
+    // {
+    //     LobbyManager.joinedLobby = null;
+    // }
+
+    // private void LobbyManager_OnKickedFromLobby(object sender, System.EventArgs e)
+    // {
+    //     LobbyManager.joinedLobby = null;
+
+    //     // Show Lobby Create UI when kicked
+    //     LobbyListUI.Instance.Show();
+    // }
 
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
     {

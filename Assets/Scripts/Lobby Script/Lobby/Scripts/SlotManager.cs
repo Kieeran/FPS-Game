@@ -22,8 +22,20 @@ public class SlotManager : MonoBehaviour
     {
         LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
-        LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnKickedFromLobby;
+        LobbyManager.Instance.OnLeftLobby += LobbyManager_OnOutLobby;
+        LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnOutLobby;
     }
+
+    private void LobbyManager_OnOutLobby(object sender, System.EventArgs e)
+    {
+        LobbyManager.joinedLobby = null;
+
+        LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+        LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+        LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnOutLobby;
+        LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnOutLobby;
+    }
+
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
     {
         if (LobbyManager.Instance.GetJoinedLobby() == null) return;
@@ -64,12 +76,12 @@ public class SlotManager : MonoBehaviour
         }
     }
 
-    private void LobbyManager_OnKickedFromLobby(object sender, LobbyManager.LobbyEventArgs e)
-    {
-        LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
-        LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
-        LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnKickedFromLobby;
+    // private void LobbyManager_OnKickedFromLobby(object sender, LobbyManager.LobbyEventArgs e)
+    // {
+    //     LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+    //     LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+    //     LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnKickedFromLobby;
 
-        GameSceneManager.Instance.LoadPreviousScene();
-    }
+    //     GameSceneManager.Instance.LoadPreviousScene();
+    // }
 }
