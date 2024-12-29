@@ -19,6 +19,13 @@ public class GameManager : NetworkBehaviour
 
     [SerializeField] private GameObject scoreboard;
 
+    private void EnableCamera()
+    {
+        playerCamera.gameObject.SetActive(true);
+        playerFollowCamera.gameObject.SetActive(true);
+        //playerUI.gameObject.SetActive(true);
+    }
+
     void Start()
     {
         Scene currentScene = SceneManager.GetActiveScene();
@@ -37,20 +44,20 @@ public class GameManager : NetworkBehaviour
 
     void Update()
     {
-        if (currentIndex == 2)
-        {
-            Destroy(_camera);
-            EnableCamera();
-        }
+        // if (currentIndex == 2)
+        // {
+        //     Destroy(_camera);
+        //     EnableCamera();
+        // }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            scoreboard.SetActive(true);
-        }
-        else if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            scoreboard.SetActive(false);
-        }
+        // if (Input.GetKeyDown(KeyCode.Tab))
+        // {
+        //     scoreboard.SetActive(true);
+        // }
+        // else if (Input.GetKeyUp(KeyCode.Tab))
+        // {
+        //     scoreboard.SetActive(false);
+        // }
 
         // // LoadChatUI();
     }
@@ -62,17 +69,10 @@ public class GameManager : NetworkBehaviour
     //     }
     // }
 
-    public void EnableCamera()
-    {
-        playerCamera.gameObject.SetActive(true);
-        playerFollowCamera.gameObject.SetActive(true);
-        //playerUI.gameObject.SetActive(true);
-    }
+    // public static Dictionary<string, Player> players = new Dictionary<string, Player>();
 
-    public static Dictionary<string, Player> players = new Dictionary<string, Player>();
-
-    public static Player[] GetAllPlayers()
-    {
-        return players.Values.ToArray();
-    }
+    // public static Player[] GetAllPlayers()
+    // {
+    //     return players.Values.ToArray();
+    // }
 }

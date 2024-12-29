@@ -20,10 +20,14 @@ public class TestRelay : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
-            Destroy(Instance);
-        else
-            Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     [Command]
