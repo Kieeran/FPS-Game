@@ -9,12 +9,16 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
     [SerializeField] private Image escapeUI;
 
+    // public Image GetEscapeUI() { return escapeUI; }
+
     // Update is called once per frame
     void Update()
     {
         if (playerAssetsInputs.escapeUI == true)
         {
             escapeUI.gameObject.SetActive(!escapeUI.gameObject.activeSelf);
+
+            Cursor.lockState = !escapeUI.gameObject.activeSelf ? CursorLockMode.Locked : CursorLockMode.None;
 
             playerAssetsInputs.escapeUI = false;
         }

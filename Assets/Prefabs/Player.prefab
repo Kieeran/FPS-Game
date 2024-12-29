@@ -1834,8 +1834,9 @@ MonoBehaviour:
   playerController: {fileID: 3776603355074829376}
   playerShoot: {fileID: 6360967479396315239}
   playerTakeDamage: {fileID: 4530824154142287168}
+  _playerUI: {fileID: 610120243110111006}
   health: {fileID: 3001421045714532504}
-  playerUI: {fileID: 7296115850594942430}
+  playerUI: {fileID: 3467197557248155166}
 --- !u!114 &411114129890139701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1874,7 +1875,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3086927271415625819}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b46154c6a57c5194cb8179ee92e860e7, type: 3}
   m_Name: 

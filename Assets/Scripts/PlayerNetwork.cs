@@ -21,10 +21,11 @@ public class PlayerNetwork : NetworkBehaviour
     public PlayerController playerController;
     public PlayerShoot playerShoot;
     public PlayerTakeDamage playerTakeDamage;
+    public PlayerUI _playerUI;
 
     public Image health;
 
-    public GameObject playerUI;
+    public Canvas playerUI;
 
     private void EnableScripts()
     {
@@ -33,6 +34,7 @@ public class PlayerNetwork : NetworkBehaviour
         playerController.enabled = true;
         playerShoot.enabled = true;
         playerTakeDamage.enabled = true;
+        _playerUI.enabled = true;
 
         playerUI.gameObject.SetActive(true);
     }
