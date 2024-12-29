@@ -157,12 +157,6 @@ public class LobbyManager : MonoBehaviour
                     return;
                 }
 
-                // if (joinedLobby == null)
-                // {
-                //     Debug.LogWarning("Failed to retrieve lobby details. Lobby might have been deleted.");
-                //     return;
-                // }
-
                 OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
 
                 if (joinedLobby != null && joinedLobby.Data[KEY_START_GAME].Value != "0")
@@ -170,6 +164,8 @@ public class LobbyManager : MonoBehaviour
                     // Start Game!
                     if (!IsLobbyHost()) // Lobby Host already joined Relay
                     {
+                        GameSceneManager.Instance.LoadNextScene();
+
                         TestRelay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                     }
 

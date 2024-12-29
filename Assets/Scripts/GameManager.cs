@@ -30,13 +30,13 @@ public class GameManager : NetworkBehaviour
     //     //playerUI.gameObject.SetActive(true);
     // }
 
-    void Start()
-    {
-        // Scene currentScene = SceneManager.GetActiveScene();
-        // currentIndex = currentScene.buildIndex;
+    // void Start()
+    // {
+    //     Scene currentScene = SceneManager.GetActiveScene();
+    //     currentIndex = currentScene.buildIndex;
 
-        // scoreboard.SetActive(false);
-    }
+    //     scoreboard.SetActive(false);
+    // }
 
     void Awake()
     {
