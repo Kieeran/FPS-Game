@@ -510,4 +510,23 @@ public class LobbyManager : MonoBehaviour
             }
         }
     }
+
+    public async void ExitGame()
+    {
+        try
+        {
+            Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
+            {
+                Data = new Dictionary<string, DataObject> {
+                        { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0") }
+                    }
+            });
+
+            joinedLobby = lobby;
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
 }

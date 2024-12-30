@@ -21,13 +21,38 @@ public class PlayerUI : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
+        if (!LobbyManager.Instance.IsLobbyHost()) quitGameButton.gameObject.SetActive(false);
+
         quitGameButton.onClick.AddListener(() =>
         {
             if (IsOwner == false) return;
 
+            // Gửi sự kiện cho tất cả Client để xử lý thoát game
+            NotifyClientsToQuit_ServerRpc();
+
             NetworkManager.Singleton.Shutdown();
+            LobbyManager.Instance.ExitGame();
             GameSceneManager.Instance.LoadPreviousScene();
         });
+    }
+
+    // RPC để thông báo Client thoát
+    [ServerRpc]
+    private void NotifyClientsToQuit_ServerRpc()
+    {
+        NotifyClientsToQuit_ClientRpc();
+    }
+
+    [ClientRpc]
+    private void NotifyClientsToQuit_ClientRpc()
+    {
+        // Hành động cho từng Client khi host thoát
+        if (!IsOwner)
+        {
+            NetworkManager.Singleton.Shutdown();
+            LobbyManager.Instance.ExitGame();
+            GameSceneManager.Instance.LoadPreviousScene();
+        }
     }
 
     void Update()
