@@ -18,9 +18,9 @@ public class PlayerNetwork : NetworkBehaviour
     // private NetworkVariable<int> killCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     // private NetworkVariable<int> deathCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    private NetworkVariable<FixedString32Bytes> playerName = new NetworkVariable<FixedString32Bytes>("Playername", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    private NetworkVariable<int> killCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    private NetworkVariable<int> deathCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    // public NetworkVariable<FixedString32Bytes> playerName = new NetworkVariable<FixedString32Bytes>("Playername", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    // public NetworkVariable<int> killCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    // public NetworkVariable<int> deathCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     // public TMP_Text tMP_Text;
 
@@ -42,7 +42,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (IsOwner == true)
         {
             EnableScripts();
-            InitializeValues(OwnerClientId);
+            //InitializeValues(OwnerClientId);
 
             CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
             if (_camera != null)
@@ -91,34 +91,34 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
-    private void InitializeValues(ulong targetClientId)
-    {
-        InitializeValues_ServerRpc(
-            LobbyManager.Instance.GetPlayerName(),
-            0,
-            0,
-            targetClientId
-        );
+    // private void InitializeValues(ulong targetClientId)
+    // {
+    //     InitializeValues_ServerRpc(
+    //         LobbyManager.Instance.GetPlayerName(),
+    //         0,
+    //         0,
+    //         targetClientId
+    //     );
 
-        // if (!IsOwner) return;
+    //     // if (!IsOwner) return;
 
-        // //playerName.Value = LobbyManager.Instance.GetPlayerName();
-        // killCount.Value = 2;
-        // deathCount.Value = 12;
-    }
+    //     // //playerName.Value = LobbyManager.Instance.GetPlayerName();
+    //     // killCount.Value = 2;
+    //     // deathCount.Value = 12;
+    // }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void InitializeValues_ServerRpc(string playerName, int killCount, int deathCount, ulong targetClientId)
-    {
-        // Tìm đối tượng của client mục tiêu
-        var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
-        if (targetPlayer.TryGetComponent<PlayerNetwork>(out var player))
-        {
-            this.playerName.Value = playerName;
-            this.killCount.Value = killCount;
-            this.deathCount.Value = deathCount;
-        }
-    }
+    // [ServerRpc(RequireOwnership = false)]
+    // public void InitializeValues_ServerRpc(string playerName, int killCount, int deathCount, ulong targetClientId)
+    // {
+    //     // Tìm đối tượng của client mục tiêu
+    //     var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
+    //     if (targetPlayer.TryGetComponent<PlayerNetwork>(out var player))
+    //     {
+    //         this.playerName.Value = playerName;
+    //         this.killCount.Value = killCount;
+    //         this.deathCount.Value = deathCount;
+    //     }
+    // }
 
     void Update()
     {
