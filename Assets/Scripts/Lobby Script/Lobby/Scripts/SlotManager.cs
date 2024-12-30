@@ -32,20 +32,34 @@ public class SlotManager : MonoBehaviour
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnOutLobby;
     }
 
+    private void OnDestroy()
+    {
+        if (LobbyManager.Instance != null)
+        {
+            LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+            LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+        }
+    }
+
     private void LobbyManager_OnOutLobby(object sender, System.EventArgs e)
     {
         LobbyManager.joinedLobby = null;
 
-        LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
-        LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
-        LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnOutLobby;
-        LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnOutLobby;
+        // LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+        // LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+        // LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnOutLobby;
+        // LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnOutLobby;
 
         GameSceneManager.Instance.LoadPreviousScene();
     }
 
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
     {
+        if (this == null || !this.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         if (LobbyManager.Instance.GetJoinedLobby() == null)
         {
             Debug.Log("JoinedLobby null!");

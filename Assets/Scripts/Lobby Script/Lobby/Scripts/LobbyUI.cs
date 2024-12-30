@@ -80,8 +80,8 @@ public class LobbyUI : MonoBehaviour
     {
         LobbyManager.Instance.OnJoinedLobby += UpdateLobby_Event;
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
-        LobbyManager.Instance.OnLeftLobby += LobbyManager_OnOutLobby;
-        LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnOutLobby;
+        // LobbyManager.Instance.OnLeftLobby += LobbyManager_OnOutLobby;
+        // LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnOutLobby;
         LobbyManager.Instance.OnGameStarted += LobbyManager_OnGameStarted;
     }
 
@@ -92,15 +92,27 @@ public class LobbyUI : MonoBehaviour
         // ChatCanvasUI.Instance.Show();
     }
 
+    private void OnDestroy()
+    {
+        if (LobbyManager.Instance != null)
+        {
+            LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+            LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+            LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnOutLobby;
+            LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnOutLobby;
+            LobbyManager.Instance.OnGameStarted -= LobbyManager_OnGameStarted;
+        }
+    }
+
     private void LobbyManager_OnOutLobby(object sender, System.EventArgs e)
     {
         LobbyManager.joinedLobby = null;
 
-        LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
-        LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
-        LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnOutLobby;
-        LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnOutLobby;
-        LobbyManager.Instance.OnGameStarted -= LobbyManager_OnGameStarted;
+        // LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+        // LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+        // LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnOutLobby;
+        // LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnOutLobby;
+        // LobbyManager.Instance.OnGameStarted -= LobbyManager_OnGameStarted;
     }
 
     // private void LobbyManager_OnLeftLobby(object sender, System.EventArgs e)
@@ -128,7 +140,12 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateLobby(Lobby lobby)
     {
-        Debug.Log(lobby);
+        if (this == null || !this.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
+        //Debug.Log(lobby);
 
         ShowLobbyCode();
         startGameButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
