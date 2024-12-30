@@ -73,11 +73,47 @@ public class LobbyListUI : MonoBehaviour
         UpdateLobbyList(e.lobbyList);
     }
 
+    private void OnDestroy()
+    {
+        if (LobbyManager.Instance != null)
+        {
+            LobbyManager.Instance.OnLobbyListChanged -= LobbyManager_OnLobbyListChanged;
+            LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+            LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+
+            refreshButton.onClick.RemoveListener(() =>
+            {
+                LobbyManager.Instance.RefreshLobbyList();
+            });
+
+            createLobbyButton.onClick.RemoveListener(() =>
+            {
+                LobbyCreateUI.Instance.Show();
+
+                Hide();
+            });
+
+            joinButton.onClick.RemoveListener(() =>
+            {
+                LobbyManager.Instance.JoinLobbyByCode(lobbyCodeInput.text);
+            });
+
+            exitGameButton.onClick.RemoveListener(() =>
+            {
+#if UNITY_EDITOR
+                EditorApplication.isPlaying = false;
+#else
+                    Application.Quit();
+#endif
+            });
+        }
+    }
+
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
     {
-        LobbyManager.Instance.OnLobbyListChanged -= LobbyManager_OnLobbyListChanged;
-        LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
-        LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
+        // LobbyManager.Instance.OnLobbyListChanged -= LobbyManager_OnLobbyListChanged;
+        // LobbyManager.Instance.OnJoinedLobby -= UpdateLobby_Event;
+        // LobbyManager.Instance.OnJoinedLobbyUpdate -= UpdateLobby_Event;
     }
 
     // private void LobbyManager_OnJoinedLobby(object sender, LobbyManager.LobbyEventArgs e)
@@ -104,6 +140,11 @@ public class LobbyListUI : MonoBehaviour
         if (container == null)
         {
             Debug.Log("There's no lobby in the list");
+            return;
+        }
+
+        if (this == null || !this.gameObject.activeInHierarchy)
+        {
             return;
         }
 

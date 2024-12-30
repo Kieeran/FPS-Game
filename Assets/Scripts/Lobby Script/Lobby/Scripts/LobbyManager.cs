@@ -72,7 +72,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Update()
     {
-        //HandleRefreshLobbyList(); // Disabled Auto Refresh for testing with multiple builds
+        HandleRefreshLobbyList(); // Disabled Auto Refresh for testing with multiple builds
         HandleLobbyHeartbeat();
         HandleLobbyPolling();
     }
@@ -182,8 +182,9 @@ public class LobbyManager : MonoBehaviour
                     Debug.LogWarning("The lobby has been set to private or is no longer accessible. Redirecting to the Lobby List UI.");
 
                     // Assume the lobby is no longer accessible - handle this by redirecting
-                    // LobbyUI.Instance.Hide();
-                    LobbyListUI.Instance.Show();
+                    GameSceneManager.Instance.LoadPreviousScene();
+
+                    joinedLobby = null;
                     return;
                 }
             }
