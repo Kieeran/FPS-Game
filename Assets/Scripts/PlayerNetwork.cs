@@ -9,10 +9,18 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using TMPro;
+using Unity.Collections;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-    private NetworkVariable<int> randomNumber = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    // private NetworkVariable<int> randomNumber = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    // private NetworkVariable<string> playerName = new NetworkVariable<string>("Playername", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    // private NetworkVariable<int> killCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    // private NetworkVariable<int> deathCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    private NetworkVariable<FixedString32Bytes> playerName = new NetworkVariable<FixedString32Bytes>("Playername", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private NetworkVariable<int> killCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private NetworkVariable<int> deathCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     // public TMP_Text tMP_Text;
 
@@ -26,6 +34,27 @@ public class PlayerNetwork : NetworkBehaviour
     public Image health;
 
     public Canvas playerUI;
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (IsOwner == true)
+        {
+            EnableScripts();
+            InitializeValues(OwnerClientId);
+
+            CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
+            if (_camera != null)
+            {
+                Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
+
+                if (playerCameraRoot != null) _camera.Follow = playerCameraRoot;
+
+                Debug.Log(playerCameraRoot.name);
+            }
+        }
+    }
 
     private void EnableScripts()
     {
@@ -62,23 +91,32 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkSpawn()
+    private void InitializeValues(ulong targetClientId)
     {
-        base.OnNetworkSpawn();
+        InitializeValues_ServerRpc(
+            LobbyManager.Instance.GetPlayerName(),
+            0,
+            0,
+            targetClientId
+        );
 
-        if (IsOwner == true)
+        // if (!IsOwner) return;
+
+        // //playerName.Value = LobbyManager.Instance.GetPlayerName();
+        // killCount.Value = 2;
+        // deathCount.Value = 12;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void InitializeValues_ServerRpc(string playerName, int killCount, int deathCount, ulong targetClientId)
+    {
+        // Tìm đối tượng của client mục tiêu
+        var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
+        if (targetPlayer.TryGetComponent<PlayerNetwork>(out var player))
         {
-            EnableScripts();
-
-            CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
-            if (_camera != null)
-            {
-                Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
-
-                if (playerCameraRoot != null) _camera.Follow = playerCameraRoot;
-
-                Debug.Log(playerCameraRoot.name);
-            }
+            this.playerName.Value = playerName;
+            this.killCount.Value = killCount;
+            this.deathCount.Value = deathCount;
         }
     }
 
@@ -110,16 +148,4 @@ public class PlayerNetwork : NetworkBehaviour
         //     }
         // }
     }
-
-    // [ServerRpc(RequireOwnership = false)]
-    // [ServerRpc]
-    // public void ChangeRandomNumberServerRpc(int num, ulong targetClientId)
-    // {
-    //     // Tìm đối tượng của client mục tiêu
-    //     var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
-    //     if (targetPlayer.TryGetComponent<PlayerNetwork>(out var player))
-    //     {
-    //         player.randomNumber.Value = num;
-    //     }
-    // }
 }

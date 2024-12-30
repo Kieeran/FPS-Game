@@ -13,6 +13,8 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] private Button quitGameButton;
     [SerializeField] private GameObject scoreBoard;
 
+    [SerializeField] private Transform container;
+
     // public Image GetEscapeUI() { return escapeUI; }
 
     public override void OnNetworkSpawn()
