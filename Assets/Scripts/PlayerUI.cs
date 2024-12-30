@@ -11,6 +11,7 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
     [SerializeField] private Image escapeUI;
     [SerializeField] private Button quitGameButton;
+    [SerializeField] private GameObject scoreBoard;
 
     // public Image GetEscapeUI() { return escapeUI; }
 
@@ -36,6 +37,13 @@ public class PlayerUI : NetworkBehaviour
             Cursor.lockState = !escapeUI.gameObject.activeSelf ? CursorLockMode.Locked : CursorLockMode.None;
 
             playerAssetsInputs.escapeUI = false;
+        }
+
+        if (playerAssetsInputs.openScoreboard == true)
+        {
+            scoreBoard.gameObject.SetActive(!scoreBoard.gameObject.activeSelf);
+
+            playerAssetsInputs.openScoreboard = false;
         }
     }
 }

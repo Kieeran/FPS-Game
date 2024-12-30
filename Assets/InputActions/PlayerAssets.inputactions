@@ -87,6 +87,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "OpenScoreboard",
+                    "type": "Button",
+                    "id": "0ad3245e-a7b8-4ea5-82f3-3c2e32c5510b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Hotkey1",
                     "type": "Button",
                     "id": "42d6dc3f-f5b0-4bec-a7d1-a23a3973839c",
@@ -367,7 +376,7 @@
                 {
                     "name": "",
                     "id": "1c2a5728-ed8b-4237-b308-c1d73b315b0d",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -416,6 +425,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb101ec8-cb91-44a5-bac5-4567c1a077b4",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "OpenScoreboard",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

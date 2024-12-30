@@ -1703,7 +1703,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6308632126101113878}
-  - component: {fileID: 8733543142589165113}
   m_Layer: 5
   m_Name: Scoreboard
   m_TagString: Untagged
@@ -1734,25 +1733,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8733543142589165113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2149139602982937363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1c657aa120c4114fbbcb24fd9d206e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lobbySingleTemplate: {fileID: 5311010428326050897}
-  container: {fileID: 7071621261489479138}
-  refreshButton: {fileID: 0}
-  createLobbyButton: {fileID: 0}
-  lobbyCodeInput: {fileID: 0}
-  joinButton: {fileID: 0}
-  exitGameButton: {fileID: 0}
 --- !u!1 &2197172021630789746
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,6 +2574,7 @@ MonoBehaviour:
   playerAssetsInputs: {fileID: 7795738832339507943}
   escapeUI: {fileID: 4899559789729042288}
   quitGameButton: {fileID: 2505009646391887672}
+  scoreBoard: {fileID: 2149139602982937363}
 --- !u!114 &5948730102944647971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2670,6 +2651,7 @@ MonoBehaviour:
   shoot: 0
   reload: 0
   openInventory: 0
+  openScoreboard: 0
   interact: 0
   hotkey1: 0
   hotkey2: 0
@@ -4854,7 +4836,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4702462702862471269
 RectTransform:
   m_ObjectHideFlags: 0

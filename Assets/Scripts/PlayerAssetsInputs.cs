@@ -16,6 +16,7 @@ namespace PlayerAssets
 		public bool shoot;
 		public bool reload;
 		public bool openInventory;
+		public bool openScoreboard;
 		public bool interact;
 		public bool hotkey1;
 		public bool hotkey2;
@@ -77,6 +78,11 @@ namespace PlayerAssets
 		public void OnOpenInventory(InputValue value)
 		{
 			OpenInventoryInput(value.isPressed);
+		}
+
+		public void OnOpenScoreboard(InputValue value)
+		{
+			OpenScoreboardInput(value.isPressed);
 		}
 
 		public void OnHotkey1(InputValue value)
@@ -149,6 +155,11 @@ namespace PlayerAssets
 		public void OpenInventoryInput(bool newOpenInventoryState)
 		{
 			openInventory = newOpenInventoryState;
+		}
+
+		public void OpenScoreboardInput(bool newOpenScoreboardState)
+		{
+			openScoreboard = newOpenScoreboardState;
 		}
 
 		public void Hotkey1Input(bool newHotkey1State)
