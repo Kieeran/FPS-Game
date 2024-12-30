@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class LobbyListUI : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class LobbyListUI : MonoBehaviour
     [SerializeField] private Button createLobbyButton;
     [SerializeField] private TMP_InputField lobbyCodeInput;
     [SerializeField] private Button joinButton;
+
+    [SerializeField] private Button exitGameButton;
 
     private void Awake()
     {
@@ -41,6 +44,15 @@ public class LobbyListUI : MonoBehaviour
         joinButton.onClick.AddListener(() =>
         {
             LobbyManager.Instance.JoinLobbyByCode(lobbyCodeInput.text);
+        });
+
+        exitGameButton.onClick.AddListener(() =>
+        {
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         });
 
         // Hide();
