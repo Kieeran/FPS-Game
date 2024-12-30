@@ -30,6 +30,12 @@ public class LobbyUI : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
 
         // playerSingleTemplate.gameObject.SetActive(false);
@@ -122,6 +128,8 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateLobby(Lobby lobby)
     {
+        Debug.Log(lobby);
+
         ShowLobbyCode();
         startGameButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
         lobbyNameText.text = lobby.Name;

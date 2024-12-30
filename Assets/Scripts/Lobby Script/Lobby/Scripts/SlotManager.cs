@@ -15,6 +15,12 @@ public class SlotManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
     }
 
@@ -40,7 +46,11 @@ public class SlotManager : MonoBehaviour
 
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
     {
-        if (LobbyManager.Instance.GetJoinedLobby() == null) return;
+        if (LobbyManager.Instance.GetJoinedLobby() == null)
+        {
+            Debug.Log("JoinedLobby null!");
+            return;
+        }
 
         Lobby lobby = LobbyManager.Instance.GetJoinedLobby();
 

@@ -20,12 +20,10 @@ public class PlayerUI : NetworkBehaviour
 
         quitGameButton.onClick.AddListener(() =>
         {
-            if (NetworkManager.Singleton.IsClient)
-            {
-                NetworkManager.Singleton.Shutdown();
+            if (IsOwner == false) return;
 
-                GameSceneManager.Instance.LoadPreviousScene();
-            }
+            NetworkManager.Singleton.Shutdown();
+            GameSceneManager.Instance.LoadPreviousScene();
         });
     }
 
