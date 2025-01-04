@@ -18,6 +18,11 @@ Netcode for GameObjects (Netcode) is a high-level networking library built for U
 ![image](https://github.com/user-attachments/assets/f0758b91-1a1f-403a-b43b-79ce49d11983)
 
   Unity Relay exposes a way for game developers to securely offer increased connectivity between players by using a join code style workflow without needing to invest in a third-party solution, maintain dedicated game servers (DGS), or worry about the network complexities of a peer-to-peer game. Instead of using DGS, the Relay service provides connectivity through a universal Relay server acting as a proxy.
+
+- [Unity Lobby](https://docs.unity.com/ugs/manual/lobby/manual/unity-lobby-service)
+![image](https://github.com/user-attachments/assets/7f8c9cde-6f60-4409-b2a5-0998f084625a)
+
+The Lobby service provides a way for players to discover and connect to each other to accomplish a variety of multiplayer gaming scenarios. The Lobby can persist for the duration of the game session to provide a mechanism for users to re-join an existing game session or facilitate host-migration after an unexpected disconnect.
   
 ## Status
 This project is not yet completed. I will update it in the future.
