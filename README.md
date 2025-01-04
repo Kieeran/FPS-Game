@@ -12,7 +12,7 @@ This project is a course assignment focused on building a multiplayer game using
 - [NGO (Netcode for GameObjects)](https://docs-multiplayer.unity3d.com/netcode/current/about/)
 ![501ec0daf62aa78f5744b0c6e973f4b373dd24d1-800x450](https://github.com/user-attachments/assets/93553ec0-aed1-4ccb-8a6f-77a7c54e79f5)
 
-Netcode for GameObjects (Netcode) is a high-level networking library built for Unity for you to abstract networking logic. It enables you to send GameObjects and world data across a networking session to many players at once. With Netcode, you can focus on building your game instead of low-level protocols and networking frameworks.
+  Netcode for GameObjects (Netcode) is a high-level networking library built for Unity for you to abstract networking logic. It enables you to send GameObjects and world data across a networking session to many players at once. With Netcode, you can focus on building your game instead of low-level protocols and networking frameworks.
 
 - [Unity Relay](https://docs.unity.com/ugs/manual/relay/manual/introduction)
 ![image](https://github.com/user-attachments/assets/f0758b91-1a1f-403a-b43b-79ce49d11983)
@@ -22,7 +22,7 @@ Netcode for GameObjects (Netcode) is a high-level networking library built for U
 - [Unity Lobby](https://docs.unity.com/ugs/manual/lobby/manual/unity-lobby-service)
 ![image](https://github.com/user-attachments/assets/7f8c9cde-6f60-4409-b2a5-0998f084625a)
 
-The Lobby service provides a way for players to discover and connect to each other to accomplish a variety of multiplayer gaming scenarios. The Lobby can persist for the duration of the game session to provide a mechanism for users to re-join an existing game session or facilitate host-migration after an unexpected disconnect.
+  The Lobby service provides a way for players to discover and connect to each other to accomplish a variety of multiplayer gaming scenarios. The Lobby can persist for the duration of the game session to provide a mechanism for users to re-join an existing game session or facilitate host-migration after an unexpected disconnect.
   
 ## Status
 This project is not yet completed. I will update it in the future.
