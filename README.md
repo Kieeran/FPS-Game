@@ -28,6 +28,8 @@ Scene 3:
 Scene 4:
 ![image](https://github.com/user-attachments/assets/745ed64a-4d97-4e91-a5ef-9c83fef7c036)
 
+Video demo: [Link]([https://github.com/Haiseus](https://www.youtube.com/watch?v=3TDs-37pTak))
+
 # Todo
 As I mention above, this project is on going there is a lot more left that needs to be worked on.
 Some of the things left to do:
@@ -39,5 +41,5 @@ Some of the things left to do:
 
 # Credits
 Specials thanks to: 
-- [Pixel Frog](https://github.com/Haiseus) - for your help with this project
+- [Haiseus](https://github.com/Haiseus) - for your help with this project
 And thanks to many more who have helped with suggestions and feedback! 
