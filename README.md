@@ -29,6 +29,7 @@ Scene 4:
 ![image](https://github.com/user-attachments/assets/745ed64a-4d97-4e91-a5ef-9c83fef7c036)
 
 Video demo: [Link video youtube](https://www.youtube.com/watch?v=3TDs-37pTak)
+Flow chart; [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
 
 # Todo
 As I mention above, this project is on going there is a lot more left that needs to be worked on.
