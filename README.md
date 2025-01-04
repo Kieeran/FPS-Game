@@ -8,12 +8,17 @@ This project is a course assignment focused on building a multiplayer game using
 - [![C#](https://img.shields.io/badge/C%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)](https://learn.microsoft.com/en-us/dotnet/csharp/)
 - [![Unity](https://img.shields.io/badge/Unity-%23000000.svg?style=for-the-badge&logo=unity&logoColor=white)](https://unity.com/)
 - [![.NET Framework](https://img.shields.io/badge/.NET_Framework-%235C2D91.svg?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/en-us/)
+
 - [NGO (Netcode for GameObjects)](https://docs-multiplayer.unity3d.com/netcode/current/about/)
 ![501ec0daf62aa78f5744b0c6e973f4b373dd24d1-800x450](https://github.com/user-attachments/assets/93553ec0-aed1-4ccb-8a6f-77a7c54e79f5)
 
 Netcode for GameObjects (Netcode) is a high-level networking library built for Unity for you to abstract networking logic. It enables you to send GameObjects and world data across a networking session to many players at once. With Netcode, you can focus on building your game instead of low-level protocols and networking frameworks.
 
+- [Unity Relay](https://docs.unity.com/ugs/manual/relay/manual/introduction)
+![image](https://github.com/user-attachments/assets/f0758b91-1a1f-403a-b43b-79ce49d11983)
 
+  Unity Relay exposes a way for game developers to securely offer increased connectivity between players by using a join code style workflow without needing to invest in a third-party solution, maintain dedicated game servers (DGS), or worry about the network complexities of a peer-to-peer game. Instead of using DGS, the Relay service provides connectivity through a universal Relay server acting as a proxy.
+  
 ## Status
 This project is not yet completed. I will update it in the future.
 
