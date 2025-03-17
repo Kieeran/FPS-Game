@@ -54,8 +54,6 @@ public class _Gun : NetworkBehaviour
 
     private void OnShoot()
     {
-        if (IsOwner == false) return;
-
         // if (magazine.IsMagazineEmpty()) return;
         // if (magazine.IsReloading()) return;
 
