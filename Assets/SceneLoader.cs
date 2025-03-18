@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
+    public static SceneLoader Instance;
     public GameObject loadingScreen;
     public Slider slider;
     public TextMeshProUGUI progressText;
