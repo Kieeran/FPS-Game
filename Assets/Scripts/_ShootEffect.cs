@@ -8,11 +8,7 @@ public class _ShootEffect : NetworkBehaviour
 {
     [SerializeField] private bool IsRifle;
     [SerializeField] private bool IsPistol;
-
-    // Muzzle flash
-    [SerializeField] private Image muzzleFlash;
     public Canvas canvas;
-    public float muzzleFlashCD;
 
     // Weapon recoil
     [SerializeField] private bool enableRecoil;
@@ -27,7 +23,6 @@ public class _ShootEffect : NetworkBehaviour
         if (IsOwner)
         {
             canvas.gameObject.SetActive(true);
-            muzzleFlash.gameObject.SetActive(false);
         }
     }
 
@@ -44,9 +39,8 @@ public class _ShootEffect : NetworkBehaviour
         {
             StartCoroutine(PistolRecoil());
         }
-
-        StartCoroutine(MuzzleFlash());
     }
+    
     void RifleRecoil()
     {
         if (IsOwner == false) return;
@@ -71,12 +65,5 @@ public class _ShootEffect : NetworkBehaviour
         yield return new WaitForSeconds(0.2f);
         //GetComponentInChildren<Animator>().Play("DefaultState");
         transform.Find("Glock").GetComponent<Animator>().Play("DefaultState");
-    }
-
-    IEnumerator MuzzleFlash()
-    {
-        muzzleFlash.gameObject.SetActive(true);
-        yield return new WaitForSeconds(muzzleFlashCD);
-        muzzleFlash.gameObject.SetActive(false);
     }
 }
