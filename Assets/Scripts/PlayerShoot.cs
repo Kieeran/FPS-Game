@@ -12,33 +12,7 @@ public class PlayerShoot : NetworkBehaviour
     [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
     [SerializeField] private float FireCoolDown;
 
-    [SerializeField] private PlayerHead playerHead;
-    [SerializeField] private PlayerBody playerBody;
-
-    public PlayerHead GetPlayerHead() { return playerHead; }
-    public PlayerBody GetPlayerBody() { return playerBody; }
-
     private float CurrentCoolDown;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // if (playerAssetsInputs.shoot == true)
-        // {
-        //     if (CurrentCoolDown <= 0)
-        //     {
-        //         CurrentCoolDown = FireCoolDown;
-        //         Shoot();
-        //     }
-        // }
-        // CurrentCoolDown -= Time.deltaTime;
-    }
 
     public void Shoot()
     {
