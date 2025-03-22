@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2870234222
+  GlobalObjectIdHash: 1366086082
   InScenePlacedSourceGlobalObjectIdHash: 2741875015
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -172,6 +172,7 @@ MonoBehaviour:
   playerController: {fileID: 8027391753701420316}
   playerShoot: {fileID: 3192260912160380410}
   playerTakeDamage: {fileID: 4255257213721861241}
+  _playerUI: {fileID: 0}
   health: {fileID: 4844756984787297297}
   playerUI: {fileID: 1111547672487951453}
 --- !u!114 &4566340963492515875
@@ -281,6 +282,7 @@ MonoBehaviour:
   shoot: 0
   reload: 0
   openInventory: 0
+  openScoreboard: 0
   interact: 0
   hotkey1: 0
   hotkey2: 0
@@ -1757,7 +1759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1064636498469635234
 Transform:
   m_ObjectHideFlags: 0
@@ -2030,7 +2032,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &72783221967580967
 Transform:
   m_ObjectHideFlags: 0
@@ -2095,12 +2097,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRifle: 1
   IsPistol: 0
-  muzzleFlash: {fileID: 1433257573161404623}
   canvas: {fileID: 2900712485803261427}
-  muzzleFlashCD: 0.05
   enableRecoil: 0
   randomizeRecoil: 0
-  randomRecoilConStraints: {x: 0, y: 0}
+  randomRecoilConstraints: {x: 0, y: 0}
 --- !u!114 &7440581798818636289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3170,12 +3170,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRifle: 1
   IsPistol: 0
-  muzzleFlash: {fileID: 8687860104375168925}
   canvas: {fileID: 1285445828253546031}
-  muzzleFlashCD: 0.05
   enableRecoil: 0
   randomizeRecoil: 0
-  randomRecoilConStraints: {x: 0, y: 0}
+  randomRecoilConstraints: {x: 0, y: 0}
 --- !u!114 &2762387387873287674
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,8 +6,9 @@ using UnityEngine;
 public class Explosives : Weapon
 {
     [SerializeField] private Rigidbody grenadeRB;
+    [SerializeField] private GameObject grenadePrefab;
 
-    private PlayerAssetsInputs playerAssetsInputs;
+    [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
 
     // Start is called before the first frame update
     void Start()
@@ -20,24 +21,24 @@ public class Explosives : Weapon
     // Update is called once per frame
     void Update()
     {
-        if (playerAssetsInputs.shoot == true)
-        {
-            Explosives grenade = Instantiate(WeaponManager.Instance.GetPrefabGrenade());
-            grenade.gameObject.transform.position = transform.position + new Vector3(0, 1f, 0);
+        // if (playerAssetsInputs.shoot == true)
+        // {
+        //     Explosives grenade = Instantiate(WeaponManager.Instance.GetPrefabGrenade());
+        //     grenade.gameObject.transform.position = transform.position + new Vector3(0, 1f, 0);
 
-            Rigidbody rb = grenade.GetRigibody();
-            Transform player = PlayerManager.Instance.transform;
-            float force = 20f;
+        //     Rigidbody rb = grenade.GetRigibody();
+        //     Transform player = PlayerManager.Instance.transform;
+        //     float force = 20f;
 
-            rb.useGravity = true;
-            rb.AddForce(gameObject.transform.forward * force, ForceMode.Impulse);
+        //     rb.useGravity = true;
+        //     rb.AddForce(gameObject.transform.forward * force, ForceMode.Impulse);
 
-            playerAssetsInputs.shoot = false;
+        //     playerAssetsInputs.shoot = false;
 
-            StartCoroutine(DestroyGrenade(grenade.gameObject));
+        //     StartCoroutine(DestroyGrenade(grenade.gameObject));
 
-            //gameObject.SetActive(false);
-        }
+        //     //gameObject.SetActive(false);
+        // }
     }
 
     IEnumerator DestroyGrenade(GameObject grenade)
