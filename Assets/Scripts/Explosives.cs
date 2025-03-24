@@ -1,70 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
 using PlayerAssets;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Explosives : Weapon
+public class Explosives : NetworkBehaviour
 {
-    [SerializeField] private Rigidbody grenadeRB;
     [SerializeField] private GameObject grenadePrefab;
-
+    [SerializeField] private GameObject explosiveEffectPrefab;
     [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
+    [SerializeField] private float throwForce;
 
-    // Start is called before the first frame update
-    void Start()
+    private GameObject _currentGrenade;
+    private Collider _collider;
+    private bool _onCoolDown;
+
+    public override void OnNetworkSpawn()
     {
-        //playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
+        SpawnNewGrenade();
     }
 
-    public Rigidbody GetRigibody() { return grenadeRB; }
-
-    // Update is called once per frame
     void Update()
     {
-        // if (playerAssetsInputs.shoot == true)
-        // {
-        //     Explosives grenade = Instantiate(WeaponManager.Instance.GetPrefabGrenade());
-        //     grenade.gameObject.transform.position = transform.position + new Vector3(0, 1f, 0);
+        if (playerAssetsInputs.shoot == true)
+        {
+            playerAssetsInputs.shoot = false;
 
-        //     Rigidbody rb = grenade.GetRigibody();
-        //     Transform player = PlayerManager.Instance.transform;
-        //     float force = 20f;
+            if (_onCoolDown == true) return;
 
-        //     rb.useGravity = true;
-        //     rb.AddForce(gameObject.transform.forward * force, ForceMode.Impulse);
+            _onCoolDown = true;
 
-        //     playerAssetsInputs.shoot = false;
+            _currentGrenade.gameObject.transform.parent = null;
+            Rigidbody rb = _currentGrenade.AddComponent<Rigidbody>();
 
-        //     StartCoroutine(DestroyGrenade(grenade.gameObject));
+            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            rb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+            _collider.enabled = true;
 
-        //     //gameObject.SetActive(false);
-        // }
+            StartCoroutine(DestroyGrenade(_currentGrenade));
+        }
+    }
+
+    private void SpawnNewGrenade()
+    {
+        _currentGrenade = Instantiate(grenadePrefab, transform);
+        _currentGrenade.transform.localPosition = Vector3.zero;
+
+        _collider = _currentGrenade.transform.GetComponent<Collider>();
+        _collider.enabled = false;
+
+        _onCoolDown = false;
     }
 
     IEnumerator DestroyGrenade(GameObject grenade)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(2f);
+
+        GameObject explosiveEffect = Instantiate(explosiveEffectPrefab);
+        explosiveEffect.transform.position = grenade.transform.position;
 
         if (grenade != null)
-            Destroy(grenade);
-    }
+            Destroy(grenade.gameObject);
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision != null)
-        {
-            GameObject explosiveEffect = Instantiate(WeaponManager.Instance.GetExplosiveEffect());
-            explosiveEffect.transform.position = gameObject.transform.position;
-            StartCoroutine(DestroyExplosiveEffect(explosiveEffect));
+        SpawnNewGrenade();
 
-            Destroy(gameObject);
-        }
-
+        StartCoroutine(DestroyExplosiveEffect(explosiveEffect));
     }
 
     IEnumerator DestroyExplosiveEffect(GameObject effect)
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3f);
 
         Destroy(effect);
     }
