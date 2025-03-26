@@ -9,16 +9,24 @@ public class Explosives : NetworkBehaviour
     [SerializeField] private GameObject grenadePrefab;
     [SerializeField] private GameObject explosiveEffectPrefab;
     [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
-    [SerializeField] private float throwForce;
+    private float throwForce = 30f;
 
     private GameObject _currentGrenade;
     private Collider _collider;
+    private NetworkObject networkObject;
     private bool _onCoolDown;
 
-    public override void OnNetworkSpawn()
+    private void Start()
     {
-        SpawnNewGrenade();
+        // SpawnNewGrenade();
     }
+
+    // public override void OnNetworkSpawn()
+    // {
+    //     SpawnNewGrenade();
+    // }
+
+    bool toggle = false;
 
     void Update()
     {
@@ -26,25 +34,50 @@ public class Explosives : NetworkBehaviour
         {
             playerAssetsInputs.shoot = false;
 
-            if (_onCoolDown == true) return;
+            toggle = !toggle;
 
-            _onCoolDown = true;
+            if (toggle == true)
+            {
+                SpawnNewGrenade_ServerRPC();
+            }
 
-            _currentGrenade.gameObject.transform.parent = null;
-            Rigidbody rb = _currentGrenade.AddComponent<Rigidbody>();
+            else
+            {
+                // networkObject.Despawn(true);
+                DestroyGrenade_ServerRPC();
+            }
 
-            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-            rb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
-            _collider.enabled = true;
+            // if (_onCoolDown == true) return;
 
-            StartCoroutine(DestroyGrenade(_currentGrenade));
+            // _onCoolDown = true;
+
+            // //_currentGrenade.transform.parent = null;
+            // Rigidbody rb = _currentGrenade.AddComponent<Rigidbody>();
+
+            // rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            // rb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+            // _collider.enabled = true;
+
+            // StartCoroutine(DestroyGrenade(_currentGrenade));
         }
+
+        if (_currentGrenade != null)
+            _currentGrenade.transform.position = transform.position;
     }
 
-    private void SpawnNewGrenade()
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnNewGrenade_ServerRPC()
     {
-        _currentGrenade = Instantiate(grenadePrefab, transform);
-        _currentGrenade.transform.localPosition = Vector3.zero;
+        networkObject.Despawn(true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyGrenade_ServerRPC()
+    {
+        _currentGrenade = Instantiate(grenadePrefab);
+
+        networkObject = _currentGrenade.GetComponent<NetworkObject>();
+        networkObject.Spawn();
 
         _collider = _currentGrenade.transform.GetComponent<Collider>();
         _collider.enabled = false;
@@ -60,9 +93,12 @@ public class Explosives : NetworkBehaviour
         explosiveEffect.transform.position = grenade.transform.position;
 
         if (grenade != null)
-            Destroy(grenade.gameObject);
+        {
+            // Destroy(grenade);
+            networkObject.Despawn(false);
+        }
 
-        SpawnNewGrenade();
+        // SpawnNewGrenade();
 
         StartCoroutine(DestroyExplosiveEffect(explosiveEffect));
     }
