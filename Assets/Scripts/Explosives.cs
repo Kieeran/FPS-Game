@@ -14,7 +14,7 @@ public class Explosives : NetworkBehaviour
     private GameObject _currentGrenade;
     private Collider _collider;
     private NetworkObject networkObject;
-    private bool _onCoolDown;
+    private bool _onCoolDown = false;
 
     private void Start()
     {
@@ -26,7 +26,7 @@ public class Explosives : NetworkBehaviour
     //     SpawnNewGrenade();
     // }
 
-    bool toggle = false;
+    // bool toggle = false;
 
     void Update()
     {
@@ -34,22 +34,25 @@ public class Explosives : NetworkBehaviour
         {
             playerAssetsInputs.shoot = false;
 
-            toggle = !toggle;
+            // toggle = !toggle;
 
-            if (toggle == true)
-            {
-                SpawnNewGrenade_ServerRPC();
-            }
+            // if (toggle == true)
+            // {
+            //     SpawnNewGrenade_ServerRPC();
+            // }
 
-            else
-            {
-                // networkObject.Despawn(true);
-                DestroyGrenade_ServerRPC();
-            }
+            // else
+            // {
+            //     // networkObject.Despawn(true);
+            //     DestroyGrenade_ServerRPC();
+            // }
 
-            // if (_onCoolDown == true) return;
+            if (_onCoolDown == true) return;
 
-            // _onCoolDown = true;
+            _onCoolDown = true;
+
+            SpawnNewGrenade_ServerRPC();
+            StartCoroutine(DestroyGrenade(_currentGrenade));
 
             // //_currentGrenade.transform.parent = null;
             // Rigidbody rb = _currentGrenade.AddComponent<Rigidbody>();
@@ -76,7 +79,7 @@ public class Explosives : NetworkBehaviour
         _collider = _currentGrenade.transform.GetComponent<Collider>();
         _collider.enabled = false;
 
-        _onCoolDown = false;
+        // _onCoolDown = false;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -88,19 +91,21 @@ public class Explosives : NetworkBehaviour
     IEnumerator DestroyGrenade(GameObject grenade)
     {
         yield return new WaitForSeconds(2f);
+        _onCoolDown = false;
+        DestroyGrenade_ServerRPC();
 
-        GameObject explosiveEffect = Instantiate(explosiveEffectPrefab);
-        explosiveEffect.transform.position = grenade.transform.position;
+        // GameObject explosiveEffect = Instantiate(explosiveEffectPrefab);
+        // explosiveEffect.transform.position = grenade.transform.position;
 
-        if (grenade != null)
-        {
-            // Destroy(grenade);
-            networkObject.Despawn(false);
-        }
+        // if (grenade != null)
+        // {
+        //     // Destroy(grenade);
+        //     networkObject.Despawn(false);
+        // }
 
         // SpawnNewGrenade();
 
-        StartCoroutine(DestroyExplosiveEffect(explosiveEffect));
+        // StartCoroutine(DestroyExplosiveEffect(explosiveEffect));
     }
 
     IEnumerator DestroyExplosiveEffect(GameObject effect)
