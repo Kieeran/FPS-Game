@@ -68,12 +68,6 @@ public class Explosives : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SpawnNewGrenade_ServerRPC()
     {
-        networkObject.Despawn(true);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void DestroyGrenade_ServerRPC()
-    {
         _currentGrenade = Instantiate(grenadePrefab);
 
         networkObject = _currentGrenade.GetComponent<NetworkObject>();
@@ -83,6 +77,12 @@ public class Explosives : NetworkBehaviour
         _collider.enabled = false;
 
         _onCoolDown = false;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyGrenade_ServerRPC()
+    {
+        networkObject.Despawn(true);
     }
 
     IEnumerator DestroyGrenade(GameObject grenade)
