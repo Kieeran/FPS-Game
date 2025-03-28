@@ -47,12 +47,12 @@ public class Explosives : NetworkBehaviour
             //     DestroyGrenade_ServerRPC();
             // }
 
-            if (_onCoolDown == true) return;
+            // if (_onCoolDown == true) return;
 
-            _onCoolDown = true;
+            // _onCoolDown = true;
 
-            SpawnNewGrenade_ServerRPC();
-            StartCoroutine(DestroyGrenade(_currentGrenade));
+            // SpawnNewGrenade_ServerRPC();
+            // StartCoroutine(DestroyGrenade(_currentGrenade));
 
             // //_currentGrenade.transform.parent = null;
             // Rigidbody rb = _currentGrenade.AddComponent<Rigidbody>();
