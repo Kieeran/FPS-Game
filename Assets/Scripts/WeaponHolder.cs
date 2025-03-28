@@ -10,11 +10,9 @@ public class WeaponHolder : NetworkBehaviour
     [SerializeField] private GameObject _secondaryWeapon;
     [SerializeField] private GameObject _grenades;
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        if (!IsOwner) return;
-
-        RequestEquipWeaponServerRpc(3);
+        RequestEquipWeapon_ServerRpc(1);
     }
 
     void Update()
@@ -24,29 +22,29 @@ public class WeaponHolder : NetworkBehaviour
         if (playerAssetsInputs.hotkey1)
         {
             playerAssetsInputs.hotkey1 = false;
-            RequestEquipWeaponServerRpc(1);
+            RequestEquipWeapon_ServerRpc(1);
         }
         else if (playerAssetsInputs.hotkey2)
         {
             playerAssetsInputs.hotkey2 = false;
-            RequestEquipWeaponServerRpc(2);
+            RequestEquipWeapon_ServerRpc(2);
         }
         else if (playerAssetsInputs.hotkey3)
         {
             playerAssetsInputs.hotkey3 = false;
-            RequestEquipWeaponServerRpc(3);
+            RequestEquipWeapon_ServerRpc(3);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void RequestEquipWeaponServerRpc(int weaponIndex)
+    private void RequestEquipWeapon_ServerRpc(int weaponIndex)
     {
         EquipWeapon(weaponIndex);
-        UpdateWeaponClientRpc(weaponIndex);
+        UpdateWeapon_ClientRpc(weaponIndex);
     }
 
     [ClientRpc]
-    private void UpdateWeaponClientRpc(int weaponIndex)
+    private void UpdateWeapon_ClientRpc(int weaponIndex)
     {
         EquipWeapon(weaponIndex);
     }
