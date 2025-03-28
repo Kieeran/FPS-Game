@@ -14,7 +14,7 @@ public class WeaponHolder : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        RequestEquipWeaponServerRpc(1);
+        RequestEquipWeaponServerRpc(3);
     }
 
     void Update()

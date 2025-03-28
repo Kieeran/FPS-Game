@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using PlayerAssets;
 using Unity.Netcode;
+using Unity.Netcode.Components;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Explosives : NetworkBehaviour
@@ -11,7 +13,8 @@ public class Explosives : NetworkBehaviour
     [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
     private float throwForce = 30f;
 
-    private GameObject _currentGrenade;
+    [SerializeField] private GameObject _currentGrenade;
+    [SerializeField] private Rigidbody _grenadeRb;
     private Collider _collider;
     private NetworkObject networkObject;
     private bool _onCoolDown = false;
@@ -19,6 +22,10 @@ public class Explosives : NetworkBehaviour
     private void Start()
     {
         // SpawnNewGrenade();
+
+        if (!IsOwner) return;
+
+        _grenadeRb.isKinematic = true;
     }
 
     // public override void OnNetworkSpawn()
@@ -26,15 +33,51 @@ public class Explosives : NetworkBehaviour
     //     SpawnNewGrenade();
     // }
 
-    // bool toggle = false;
+    bool toggle = false;
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestSetActiveGrenade_ServerRPC(bool b)
+    {
+        SetActiveGrenade(b);
+        RequestSetActiveGrenade_ClientRPC(b);
+    }
+
+    [ClientRpc]
+    private void RequestSetActiveGrenade_ClientRPC(bool b)
+    {
+        SetActiveGrenade(b);
+    }
+
+    private void SetActiveGrenade(bool b)
+    {
+        // _currentGrenade.SetActive(b);
+
+        if (b == false)
+        {
+            _currentGrenade.transform.parent = null;
+            _grenadeRb.isKinematic = false;
+        }
+
+        else
+        {
+            _currentGrenade.transform.SetParent(transform);
+            _currentGrenade.transform.localPosition = Vector3.zero;
+
+            _grenadeRb.isKinematic = true;
+        }
+    }
 
     void Update()
     {
+        if (!IsOwner) return;
+
         if (playerAssetsInputs.shoot == true)
         {
             playerAssetsInputs.shoot = false;
 
-            // toggle = !toggle;
+            RequestSetActiveGrenade_ServerRPC(toggle);
+
+            toggle = !toggle;
 
             // if (toggle == true)
             // {
@@ -64,8 +107,8 @@ public class Explosives : NetworkBehaviour
             // StartCoroutine(DestroyGrenade(_currentGrenade));
         }
 
-        if (_currentGrenade != null)
-            _currentGrenade.transform.position = transform.position;
+        // if (_currentGrenade != null)
+        //     _currentGrenade.transform.position = transform.position;
     }
 
     [ServerRpc(RequireOwnership = false)]
