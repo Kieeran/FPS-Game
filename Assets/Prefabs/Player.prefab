@@ -6109,9 +6109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a8d5348f4085c40bd2527f891e8eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grenadePrefab: {fileID: 5206953371041926679, guid: c5224c2f509a6af46942dc4eeebfbb43, type: 3}
-  explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
-  playerAssetsInputs: {fileID: 7795738832339507943}
+  _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
+  _playerAssetsInputs: {fileID: 7795738832339507943}
   _currentGrenade: {fileID: 8644957872373403998}
   _grenadeRb: {fileID: 2286020709259788368}
 --- !u!1 &7270897841863064638

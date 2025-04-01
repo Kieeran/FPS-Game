@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using PlayerAssets;
+using Unity.Mathematics;
+using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using Unity.VisualScripting;
@@ -8,29 +10,27 @@ using UnityEngine;
 
 public class Explosives : NetworkBehaviour
 {
-    [SerializeField] private GameObject grenadePrefab;
-    [SerializeField] private GameObject explosiveEffectPrefab;
-    [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
-    private float throwForce = 30f;
+    [SerializeField] GameObject _explosiveEffectPrefab;
+    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] GameObject _currentGrenade;
+    [SerializeField] Rigidbody _grenadeRb;
+    Collider _collider;
 
-    [SerializeField] private GameObject _currentGrenade;
-    [SerializeField] private Rigidbody _grenadeRb;
-    private Collider _collider;
-    private NetworkObject networkObject;
-    private bool _onCoolDown = false;
+    ClientNetworkTransform _clientNetworkTransform;
+    bool _onCoolDown = false;
+
+    float _throwForce = 30f;
 
     private void Start()
     {
-        // SpawnNewGrenade();
-
-        if (!IsOwner) return;
+        _clientNetworkTransform = _currentGrenade.GetComponent<ClientNetworkTransform>();
 
         _grenadeRb.isKinematic = true;
     }
 
     // public override void OnNetworkSpawn()
     // {
-    //     SpawnNewGrenade();
+    //     
     // }
 
     bool toggle = false;
@@ -50,8 +50,6 @@ public class Explosives : NetworkBehaviour
 
     private void SetActiveGrenade(bool b)
     {
-        // _currentGrenade.SetActive(b);
-
         if (b == false)
         {
             _currentGrenade.transform.parent = null;
@@ -60,20 +58,30 @@ public class Explosives : NetworkBehaviour
 
         else
         {
+            _clientNetworkTransform.Interpolate = false;
             _currentGrenade.transform.SetParent(transform);
             _currentGrenade.transform.localPosition = Vector3.zero;
+            _currentGrenade.transform.localRotation = quaternion.identity;
 
             _grenadeRb.isKinematic = true;
+
+            Invoke(nameof(_enableInterpolation), 0.1f);
         }
+    }
+
+    void _enableInterpolation()
+    {
+        if (_clientNetworkTransform != null)
+            _clientNetworkTransform.Interpolate = true;
     }
 
     void Update()
     {
         if (!IsOwner) return;
 
-        if (playerAssetsInputs.shoot == true)
+        if (_playerAssetsInputs.shoot == true)
         {
-            playerAssetsInputs.shoot = false;
+            _playerAssetsInputs.shoot = false;
 
             RequestSetActiveGrenade_ServerRPC(toggle);
 
@@ -109,52 +117,5 @@ public class Explosives : NetworkBehaviour
 
         // if (_currentGrenade != null)
         //     _currentGrenade.transform.position = transform.position;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnNewGrenade_ServerRPC()
-    {
-        _currentGrenade = Instantiate(grenadePrefab);
-
-        networkObject = _currentGrenade.GetComponent<NetworkObject>();
-        networkObject.Spawn();
-
-        _collider = _currentGrenade.transform.GetComponent<Collider>();
-        _collider.enabled = false;
-
-        // _onCoolDown = false;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void DestroyGrenade_ServerRPC()
-    {
-        networkObject.Despawn(true);
-    }
-
-    IEnumerator DestroyGrenade(GameObject grenade)
-    {
-        yield return new WaitForSeconds(2f);
-        _onCoolDown = false;
-        DestroyGrenade_ServerRPC();
-
-        // GameObject explosiveEffect = Instantiate(explosiveEffectPrefab);
-        // explosiveEffect.transform.position = grenade.transform.position;
-
-        // if (grenade != null)
-        // {
-        //     // Destroy(grenade);
-        //     networkObject.Despawn(false);
-        // }
-
-        // SpawnNewGrenade();
-
-        // StartCoroutine(DestroyExplosiveEffect(explosiveEffect));
-    }
-
-    IEnumerator DestroyExplosiveEffect(GameObject effect)
-    {
-        yield return new WaitForSeconds(3f);
-
-        Destroy(effect);
     }
 }
