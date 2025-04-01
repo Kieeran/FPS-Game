@@ -10,9 +10,14 @@ public class WeaponHolder : NetworkBehaviour
     [SerializeField] private GameObject _secondaryWeapon;
     [SerializeField] private GameObject _grenades;
 
+    void Start()
+    {
+        EquipWeapon(1);
+    }
+
     public override void OnNetworkSpawn()
     {
-        RequestEquipWeapon_ServerRpc(1);
+        // RequestEquipWeapon_ServerRpc(1);
     }
 
     void Update()
