@@ -1,3 +1,5 @@
+using System.Collections;
+using Mono.CSharp;
 using PlayerAssets;
 using Unity.Mathematics;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
@@ -50,11 +52,25 @@ public class Explosives : NetworkBehaviour
 
         _grenadeRb.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
 
-        Invoke(nameof(WaitGrenadeToReturn), 3f);
+        Invoke(nameof(GrenadeExplodeState), 2f);
     }
 
-    void WaitGrenadeToReturn()
+    void GrenadeExplodeState()
     {
+        _currentGrenade.SetActive(false);
+
+        GameObject explodeEffect = Instantiate(_explosiveEffectPrefab);
+        explodeEffect.transform.position = _currentGrenade.transform.position;
+
+        StartCoroutine(DestroyExplodeEffect(explodeEffect));
+
+        Invoke(nameof(GrenadeReturnState), 0.5f);
+    }
+
+    void GrenadeReturnState()
+    {
+        _currentGrenade.SetActive(true);
+
         _clientNetworkTransform.Interpolate = false;
         _grenadeRb.isKinematic = true;
         _collider.enabled = false;
@@ -65,6 +81,13 @@ public class Explosives : NetworkBehaviour
         _currentGrenade.transform.localScale = Vector3.one;
 
         Invoke(nameof(EnableInterpolation), 0.1f);
+    }
+
+    IEnumerator DestroyExplodeEffect(GameObject effect)
+    {
+        yield return new WaitForSeconds(3f);
+
+        Destroy(effect);
     }
 
     void EnableInterpolation()
