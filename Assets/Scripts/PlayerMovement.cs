@@ -25,7 +25,7 @@ public class PlayerMovement : NetworkBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    private bool isReadyToJump;
+    // private bool isReadyToJump;
 
     public Transform orientation;
 
@@ -46,7 +46,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Start()
     {
-        isReadyToJump = true;
+        // isReadyToJump = true;
     }
 
     private void Update()

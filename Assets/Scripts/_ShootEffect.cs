@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +9,7 @@ public class _ShootEffect : NetworkBehaviour
 {
     [SerializeField] private bool IsRifle;
     [SerializeField] private bool IsPistol;
-
-    // Muzzle flash
-    [SerializeField] private Image muzzleFlash;
     public Canvas canvas;
-    public float muzzleFlashCD;
 
     // Weapon recoil
     [SerializeField] private bool enableRecoil;
@@ -27,7 +24,6 @@ public class _ShootEffect : NetworkBehaviour
         if (IsOwner)
         {
             canvas.gameObject.SetActive(true);
-            muzzleFlash.gameObject.SetActive(false);
         }
     }
 
@@ -37,46 +33,47 @@ public class _ShootEffect : NetworkBehaviour
 
         if (IsRifle)
         {
-            RifleRecoil();
+            StartCoroutine(RifleRecoil());
         }
 
         else if (IsPistol)
         {
             StartCoroutine(PistolRecoil());
         }
-
-        StartCoroutine(MuzzleFlash());
     }
-    void RifleRecoil()
+
+    // void RifleRecoil()
+    // {
+    //     if (IsOwner == false) return;
+
+    //     transform.localPosition -= Vector3.forward * Time.deltaTime * 10f;
+    //     if (enableRecoil == true)
+    //     {
+    //         if (randomizeRecoil == true)
+    //         {
+    //             float xRecoil = Random.Range(-randomRecoilConstraints.x, randomRecoilConstraints.x);
+    //             float yRecoil = Random.Range(-randomRecoilConstraints.y, randomRecoilConstraints.y);
+
+    //             transform.localRotation *= Quaternion.Euler(xRecoil, yRecoil, 1f);
+    //         }
+    //     }
+    // }
+
+    IEnumerator RifleRecoil()
     {
-        if (IsOwner == false) return;
+        transform.Find("AK47").GetComponent<Animator>().Play("AK47_Recoil", -1, 0);
 
-        transform.localPosition -= Vector3.forward * Time.deltaTime * 10f;
-        if (enableRecoil == true)
-        {
-            if (randomizeRecoil == true)
-            {
-                float xRecoil = Random.Range(-randomRecoilConstraints.x, randomRecoilConstraints.x);
-                float yRecoil = Random.Range(-randomRecoilConstraints.y, randomRecoilConstraints.y);
+        yield return new WaitForSeconds(0.1f);
 
-                transform.localRotation *= Quaternion.Euler(xRecoil, yRecoil, 1f);
-            }
-        }
+        transform.Find("AK47").GetComponent<Animator>().Play("AK47_Idle");
     }
 
     IEnumerator PistolRecoil()
     {
-        //GetComponentInChildren<Animator>().Play("Pistol_Recoil");
-        transform.Find("Glock").GetComponent<Animator>().Play("Pistol_Recoil");
-        yield return new WaitForSeconds(0.2f);
-        //GetComponentInChildren<Animator>().Play("DefaultState");
-        transform.Find("Glock").GetComponent<Animator>().Play("DefaultState");
-    }
+        transform.Find("Glock").GetComponent<Animator>().Play("Glock_Recoil", -1, 0);
 
-    IEnumerator MuzzleFlash()
-    {
-        muzzleFlash.gameObject.SetActive(true);
-        yield return new WaitForSeconds(muzzleFlashCD);
-        muzzleFlash.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+
+        transform.Find("Glock").GetComponent<Animator>().Play("Glock_Idle");
     }
 }

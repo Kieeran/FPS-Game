@@ -1,70 +1,117 @@
 using System.Collections;
-using System.Collections.Generic;
+using Mono.CSharp;
 using PlayerAssets;
+using Unity.Mathematics;
+using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Explosives : Weapon
+public class Explosives : NetworkBehaviour
 {
-    [SerializeField] private Rigidbody grenadeRB;
+    [SerializeField] GameObject _explosiveEffectPrefab;
+    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] GameObject _currentGrenade;
+    Rigidbody _grenadeRb;
+    Collider _collider;
 
-    private PlayerAssetsInputs playerAssetsInputs;
+    ClientNetworkTransform _clientNetworkTransform;
+    bool _onCoolDown = false;
 
-    // Start is called before the first frame update
-    void Start()
+    float _throwForce;
+
+    private void Start()
     {
-        //playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
+        _clientNetworkTransform = _currentGrenade.GetComponent<ClientNetworkTransform>();
+        _grenadeRb = _currentGrenade.GetComponent<Rigidbody>();
+        _collider = _currentGrenade.GetComponent<Collider>();
+
+        _grenadeRb.isKinematic = true;
+        _collider.enabled = false;
+
+        _throwForce = 20f;
     }
 
-    public Rigidbody GetRigibody() { return grenadeRB; }
-
-    // Update is called once per frame
-    void Update()
+    [ServerRpc(RequireOwnership = false)]
+    private void ThrowGrenade_ServerRPC()
     {
-        if (playerAssetsInputs.shoot == true)
-        {
-            Explosives grenade = Instantiate(WeaponManager.Instance.GetPrefabGrenade());
-            grenade.gameObject.transform.position = transform.position + new Vector3(0, 1f, 0);
-
-            Rigidbody rb = grenade.GetRigibody();
-            Transform player = PlayerManager.Instance.transform;
-            float force = 20f;
-
-            rb.useGravity = true;
-            rb.AddForce(gameObject.transform.forward * force, ForceMode.Impulse);
-
-            playerAssetsInputs.shoot = false;
-
-            StartCoroutine(DestroyGrenade(grenade.gameObject));
-
-            //gameObject.SetActive(false);
-        }
+        ThrowGrenade();
+        ThrowGrenade_ClientRPC();
     }
 
-    IEnumerator DestroyGrenade(GameObject grenade)
+    [ClientRpc]
+    private void ThrowGrenade_ClientRPC()
     {
-        yield return new WaitForSeconds(2);
-
-        if (grenade != null)
-            Destroy(grenade);
+        ThrowGrenade();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void ThrowGrenade()
     {
-        if (collision != null)
-        {
-            GameObject explosiveEffect = Instantiate(WeaponManager.Instance.GetExplosiveEffect());
-            explosiveEffect.transform.position = gameObject.transform.position;
-            StartCoroutine(DestroyExplosiveEffect(explosiveEffect));
+        _currentGrenade.transform.parent = null;
+        _grenadeRb.isKinematic = false;
+        _collider.enabled = true;
 
-            Destroy(gameObject);
-        }
+        _grenadeRb.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
 
+        Invoke(nameof(GrenadeExplodeState), 2f);
     }
 
-    IEnumerator DestroyExplosiveEffect(GameObject effect)
+    void GrenadeExplodeState()
     {
-        yield return new WaitForSeconds(3);
+        _currentGrenade.SetActive(false);
+
+        GameObject explodeEffect = Instantiate(_explosiveEffectPrefab);
+        explodeEffect.transform.position = _currentGrenade.transform.position;
+
+        StartCoroutine(DestroyExplodeEffect(explodeEffect));
+
+        Invoke(nameof(GrenadeReturnState), 0.5f);
+    }
+
+    void GrenadeReturnState()
+    {
+        _currentGrenade.SetActive(true);
+
+        _clientNetworkTransform.Interpolate = false;
+        _grenadeRb.isKinematic = true;
+        _collider.enabled = false;
+
+        _currentGrenade.transform.SetParent(transform);
+        _currentGrenade.transform.SetLocalPositionAndRotation(Vector3.zero, quaternion.identity);
+
+        _currentGrenade.transform.localScale = Vector3.one;
+
+        Invoke(nameof(EnableInterpolation), 0.1f);
+    }
+
+    IEnumerator DestroyExplodeEffect(GameObject effect)
+    {
+        yield return new WaitForSeconds(3f);
 
         Destroy(effect);
+    }
+
+    void EnableInterpolation()
+    {
+        if (_clientNetworkTransform != null)
+        {
+            _clientNetworkTransform.Interpolate = true;
+            _onCoolDown = false;
+        }
+    }
+
+    void Update()
+    {
+        if (!IsOwner) return;
+
+        if (_playerAssetsInputs.shoot == true)
+        {
+            _playerAssetsInputs.shoot = false;
+
+            if (_onCoolDown == true) return;
+
+            _onCoolDown = true;
+
+            ThrowGrenade_ServerRPC();
+        }
     }
 }

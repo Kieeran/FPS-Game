@@ -51,7 +51,7 @@ public class PlayerNetwork : NetworkBehaviour
 
                 if (playerCameraRoot != null) _camera.Follow = playerCameraRoot;
 
-                Debug.Log(playerCameraRoot.name);
+                // Debug.Log(playerCameraRoot.name);
             }
         }
     }
