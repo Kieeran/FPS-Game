@@ -2,11 +2,9 @@ using UnityEngine;
 
 namespace MatthewAssets
 {
-
-
     public class ParticleRotationController : MonoBehaviour
     {
-        public ParticleSystem particleSystem; // Asigna el sistema de partículas en el Inspector
+        public new ParticleSystem particleSystem; // Asigna el sistema de partículas en el Inspector
         public float minZRotation = 0f; // Valor mínimo para la rotación en Z
         public float maxZRotation = 360f; // Valor máximo para la rotación en Z
 
