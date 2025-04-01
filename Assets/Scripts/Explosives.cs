@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using PlayerAssets;
 using Unity.Mathematics;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
-using Unity.Netcode.Components;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Explosives : NetworkBehaviour
@@ -13,66 +9,71 @@ public class Explosives : NetworkBehaviour
     [SerializeField] GameObject _explosiveEffectPrefab;
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
     [SerializeField] GameObject _currentGrenade;
-    [SerializeField] Rigidbody _grenadeRb;
+    Rigidbody _grenadeRb;
     Collider _collider;
 
     ClientNetworkTransform _clientNetworkTransform;
     bool _onCoolDown = false;
 
-    float _throwForce = 30f;
+    float _throwForce;
 
     private void Start()
     {
         _clientNetworkTransform = _currentGrenade.GetComponent<ClientNetworkTransform>();
+        _grenadeRb = _currentGrenade.GetComponent<Rigidbody>();
+        _collider = _currentGrenade.GetComponent<Collider>();
 
         _grenadeRb.isKinematic = true;
+        _collider.enabled = false;
+
+        _throwForce = 20f;
     }
 
-    // public override void OnNetworkSpawn()
-    // {
-    //     
-    // }
-
-    bool toggle = false;
-
     [ServerRpc(RequireOwnership = false)]
-    private void RequestSetActiveGrenade_ServerRPC(bool b)
+    private void ThrowGrenade_ServerRPC()
     {
-        SetActiveGrenade(b);
-        RequestSetActiveGrenade_ClientRPC(b);
+        ThrowGrenade();
+        ThrowGrenade_ClientRPC();
     }
 
     [ClientRpc]
-    private void RequestSetActiveGrenade_ClientRPC(bool b)
+    private void ThrowGrenade_ClientRPC()
     {
-        SetActiveGrenade(b);
+        ThrowGrenade();
     }
 
-    private void SetActiveGrenade(bool b)
+    private void ThrowGrenade()
     {
-        if (b == false)
-        {
-            _currentGrenade.transform.parent = null;
-            _grenadeRb.isKinematic = false;
-        }
+        _currentGrenade.transform.parent = null;
+        _grenadeRb.isKinematic = false;
+        _collider.enabled = true;
 
-        else
-        {
-            _clientNetworkTransform.Interpolate = false;
-            _currentGrenade.transform.SetParent(transform);
-            _currentGrenade.transform.localPosition = Vector3.zero;
-            _currentGrenade.transform.localRotation = quaternion.identity;
+        _grenadeRb.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
 
-            _grenadeRb.isKinematic = true;
-
-            Invoke(nameof(_enableInterpolation), 0.1f);
-        }
+        Invoke(nameof(WaitGrenadeToReturn), 3f);
     }
 
-    void _enableInterpolation()
+    void WaitGrenadeToReturn()
+    {
+        _clientNetworkTransform.Interpolate = false;
+        _grenadeRb.isKinematic = true;
+        _collider.enabled = false;
+
+        _currentGrenade.transform.SetParent(transform);
+        _currentGrenade.transform.SetLocalPositionAndRotation(Vector3.zero, quaternion.identity);
+
+        _currentGrenade.transform.localScale = Vector3.one;
+
+        Invoke(nameof(EnableInterpolation), 0.1f);
+    }
+
+    void EnableInterpolation()
     {
         if (_clientNetworkTransform != null)
+        {
             _clientNetworkTransform.Interpolate = true;
+            _onCoolDown = false;
+        }
     }
 
     void Update()
@@ -83,39 +84,11 @@ public class Explosives : NetworkBehaviour
         {
             _playerAssetsInputs.shoot = false;
 
-            RequestSetActiveGrenade_ServerRPC(toggle);
+            if (_onCoolDown == true) return;
 
-            toggle = !toggle;
+            _onCoolDown = true;
 
-            // if (toggle == true)
-            // {
-            //     SpawnNewGrenade_ServerRPC();
-            // }
-
-            // else
-            // {
-            //     // networkObject.Despawn(true);
-            //     DestroyGrenade_ServerRPC();
-            // }
-
-            // if (_onCoolDown == true) return;
-
-            // _onCoolDown = true;
-
-            // SpawnNewGrenade_ServerRPC();
-            // StartCoroutine(DestroyGrenade(_currentGrenade));
-
-            // //_currentGrenade.transform.parent = null;
-            // Rigidbody rb = _currentGrenade.AddComponent<Rigidbody>();
-
-            // rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-            // rb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
-            // _collider.enabled = true;
-
-            // StartCoroutine(DestroyGrenade(_currentGrenade));
+            ThrowGrenade_ServerRPC();
         }
-
-        // if (_currentGrenade != null)
-        //     _currentGrenade.transform.position = transform.position;
     }
 }

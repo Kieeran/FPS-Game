@@ -6112,7 +6112,6 @@ MonoBehaviour:
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _playerAssetsInputs: {fileID: 7795738832339507943}
   _currentGrenade: {fileID: 8644957872373403998}
-  _grenadeRb: {fileID: 2286020709259788368}
 --- !u!1 &7270897841863064638
 GameObject:
   m_ObjectHideFlags: 0
@@ -7381,7 +7380,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &5612497227600645051
 MonoBehaviour:
   m_ObjectHideFlags: 0
