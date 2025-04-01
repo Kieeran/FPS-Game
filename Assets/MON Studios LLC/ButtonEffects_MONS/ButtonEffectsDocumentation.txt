@@ -1,0 +1,18 @@
+How to Use:
+
+1. Drag & Drop Setup:
+   - Attach the ButtonEffects script to any active GameObject in your scene. Ensure the GameObject is enabled during runtime for the script to function correctly.
+   
+2. Setting Up Button Events:
+   - In the Inspector window, locate your UI button.
+   - Under the OnClick() event section, click the "+" button to add a new event.
+   - Drag the GameObject that has the ButtonEffects script into the event slot.
+   - From the dropdown menu, select one of the PressXX methods corresponding to your desired button effect. For example, to scale up the button, select Press01ScaleUp.
+
+3. Applying Effects:
+   - Each effect requires a reference to the button’s RectTransform.
+   - Simply drag the button's RectTransform from the Inspector into the OnClick() event parameter slot.
+   - Once set up, interact with the button in play mode to see the selected effect in action!
+
+4. Customizing the Effects:
+   - You can tweak the default parameters, such as animationDuration, to adjust the speed and feel of the effects. These can be modified directly in the script or by creating public variables in the future for more customization.
