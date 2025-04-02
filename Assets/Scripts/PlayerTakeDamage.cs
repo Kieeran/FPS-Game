@@ -5,12 +5,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Services.Lobbies.Models;
 using UnityEngine.InputSystem;
+using PlayerInfoNameSpace;
 
 public class PlayerTakeDamage : NetworkBehaviour
 {
     private NetworkVariable<float> HP = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    // public static NetworkVariable<int> killCount = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    // public static NetworkVariable<int> deathCount = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] private Image health;
     [SerializeField] private Image hitEffect;
+
+    public PlayerInfo playerInfo;
 
     public float hitBodyAlpha;
     public float hitHeadAlpha;
@@ -42,6 +47,16 @@ public class PlayerTakeDamage : NetworkBehaviour
         }
     }
 
+    public static float GetPlayerHP(ulong targetClientId)
+    {
+        var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
+        if (targetPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
+        {
+            return targetHealth.HP.Value;
+        }
+        else return 69;
+    }
+
     [ServerRpc(RequireOwnership = false)]
     public void ChangeHPServerRpc(float damage, ulong targetClientId)
     {
@@ -50,8 +65,16 @@ public class PlayerTakeDamage : NetworkBehaviour
         {
             targetHealth.HP.Value -= damage;
 
-            if (targetHealth.HP.Value <= 0)
+            if (targetHealth.HP.Value <= 0 && playerInfo.ClientId == targetClientId)
             {
+                // playerInfo.ClientId = targetClientId;
+                PlayerInfo.deathCount.Value += 1;
+                targetHealth.HP.Value = 1;
+            }
+
+            if (targetHealth.HP.Value <= 0 && playerInfo.ClientId != targetClientId)
+            {
+                PlayerInfo.killCount.Value += 1;
                 targetHealth.HP.Value = 1;
             }
             
@@ -99,6 +122,19 @@ public class PlayerTakeDamage : NetworkBehaviour
         UpdateUIClientRpc(alpha, clientRpcParams);
     }
 
+    // public void UpdateDeathCountServerRpc(int deathCount, ulong targetClientId)
+    // {
+    //     ClientRpcParams clientRpcParams = new ClientRpcParams
+    //     {
+    //         Send = new ClientRpcSendParams
+    //         {
+    //             TargetClientIds = new List<ulong> {targetClientId}
+    //         }
+    //     };
+
+    //     UpdateDeathCountClientRpc(deathCount, clientRpcParams);
+    // }
+
     [ClientRpc]
     public void UpdateUIClientRpc(float alpha, ClientRpcParams clientRpcParams)
     {
@@ -106,6 +142,11 @@ public class PlayerTakeDamage : NetworkBehaviour
         //hitEffect.color = new Color(1, 0, 0, alpha);
         StartCoroutine(FadeHitEffect(hitEffect, alpha));
     }
+
+    // public void UpdateDeathCountClientRpc(int deathCount, ClientRpcParams clientRpcParams)
+    // {
+    //     if (HP)
+    // }
 
     private IEnumerator FadeHitEffect(Image hitEffect, float targetAlpha)
     {

@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Mono.CSharp;
 using PlayerAssets;
+using PlayerInfoNameSpace;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 public class PlayerShoot : NetworkBehaviour
@@ -13,6 +15,8 @@ public class PlayerShoot : NetworkBehaviour
     [SerializeField] private float FireCoolDown;
 
     private float CurrentCoolDown;
+
+    public PlayerInfo playerInfo;
 
     public void Shoot()
     {
@@ -111,6 +115,11 @@ public class PlayerShoot : NetworkBehaviour
                     if (networkObject != null)
                     {
                         player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId);
+                        // if (PlayerTakeDamage.GetPlayerHP(networkObject.OwnerClientId) <= 0 && networkObject.OwnerClientId != playerInfo.ClientId)
+                        // {
+                        //     PlayerInfo.killCount.Value += 1;
+                        // }
+                        Debug.Log("Owner Kills/Death: " + PlayerInfo.killCount.Value + "/" + PlayerInfo.deathCount.Value);
                     }
                 }
             }
@@ -126,6 +135,12 @@ public class PlayerShoot : NetworkBehaviour
                     if (networkObject != null)
                     {
                         player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId);
+                        // if (PlayerTakeDamage.GetPlayerHP(networkObject.OwnerClientId) <= 0 && networkObject.OwnerClientId != playerInfo.ClientId)
+                        // {
+                        //     PlayerInfo.killCount.Value += 1;
+                        // }
+                        Debug.Log("Owner Kills/Death: " + PlayerInfo.killCount.Value + "/" + PlayerInfo.deathCount.Value);
+                        
                     }
                 }
             }

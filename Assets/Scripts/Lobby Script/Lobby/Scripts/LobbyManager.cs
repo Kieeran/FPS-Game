@@ -163,7 +163,7 @@ public class LobbyManager : MonoBehaviour
                     // Start Game!
                     if (!IsLobbyHost()) // Lobby Host already joined Relay
                     {
-                        GameSceneManager.Instance.LoadNextScene();
+                        if (SceneManager.GetActiveScene().buildIndex < 4) GameSceneManager.Instance.LoadNextScene();
                         // SceneLoader.Instance.LoadScene(3);
 
                         TestRelay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
