@@ -2271,6 +2271,7 @@ GameObject:
   - component: {fileID: 5226092564806773297}
   - component: {fileID: 3736074866538794915}
   - component: {fileID: 3327655574649894840}
+  - component: {fileID: 1895813889120839532}
   m_Layer: 0
   m_Name: Secondary Weapon
   m_TagString: Untagged
@@ -2346,6 +2347,18 @@ MonoBehaviour:
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
+--- !u!114 &1895813889120839532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2321940653453447232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86fed0602424c81429a9646cbb2af70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2323722425924976332
 GameObject:
   m_ObjectHideFlags: 0
@@ -5760,6 +5773,7 @@ GameObject:
   - component: {fileID: 3280156445995770102}
   - component: {fileID: 4460800013304567988}
   - component: {fileID: 5275834517874757834}
+  - component: {fileID: 6505802683497904994}
   m_Layer: 0
   m_Name: Primary Weapon
   m_TagString: Untagged
@@ -5835,6 +5849,18 @@ MonoBehaviour:
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
+--- !u!114 &6505802683497904994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6712177035632313221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86fed0602424c81429a9646cbb2af70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6788095526690145830
 GameObject:
   m_ObjectHideFlags: 0
@@ -6221,6 +6247,7 @@ GameObject:
   - component: {fileID: 180647619045918677}
   - component: {fileID: 2391566325307181868}
   - component: {fileID: 4933977361876597016}
+  - component: {fileID: 7120520290684353088}
   m_Layer: 0
   m_Name: Grenades
   m_TagString: Untagged
@@ -6276,6 +6303,18 @@ MonoBehaviour:
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _playerAssetsInputs: {fileID: 7795738832339507943}
   _currentGrenade: {fileID: 8644957872373403998}
+--- !u!114 &7120520290684353088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7193671196599232154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a78d9d3f543a5ce4b969767d27de793e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7270897841863064638
 GameObject:
   m_ObjectHideFlags: 0
