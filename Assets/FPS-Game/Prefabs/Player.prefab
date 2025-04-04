@@ -2378,7 +2378,7 @@ Transform:
   m_Children:
   - {fileID: 5448707590005864474}
   - {fileID: 6605001082890220648}
-  - {fileID: 4144018183275622363}
+  - {fileID: 8647961165507130976}
   - {fileID: 180647619045918677}
   m_Father: {fileID: 9090760930605295615}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2398,7 +2398,7 @@ MonoBehaviour:
   _playerUI: {fileID: 610120243110111006}
   _primaryWeapon: {fileID: 6712177035632313221}
   _secondaryWeapon: {fileID: 2321940653453447232}
-  _meleeWeapon: {fileID: 3112516485120711700}
+  _meleeWeapon: {fileID: 3496057221765889206}
   _grenades: {fileID: 7193671196599232154}
 --- !u!1 &2752739240989899100
 GameObject:
@@ -3176,56 +3176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ebf8e41f3720bd41ac3db9580013556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &3112516485120711700
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4144018183275622363}
-  - component: {fileID: 2006244937724201201}
-  m_Layer: 0
-  m_Name: Melee Weapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4144018183275622363
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3112516485120711700}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7479856788968041660}
-  m_Father: {fileID: 1957954801315663397}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2006244937724201201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3112516485120711700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832339507943}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
 --- !u!1 &3216196479242807337
 GameObject:
   m_ObjectHideFlags: 0
@@ -3402,9 +3352,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7479856788968041660}
   - component: {fileID: 1821929801824009889}
-  - component: {fileID: 7923624651522885087}
+  - component: {fileID: 6559115118014183961}
   m_Layer: 0
-  m_Name: KnifeParent
+  m_Name: Knife Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3418,14 +3368,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3496057221765889206}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.47197092, y: -0.26289228, z: -0.10055506, w: 0.83547586}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.5971222, y: 3.5971224, z: 3.5971222}
+  m_LocalScale: {x: 3.5971222, y: 3.5971222, z: 3.5971222}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 812604231512730054}
-  m_Father: {fileID: 4144018183275622363}
-  m_LocalEulerAnglesHint: {x: -57.3, y: -39.6, z: 8.53}
+  m_Father: {fileID: 142686896082462613}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1821929801824009889
 Animator:
   serializedVersion: 5
@@ -3447,19 +3397,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7923624651522885087
+--- !u!114 &6559115118014183961
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3496057221765889206}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: baddc5f1dfb01fa4eb9afb30f5c28058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1821929801824009889}
+  _animator: {fileID: 1821929801824009889}
+  _playerAssetsInputs: {fileID: 7795738832339507943}
 --- !u!1 &3759685175426347857
 GameObject:
   m_ObjectHideFlags: 0
@@ -6131,6 +6082,71 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: 205970375791085919}
+--- !u!1 &6981481206373577465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8647961165507130976}
+  - component: {fileID: 1169029997057453719}
+  - component: {fileID: 5969847900417950986}
+  m_Layer: 0
+  m_Name: Melee Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8647961165507130976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6981481206373577465}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 142686896082462613}
+  m_Father: {fileID: 1957954801315663397}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1169029997057453719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6981481206373577465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAssetsInputs: {fileID: 7795738832339507943}
+  step: 0.1
+  maxStepDistance: 0.5
+  rotationStep: 4
+  maxRotationStep: 5
+--- !u!114 &5969847900417950986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6981481206373577465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 1821929801824009889}
 --- !u!1 &7170388839702658901
 GameObject:
   m_ObjectHideFlags: 0
@@ -7714,6 +7730,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3648ccbf1124c9541a57883cc58e53fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8740426960789612636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 142686896082462613}
+  m_Layer: 0
+  m_Name: Melee
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &142686896082462613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8740426960789612636}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.41957238, y: -0.2572264, z: 0.12528278, w: 0.86145097}
+  m_LocalPosition: {x: -0.07399998, y: 0.1879999, z: -0.07599995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7479856788968041660}
+  m_Father: {fileID: 8647961165507130976}
+  m_LocalEulerAnglesHint: {x: -41.18, y: -46.762, z: 35}
 --- !u!1 &9043462397910672347
 GameObject:
   m_ObjectHideFlags: 0

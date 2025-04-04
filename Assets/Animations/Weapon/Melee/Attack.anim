@@ -248,7 +248,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1
-    functionName: SetBoolFalse
+    functionName: SetAttackFalse
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

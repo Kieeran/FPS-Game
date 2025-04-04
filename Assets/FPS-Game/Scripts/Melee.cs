@@ -1,35 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using PlayerAssets;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Melee : Weapon
 {
-    [SerializeField] private Animator animator;
-    private PlayerAssetsInputs playerAssetsInputs;
+    [SerializeField] Animator _animator;
+    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
 
-    private void Start()
+    public void SetAttackFalse()
     {
-        //playerAssetsInputs = PlayerInput.Instance.GetPlayerAssetsInputs();
-    }
-
-    public void SetBoolFalse()
-    {
-        animator.SetBool("IsAttacking", false);
-        animator.Play("IsAttacking", 0, 0f);
+        _animator.SetBool("Attack", false);
+        _animator.Play("Attack", 0, 0f);
     }
 
     private void Update()
     {
-        if (playerAssetsInputs.shoot == true)
+        if (_playerAssetsInputs.shoot == true)
         {
-            if (animator.GetBool("IsAttacking") == false)
-            {
-                animator.SetBool("IsAttacking", true);
-            }
+            _playerAssetsInputs.shoot = false;
 
-            playerAssetsInputs.shoot = false;
+            if (_animator.GetBool("Attack") == false)
+            {
+                _animator.SetBool("Attack", true);
+            }
         }
     }
 }
