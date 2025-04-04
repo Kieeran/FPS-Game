@@ -1,19 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using PlayerAssets;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerUI : NetworkBehaviour
 {
-    [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
-    [SerializeField] private Image escapeUI;
-    [SerializeField] private Button quitGameButton;
-    [SerializeField] private GameObject scoreBoard;
+    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] Image _escapeUI;
+    [SerializeField] Button _quitGameButton;
+    [SerializeField] GameObject _scoreBoard;
 
-    [SerializeField] private Transform container;
+    [SerializeField] Transform _container;
+
+    [SerializeField] WeaponHud _weaponHud;
+
+    public WeaponHud GetWeaponHud() { return _weaponHud; }
 
     // public Image GetEscapeUI() { return escapeUI; }
 
@@ -21,9 +22,9 @@ public class PlayerUI : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        if (!LobbyManager.Instance.IsLobbyHost()) quitGameButton.gameObject.SetActive(false);
+        if (!LobbyManager.Instance.IsLobbyHost()) _quitGameButton.gameObject.SetActive(false);
 
-        quitGameButton.onClick.AddListener(() =>
+        _quitGameButton.onClick.AddListener(() =>
         {
             if (IsOwner == false) return;
 
@@ -36,7 +37,6 @@ public class PlayerUI : NetworkBehaviour
         });
     }
 
-    // RPC để thông báo Client thoát
     [ServerRpc]
     private void NotifyClientsToQuit_ServerRpc()
     {
@@ -57,20 +57,20 @@ public class PlayerUI : NetworkBehaviour
 
     void Update()
     {
-        if (playerAssetsInputs.escapeUI == true)
+        if (_playerAssetsInputs.escapeUI == true)
         {
-            escapeUI.gameObject.SetActive(!escapeUI.gameObject.activeSelf);
+            _escapeUI.gameObject.SetActive(!_escapeUI.gameObject.activeSelf);
 
-            Cursor.lockState = !escapeUI.gameObject.activeSelf ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.lockState = !_escapeUI.gameObject.activeSelf ? CursorLockMode.Locked : CursorLockMode.None;
 
-            playerAssetsInputs.escapeUI = false;
+            _playerAssetsInputs.escapeUI = false;
         }
 
-        if (playerAssetsInputs.openScoreboard == true)
+        if (_playerAssetsInputs.openScoreboard == true)
         {
-            scoreBoard.gameObject.SetActive(!scoreBoard.gameObject.activeSelf);
+            _scoreBoard.gameObject.SetActive(!_scoreBoard.gameObject.activeSelf);
 
-            playerAssetsInputs.openScoreboard = false;
+            _playerAssetsInputs.openScoreboard = false;
         }
     }
 }

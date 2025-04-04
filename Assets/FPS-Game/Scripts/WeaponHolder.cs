@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class WeaponHolder : NetworkBehaviour
 {
-    [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
+    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] PlayerUI _playerUI;
 
-    [SerializeField] private GameObject _primaryWeapon;
-    [SerializeField] private GameObject _secondaryWeapon;
-    [SerializeField] private GameObject _grenades;
+    [SerializeField] GameObject _primaryWeapon;
+    [SerializeField] GameObject _secondaryWeapon;
+    [SerializeField] GameObject _meleeWeapon;
+    [SerializeField] GameObject _grenades;
 
     void Start()
     {
@@ -24,20 +26,36 @@ public class WeaponHolder : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (playerAssetsInputs.hotkey1)
+        if (_playerAssetsInputs.hotkey1)
         {
-            playerAssetsInputs.hotkey1 = false;
+            _playerAssetsInputs.hotkey1 = false;
             RequestEquipWeapon_ServerRpc(1);
+
+            _playerUI.GetWeaponHud().EquipWeaponUI(1);
         }
-        else if (playerAssetsInputs.hotkey2)
+
+        else if (_playerAssetsInputs.hotkey2)
         {
-            playerAssetsInputs.hotkey2 = false;
+            _playerAssetsInputs.hotkey2 = false;
             RequestEquipWeapon_ServerRpc(2);
+
+            _playerUI.GetWeaponHud().EquipWeaponUI(2);
         }
-        else if (playerAssetsInputs.hotkey3)
+
+        else if (_playerAssetsInputs.hotkey3)
         {
-            playerAssetsInputs.hotkey3 = false;
+            _playerAssetsInputs.hotkey3 = false;
             RequestEquipWeapon_ServerRpc(3);
+
+            _playerUI.GetWeaponHud().EquipWeaponUI(3);
+        }
+
+        else if (_playerAssetsInputs.hotkey4)
+        {
+            _playerAssetsInputs.hotkey4 = false;
+            RequestEquipWeapon_ServerRpc(4);
+
+            _playerUI.GetWeaponHud().EquipWeaponUI(4);
         }
     }
 
@@ -58,6 +76,7 @@ public class WeaponHolder : NetworkBehaviour
     {
         _primaryWeapon.SetActive(weaponIndex == 1);
         _secondaryWeapon.SetActive(weaponIndex == 2);
-        _grenades.SetActive(weaponIndex == 3);
+        _meleeWeapon.SetActive(weaponIndex == 3);
+        _grenades.SetActive(weaponIndex == 4);
     }
 }
