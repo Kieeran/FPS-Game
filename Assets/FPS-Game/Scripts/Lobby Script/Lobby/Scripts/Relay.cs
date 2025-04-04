@@ -1,22 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using QFSW.QC;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
-using Unity.Services.Authentication;
-using Unity.Services.Core;
-using Unity.Services.Lobbies;
-using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
 using System.Threading.Tasks;
-using Cinemachine;
 
-public class TestRelay : MonoBehaviour
+public class Relay : MonoBehaviour
 {
-    public static TestRelay Instance;
+    public static Relay Instance;
 
     private void Awake()
     {

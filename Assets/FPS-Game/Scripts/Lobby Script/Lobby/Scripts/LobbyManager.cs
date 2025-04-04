@@ -166,7 +166,7 @@ public class LobbyManager : MonoBehaviour
                         GameSceneManager.Instance.LoadNextScene();
                         // SceneLoader.Instance.LoadScene(3);
 
-                        TestRelay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
+                        Relay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                     }
 
                     //joinedLobby = null;
@@ -494,7 +494,7 @@ public class LobbyManager : MonoBehaviour
             {
                 // Debug.Log("StartGame");
 
-                string relayCode = await TestRelay.Instance.CreateRelay(joinedLobby.Players.Count);
+                string relayCode = await Relay.Instance.CreateRelay(joinedLobby.Players.Count);
 
                 Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
                 {
