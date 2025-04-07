@@ -19,7 +19,7 @@ public class WeaponHud : MonoBehaviour
             }
         }
 
-        EquipWeaponUI(1);
+        EquipWeaponUI(0);
     }
 
     public void EquipWeaponUI(int weaponIndex)

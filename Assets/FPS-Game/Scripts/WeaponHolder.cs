@@ -9,11 +9,6 @@ public class WeaponHolder : NetworkBehaviour
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
     [SerializeField] PlayerUI _playerUI;
 
-    [SerializeField] GameObject _primaryWeapon;
-    [SerializeField] GameObject _secondaryWeapon;
-    [SerializeField] GameObject _meleeWeapon;
-    [SerializeField] GameObject _grenades;
-
     List<GameObject> _weaponList;
 
     int _currentWeaponIndex;
@@ -26,13 +21,12 @@ public class WeaponHolder : NetworkBehaviour
 
     void Start()
     {
-        _weaponList = new List<GameObject>
+        _weaponList = new List<GameObject>();
+
+        foreach (Transform child in transform)
         {
-            _primaryWeapon,
-            _secondaryWeapon,
-            _meleeWeapon,
-            _grenades
-        };
+            _weaponList.Add(child.gameObject);
+        }
 
         _currentWeaponIndex = 0;
 
@@ -55,10 +49,7 @@ public class WeaponHolder : NetworkBehaviour
             if (_currentWeaponIndex == 0) return;
 
             _currentWeaponIndex = 0;
-            OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
-
-            RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
-            _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
+            ChangeWeapon();
         }
 
         else if (_playerAssetsInputs.hotkey2)
@@ -67,10 +58,7 @@ public class WeaponHolder : NetworkBehaviour
             if (_currentWeaponIndex == 1) return;
 
             _currentWeaponIndex = 1;
-            OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
-
-            RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
-            _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
+            ChangeWeapon();
         }
 
         else if (_playerAssetsInputs.hotkey3)
@@ -79,10 +67,7 @@ public class WeaponHolder : NetworkBehaviour
             if (_currentWeaponIndex == 2) return;
 
             _currentWeaponIndex = 2;
-            OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
-
-            RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
-            _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
+            ChangeWeapon();
         }
 
         else if (_playerAssetsInputs.hotkey4)
@@ -91,31 +76,36 @@ public class WeaponHolder : NetworkBehaviour
             if (_currentWeaponIndex == 3) return;
 
             _currentWeaponIndex = 3;
-            OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
-
-            RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
-            _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
+            ChangeWeapon();
         }
     }
 
+    void ChangeWeapon()
+    {
+        OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
+
+        RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
+        _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
+    }
+
     [ServerRpc(RequireOwnership = false)]
-    private void RequestEquipWeapon_ServerRpc(int weaponIndex)
+    void RequestEquipWeapon_ServerRpc(int weaponIndex)
     {
         EquipWeapon(weaponIndex);
         UpdateWeapon_ClientRpc(weaponIndex);
     }
 
     [ClientRpc]
-    private void UpdateWeapon_ClientRpc(int weaponIndex)
+    void UpdateWeapon_ClientRpc(int weaponIndex)
     {
         EquipWeapon(weaponIndex);
     }
 
-    private void EquipWeapon(int weaponIndex)
+    void EquipWeapon(int weaponIndex)
     {
-        _primaryWeapon.SetActive(weaponIndex == 0);
-        _secondaryWeapon.SetActive(weaponIndex == 1);
-        _meleeWeapon.SetActive(weaponIndex == 2);
-        _grenades.SetActive(weaponIndex == 3);
+        for (int i = 0; i < _weaponList.Count; i++)
+        {
+            _weaponList[i].SetActive(weaponIndex == i);
+        }
     }
 }

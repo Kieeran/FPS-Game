@@ -2415,6 +2415,7 @@ MonoBehaviour:
   _secondaryWeapon: {fileID: 2321940653453447232}
   _meleeWeapon: {fileID: 3496057221765889206}
   _grenades: {fileID: 7193671196599232154}
+  _weaponList: []
 --- !u!1 &2752739240989899100
 GameObject:
   m_ObjectHideFlags: 0
