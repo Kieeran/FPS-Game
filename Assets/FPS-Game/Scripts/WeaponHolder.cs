@@ -15,7 +15,6 @@ public class WeaponHolder : NetworkBehaviour
     [SerializeField] GameObject _grenades;
 
     List<GameObject> _weaponList;
-    GameObject _currentWeapon;
 
     int _currentWeaponIndex;
 
@@ -37,8 +36,7 @@ public class WeaponHolder : NetworkBehaviour
 
         _currentWeaponIndex = 0;
 
-        _currentWeapon = _weaponList[_currentWeaponIndex];
-
+        OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
         EquipWeapon(_currentWeaponIndex);
     }
 
@@ -57,6 +55,7 @@ public class WeaponHolder : NetworkBehaviour
             if (_currentWeaponIndex == 0) return;
 
             _currentWeaponIndex = 0;
+            OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
 
             RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
             _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
@@ -68,6 +67,7 @@ public class WeaponHolder : NetworkBehaviour
             if (_currentWeaponIndex == 1) return;
 
             _currentWeaponIndex = 1;
+            OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
 
             RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
             _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
@@ -79,6 +79,7 @@ public class WeaponHolder : NetworkBehaviour
             if (_currentWeaponIndex == 2) return;
 
             _currentWeaponIndex = 2;
+            OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
 
             RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
             _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
@@ -90,6 +91,7 @@ public class WeaponHolder : NetworkBehaviour
             if (_currentWeaponIndex == 3) return;
 
             _currentWeaponIndex = 3;
+            OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
 
             RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
             _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
@@ -115,8 +117,5 @@ public class WeaponHolder : NetworkBehaviour
         _secondaryWeapon.SetActive(weaponIndex == 1);
         _meleeWeapon.SetActive(weaponIndex == 2);
         _grenades.SetActive(weaponIndex == 3);
-
-        _currentWeapon = _weaponList[weaponIndex];
-        OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _currentWeapon });
     }
 }

@@ -28,7 +28,7 @@ public class WeaponHud : MonoBehaviour
 
         for (int i = 0; i < _weapons.Count; i++)
         {
-            if (i + 1 == weaponIndex)
+            if (i == weaponIndex)
             {
                 _weapons[i].color = new Color(1, 1, 1, 1);
             }
