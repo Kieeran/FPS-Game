@@ -2359,6 +2359,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86fed0602424c81429a9646cbb2af70d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _totalSupplies: 60
+  _capacity: 10
 --- !u!1 &2323722425924976332
 GameObject:
   m_ObjectHideFlags: 0
@@ -2914,6 +2916,7 @@ GameObject:
   - component: {fileID: 4530824154142287168}
   - component: {fileID: 6360967479396315239}
   - component: {fileID: 3198145288386460731}
+  - component: {fileID: 5572411656813290491}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -3189,6 +3192,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ebf8e41f3720bd41ac3db9580013556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5572411656813290491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086927271415625819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bbb7ae00c97e8c478333cfe2f454c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponHolder: {fileID: 1571463807456523207}
 --- !u!1 &3216196479242807337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5861,6 +5877,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86fed0602424c81429a9646cbb2af70d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _totalSupplies: 90
+  _capacity: 30
 --- !u!1 &6788095526690145830
 GameObject:
   m_ObjectHideFlags: 0
@@ -6315,6 +6333,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78d9d3f543a5ce4b969767d27de793e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _totalSupplies: 4
+  _capacity: 1
 --- !u!1 &7270897841863064638
 GameObject:
   m_ObjectHideFlags: 0

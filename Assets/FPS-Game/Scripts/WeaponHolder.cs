@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using PlayerAssets;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,9 +14,32 @@ public class WeaponHolder : NetworkBehaviour
     [SerializeField] GameObject _meleeWeapon;
     [SerializeField] GameObject _grenades;
 
+    List<GameObject> _weaponList;
+    GameObject _currentWeapon;
+
+    int _currentWeaponIndex;
+
+    public event EventHandler<WeaponEventArgs> OnChangeWeapon;
+    public class WeaponEventArgs : EventArgs
+    {
+        public GameObject CurrentWeapon;
+    }
+
     void Start()
     {
-        EquipWeapon(1);
+        _weaponList = new List<GameObject>
+        {
+            _primaryWeapon,
+            _secondaryWeapon,
+            _meleeWeapon,
+            _grenades
+        };
+
+        _currentWeaponIndex = 0;
+
+        _currentWeapon = _weaponList[_currentWeaponIndex];
+
+        EquipWeapon(_currentWeaponIndex);
     }
 
     public override void OnNetworkSpawn()
@@ -29,33 +54,45 @@ public class WeaponHolder : NetworkBehaviour
         if (_playerAssetsInputs.hotkey1)
         {
             _playerAssetsInputs.hotkey1 = false;
-            RequestEquipWeapon_ServerRpc(1);
+            if (_currentWeaponIndex == 0) return;
 
-            _playerUI.GetWeaponHud().EquipWeaponUI(1);
+            _currentWeaponIndex = 0;
+
+            RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
+            _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
         }
 
         else if (_playerAssetsInputs.hotkey2)
         {
             _playerAssetsInputs.hotkey2 = false;
-            RequestEquipWeapon_ServerRpc(2);
+            if (_currentWeaponIndex == 1) return;
 
-            _playerUI.GetWeaponHud().EquipWeaponUI(2);
+            _currentWeaponIndex = 1;
+
+            RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
+            _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
         }
 
         else if (_playerAssetsInputs.hotkey3)
         {
             _playerAssetsInputs.hotkey3 = false;
-            RequestEquipWeapon_ServerRpc(3);
+            if (_currentWeaponIndex == 2) return;
 
-            _playerUI.GetWeaponHud().EquipWeaponUI(3);
+            _currentWeaponIndex = 2;
+
+            RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
+            _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
         }
 
         else if (_playerAssetsInputs.hotkey4)
         {
             _playerAssetsInputs.hotkey4 = false;
-            RequestEquipWeapon_ServerRpc(4);
+            if (_currentWeaponIndex == 3) return;
 
-            _playerUI.GetWeaponHud().EquipWeaponUI(4);
+            _currentWeaponIndex = 3;
+
+            RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
+            _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
         }
     }
 
@@ -74,9 +111,12 @@ public class WeaponHolder : NetworkBehaviour
 
     private void EquipWeapon(int weaponIndex)
     {
-        _primaryWeapon.SetActive(weaponIndex == 1);
-        _secondaryWeapon.SetActive(weaponIndex == 2);
-        _meleeWeapon.SetActive(weaponIndex == 3);
-        _grenades.SetActive(weaponIndex == 4);
+        _primaryWeapon.SetActive(weaponIndex == 0);
+        _secondaryWeapon.SetActive(weaponIndex == 1);
+        _meleeWeapon.SetActive(weaponIndex == 2);
+        _grenades.SetActive(weaponIndex == 3);
+
+        _currentWeapon = _weaponList[weaponIndex];
+        OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _currentWeapon });
     }
 }
