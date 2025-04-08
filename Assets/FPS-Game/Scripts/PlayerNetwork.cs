@@ -10,6 +10,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using TMPro;
 using Unity.Collections;
+using Unity.Services.Lobbies.Models;
+using Unity.Services.Authentication;
 
 public class PlayerNetwork : NetworkBehaviour
 {
@@ -147,5 +149,58 @@ public class PlayerNetwork : NetworkBehaviour
         //             ChangeRandomNumberServerRpc(Random.Range(0, 100), 0);
         //     }
         // }
+
+        if (!IsOwner) return;
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            // PrintPlayerInNGO();
+            // Debug.Log("==========================================================");
+            // PrintPlayerInLobby();
+
+            string playerId = AuthenticationService.Instance.PlayerId;
+            PrintOwnerClientIdAndPlayerName_ServerRPC(OwnerClientId, playerId);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void PrintOwnerClientIdAndPlayerName_ServerRPC(ulong clientID, string playerID)
+    {
+        Lobby lobby = LobbyManager.Instance.GetJoinedLobby();
+        foreach (Player player in lobby.Players)
+        {
+            if (player.Id == playerID)
+            {
+                Debug.Log("Client " + clientID + " has name: " + player.Data[LobbyManager.KEY_PLAYER_NAME].Value);
+                return;
+            }
+        }
+    }
+
+    void PrintPlayerInLobby()
+    {
+        Lobby lobby = LobbyManager.Instance.GetJoinedLobby();
+        foreach (Player player in lobby.Players)
+        {
+            Debug.Log($"Client ID: {player.Id}");
+            Debug.Log($"Player name: {player.Data[LobbyManager.KEY_PLAYER_NAME].Value}");
+        }
+    }
+
+    void PrintPlayerInNGO()
+    {
+        foreach (var clientPair in NetworkManager.Singleton.ConnectedClients)
+        {
+            ulong clientId = clientPair.Key;
+            NetworkClient client = clientPair.Value;
+
+            Debug.Log($"Client ID: {clientId}");
+
+            if (client.PlayerObject != null)
+            {
+                GameObject playerGO = client.PlayerObject.gameObject;
+                Debug.Log($"Player GameObject: {playerGO.name}");
+            }
+        }
     }
 }
