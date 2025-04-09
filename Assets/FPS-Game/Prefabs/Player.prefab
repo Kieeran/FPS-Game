@@ -2271,7 +2271,7 @@ GameObject:
   - component: {fileID: 5226092564806773297}
   - component: {fileID: 3736074866538794915}
   - component: {fileID: 3327655574649894840}
-  - component: {fileID: 1895813889120839532}
+  - component: {fileID: 72865859253179882}
   m_Layer: 0
   m_Name: Secondary Weapon
   m_TagString: Untagged
@@ -2347,7 +2347,7 @@ MonoBehaviour:
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
---- !u!114 &1895813889120839532
+--- !u!114 &72865859253179882
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2356,7 +2356,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2321940653453447232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86fed0602424c81429a9646cbb2af70d, type: 3}
+  m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _totalSupplies: 60
@@ -2411,11 +2411,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerAssetsInputs: {fileID: 7795738832339507943}
   _playerUI: {fileID: 610120243110111006}
-  _primaryWeapon: {fileID: 6712177035632313221}
-  _secondaryWeapon: {fileID: 2321940653453447232}
-  _meleeWeapon: {fileID: 3496057221765889206}
-  _grenades: {fileID: 7193671196599232154}
-  _weaponList: []
 --- !u!1 &2752739240989899100
 GameObject:
   m_ObjectHideFlags: 0
@@ -5790,7 +5785,7 @@ GameObject:
   - component: {fileID: 3280156445995770102}
   - component: {fileID: 4460800013304567988}
   - component: {fileID: 5275834517874757834}
-  - component: {fileID: 6505802683497904994}
+  - component: {fileID: 8404046301696806030}
   m_Layer: 0
   m_Name: Primary Weapon
   m_TagString: Untagged
@@ -5866,7 +5861,7 @@ MonoBehaviour:
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
---- !u!114 &6505802683497904994
+--- !u!114 &8404046301696806030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5875,7 +5870,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6712177035632313221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86fed0602424c81429a9646cbb2af70d, type: 3}
+  m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _totalSupplies: 90
@@ -6266,7 +6261,7 @@ GameObject:
   - component: {fileID: 180647619045918677}
   - component: {fileID: 2391566325307181868}
   - component: {fileID: 4933977361876597016}
-  - component: {fileID: 7120520290684353088}
+  - component: {fileID: 8279102339201576451}
   m_Layer: 0
   m_Name: Grenades
   m_TagString: Untagged
@@ -6322,7 +6317,7 @@ MonoBehaviour:
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _playerAssetsInputs: {fileID: 7795738832339507943}
   _currentGrenade: {fileID: 8644957872373403998}
---- !u!114 &7120520290684353088
+--- !u!114 &8279102339201576451
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6331,7 +6326,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7193671196599232154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78d9d3f543a5ce4b969767d27de793e, type: 3}
+  m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _totalSupplies: 4
@@ -6432,7 +6427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4702462702862471269
 RectTransform:
   m_ObjectHideFlags: 0

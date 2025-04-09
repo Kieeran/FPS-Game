@@ -6,20 +6,25 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] WeaponHolder _weaponHolder;
 
+    GameObject _currentWeapon;
+
     bool _isReloading;
     void Start()
     {
-        _weaponHolder.OnChangeWeapon += PrintInfo;
+        _currentWeapon = null;
+
+        _weaponHolder.OnChangeWeapon += SetCurrentWeapon;
     }
 
-    void PrintInfo(object sender, WeaponHolder.WeaponEventArgs e)
+    void SetCurrentWeapon(object sender, WeaponHolder.WeaponEventArgs e)
     {
-        Debug.Log(e.CurrentWeapon.name);
+        // Debug.Log(e.CurrentWeapon.name);
+        _currentWeapon = e.CurrentWeapon;
     }
 
     void OnDestroy()
     {
-        _weaponHolder.OnChangeWeapon -= PrintInfo;
+        _weaponHolder.OnChangeWeapon -= SetCurrentWeapon;
     }
 
     void Update()
