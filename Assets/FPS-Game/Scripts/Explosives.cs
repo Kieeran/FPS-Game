@@ -86,6 +86,7 @@ public class Explosives : NetworkBehaviour
 
         _currentGrenade.transform.localScale = Vector3.one;
 
+        _currentGrenade.SetActive(false);
         Invoke(nameof(EnableInterpolation), 0.1f);
     }
 
@@ -105,12 +106,35 @@ public class Explosives : NetworkBehaviour
         }
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    void EnableCurrentGrenade_ServerRPC()
+    {
+        EnableCurrentGrenade();
+        EnableCurrentGrenade_ClientRPC();
+    }
+
+    [ClientRpc]
+    void EnableCurrentGrenade_ClientRPC()
+    {
+        EnableCurrentGrenade();
+    }
+
+    void EnableCurrentGrenade()
+    {
+        _currentGrenade.gameObject.SetActive(true);
+    }
+
     void Update()
     {
         if (!IsOwner) return;
 
         if (_supplyLoad.IsMagazineEmpty()) return;
         if (_playerReload.GetIsReloading()) return;
+
+        if (_currentGrenade.activeSelf == false)
+        {
+            EnableCurrentGrenade_ServerRPC();
+        }
 
         if (_playerAssetsInputs.shoot == true)
         {
