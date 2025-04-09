@@ -88,6 +88,8 @@ public class PlayerInventory : MonoBehaviour
         {
             _currentWeaponSupplyLoad = supplyLoad;
 
+            _currentWeaponSupplyLoad.EnsureInitialized();
+
             SetAmmoInfoUI();
             return;
         }

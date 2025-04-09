@@ -11,11 +11,29 @@ public class SupplyLoad : MonoBehaviour
     public int CurrentMagazineAmmo;
     [HideInInspector]
     public int TotalSupplies;
+    private bool _isInitialized = false;
 
     void Start()
     {
-        CurrentMagazineAmmo = Capacity;
-        TotalSupplies = InitSupplies;
+        // CurrentMagazineAmmo = Capacity;
+        // TotalSupplies = InitSupplies;
+
+        if (!_isInitialized)
+        {
+            CurrentMagazineAmmo = Capacity;
+            TotalSupplies = InitSupplies;
+            _isInitialized = true;
+        }
+    }
+
+    public void EnsureInitialized()
+    {
+        if (!_isInitialized)
+        {
+            CurrentMagazineAmmo = Capacity;
+            TotalSupplies = InitSupplies;
+            _isInitialized = true;
+        }
     }
 
     public bool IsMagazineEmpty() { return CurrentMagazineAmmo <= 0; }

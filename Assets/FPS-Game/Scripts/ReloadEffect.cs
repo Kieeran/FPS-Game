@@ -7,16 +7,14 @@ public class ReloadEffect : MonoBehaviour
 {
     Image _reloadUI;
 
-    float _fillAmountOffset;
-    float _alphaOffset;
+    [SerializeField] float _fillAmountOffset;
+    [SerializeField] float _alphaOffset;
     float _startAlpha;
 
     void Start()
     {
         _reloadUI = GetComponent<Image>();
 
-        _fillAmountOffset = 0.01f;
-        _alphaOffset = 0.01f;
         _startAlpha = _reloadUI.color.a;
 
         ResetReloadUI();
