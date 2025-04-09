@@ -28,9 +28,11 @@ public class PlayerInventory : MonoBehaviour
 
     void Reload(object sender, System.EventArgs e)
     {
-        _playerReload.ResetIsReloading();
-
-        if (_currentWeaponSupplyLoad.IsTotalSuppliesEmpty()) return;
+        if (_currentWeaponSupplyLoad.IsTotalSuppliesEmpty())
+        {
+            _playerReload.ResetIsReloading();
+            return;
+        }
 
         int ammoToReload = _currentWeaponSupplyLoad.Capacity - _currentWeaponSupplyLoad.CurrentMagazineAmmo;
 
@@ -46,7 +48,11 @@ public class PlayerInventory : MonoBehaviour
             _currentWeaponSupplyLoad.TotalSupplies -= ammoToReload;
         }
 
-        SetAmmoInfoUI();
+        _playerUI.StartReloadEffect(() =>
+        {
+            SetAmmoInfoUI();
+            _playerReload.ResetIsReloading();
+        });
     }
 
     void SetCurrentWeapon(object sender, WeaponHolder.WeaponEventArgs e)

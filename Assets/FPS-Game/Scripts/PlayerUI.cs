@@ -14,13 +14,24 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] WeaponHud _weaponHud;
 
     TextMeshProUGUI _ammoInfo;
+    ReloadEffect _reloadEffect;
 
     public WeaponHud GetWeaponHud() { return _weaponHud; }
+
+    public void StartReloadEffect(System.Action onDone)
+    {
+        _reloadEffect.StartReloadEffect(() =>
+        {
+            onDone?.Invoke();
+        });
+    }
 
     // public Image GetEscapeUI() { return escapeUI; }
 
     void Awake()
     {
+        _reloadEffect = _bulletHud.transform.Find("Reload").GetComponent<ReloadEffect>();
+
         Transform ammoInfoTransform = _bulletHud.transform.Find("BulletAmount/AmmoInfo");
         if (ammoInfoTransform != null)
         {
