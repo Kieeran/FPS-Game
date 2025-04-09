@@ -10,11 +10,13 @@ public class Explosives : NetworkBehaviour
 {
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
     [SerializeField] PlayerInventory _playerInventory;
+    [SerializeField] PlayerReload _playerReload;
 
     [SerializeField] GameObject _explosiveEffectPrefab;
     [SerializeField] GameObject _currentGrenade;
     Rigidbody _grenadeRb;
     Collider _collider;
+    SupplyLoad _supplyLoad;
 
     ClientNetworkTransform _clientNetworkTransform;
     bool _onCoolDown = false;
@@ -23,6 +25,8 @@ public class Explosives : NetworkBehaviour
 
     private void Start()
     {
+        _supplyLoad = GetComponent<SupplyLoad>();
+
         _clientNetworkTransform = _currentGrenade.GetComponent<ClientNetworkTransform>();
         _grenadeRb = _currentGrenade.GetComponent<Rigidbody>();
         _collider = _currentGrenade.GetComponent<Collider>();
@@ -104,6 +108,9 @@ public class Explosives : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
+
+        if (_supplyLoad.IsMagazineEmpty()) return;
+        if (_playerReload.GetIsReloading()) return;
 
         if (_playerAssetsInputs.shoot == true)
         {

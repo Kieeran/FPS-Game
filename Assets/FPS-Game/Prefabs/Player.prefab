@@ -2310,6 +2310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerAssetsInputs: {fileID: 7795738832339507943}
   _playerInventory: {fileID: 5572411656813290491}
+  _playerReload: {fileID: 4334006862577660681}
   _playerShoot: {fileID: 6360967479396315239}
   FireCoolDown: 0.15
   shootEffect: {fileID: 3327655574649894840}
@@ -2780,6 +2781,7 @@ GameObject:
   - component: {fileID: 6360967479396315239}
   - component: {fileID: 3198145288386460731}
   - component: {fileID: 5572411656813290491}
+  - component: {fileID: 4334006862577660681}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -3068,7 +3070,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerUI: {fileID: 610120243110111006}
+  _playerReload: {fileID: 4334006862577660681}
   _weaponHolder: {fileID: 1571463807456523207}
+--- !u!114 &4334006862577660681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086927271415625819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce37de0135b180f4ca8f361e51be1785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerAssetsInputs: {fileID: 7795738832339507943}
 --- !u!1 &3216196479242807337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5630,6 +5646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerAssetsInputs: {fileID: 7795738832339507943}
   _playerInventory: {fileID: 5572411656813290491}
+  _playerReload: {fileID: 4334006862577660681}
   _playerShoot: {fileID: 6360967479396315239}
   FireCoolDown: 0.15
   shootEffect: {fileID: 5275834517874757834}
@@ -6125,6 +6142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerAssetsInputs: {fileID: 7795738832339507943}
   _playerInventory: {fileID: 5572411656813290491}
+  _playerReload: {fileID: 4334006862577660681}
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _currentGrenade: {fileID: 8644957872373403998}
 --- !u!114 &8279102339201576451

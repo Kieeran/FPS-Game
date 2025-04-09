@@ -10,4 +10,5 @@ public class SupplyLoad : MonoBehaviour
     public int CurrentMagazineAmmo;
 
     public bool IsMagazineEmpty() { return CurrentMagazineAmmo <= 0; }
+    public bool IsTotalSuppliesEmpty() { return TotalSupplies <= 0; }
 }

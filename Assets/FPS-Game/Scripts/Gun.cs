@@ -11,6 +11,7 @@ public class Gun : NetworkBehaviour
     // public UnityEvent OnGunShoot;
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
     [SerializeField] PlayerInventory _playerInventory;
+    [SerializeField] PlayerReload _playerReload;
     [SerializeField] PlayerShoot _playerShoot;
 
     SupplyLoad _supplyLoad;
@@ -63,7 +64,7 @@ public class Gun : NetworkBehaviour
     private void OnShoot()
     {
         if (_supplyLoad.IsMagazineEmpty()) return;
-        // if (magazine.IsReloading()) return;
+        if (_playerReload.GetIsReloading()) return;
 
         if (Automatic)
         {

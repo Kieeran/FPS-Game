@@ -73,7 +73,7 @@ public class PlayerUI : NetworkBehaviour
         }
     }
 
-    public void SetAmmoInfo(int currentMagazineAmmo, int totalAmmo)
+    public void SetAmmoInfoUI(int currentMagazineAmmo, int totalAmmo)
     {
         _ammoInfo.text = currentMagazineAmmo.ToString() + "/" + totalAmmo.ToString();
     }
