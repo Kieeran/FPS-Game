@@ -26,9 +26,22 @@ public class PlayerInventory : MonoBehaviour
         _playerReload.OnReload -= Reload;
     }
 
+    public void RefillAmmos()
+    {
+        foreach (GameObject weapon in _weaponHolder.GetWeaponList())
+        {
+            if (weapon.TryGetComponent<SupplyLoad>(out var supplyLoad))
+            {
+                supplyLoad.RefillAmmo();
+            }
+        }
+
+        SetAmmoInfoUI();
+    }
+
     void Reload(object sender, System.EventArgs e)
     {
-        if (_currentWeaponSupplyLoad.IsTotalSuppliesEmpty())
+        if (_currentWeaponSupplyLoad == null || _currentWeaponSupplyLoad.IsTotalSuppliesEmpty())
         {
             _playerReload.ResetIsReloading();
             return;
@@ -36,23 +49,35 @@ public class PlayerInventory : MonoBehaviour
 
         int ammoToReload = _currentWeaponSupplyLoad.Capacity - _currentWeaponSupplyLoad.CurrentMagazineAmmo;
 
-        if (ammoToReload > _currentWeaponSupplyLoad.TotalSupplies)
+        if (ammoToReload == 0)
+        {
+            _playerReload.ResetIsReloading();
+            return;
+        }
+
+        else if (ammoToReload > _currentWeaponSupplyLoad.TotalSupplies)
         {
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += _currentWeaponSupplyLoad.TotalSupplies;
             _currentWeaponSupplyLoad.TotalSupplies = 0;
+
+            _playerUI.StartReloadEffect(() =>
+            {
+                SetAmmoInfoUI();
+                _playerReload.ResetIsReloading();
+            });
         }
 
         else
         {
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += ammoToReload;
             _currentWeaponSupplyLoad.TotalSupplies -= ammoToReload;
-        }
 
-        _playerUI.StartReloadEffect(() =>
-        {
-            SetAmmoInfoUI();
-            _playerReload.ResetIsReloading();
-        });
+            _playerUI.StartReloadEffect(() =>
+            {
+                SetAmmoInfoUI();
+                _playerReload.ResetIsReloading();
+            });
+        }
     }
 
     void SetCurrentWeapon(object sender, WeaponHolder.WeaponEventArgs e)

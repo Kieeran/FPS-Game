@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 [InitializeOnLoad]
 public static class EditorOnlyPreview
 {
-    private const string prefabPath = "Assets/FPS-Game/Prefabs/Player.prefab"; 
-    private const string childNameToEnable = "PlayerUI";
+    private const string prefabPath = "Assets/FPS-Game/Prefabs/Player.prefab";
+    private const string childNameToToggle = "PlayerUI";
 
     private static string _previousScenePath;
 
@@ -24,19 +24,19 @@ public static class EditorOnlyPreview
             case PlayModeStateChange.ExitingEditMode:
                 // Trước khi chạy:
                 SaveCurrentScenePath();
-                EnableChildInPrefab(prefabPath, childNameToEnable);
+                // ToggleChildInPrefab(prefabPath, childNameToToggle, false); // TẮT
                 AutoLoadScene0();
                 break;
 
             case PlayModeStateChange.EnteredEditMode:
                 // Sau khi STOP chạy:
-                EnableChildInPrefab(prefabPath, childNameToEnable);
+                // ToggleChildInPrefab(prefabPath, childNameToToggle, true); // BẬT lại
                 RestorePreviousScene();
                 break;
         }
     }
 
-    static void EnableChildInPrefab(string path, string childName)
+    static void ToggleChildInPrefab(string path, string childName, bool enable)
     {
         GameObject prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
         if (prefabAsset == null)
@@ -50,8 +50,9 @@ public static class EditorOnlyPreview
 
         if (targetChild != null)
         {
-            targetChild.gameObject.SetActive(true);
-            Debug.Log($"[EditorOnlyPreview] Đã bật '{childName}' trong prefab '{path}'");
+            targetChild.gameObject.SetActive(enable);
+            string state = enable ? "bật" : "tắt";
+            Debug.Log($"[EditorOnlyPreview] Đã {state} '{childName}' trong prefab '{path}'");
 
             PrefabUtility.SaveAsPrefabAsset(prefabRoot, path);
         }

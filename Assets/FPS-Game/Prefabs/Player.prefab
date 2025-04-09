@@ -2362,9 +2362,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotalSupplies: 10
+  InitSupplies: 10
   Capacity: 5
   CurrentMagazineAmmo: 5
+  TotalSupplies: 10
 --- !u!1 &2323722425924976332
 GameObject:
   m_ObjectHideFlags: 0
@@ -2820,7 +2821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3183135313
+  GlobalObjectIdHash: 128090178
   InScenePlacedSourceGlobalObjectIdHash: 2741875015
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -5711,9 +5712,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotalSupplies: 20
+  InitSupplies: 20
   Capacity: 10
   CurrentMagazineAmmo: 10
+  TotalSupplies: 20
 --- !u!1 &6788095526690145830
 GameObject:
   m_ObjectHideFlags: 0
@@ -6170,9 +6172,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotalSupplies: 3
+  InitSupplies: 4
   Capacity: 1
   CurrentMagazineAmmo: 1
+  TotalSupplies: 3
 --- !u!1 &7270897841863064638
 GameObject:
   m_ObjectHideFlags: 0
@@ -6269,7 +6272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4702462702862471269
 RectTransform:
   m_ObjectHideFlags: 0

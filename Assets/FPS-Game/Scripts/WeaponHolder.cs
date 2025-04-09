@@ -19,6 +19,8 @@ public class WeaponHolder : NetworkBehaviour
         public GameObject CurrentWeapon;
     }
 
+    public List<GameObject> GetWeaponList() { return _weaponList; }
+
     void Start()
     {
         _weaponList = new List<GameObject>();

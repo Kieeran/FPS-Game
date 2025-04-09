@@ -6,12 +6,14 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     PlayerAssetsInputs _playerAssetsInputs;
+    PlayerInventory _playerInventory;
     Interactable _currentInteractableObj;
     float _playerReach;
 
     void Start()
     {
         _playerAssetsInputs = GetComponent<PlayerAssetsInputs>();
+        _playerInventory = GetComponent<PlayerInventory>();
 
         _playerReach = 3f;
     }
@@ -25,7 +27,11 @@ public class PlayerInteract : MonoBehaviour
             _playerAssetsInputs.interact = false;
 
             if (_currentInteractableObj != null)
+            {
                 Debug.Log("Interact with " + _currentInteractableObj.name);
+                _playerInventory.RefillAmmos();
+            }
+
         }
     }
 
