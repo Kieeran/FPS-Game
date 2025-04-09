@@ -1,4 +1,5 @@
 using PlayerAssets;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,14 +10,31 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] Image _escapeUI;
     [SerializeField] Button _quitGameButton;
     [SerializeField] GameObject _scoreBoard;
-
-    [SerializeField] Transform _container;
-
+    [SerializeField] GameObject _bulletHud;
     [SerializeField] WeaponHud _weaponHud;
+
+    TextMeshProUGUI _ammoInfo;
 
     public WeaponHud GetWeaponHud() { return _weaponHud; }
 
     // public Image GetEscapeUI() { return escapeUI; }
+
+    void Awake()
+    {
+        Transform ammoInfoTransform = _bulletHud.transform.Find("BulletAmount/AmmoInfo");
+        if (ammoInfoTransform != null)
+        {
+            _ammoInfo = ammoInfoTransform.GetComponent<TextMeshProUGUI>();
+            if (_ammoInfo == null)
+            {
+                Debug.LogError("Không tìm thấy TextMeshPro trong AmmoInfo!");
+            }
+        }
+        else
+        {
+            Debug.LogError("Không tìm thấy BulletAmount/AmmoInfo trong Bullet HUD!");
+        }
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -53,6 +71,11 @@ public class PlayerUI : NetworkBehaviour
             LobbyManager.Instance.ExitGame();
             GameSceneManager.Instance.LoadPreviousScene();
         }
+    }
+
+    public void SetAmmoInfo(int currentMagazineAmmo, int totalAmmo)
+    {
+        _ammoInfo.text = currentMagazineAmmo.ToString() + "/" + totalAmmo.ToString();
     }
 
     void Update()

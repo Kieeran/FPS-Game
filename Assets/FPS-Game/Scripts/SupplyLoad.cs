@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class SupplyLoad : MonoBehaviour
 {
-    [SerializeField] int _totalSupplies;
-    [SerializeField] int _capacity;
+    [SerializeField] public int TotalSupplies;
+    [SerializeField] public int Capacity;
 
-    public int GetTotalSupplies() { return _totalSupplies; }
-    public int GetCapacity() { return _capacity; }
+    public int CurrentMagazineAmmo;
 
-    public bool IsOutOfSupplies() { return _totalSupplies <= 0; }
+    public bool IsMagazineEmpty() { return CurrentMagazineAmmo <= 0; }
 }

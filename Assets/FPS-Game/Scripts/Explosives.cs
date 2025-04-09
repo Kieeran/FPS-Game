@@ -8,8 +8,10 @@ using UnityEngine;
 
 public class Explosives : NetworkBehaviour
 {
-    [SerializeField] GameObject _explosiveEffectPrefab;
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] PlayerInventory _playerInventory;
+
+    [SerializeField] GameObject _explosiveEffectPrefab;
     [SerializeField] GameObject _currentGrenade;
     Rigidbody _grenadeRb;
     Collider _collider;
@@ -110,6 +112,8 @@ public class Explosives : NetworkBehaviour
             if (_onCoolDown == true) return;
 
             _onCoolDown = true;
+
+            _playerInventory.UpdatecurrentMagazineAmmo();
 
             ThrowGrenade_ServerRPC();
         }
