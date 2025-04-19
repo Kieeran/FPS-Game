@@ -15,10 +15,10 @@ public class PlayerTakeDamage : NetworkBehaviour
     public float hitBodyAlpha;
     public float hitHeadAlpha;
 
-    public void TakeDamage(float damage, ulong targetClientId)
+    public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID)
     {
         // Debug.Log($"{OwnerClientId} take {damage} damage");
-        ChangeHPServerRpc(damage, targetClientId);
+        ChangeHPServerRpc(damage, targetClientId, ownerPlayerID);
 
         UpdateUI(damage, targetClientId);
     }
@@ -43,15 +43,24 @@ public class PlayerTakeDamage : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ChangeHPServerRpc(float damage, ulong targetClientId)
+    public void ChangeHPServerRpc(float damage, ulong targetClientId, ulong ownerPlayerID)
     {
         var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
+        var ownerPlayer = NetworkManager.Singleton.ConnectedClients[ownerPlayerID].PlayerObject;
         if (targetPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
         {
             targetHealth.HP.Value -= damage;
 
             if (targetHealth.HP.Value <= 0)
             {
+                if (targetPlayer.TryGetComponent<PlayerNetwork>(out var clientPlayerNetwork))
+                {
+                    clientPlayerNetwork.deathCount.Value += 1;
+                }
+                if (ownerPlayer.TryGetComponent<PlayerNetwork>(out var ownerPlayerNetwork))
+                {
+                    ownerPlayerNetwork.killCount.Value += 1;
+                }
                 targetHealth.HP.Value = 1;
             }
             

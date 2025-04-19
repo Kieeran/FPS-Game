@@ -12,12 +12,14 @@ public class PlayerScoreboardItem : MonoBehaviour
 
     void Start()
     {
-        killsText.text = "0";
-        deathsText.text = "0";
+        // killsText.text = "0";
+        // deathsText.text = "0";
     }
 
-    public void Setup(string name)
+    public void Setup(string name, int killCount, int deathCount)
     {
         nameText.text = name.ToString();
+        killsText.text = killCount.ToString();
+        deathsText.text = deathCount.ToString();
     }
 }

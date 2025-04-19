@@ -7,13 +7,16 @@ using UnityEngine.InputSystem;
 using Unity.Collections;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
+using System.Collections.Generic;
 
 public class PlayerNetwork : NetworkBehaviour
 {
     // private NetworkVariable<FixedString32Bytes> playerName = new("Playername");
     public string playerName = "Playername";
-    private NetworkVariable<int> killCount = new(0);
-    private NetworkVariable<int> deathCount = new(0);
+    public NetworkVariable<int> killCount = new(0);
+    public NetworkVariable<int> deathCount = new(0);
+
+    public List<PlayerNetwork> playerList = new();
 
     public PlayerInput playerInput;
     public CharacterController characterController;
@@ -30,10 +33,30 @@ public class PlayerNetwork : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
+        // if (!IsClient)
+        // {
+        //     foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
+        //     {
+        //         NetworkObject player = client.PlayerObject;
+
+        //         if (player.TryGetComponent<PlayerNetwork>(out var playerNetwork))
+        //         {
+        //             // Debug.Log(playerNetwork.playerName);
+        //             playerList.Add(playerNetwork);
+        //         }
+        //     }
+        // }
+
+        // else
+        // {
+        //     PrintPlayerName_ServerRPC();
+        // }
+
         if (IsOwner == true)
         {
             EnableScripts();
             MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
+
 
             CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
             if (_camera != null)
@@ -69,6 +92,7 @@ public class PlayerNetwork : NetworkBehaviour
                 if (targetPlayer.TryGetComponent<PlayerNetwork>(out var playerNetwork))
                 {
                     playerNetwork.playerName = player.Data[LobbyManager.KEY_PLAYER_NAME].Value;
+                    playerList.Add(playerNetwork);
                     return;
                 }
             }
@@ -77,27 +101,40 @@ public class PlayerNetwork : NetworkBehaviour
 
     void Update()
     {
-        if (!IsOwner) return;
+
+        // if (!IsOwner) return;
+
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            if (!IsClient)
-            {
-                foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
-                {
-                    NetworkObject player = client.PlayerObject;
+            PrintPlayerName_ServerRPC();
+            // foreach (PlayerNetwork playerNetwork in playerList)
+            // {
+            //     if (playerList == null)
+            //     {
+            //         Debug.Log("Player List is null");
+            //     }
+            //     else Debug.Log("Player List: " + playerList);
+            //     // Debug.Log("Player name: " + playerNetwork.playerName);
+            // }
+            //     if (!IsClient)
+            //     {
+            //         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
+            //         {
+            //             NetworkObject player = client.PlayerObject;
 
-                    if (player.TryGetComponent<PlayerNetwork>(out var playerNetwork))
-                    {
-                        Debug.Log(playerNetwork.playerName);
-                    }
-                }
-            }
+            //             if (player.TryGetComponent<PlayerNetwork>(out var playerNetwork))
+            //             {
+            //                 // Debug.Log(playerNetwork.playerName);
+            //                 playerList.Add(playerNetwork);
+            //             }
+            //         }
+            //     }
 
-            else
-            {
-                PrintPlayerName_ServerRPC();
-            }
+            //     else
+            //     {
+            //         PrintPlayerName_ServerRPC();
+            //     }
         }
     }
 
@@ -110,13 +147,22 @@ public class PlayerNetwork : NetworkBehaviour
 
             if (player.TryGetComponent<PlayerNetwork>(out var playerNetwork))
             {
-                PrintPlayerName_ClientRPC(playerNetwork.playerName);
+                // PrintPlayerName_ClientRPC(playerNetwork.playerName);
+                playerList.Add(playerNetwork);
+                AddPlayerNetwork_ClientRpc(playerNetwork.playerName, playerNetwork.killCount.Value, playerNetwork.deathCount.Value);
             }
         }
     }
+
+    // [ClientRpc]
+    // void PrintPlayerName_ClientRPC(FixedString32Bytes playerName)
+    // {
+    //     // Debug.Log(playerName);
+    // }
+
     [ClientRpc]
-    void PrintPlayerName_ClientRPC(FixedString32Bytes playerName)
+    void AddPlayerNetwork_ClientRpc(string playerName, int killCount, int deathCount)
     {
-        Debug.Log(playerName);
+        Debug.Log("Player's name - kill/death: " + playerName + " - " + killCount + "/" + deathCount);
     }
 }
