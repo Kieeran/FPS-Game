@@ -8,15 +8,13 @@ using Unity.Collections;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
+using System;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-    // private NetworkVariable<FixedString32Bytes> playerName = new("Playername");
     public string playerName = "Playername";
-    public NetworkVariable<int> killCount = new(0);
-    public NetworkVariable<int> deathCount = new(0);
-
-    public List<PlayerNetwork> playerList = new();
+    public NetworkVariable<int> killCount;
+    public NetworkVariable<int> deathCount;
 
     public PlayerInput playerInput;
     public CharacterController characterController;
@@ -29,43 +27,41 @@ public class PlayerNetwork : NetworkBehaviour
 
     public Canvas playerUI;
 
+    List<PlayerInfo> playerInfos;
+
+    public struct PlayerInfo
+    {
+        public string Name;
+        public int KillCount;
+        public int DeathCount;
+
+        public PlayerInfo(string name, int killCount, int deathCount)
+        {
+            Name = name;
+            KillCount = killCount;
+            DeathCount = deathCount;
+        }
+    }
+
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
+        if (IsOwner == false) return;
 
-        // if (!IsClient)
-        // {
-        //     foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
-        //     {
-        //         NetworkObject player = client.PlayerObject;
+        killCount = new();
+        deathCount = new();
 
-        //         if (player.TryGetComponent<PlayerNetwork>(out var playerNetwork))
-        //         {
-        //             // Debug.Log(playerNetwork.playerName);
-        //             playerList.Add(playerNetwork);
-        //         }
-        //     }
-        // }
+        EnableScripts();
+        MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
 
-        // else
-        // {
-        //     PrintPlayerName_ServerRPC();
-        // }
-
-        if (IsOwner == true)
+        CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
+        if (_camera != null)
         {
-            EnableScripts();
-            MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
+            Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
 
-
-            CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
-            if (_camera != null)
-            {
-                Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
-
-                if (playerCameraRoot != null) _camera.Follow = playerCameraRoot;
-            }
+            if (playerCameraRoot != null) _camera.Follow = playerCameraRoot;
         }
+
+        _playerUI.OnOpenScoreBoard += OnOpenScoreBoard;
     }
 
     private void EnableScripts()
@@ -92,7 +88,6 @@ public class PlayerNetwork : NetworkBehaviour
                 if (targetPlayer.TryGetComponent<PlayerNetwork>(out var playerNetwork))
                 {
                     playerNetwork.playerName = player.Data[LobbyManager.KEY_PLAYER_NAME].Value;
-                    playerList.Add(playerNetwork);
                     return;
                 }
             }
@@ -101,68 +96,69 @@ public class PlayerNetwork : NetworkBehaviour
 
     void Update()
     {
-
-        // if (!IsOwner) return;
-
+        if (IsOwner == false) return;
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            PrintPlayerName_ServerRPC();
-            // foreach (PlayerNetwork playerNetwork in playerList)
-            // {
-            //     if (playerList == null)
-            //     {
-            //         Debug.Log("Player List is null");
-            //     }
-            //     else Debug.Log("Player List: " + playerList);
-            //     // Debug.Log("Player name: " + playerNetwork.playerName);
-            // }
-            //     if (!IsClient)
-            //     {
-            //         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
-            //         {
-            //             NetworkObject player = client.PlayerObject;
-
-            //             if (player.TryGetComponent<PlayerNetwork>(out var playerNetwork))
-            //             {
-            //                 // Debug.Log(playerNetwork.playerName);
-            //                 playerList.Add(playerNetwork);
-            //             }
-            //         }
-            //     }
-
-            //     else
-            //     {
-            //         PrintPlayerName_ServerRPC();
-            //     }
+            // GetAllPlayerInfos_ServerRPC(OwnerClientId);
         }
+    }
+
+    void OnOpenScoreBoard()
+    {
+        GetAllPlayerInfos();
+    }
+
+    public void GetAllPlayerInfos()
+    {
+        GetAllPlayerInfos_ServerRPC(OwnerClientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void PrintPlayerName_ServerRPC()
+    void GetAllPlayerInfos_ServerRPC(ulong clientID)
     {
+        string result = "";
+
         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
         {
-            NetworkObject player = client.PlayerObject;
-
-            if (player.TryGetComponent<PlayerNetwork>(out var playerNetwork))
+            if (client.PlayerObject.TryGetComponent<PlayerNetwork>(out var playerNetwork))
             {
-                // PrintPlayerName_ClientRPC(playerNetwork.playerName);
-                playerList.Add(playerNetwork);
-                AddPlayerNetwork_ClientRpc(playerNetwork.playerName, playerNetwork.killCount.Value, playerNetwork.deathCount.Value);
+                result += $"{playerNetwork.playerName};{playerNetwork.killCount.Value};{playerNetwork.deathCount.Value}|";
             }
         }
+
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new List<ulong> { clientID }
+            }
+        };
+
+        GetAllPlayerInfos_ClientRPC(result, clientRpcParams);
     }
 
-    // [ClientRpc]
-    // void PrintPlayerName_ClientRPC(FixedString32Bytes playerName)
-    // {
-    //     // Debug.Log(playerName);
-    // }
-
     [ClientRpc]
-    void AddPlayerNetwork_ClientRpc(string playerName, int killCount, int deathCount)
+    void GetAllPlayerInfos_ClientRPC(string data, ClientRpcParams clientRpcParams)
     {
-        Debug.Log("Player's name - kill/death: " + playerName + " - " + killCount + "/" + deathCount);
+        string[] playerEntries = data.Split('|', StringSplitOptions.RemoveEmptyEntries);
+
+        List<PlayerInfo> playerInfos = new();
+
+        foreach (string entry in playerEntries)
+        {
+            string[] tokens = entry.Split(';');
+            if (tokens.Length == 3)
+            {
+                string name = tokens[0];
+                int kill = int.Parse(tokens[1]);
+                int death = int.Parse(tokens[2]);
+                playerInfos.Add(new PlayerInfo(name, kill, death));
+
+                Debug.Log($"Name: {name}, Kill: {kill}, Death: {death}");
+            }
+        }
+
+        _playerUI.AddInfoToScoreBoard(playerInfos);
     }
 }

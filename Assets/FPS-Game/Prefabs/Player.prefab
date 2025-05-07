@@ -1764,7 +1764,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6308632126101113878}
-  - component: {fileID: 3216197329680297393}
   m_Layer: 5
   m_Name: Scoreboard
   m_TagString: Untagged
@@ -1795,20 +1794,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3216197329680297393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2149139602982937363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28816ce07d828064e9949f99007eea1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerScoreboardItem: {fileID: 391833806404409984, guid: 2917454508093bd488e708db262baafc, type: 3}
-  playerScoreboardList: {fileID: 7071621261489479138}
 --- !u!1 &2197172021630789746
 GameObject:
   m_ObjectHideFlags: 0
@@ -2069,8 +2054,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 10
-  Capacity: 5
+  InitSupplies: 9999
+  Capacity: 9999
   CurrentMagazineAmmo: 5
   TotalSupplies: 10
 --- !u!1 &2323722425924976332
@@ -2554,7 +2539,6 @@ MonoBehaviour:
     m_InternalValue: 0
   deathCount:
     m_InternalValue: 0
-  playerList: []
   playerInput: {fileID: 5948730102944647971}
   characterController: {fileID: 6827196641280625600}
   playerController: {fileID: 3776603355074829376}
@@ -2607,11 +2591,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerAssetsInputs: {fileID: 7795738832339507943}
+  _playerNetwork: {fileID: 0}
   _escapeUI: {fileID: 4899559789729042288}
   _quitGameButton: {fileID: 2505009646391887672}
   _scoreBoard: {fileID: 2149139602982937363}
   _bulletHud: {fileID: 1559660989067655385}
   _weaponHud: {fileID: 5782654837945854555}
+  playerScoreboardItem: {fileID: 391833806404409984, guid: 2917454508093bd488e708db262baafc, type: 3}
+  playerScoreboardList: {fileID: 7071621261489479138}
 --- !u!114 &5948730102944647971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5293,8 +5280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 20
-  Capacity: 10
+  InitSupplies: 9999
+  Capacity: 9999
   CurrentMagazineAmmo: 10
   TotalSupplies: 20
 --- !u!1 &6788095526690145830
@@ -5752,8 +5739,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 4
-  Capacity: 1
+  InitSupplies: 9999
+  Capacity: 9999
   CurrentMagazineAmmo: 1
   TotalSupplies: 3
 --- !u!1 &7270897841863064638
