@@ -55,15 +55,15 @@ public class PlayerTakeDamage : NetworkBehaviour
             {
                 if (targetPlayer.TryGetComponent<PlayerNetwork>(out var clientPlayerNetwork))
                 {
-                    clientPlayerNetwork.deathCount.Value += 1;
+                    clientPlayerNetwork.DeathCount.Value += 1;
                 }
                 if (ownerPlayer.TryGetComponent<PlayerNetwork>(out var ownerPlayerNetwork))
                 {
-                    ownerPlayerNetwork.killCount.Value += 1;
+                    ownerPlayerNetwork.KillCount.Value += 1;
                 }
                 targetHealth.HP.Value = 1;
             }
-            
+
             Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
         }
 
