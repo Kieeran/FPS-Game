@@ -6,12 +6,19 @@ using UnityEngine;
 public class PlayerAim : NetworkBehaviour
 {
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] WeaponHolder _weaponHolder;
     public Action OnAim;
     public Action OnUnAim;
 
     bool _toggleAim;
 
     void Start()
+    {
+        _toggleAim = false;
+        _weaponHolder.OnChangeWeapon += OnChangeWeapon;
+    }
+
+    private void OnChangeWeapon(object sender, WeaponHolder.WeaponEventArgs e)
     {
         _toggleAim = false;
     }

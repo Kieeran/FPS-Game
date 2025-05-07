@@ -2007,6 +2007,7 @@ MonoBehaviour:
   _playerAim: {fileID: 8832729229337073953}
   FireCoolDown: 0.15
   shootEffect: {fileID: 3327655574649894840}
+  _aimFOV: 30
   _aimPos: {x: -0.56, y: 0.22, z: -0.2}
   _aimRot: {x: 356.09, y: 0, z: 0}
   _moveDuration: 0.15
@@ -2805,6 +2806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerAssetsInputs: {fileID: 7795738832339507943}
+  _weaponHolder: {fileID: 1571463807456523207}
 --- !u!114 &7620230814923784887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2818,8 +2820,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerAim: {fileID: 8832729229337073953}
+  _weaponHolder: {fileID: 1571463807456523207}
   normalFOV: 40
-  aimFOV: 30
   fovSpeed: 10
 --- !u!1 &3216196479242807337
 GameObject:
@@ -5268,6 +5270,7 @@ MonoBehaviour:
   _playerAim: {fileID: 8832729229337073953}
   FireCoolDown: 0.15
   shootEffect: {fileID: 5275834517874757834}
+  _aimFOV: 30
   _aimPos: {x: -0.56, y: 0.15, z: -0.3}
   _aimRot: {x: 359.15, y: 0.14999983, z: 0}
   _moveDuration: 0.15

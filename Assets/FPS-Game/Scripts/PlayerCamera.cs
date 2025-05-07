@@ -7,9 +7,10 @@ using UnityEngine;
 public class PlayerCamera : NetworkBehaviour
 {
     [SerializeField] PlayerAim _playerAim;
+    [SerializeField] WeaponHolder _weaponHolder;
     CinemachineVirtualCamera _playerCamera;
     public float normalFOV;
-    public float aimFOV;
+    float _currentAimFOV;
     public float fovSpeed;
 
     bool _isAim;
@@ -33,6 +34,24 @@ public class PlayerCamera : NetworkBehaviour
             _isAim = false;
             _isUnAim = true;
         };
+
+        _weaponHolder.OnChangeWeapon += OnChangeWeapon;
+    }
+
+    void OnChangeWeapon(object sender, WeaponHolder.WeaponEventArgs e)
+    {
+        if (e.CurrentWeapon.TryGetComponent<Gun>(out var currentGun))
+        {
+            _currentAimFOV = currentGun.GetAimFOV();
+        }
+
+        else
+        {
+            _currentAimFOV = normalFOV;
+        }
+
+        _isAim = false;
+        _isUnAim = true;
     }
 
     void Update()
@@ -41,13 +60,13 @@ public class PlayerCamera : NetworkBehaviour
         {
             _playerCamera.m_Lens.FieldOfView = Mathf.Lerp(
                 _playerCamera.m_Lens.FieldOfView,
-                aimFOV,
+                _currentAimFOV,
                 Time.deltaTime * fovSpeed
             );
 
-            if (Mathf.Abs(_playerCamera.m_Lens.FieldOfView - aimFOV) <= 0.01f)
+            if (Mathf.Abs(_playerCamera.m_Lens.FieldOfView - _currentAimFOV) <= 0.01f)
             {
-                _playerCamera.m_Lens.FieldOfView = aimFOV;
+                _playerCamera.m_Lens.FieldOfView = _currentAimFOV;
                 _isAim = false;
             }
         }

@@ -28,6 +28,8 @@ public class Gun : NetworkBehaviour
 
     [SerializeField] private _ShootEffect shootEffect;
 
+    [SerializeField] float _aimFOV;
+
     [SerializeField] Vector3 _aimPos;
     [SerializeField] Vector3 _aimRot;
     [SerializeField] float _moveDuration;
@@ -52,6 +54,8 @@ public class Gun : NetworkBehaviour
     // [SerializeField] private float fireRate;
     // [SerializeField] private float speed;
 
+    public float GetAimFOV() { return _aimFOV; }
+
     void Start()
     {
         _supplyLoad = GetComponent<SupplyLoad>();
@@ -74,12 +78,15 @@ public class Gun : NetworkBehaviour
         _playerAim.OnUnAim += OnUnAim;
         _isAim = false;
         _isUnAim = false;
+        _elapsedTime = 0;
     }
 
     void OnDisable()
     {
         _playerAim.OnAim -= OnAim;
         _playerAim.OnUnAim -= OnUnAim;
+
+        transform.SetLocalPositionAndRotation(_normalPos, _normalRot);
     }
 
     void OnAim()
