@@ -27,7 +27,8 @@ public class WeaponHolder : NetworkBehaviour
 
         foreach (Transform child in transform)
         {
-            _weaponList.Add(child.gameObject);
+            if (child.gameObject.activeSelf == true)
+                _weaponList.Add(child.gameObject);
         }
 
         _currentWeaponIndex = 0;

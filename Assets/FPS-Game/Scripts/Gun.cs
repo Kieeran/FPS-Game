@@ -13,6 +13,7 @@ public class Gun : NetworkBehaviour
     [SerializeField] PlayerInventory _playerInventory;
     [SerializeField] PlayerReload _playerReload;
     [SerializeField] PlayerShoot _playerShoot;
+    [SerializeField] PlayerAim _playerAim;
 
     SupplyLoad _supplyLoad;
 
@@ -21,13 +22,20 @@ public class Gun : NetworkBehaviour
     public float FireCoolDown;
 
     // private bool isShoot;
-    // private bool isAim;
+    bool _isAim;
+    bool _isUnAim;
     // private bool isReload;
 
     [SerializeField] private _ShootEffect shootEffect;
 
-    // [SerializeField] private Vector3 aimPosition;
-    // private Vector3 normalPosition;
+    [SerializeField] float _aimFOV;
+
+    [SerializeField] Vector3 _aimPos;
+    [SerializeField] Vector3 _aimRot;
+    [SerializeField] float _moveDuration;
+    Vector3 _normalPos;
+    Quaternion _normalRot;
+    float _elapsedTime;
 
     // public Image crossHair;
 
@@ -46,6 +54,8 @@ public class Gun : NetworkBehaviour
     // [SerializeField] private float fireRate;
     // [SerializeField] private float speed;
 
+    public float GetAimFOV() { return _aimFOV; }
+
     void Start()
     {
         _supplyLoad = GetComponent<SupplyLoad>();
@@ -55,13 +65,41 @@ public class Gun : NetworkBehaviour
     {
         CurrentCoolDown = FireCoolDown;
 
-        //normalPosition = transform.localPosition;
+        _normalPos = transform.localPosition;
+        _normalRot = transform.localRotation;
 
         // if (OnGunShoot == null)
         //     OnGunShoot = new UnityEvent();
     }
 
-    private void OnShoot()
+    void OnEnable()
+    {
+        _playerAim.OnAim += OnAim;
+        _playerAim.OnUnAim += OnUnAim;
+        _isAim = false;
+        _isUnAim = false;
+        _elapsedTime = 0;
+    }
+
+    void OnDisable()
+    {
+        _playerAim.OnAim -= OnAim;
+        _playerAim.OnUnAim -= OnUnAim;
+
+        transform.SetLocalPositionAndRotation(_normalPos, _normalRot);
+    }
+
+    void OnAim()
+    {
+        _isAim = true;
+    }
+
+    void OnUnAim()
+    {
+        _isUnAim = true;
+    }
+
+    private void Shoot()
     {
         if (_supplyLoad.IsMagazineEmpty()) return;
         if (_playerReload.GetIsReloading()) return;
@@ -105,7 +143,38 @@ public class Gun : NetworkBehaviour
         CurrentCoolDown -= Time.deltaTime;
     }
 
-    private Vector3 forceDirection = Vector3.zero;
+    void Aim()
+    {
+        if (_isAim == true)
+        {
+            _elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(_elapsedTime / _moveDuration);
+
+            transform.localPosition = Vector3.Lerp(_normalPos, _aimPos, t);
+            transform.localRotation = Quaternion.Slerp(_normalRot, Quaternion.Euler(_aimRot), t);
+
+            if (t >= 1f)
+            {
+                _isAim = false;
+                _elapsedTime = 0;
+            }
+        }
+
+        else if (_isUnAim == true)
+        {
+            _elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(_elapsedTime / _moveDuration);
+
+            transform.localPosition = Vector3.Lerp(_aimPos, _normalPos, t);
+            transform.localRotation = Quaternion.Slerp(Quaternion.Euler(_aimRot), _normalRot, t);
+
+            if (t >= 1f)
+            {
+                _isUnAim = false;
+                _elapsedTime = 0;
+            }
+        }
+    }
 
     // private void ShootBullet()
     // {
@@ -161,8 +230,8 @@ public class Gun : NetworkBehaviour
 
         if (IsOwner == false) return;
 
-        OnShoot();
-        //OnAim();
+        Shoot();
+        Aim();
         //OnReload();
     }
 }

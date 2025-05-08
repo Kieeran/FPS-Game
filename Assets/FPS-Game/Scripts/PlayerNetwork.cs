@@ -13,8 +13,10 @@ using System;
 public class PlayerNetwork : NetworkBehaviour
 {
     public string playerName = "Playername";
-    public NetworkVariable<int> killCount;
-    public NetworkVariable<int> deathCount;
+    [HideInInspector]
+    public NetworkVariable<int> KillCount;
+    [HideInInspector]
+    public NetworkVariable<int> DeathCount;
 
     public PlayerInput playerInput;
     public CharacterController characterController;
@@ -47,8 +49,8 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (IsOwner == false) return;
 
-        killCount = new();
-        deathCount = new();
+        KillCount = new();
+        DeathCount = new();
 
         EnableScripts();
         MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
@@ -123,7 +125,7 @@ public class PlayerNetwork : NetworkBehaviour
         {
             if (client.PlayerObject.TryGetComponent<PlayerNetwork>(out var playerNetwork))
             {
-                result += $"{playerNetwork.playerName};{playerNetwork.killCount.Value};{playerNetwork.deathCount.Value}|";
+                result += $"{playerNetwork.playerName};{playerNetwork.KillCount.Value};{playerNetwork.DeathCount.Value}|";
             }
         }
 

@@ -16,7 +16,7 @@ public class Scoreboard : NetworkBehaviour
                 PlayerScoreboardItem item = itemGO.GetComponent<PlayerScoreboardItem>();
                 if (item != null)
                 {
-                    item.Setup(playerNetwork.playerName, playerNetwork.killCount.Value, playerNetwork.deathCount.Value);
+                    item.Setup(playerNetwork.playerName, playerNetwork.KillCount.Value, playerNetwork.DeathCount.Value);
                 }
             }
         }
