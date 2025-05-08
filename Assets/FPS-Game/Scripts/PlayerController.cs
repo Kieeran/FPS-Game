@@ -388,18 +388,18 @@ namespace PlayerAssets
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
 
-            _animator.SetLayerWeight(1, 1f);
+            // _animator.SetLayerWeight(1, 1f);
         }
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
+            // _hasAnimator = TryGetComponent(out _animator);
 
             GroundedCheck();
             JumpAndGravity();
             Move();
 
-            playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
+            // playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
         }
 
         private void LateUpdate()
@@ -423,7 +423,7 @@ namespace PlayerAssets
 
             if (_hasAnimator)
             {
-                _animator.SetBool(_animIDGrounded, Grounded);
+                // _animator.SetBool(_animIDGrounded, Grounded);
             }
         }
 
@@ -468,8 +468,8 @@ namespace PlayerAssets
 
             if (_hasAnimator)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                // _animator.SetFloat(_animIDSpeed, _animationBlend);
+                // _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
         }
 
@@ -481,8 +481,8 @@ namespace PlayerAssets
 
                 if (_hasAnimator)
                 {
-                    _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
+                    // _animator.SetBool(_animIDJump, false);
+                    // _animator.SetBool(_animIDFreeFall, false);
                 }
 
                 if (_verticalVelocity < 0.0f)
@@ -496,7 +496,7 @@ namespace PlayerAssets
 
                     if (_hasAnimator)
                     {
-                        _animator.SetBool(_animIDJump, true);
+                        // _animator.SetBool(_animIDJump, true);
                     }
                 }
 
@@ -517,7 +517,7 @@ namespace PlayerAssets
                 {
                     if (_hasAnimator)
                     {
-                        _animator.SetBool(_animIDFreeFall, true);
+                        // _animator.SetBool(_animIDFreeFall, true);
                     }
                 }
 
