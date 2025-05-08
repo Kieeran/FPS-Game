@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using PlayerAssets;
 using TMPro;
 using Unity.Netcode;
@@ -7,14 +9,20 @@ using UnityEngine.UI;
 public class PlayerUI : NetworkBehaviour
 {
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] PlayerNetwork _playerNetwork;
     [SerializeField] Image _escapeUI;
     [SerializeField] Button _quitGameButton;
     [SerializeField] GameObject _scoreBoard;
     [SerializeField] GameObject _bulletHud;
     [SerializeField] WeaponHud _weaponHud;
 
+    [SerializeField] GameObject playerScoreboardItem;
+    [SerializeField] Transform playerScoreboardList;
+
     TextMeshProUGUI _ammoInfo;
     ReloadEffect _reloadEffect;
+
+    public Action OnOpenScoreBoard;
 
     public WeaponHud GetWeaponHud() { return _weaponHud; }
 
@@ -91,6 +99,8 @@ public class PlayerUI : NetworkBehaviour
 
     void Update()
     {
+        if (!IsOwner) return;
+
         if (_playerAssetsInputs.escapeUI == true)
         {
             _escapeUI.gameObject.SetActive(!_escapeUI.gameObject.activeSelf);
@@ -102,9 +112,34 @@ public class PlayerUI : NetworkBehaviour
 
         if (_playerAssetsInputs.openScoreboard == true)
         {
-            _scoreBoard.gameObject.SetActive(!_scoreBoard.gameObject.activeSelf);
+            _scoreBoard.SetActive(!_scoreBoard.activeSelf);
+
+            if (_scoreBoard.activeSelf == true)
+                OnOpenScoreBoard?.Invoke();
+            else
+                ClearScoreBoard();
 
             _playerAssetsInputs.openScoreboard = false;
+        }
+    }
+
+    public void AddInfoToScoreBoard(List<PlayerNetwork.PlayerInfo> playerInfos)
+    {
+        foreach (PlayerNetwork.PlayerInfo playerInfo in playerInfos)
+        {
+            GameObject itemGO = Instantiate(playerScoreboardItem, playerScoreboardList);
+            if (itemGO.TryGetComponent<PlayerScoreboardItem>(out var item))
+            {
+                item.Setup(playerInfo.Name + "", playerInfo.KillCount, playerInfo.DeathCount);
+            }
+        }
+    }
+
+    void ClearScoreBoard()
+    {
+        foreach (Transform child in playerScoreboardList)
+        {
+            Destroy(child.gameObject);
         }
     }
 }
