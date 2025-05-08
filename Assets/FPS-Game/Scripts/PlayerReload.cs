@@ -13,16 +13,13 @@ public class PlayerReload : MonoBehaviour
     public void ResetIsReloading() { _isReloading = false; }
 
     public event EventHandler OnReload;
-
-    void Start()
-    {
-
-    }
+    public Action reload;
 
     void Update()
     {
         if (_playerAssetsInputs.reload == true)
         {
+            reload?.Invoke();
             _playerAssetsInputs.reload = false;
 
             if (_isReloading != true)

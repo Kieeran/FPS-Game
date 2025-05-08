@@ -62,6 +62,12 @@ public class WeaponSwitching : MonoBehaviour
             SetActiveWeapon(3);
             playerAssetsInputs.hotkey4 = false;
         }
+
+        else if (playerAssetsInputs.hotkey5 == true)
+        {
+            // SetActiveWeapon(4);
+            playerAssetsInputs.hotkey5 = false;
+        }
     }
 
     // void SwitchBulletsHud(GameObject obj)

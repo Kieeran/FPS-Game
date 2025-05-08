@@ -132,6 +132,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Hotkey5",
+                    "type": "Button",
+                    "id": "da6cbc56-1ef4-413a-adf9-aef9c905baba",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "EscapeUI",
                     "type": "Button",
                     "id": "69fb269d-1bad-43a1-92a4-98599d6eec8f",
@@ -436,6 +445,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "OpenScoreboard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4616e83c-a011-4ad1-9b96-811557e50c3e",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotkey5",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

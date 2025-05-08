@@ -81,6 +81,15 @@ public class WeaponHolder : NetworkBehaviour
             _currentWeaponIndex = 3;
             ChangeWeapon();
         }
+
+        else if (_playerAssetsInputs.hotkey5)
+        {
+            _playerAssetsInputs.hotkey5 = false;
+            if (_currentWeaponIndex == 4) return;
+
+            _currentWeaponIndex = 4;
+            ChangeWeapon();
+        }
     }
 
     void ChangeWeapon()

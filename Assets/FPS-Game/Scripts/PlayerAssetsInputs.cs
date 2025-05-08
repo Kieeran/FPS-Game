@@ -22,6 +22,7 @@ namespace PlayerAssets
 		public bool hotkey2;
 		public bool hotkey3;
 		public bool hotkey4;
+		public bool hotkey5;
 		public bool escapeUI;
 
 		[Header("Movement Settings")]
@@ -105,6 +106,11 @@ namespace PlayerAssets
 			Hotkey4Input(value.isPressed);
 		}
 
+		public void OnHotkey5(InputValue value)
+		{
+			Hotkey5Input(value.isPressed);
+		}
+
 		public void OnEscapeUI(InputValue value)
 		{
 			EscapeUIInput(value.isPressed);
@@ -180,6 +186,11 @@ namespace PlayerAssets
 		public void Hotkey4Input(bool newHotkey4State)
 		{
 			hotkey4 = newHotkey4State;
+		}
+
+		public void Hotkey5Input(bool newHotkey5State)
+		{
+			hotkey5 = newHotkey5State;
 		}
 
 		public void EscapeUIInput(bool newEscapeUIState)
