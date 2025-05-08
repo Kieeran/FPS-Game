@@ -23,7 +23,7 @@ public class _ShootEffect : NetworkBehaviour
 
         if (IsOwner)
         {
-            canvas.gameObject.SetActive(true);
+            // canvas.gameObject.SetActive(true);
         }
     }
 

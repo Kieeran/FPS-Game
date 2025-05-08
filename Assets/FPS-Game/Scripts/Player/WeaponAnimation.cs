@@ -5,7 +5,9 @@ using UnityEngine;
 public class WeaponAnimation : NetworkBehaviour
 {
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] PlayerCamera _playerCamera;
     [SerializeField] PlayerReload _playerReload;
+    [SerializeField] PlayerAim _playerAim;
 
     public Animator animator;
 
@@ -16,6 +18,9 @@ public class WeaponAnimation : NetworkBehaviour
             if (animator.GetBool("Reload_Mag") == false)
             {
                 animator.SetBool("Reload_Mag", true);
+
+                if (_playerAim.ToggleAim == true)
+                    _playerCamera.UnAimScope();
             }
         };
     }
@@ -28,6 +33,9 @@ public class WeaponAnimation : NetworkBehaviour
         animator.GetBool("Shoot") == false && animator.GetBool("Reload_Single") == false)
         {
             animator.SetBool("Shoot", true);
+
+            if (_playerAim.ToggleAim == true)
+                _playerCamera.UnAimScope();
         }
     }
 
@@ -40,6 +48,9 @@ public class WeaponAnimation : NetworkBehaviour
     public void DoneReloadSingle()
     {
         animator.SetBool("Reload_Single", false);
+
+        if (_playerAim.ToggleAim == true)
+            _playerCamera.AimScope();
     }
 
     public void DoneReloadMag()

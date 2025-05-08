@@ -10,17 +10,17 @@ public class PlayerAim : NetworkBehaviour
     public Action OnAim;
     public Action OnUnAim;
 
-    bool _toggleAim;
+    public bool ToggleAim { get; private set; }
 
     void Start()
     {
-        _toggleAim = false;
+        ToggleAim = false;
         _weaponHolder.OnChangeWeapon += OnChangeWeapon;
     }
 
     private void OnChangeWeapon(object sender, WeaponHolder.WeaponEventArgs e)
     {
-        _toggleAim = false;
+        ToggleAim = false;
     }
 
     void Update()
@@ -31,9 +31,9 @@ public class PlayerAim : NetworkBehaviour
         {
             _playerAssetsInputs.aim = false;
 
-            _toggleAim = !_toggleAim;
+            ToggleAim = !ToggleAim;
 
-            if (_toggleAim == true)
+            if (ToggleAim == true)
             {
                 OnAim?.Invoke();
                 // Debug.Log("Aim!");
