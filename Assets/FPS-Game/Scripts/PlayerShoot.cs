@@ -14,12 +14,12 @@ public class PlayerShoot : NetworkBehaviour
 
     private float CurrentCoolDown;
 
-    public void Shoot()
+    public void Shoot(float spreadAngle)
     {
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
-        Shoot_ServerRPC(ray.origin, ray.direction);
+        Shoot_ServerRPC(ray.origin, ray.direction, spreadAngle);
 
         // if (Physics.Raycast(ray, out RaycastHit hit))
         // {
@@ -80,9 +80,15 @@ public class PlayerShoot : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void Shoot_ServerRPC(Vector3 point, Vector3 shootDirection)
+    public void Shoot_ServerRPC(Vector3 point, Vector3 shootDirection, float spreadAngle)
     {
-        Ray ray = new(point, shootDirection);
+        Vector3 spreadDirection = Quaternion.Euler(
+            Random.Range(-spreadAngle, spreadAngle),
+            Random.Range(-spreadAngle, spreadAngle),
+            0
+        ) * shootDirection;
+
+        Ray ray = new(point, spreadDirection);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {

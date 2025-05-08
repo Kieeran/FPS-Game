@@ -33,6 +33,7 @@ public class Gun : NetworkBehaviour
     [SerializeField] Vector3 _aimPos;
     [SerializeField] Vector3 _aimRot;
     [SerializeField] float _moveDuration;
+    [SerializeField] float _spreadAngle;
     Vector3 _normalPos;
     Quaternion _normalRot;
     float _elapsedTime;
@@ -113,7 +114,7 @@ public class Gun : NetworkBehaviour
                     //OnGunShoot.Invoke();
                     CurrentCoolDown = FireCoolDown;
                     _playerInventory.UpdatecurrentMagazineAmmo();
-                    _playerShoot.Shoot();
+                    _playerShoot.Shoot(_spreadAngle);
 
                     shootEffect.ActiveShootEffect();
                 }
@@ -131,7 +132,7 @@ public class Gun : NetworkBehaviour
                     //OnGunShoot.Invoke();
                     CurrentCoolDown = FireCoolDown;
                     _playerInventory.UpdatecurrentMagazineAmmo();
-                    _playerShoot.Shoot();
+                    _playerShoot.Shoot(_spreadAngle);
 
                     shootEffect.ActiveShootEffect();
                 }

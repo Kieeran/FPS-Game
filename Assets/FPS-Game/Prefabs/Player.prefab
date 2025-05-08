@@ -2173,6 +2173,7 @@ MonoBehaviour:
   _aimPos: {x: -0.56, y: 0.22, z: -0.2}
   _aimRot: {x: 356.09, y: 0, z: 0}
   _moveDuration: 0.15
+  _spreadAngle: 1
   Automatic: 0
 --- !u!114 &3736074866538794915
 MonoBehaviour:
@@ -4778,6 +4779,7 @@ MonoBehaviour:
   _aimPos: {x: -0.56, y: 0.15, z: -0.3}
   _aimRot: {x: 359.15, y: 0.14999983, z: 0}
   _moveDuration: 0.15
+  _spreadAngle: 1
   Automatic: 1
 --- !u!114 &169921863895426106
 MonoBehaviour:
@@ -5317,6 +5319,7 @@ MonoBehaviour:
   _aimPos: {x: -0.4, y: 0, z: -0.3}
   _aimRot: {x: 0, y: 0, z: 0}
   _moveDuration: 0.15
+  _spreadAngle: 0
   Automatic: 0
 --- !u!114 &4460800013304567988
 MonoBehaviour:
