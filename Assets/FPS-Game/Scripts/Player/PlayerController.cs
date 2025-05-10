@@ -268,6 +268,7 @@
 //     }
 // }
 
+using Unity.VisualScripting;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -325,11 +326,7 @@ namespace PlayerAssets
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
-        // Model
-        public GameObject playerModel;
-
-        // Character Aim Rotation
-        private bool _rotateOnMove = true;
+        [SerializeField] public GameObject playerModel;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -348,8 +345,6 @@ namespace PlayerAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
-
-
 
         private bool IsCurrentDeviceMouse
         {
@@ -387,19 +382,17 @@ namespace PlayerAssets
 
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
-
-            // _animator.SetLayerWeight(1, 1f);
         }
 
         private void Update()
         {
-            // _hasAnimator = TryGetComponent(out _animator);
+            _hasAnimator = TryGetComponent(out _animator);
 
             GroundedCheck();
             JumpAndGravity();
             Move();
 
-            // playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
+            playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
         }
 
         private void LateUpdate()
@@ -423,7 +416,7 @@ namespace PlayerAssets
 
             if (_hasAnimator)
             {
-                // _animator.SetBool(_animIDGrounded, Grounded);
+                _animator.SetBool(_animIDGrounded, Grounded);
             }
         }
 
@@ -456,10 +449,7 @@ namespace PlayerAssets
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
 
-                if (_rotateOnMove)
-                {
-                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-                }
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
@@ -468,8 +458,8 @@ namespace PlayerAssets
 
             if (_hasAnimator)
             {
-                // _animator.SetFloat(_animIDSpeed, _animationBlend);
-                // _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                _animator.SetFloat(_animIDSpeed, _animationBlend);
+                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
         }
 
@@ -481,8 +471,8 @@ namespace PlayerAssets
 
                 if (_hasAnimator)
                 {
-                    // _animator.SetBool(_animIDJump, false);
-                    // _animator.SetBool(_animIDFreeFall, false);
+                    _animator.SetBool(_animIDJump, false);
+                    _animator.SetBool(_animIDFreeFall, false);
                 }
 
                 if (_verticalVelocity < 0.0f)
@@ -496,7 +486,7 @@ namespace PlayerAssets
 
                     if (_hasAnimator)
                     {
-                        // _animator.SetBool(_animIDJump, true);
+                        _animator.SetBool(_animIDJump, true);
                     }
                 }
 
@@ -517,7 +507,7 @@ namespace PlayerAssets
                 {
                     if (_hasAnimator)
                     {
-                        // _animator.SetBool(_animIDFreeFall, true);
+                        _animator.SetBool(_animIDFreeFall, true);
                     }
                 }
 

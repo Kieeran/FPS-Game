@@ -61,6 +61,7 @@ public class PlayerNetwork : NetworkBehaviour
             Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
 
             if (playerCameraRoot != null) _camera.Follow = playerCameraRoot;
+            if (_camera.Follow == null) Debug.Log("_camera.Follow = null");
         }
 
         _playerUI.OnOpenScoreBoard += OnOpenScoreBoard;
