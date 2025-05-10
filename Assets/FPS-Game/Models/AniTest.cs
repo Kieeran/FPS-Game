@@ -5,24 +5,45 @@ using UnityEngine;
 public class AniTest : MonoBehaviour
 {
     public Animator animator;
+    public bool Automatic;
 
     public bool IsShooting = false;
     public bool IsReloading = false;
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && !IsShooting && !IsReloading)
+        if (Automatic)
         {
-            animator.SetTrigger("Shoot");
+            if (Input.GetMouseButton(0) && !IsShooting && !IsReloading)
+            {
+                animator.SetTrigger("Shoot");
 
-            IsShooting = true;
+                IsShooting = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.R) && !IsShooting && !IsReloading)
+            {
+                animator.SetBool("Reload", true);
+
+                IsReloading = true;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && !IsShooting && !IsReloading)
+        else
         {
-            animator.SetBool("Reload", true);
+            if (Input.GetMouseButtonDown(0) && !IsShooting && !IsReloading)
+            {
+                animator.SetTrigger("Shoot");
 
-            IsReloading = true;
+                IsShooting = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.R) && !IsShooting && !IsReloading)
+            {
+                animator.SetBool("Reload", true);
+
+                IsReloading = true;
+            }
         }
     }
 
