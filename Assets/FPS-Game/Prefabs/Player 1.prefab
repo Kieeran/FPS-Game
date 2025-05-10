@@ -1789,6 +1789,7 @@ GameObject:
   - component: {fileID: 6327882276773848452}
   - component: {fileID: 2849443147055145248}
   - component: {fileID: 500191308576157680}
+  - component: {fileID: 7285417968855938332}
   m_Layer: 0
   m_Name: arms@knife
   m_TagString: Untagged
@@ -1854,6 +1855,41 @@ MonoBehaviour:
   isAttacking: 0
   queuedAttackB: 0
   mouseButtonUp: 0
+--- !u!114 &7285417968855938332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742867246704085820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: -1388329595
+    TransitionDuration: 0
+    TriggerNameHash: -1388329595
+    TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: -581619446
+    TransitionDuration: 0
+    TriggerNameHash: -581619446
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: 875992127
+    TransitionDuration: 0
+    TriggerNameHash: 875992127
+    TransitionIndex: 2
+  m_Animator: {fileID: 2849443147055145248}
 --- !u!1 &744962520749373115
 GameObject:
   m_ObjectHideFlags: 0
@@ -7106,7 +7142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2222513684
+  GlobalObjectIdHash: 3028850303
   InScenePlacedSourceGlobalObjectIdHash: 2741875015
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
