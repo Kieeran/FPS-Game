@@ -103,8 +103,8 @@ public class PlayerShoot : NetworkBehaviour
 
             BulletHitSpawn_ClientRpc(hit.point);
 
-            PlayerBody playerBody = hit.collider.GetComponent<PlayerBody>();
-            PlayerHead playerHead = hit.collider.GetComponent<PlayerHead>();
+            PlayerBody playerBody = hit.collider.GetComponentInChildren<PlayerBody>();
+            PlayerHead playerHead = hit.collider.GetComponentInChildren<PlayerHead>();
 
             if (playerBody != null)
             {

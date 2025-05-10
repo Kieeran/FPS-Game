@@ -8,6 +8,9 @@ TagManager:
   - Wall
   - CinemachineTarget
   - Interactable
+  - Spawner
+  - PlayerHead
+  - PlayerBody
   layers:
   - Default
   - TransparentFX
