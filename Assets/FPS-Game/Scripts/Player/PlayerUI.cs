@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using PlayerAssets;
 using TMPro;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +11,14 @@ public class PlayerUI : NetworkBehaviour
 {
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
     [SerializeField] PlayerNetwork _playerNetwork;
+    [SerializeField] PlayerAim _playerAim;
+
     [SerializeField] Image _escapeUI;
     [SerializeField] Button _quitGameButton;
     [SerializeField] GameObject _scoreBoard;
     [SerializeField] GameObject _bulletHud;
     [SerializeField] WeaponHud _weaponHud;
+    [SerializeField] Image _crossHair;
 
     [SerializeField] GameObject playerScoreboardItem;
     [SerializeField] Transform playerScoreboardList;
@@ -72,6 +76,16 @@ public class PlayerUI : NetworkBehaviour
             LobbyManager.Instance.ExitGame();
             GameSceneManager.Instance.LoadPreviousScene();
         });
+
+        _playerAim.OnAim += () =>
+        {
+            _crossHair.gameObject.SetActive(false);
+        };
+
+        _playerAim.OnUnAim += () =>
+        {
+            _crossHair.gameObject.SetActive(true);
+        };
     }
 
     [ServerRpc]

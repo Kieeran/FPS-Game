@@ -39046,7 +39046,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1283686784}
-    PlayerPrefab: {fileID: 3086927271415625819, guid: f15a0640c6298dd41b2fdd863824074f, type: 3}
+    PlayerPrefab: {fileID: 3086927271415625819, guid: 42d2baa00aadfd049b3dc5bf84a4be3d, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 15cbaaf7d296ca64d80feed44b947ebd, type: 2}
@@ -60605,7 +60605,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1999244176
 Transform:
   m_ObjectHideFlags: 0
@@ -66290,7 +66290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!33 &1067120071210340618
 MeshFilter:
   m_ObjectHideFlags: 0
