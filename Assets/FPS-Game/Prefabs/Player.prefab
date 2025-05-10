@@ -461,7 +461,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Death
+  m_text: Deaths
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2820,7 +2820,7 @@ GameObject:
   - component: {fileID: 3672569247674266199}
   m_Layer: 0
   m_Name: Sk_Police_girl_torso
-  m_TagString: Untagged
+  m_TagString: PlayerBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4175,8 +4175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 20
-  Capacity: 10
+  InitSupplies: 9999
+  Capacity: 9999
   CurrentMagazineAmmo: 10
   TotalSupplies: 20
 --- !u!1 &2727524394387742644
@@ -5340,7 +5340,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8491490659950646285}
-  - component: {fileID: 4916185085174134825}
   m_Layer: 5
   m_Name: Scoreboard
   m_TagString: Untagged
@@ -5371,20 +5370,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4916185085174134825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3671331757476281013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28816ce07d828064e9949f99007eea1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerScoreboardItem: {fileID: 391833806404409984, guid: 2917454508093bd488e708db262baafc, type: 3}
-  playerScoreboardList: {fileID: 5154763167290916931}
 --- !u!1 &3686939725800764324
 GameObject:
   m_ObjectHideFlags: 0
@@ -6497,8 +6482,8 @@ GameObject:
   - component: {fileID: 6974190241322348192}
   - component: {fileID: 4763198483577472323}
   - component: {fileID: 1185568898052280712}
-  - component: {fileID: 2555932696361061220}
   - component: {fileID: 3721964784766542707}
+  - component: {fileID: 2555932696361061220}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -6519,10 +6504,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7470125009750400924}
   - {fileID: 3881543991776834260}
-  - {fileID: 8445468648104290013}
   - {fileID: 6316066068314125288}
+  - {fileID: 8445468648104290013}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2633194882248276509
@@ -6704,8 +6688,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f68e8be09b9d64f94bf90e8d7b2b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 7
-  SprintSpeed: 14
+  MoveSpeed: 10
+  SprintSpeed: 25
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
   JumpHeight: 1.2
@@ -6724,7 +6708,17 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
-  FootstepAudioClips: []
+  FootstepAudioClips:
+  - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
+  - {fileID: 8300000, guid: 85016e0f2b01da248b9663dd49a161b0, type: 3}
+  - {fileID: 8300000, guid: 186de84b3207156479abe98f4958fed0, type: 3}
+  - {fileID: 8300000, guid: 1a91fcd19acf1e54bba0945d9f390849, type: 3}
+  - {fileID: 8300000, guid: 14e8a8d2158bec840b56c54f5266e692, type: 3}
+  - {fileID: 8300000, guid: 29841e7d5bbfb5b419c9ad16ca8bc4c1, type: 3}
+  - {fileID: 8300000, guid: dd1af302b8902684d9381de1f2d3a5af, type: 3}
+  - {fileID: 8300000, guid: 67c8b33e424ccdc4486edf538ab91c5a, type: 3}
+  - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
+  - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
   FootstepAudioVolume: 0.5
   playerModel: {fileID: 3167414634477638001}
 --- !u!114 &2527947492270828723
@@ -6869,6 +6863,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: 2633194882248276509}
+--- !u!114 &3721964784766542707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4676584976306229359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ecaa6534025523438ac0b7f92d52e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerAssetsInputs: {fileID: 2912334420687421683}
+  _weaponHolder: {fileID: 242424453162288860}
 --- !u!114 &2555932696361061220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6886,20 +6894,6 @@ MonoBehaviour:
   _scopeAim: {fileID: 8201040325478074755}
   normalFOV: 40
   fovSpeed: 10
---- !u!114 &3721964784766542707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4676584976306229359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ecaa6534025523438ac0b7f92d52e2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
-  _weaponHolder: {fileID: 242424453162288860}
 --- !u!1 &4680452339153015452
 GameObject:
   m_ObjectHideFlags: 0
@@ -6950,7 +6944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8445468648104290013
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6969,8 +6963,8 @@ RectTransform:
   - {fileID: 9052738009596398804}
   - {fileID: 5561480241452714043}
   - {fileID: 7478924329068933881}
-  - {fileID: 8491490659950646285}
   - {fileID: 181084364894556610}
+  - {fileID: 8491490659950646285}
   m_Father: {fileID: 8290754329066998538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7654,13 +7648,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5195162071522672021}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0005643368, y: 2.5935693, z: 0.33020788}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0, y: -0.18599997, z: 0.020000085}
+  m_LocalScale: {x: 0.6666667, y: 0.6666668, z: 0.6666668}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5998853750494884117}
-  m_Father: {fileID: 8290754329066998538}
+  m_Father: {fileID: 4276855004438093550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4475326981973446702
 MonoBehaviour:
@@ -8108,7 +8102,7 @@ GameObject:
   - component: {fileID: 644593275988098625}
   m_Layer: 0
   m_Name: Sk_Police_girl_Head
-  m_TagString: Untagged
+  m_TagString: PlayerHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8125,7 +8119,8 @@ Transform:
   m_LocalPosition: {x: -0.00037622452, y: 1.7090461, z: 0.0341386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7470125009750400924}
   m_Father: {fileID: 3998145873585220809}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8420040289576369160
@@ -10275,7 +10270,7 @@ GameObject:
   - component: {fileID: 5125223032299744353}
   m_Layer: 0
   m_Name: Sk_Police_girl_leg
-  m_TagString: Untagged
+  m_TagString: PlayerBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12215,8 +12210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 10
-  Capacity: 5
+  InitSupplies: 9999
+  Capacity: 9999
   CurrentMagazineAmmo: 5
   TotalSupplies: 10
 --- !u!1 &8352911769655062095
