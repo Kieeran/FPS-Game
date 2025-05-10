@@ -1390,7 +1390,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4014523566836701959}
-  - component: {fileID: 5488982350784472618}
   m_Layer: 0
   m_Name: police_officer
   m_TagString: Untagged
@@ -1660,27 +1659,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTakeDamage: {fileID: 3015540343122343015}
---- !u!95 &599252193435869626
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4515553036435470205}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 284cba03d078ee145b64870b71820eb4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &608662387208016565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3778,7 +3756,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4624254351398447009}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -4447,6 +4425,7 @@ MonoBehaviour:
   hotkey2: 1
   hotkey3: 1
   hotkey4: 1
+  hotkey5: 0
   escapeUI: 0
   analogMovement: 0
   cursorLocked: 1
@@ -4811,7 +4790,7 @@ CharacterController:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
@@ -5112,8 +5091,14 @@ MonoBehaviour:
   _playerInventory: {fileID: 6918508168356190574}
   _playerReload: {fileID: 4814471558822195853}
   _playerShoot: {fileID: 577721207077263466}
+  _playerAim: {fileID: 0}
   FireCoolDown: 0.15
   shootEffect: {fileID: 1295541877409174044}
+  _aimFOV: 0
+  _aimPos: {x: 0, y: 0, z: 0}
+  _aimRot: {x: 0, y: 0, z: 0}
+  _moveDuration: 0
+  _spreadAngle: 0
   Automatic: 1
 --- !u!224 &3375835181677505768
 RectTransform:
@@ -5170,8 +5155,14 @@ MonoBehaviour:
   _playerInventory: {fileID: 6918508168356190574}
   _playerReload: {fileID: 4814471558822195853}
   _playerShoot: {fileID: 577721207077263466}
+  _playerAim: {fileID: 0}
   FireCoolDown: 0.15
   shootEffect: {fileID: 4230062955701216995}
+  _aimFOV: 0
+  _aimPos: {x: 0, y: 0, z: 0}
+  _aimRot: {x: 0, y: 0, z: 0}
+  _moveDuration: 0
+  _spreadAngle: 0
   Automatic: 0
 --- !u!114 &3448331484653890022
 MonoBehaviour:
@@ -6294,8 +6285,6 @@ GameObject:
   - component: {fileID: 4412958235692724582}
   - component: {fileID: 9155353863790945950}
   - component: {fileID: 6021386435527045715}
-  - component: {fileID: 599252193435869626}
-  - component: {fileID: 4912287327342598905}
   m_Layer: 0
   m_Name: AK47
   m_TagString: Untagged
@@ -6795,20 +6784,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4912287327342598905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4515553036435470205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 599252193435869626}
 --- !u!114 &4922968455895306316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7570,27 +7545,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1066623893480556925}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &5488982350784472618
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 515149346657879573}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 85d4e0981a5b87e4c8ac3bb8f15a83a6, type: 3}
-  m_Controller: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5501382372926927891
 GameObject:
   m_ObjectHideFlags: 0
@@ -8244,8 +8198,8 @@ Transform:
   m_GameObject: {fileID: 8707828247171782815}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.78, y: -0.53, z: 1.48}
-  m_LocalScale: {x: 1.39, y: 1.39, z: 1.39}
+  m_LocalPosition: {x: 0.78, y: -0.5300001, z: 1.4799995}
+  m_LocalScale: {x: 1.39, y: 1.3900002, z: 1.3900002}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 487158076572004434}
@@ -9643,7 +9597,7 @@ Transform:
   m_GameObject: {fileID: 5247498373286660699}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: -0.186, z: 0.02}
+  m_LocalPosition: {x: 0, y: -0.18599997, z: 0.020000085}
   m_LocalScale: {x: 0.6666667, y: 0.6666668, z: 0.6666668}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9761,11 +9715,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerAssetsInputs: {fileID: 2927488391991162685}
+  _playerNetwork: {fileID: 0}
   _escapeUI: {fileID: 1545906022119876795}
   _quitGameButton: {fileID: 4602887788537710379}
   _scoreBoard: {fileID: 3618931880247299451}
   _bulletHud: {fileID: 8296113648497711489}
   _weaponHud: {fileID: 710170914353289162}
+  playerScoreboardItem: {fileID: 0}
+  playerScoreboardList: {fileID: 0}
 --- !u!114 &7779146537453865914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10238,11 +10195,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: Playername
-  killCount:
+  KillCount:
     m_InternalValue: 0
-  deathCount:
+  DeathCount:
     m_InternalValue: 0
-  playerList: []
   playerInput: {fileID: 2584825730540346237}
   characterController: {fileID: 3280033665574439448}
   playerController: {fileID: 6949926320155395327}
@@ -11479,7 +11435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1789695703
+  GlobalObjectIdHash: 3826918386
   InScenePlacedSourceGlobalObjectIdHash: 3967959569
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1

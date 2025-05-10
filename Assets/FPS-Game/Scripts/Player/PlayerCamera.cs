@@ -63,6 +63,7 @@ public class PlayerCamera : NetworkBehaviour
 
     void Update()
     {
+        if (_playerCamera == null) { Debug.Log("_playerCamera = null"); }
         if (_isAim == true)
         {
             _playerCamera.m_Lens.FieldOfView = Mathf.Lerp(
