@@ -13,14 +13,14 @@ public class AniTest : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && !IsShooting && !IsReloading)
         {
-            animator.SetTrigger("AK47_Shoot");
+            animator.SetTrigger("Shoot");
 
             IsShooting = true;
         }
 
         if (Input.GetKeyDown(KeyCode.R) && !IsShooting && !IsReloading)
         {
-            animator.SetBool("AK47_Reload", true);
+            animator.SetBool("Reload", true);
 
             IsReloading = true;
         }
@@ -33,7 +33,7 @@ public class AniTest : MonoBehaviour
 
     public void OnDoneReload()
     {
-        animator.SetBool("AK47_Reload", false);
+        animator.SetBool("Reload", false);
         IsReloading = false;
     }
 }
