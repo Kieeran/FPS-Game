@@ -2816,8 +2816,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4559165063574816917}
   - component: {fileID: 213029914970480258}
+  - component: {fileID: 4317187506085980518}
   - component: {fileID: 3191494512598559077}
-  - component: {fileID: 3672569247674266199}
   m_Layer: 0
   m_Name: Sk_Police_girl_torso
   m_TagString: PlayerBody
@@ -2972,21 +2972,8 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0009979606, y: 0.008931324, z: 1.3248909}
     m_Extent: {x: 0.7023505, y: 0.2484626, z: 0.34623906}
   m_DirtyAABB: 0
---- !u!114 &3191494512598559077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2151377624184141269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5049b1619332b0244b9bb28281f9043c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTakeDamage: {fileID: 2959830739264947113}
---- !u!65 &3672569247674266199
-BoxCollider:
+--- !u!64 &4317187506085980518
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3003,9 +2990,23 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.404701, y: 0.49692512, z: 0.692478}
-  m_Center: {x: 0.0009979606, y: 0.00879363, z: 1.3228528}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5340409825778417261, guid: 85d4e0981a5b87e4c8ac3bb8f15a83a6, type: 3}
+--- !u!114 &3191494512598559077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2151377624184141269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5049b1619332b0244b9bb28281f9043c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTakeDamage: {fileID: 2959830739264947113}
 --- !u!1 &2163595336350981832
 GameObject:
   m_ObjectHideFlags: 0
@@ -6561,7 +6562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1569935641
   InScenePlacedSourceGlobalObjectIdHash: 2741875015
-  AlwaysReplicateAsRoot: 0
+  AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
@@ -6688,8 +6689,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f68e8be09b9d64f94bf90e8d7b2b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 10
-  SprintSpeed: 25
+  MoveSpeed: 50
+  SprintSpeed: 75
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
   JumpHeight: 1.2
@@ -8098,7 +8099,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4276855004438093550}
   - component: {fileID: 8420040289576369160}
-  - component: {fileID: 6816250686743810033}
+  - component: {fileID: 7599923025610512052}
   - component: {fileID: 644593275988098625}
   m_Layer: 0
   m_Name: Sk_Police_girl_Head
@@ -8256,8 +8257,8 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00029107183, y: -0.0026499033, z: 1.6992211}
     m_Extent: {x: 0.08717591, y: 0.11755416, z: 0.14872587}
   m_DirtyAABB: 0
---- !u!65 &6816250686743810033
-BoxCollider:
+--- !u!64 &7599923025610512052
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -8274,9 +8275,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.17435184, y: 0.23510829, z: 0.2974517}
-  m_Center: {x: 0.00066729635, y: 0.0314889, z: -0.009824991}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3902733906860068974, guid: 85d4e0981a5b87e4c8ac3bb8f15a83a6, type: 3}
 --- !u!114 &644593275988098625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10285,7 +10287,7 @@ Transform:
   m_GameObject: {fileID: 6670391347644140238}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0.0020376048, z: -0.00013769508}
+  m_LocalPosition: {x: 0, y: 0.016, z: -0.00013769508}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
