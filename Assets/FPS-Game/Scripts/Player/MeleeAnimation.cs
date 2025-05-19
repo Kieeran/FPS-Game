@@ -1,7 +1,9 @@
+using PlayerAssets;
 using UnityEngine;
 
 public class MeleeAnimation : MonoBehaviour
 {
+    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
     public Animator animator;
 
     public bool isAttacking = false;

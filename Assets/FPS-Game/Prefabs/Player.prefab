@@ -1011,6 +1011,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e81735596631e40bc60231f546c005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerAssetsInputs: {fileID: 7795738832339507943}
+  _playerReload: {fileID: 4334006862577660681}
+  _playerAim: {fileID: 8832729229337073953}
   animator: {fileID: 8021387592346993996}
   Automatic: 1
   IsShooting: 0
@@ -1666,6 +1669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d35180c16df8c1642b54ba5b1b126c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerAssetsInputs: {fileID: 7795738832339507943}
   animator: {fileID: 2849443147055145248}
   isAttacking: 0
   queuedAttackB: 0
@@ -5605,6 +5609,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e81735596631e40bc60231f546c005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerAssetsInputs: {fileID: 7795738832339507943}
+  _playerReload: {fileID: 4334006862577660681}
+  _playerAim: {fileID: 8832729229337073953}
   animator: {fileID: 209696228727527026}
   Automatic: 0
   IsShooting: 0
