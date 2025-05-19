@@ -9,7 +9,7 @@ public class _ShootEffect : NetworkBehaviour
 {
     [SerializeField] private bool IsRifle;
     [SerializeField] private bool IsPistol;
-    public Canvas canvas;
+    // public Canvas canvas;
 
     // Weapon recoil
     [SerializeField] private bool enableRecoil;

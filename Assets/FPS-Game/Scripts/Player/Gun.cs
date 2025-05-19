@@ -116,7 +116,7 @@ public class Gun : NetworkBehaviour
                     _playerInventory.UpdatecurrentMagazineAmmo();
                     _playerShoot.Shoot(_spreadAngle);
 
-                    shootEffect.ActiveShootEffect();
+                    // shootEffect.ActiveShootEffect();
                 }
             }
         }
@@ -134,7 +134,7 @@ public class Gun : NetworkBehaviour
                     _playerInventory.UpdatecurrentMagazineAmmo();
                     _playerShoot.Shoot(_spreadAngle);
 
-                    shootEffect.ActiveShootEffect();
+                    // shootEffect.ActiveShootEffect();
                 }
             }
 
