@@ -74,7 +74,9 @@ public class PlayerUI : NetworkBehaviour
 
             NetworkManager.Singleton.Shutdown();
             LobbyManager.Instance.ExitGame();
-            GameSceneManager.Instance.LoadPreviousScene();
+
+            // GameSceneManager.Instance.LoadPreviousScene();
+            GameSceneManager.Instance.LoadScene("Lobby Room");
         });
 
         _playerAim.OnAim += () =>
@@ -102,7 +104,9 @@ public class PlayerUI : NetworkBehaviour
         {
             NetworkManager.Singleton.Shutdown();
             LobbyManager.Instance.ExitGame();
-            GameSceneManager.Instance.LoadPreviousScene();
+
+            // GameSceneManager.Instance.LoadPreviousScene();
+            GameSceneManager.Instance.LoadScene("Lobby Room");
         }
     }
 

@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Mono.CSharp;
 using UnityEngine;
-using TMPro;
 using System;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
@@ -41,7 +37,7 @@ public class SlotManager : MonoBehaviour
         }
     }
 
-    private void LobbyManager_OnOutLobby(object sender, System.EventArgs e)
+    private void LobbyManager_OnOutLobby(object sender, EventArgs e)
     {
         LobbyManager.joinedLobby = null;
 
@@ -50,7 +46,8 @@ public class SlotManager : MonoBehaviour
         // LobbyManager.Instance.OnLeftLobby -= LobbyManager_OnOutLobby;
         // LobbyManager.Instance.OnKickedFromLobby -= LobbyManager_OnOutLobby;
 
-        GameSceneManager.Instance.LoadPreviousScene();
+        // GameSceneManager.Instance.LoadPreviousScene();
+        GameSceneManager.Instance.LoadScene("Lobby List");
     }
 
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)

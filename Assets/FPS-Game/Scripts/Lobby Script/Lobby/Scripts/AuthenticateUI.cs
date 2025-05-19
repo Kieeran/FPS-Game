@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Services.Core;
-using UnityEngine.SceneManagement;
 
 public class AuthenticateUI : MonoBehaviour
 {
@@ -11,7 +8,8 @@ public class AuthenticateUI : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            GameSceneManager.Instance.LoadNextScene();
+            // GameSceneManager.Instance.LoadNextScene();
+            GameSceneManager.Instance.LoadScene("Lobby List");
 
             if (UnityServices.State == ServicesInitializationState.Initialized)
                 return;

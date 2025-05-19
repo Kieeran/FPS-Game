@@ -163,8 +163,8 @@ public class LobbyManager : MonoBehaviour
                     // Start Game!
                     if (!IsLobbyHost()) // Lobby Host already joined Relay
                     {
-                        GameSceneManager.Instance.LoadNextScene();
-                        // SceneLoader.Instance.LoadScene(3);
+                        // GameSceneManager.Instance.LoadNextScene();
+                        GameSceneManager.Instance.LoadScene("Play Scene");
 
                         Relay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                     }
@@ -183,7 +183,8 @@ public class LobbyManager : MonoBehaviour
                     Debug.LogWarning("The lobby has been set to private or is no longer accessible. Redirecting to the Lobby List UI.");
 
                     // Assume the lobby is no longer accessible - handle this by redirecting
-                    GameSceneManager.Instance.LoadPreviousScene();
+                    // GameSceneManager.Instance.LoadPreviousScene();
+                    GameSceneManager.Instance.LoadScene("Lobby Room");
 
                     joinedLobby = null;
                     return;
@@ -255,7 +256,7 @@ public class LobbyManager : MonoBehaviour
 
     public async void CreateLobby(string lobbyName, int maxPlayers, bool isPrivate/*, GameMode gameMode*/)
     {
-        Unity.Services.Lobbies.Models.Player player = GetPlayer();
+        Player player = GetPlayer();
 
         CreateLobbyOptions options = new CreateLobbyOptions
         {
@@ -272,7 +273,8 @@ public class LobbyManager : MonoBehaviour
         joinedLobby = lobby;
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-        GameSceneManager.Instance.LoadNextScene();
+        // GameSceneManager.Instance.LoadNextScene();
+        GameSceneManager.Instance.LoadScene("Lobby Room");
         // Debug.Log("Created Lobby " + lobby.Name);
     }
 
@@ -311,7 +313,7 @@ public class LobbyManager : MonoBehaviour
 
     public async void JoinLobbyByCode(string lobbyCode)
     {
-        Unity.Services.Lobbies.Models.Player player = GetPlayer();
+        Player player = GetPlayer();
 
         Lobby lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode, new JoinLobbyByCodeOptions
         {
@@ -321,7 +323,8 @@ public class LobbyManager : MonoBehaviour
         joinedLobby = lobby;
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-        GameSceneManager.Instance.LoadNextScene();
+        // GameSceneManager.Instance.LoadNextScene();
+        GameSceneManager.Instance.LoadScene("Lobby Room");
     }
 
     public string GetJoinedLobbyCode()
@@ -339,7 +342,8 @@ public class LobbyManager : MonoBehaviour
         });
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-        GameSceneManager.Instance.LoadNextScene();
+        // GameSceneManager.Instance.LoadNextScene();
+        GameSceneManager.Instance.LoadScene("Lobby Room");
     }
 
     public async void UpdatePlayerName(string name)
