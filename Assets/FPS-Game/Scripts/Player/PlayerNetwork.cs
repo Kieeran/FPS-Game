@@ -4,7 +4,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using Unity.Collections;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
@@ -14,9 +13,9 @@ public class PlayerNetwork : NetworkBehaviour
 {
     public string playerName = "Playername";
     [HideInInspector]
-    public NetworkVariable<int> KillCount;
+    public NetworkVariable<int> KillCount = new();
     [HideInInspector]
-    public NetworkVariable<int> DeathCount;
+    public NetworkVariable<int> DeathCount = new();
 
     public PlayerInput playerInput;
     public CharacterController characterController;
@@ -49,13 +48,10 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (IsOwner == false) return;
 
-        KillCount = new();
-        DeathCount = new();
-
         EnableScripts();
         MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
 
-        SetRandomPos();
+        RequestSetRandomPosServerRpc();
 
         CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
@@ -68,11 +64,17 @@ public class PlayerNetwork : NetworkBehaviour
         _playerUI.OnOpenScoreBoard += OnOpenScoreBoard;
     }
 
-    void SetRandomPos()
+    [ServerRpc(RequireOwnership = false)]
+    void RequestSetRandomPosServerRpc()
     {
         Transform randomPos = GameManager.Instance.GetRandomPos();
+        if (randomPos == null)
+        {
+            Debug.Log("Null");
+            return;
+        }
 
-        transform.position = randomPos.position;
+        transform.SetPositionAndRotation(randomPos.position, randomPos.rotation);
     }
 
     void EnableScripts()
@@ -112,6 +114,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             // GetAllPlayerInfos_ServerRPC(OwnerClientId);
+            RequestSetRandomPosServerRpc();
         }
     }
 
