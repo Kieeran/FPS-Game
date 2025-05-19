@@ -1,81 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Cinemachine;
 using Unity.Netcode;
-using Unity.Services.Lobbies.Models;
-using System.Linq;
+using System.Collections.Generic;
 
 public class GameManager : NetworkBehaviour
 {
-    // public static int currentIndex;
+    [SerializeField] CinemachineVirtualCamera _cinemachineVirtualCamera;
+    [SerializeField] Transform _spawnPositions;
 
-    public static GameManager Instance;
-
-    // public GameObject _camera;
-    // public GameObject playerCamera;
-    // public GameObject playerFollowCamera;
-
-    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
-
-    public CinemachineVirtualCamera GetCinemachineVirtualCamera() { return cinemachineVirtualCamera; }
-
-    // [SerializeField] private GameObject scoreboard;
-
-    // private void EnableCamera()
-    // {
-    //     playerCamera.gameObject.SetActive(true);
-    //     playerFollowCamera.gameObject.SetActive(true);
-    //     //playerUI.gameObject.SetActive(true);
-    // }
-
-    // void Start()
-    // {
-    //     Scene currentScene = SceneManager.GetActiveScene();
-    //     currentIndex = currentScene.buildIndex;
-
-    //     scoreboard.SetActive(false);
-    // }
+    public static GameManager Instance { get; private set; }
+    public CinemachineVirtualCamera GetCinemachineVirtualCamera() { return _cinemachineVirtualCamera; }
+    public List<Transform> SpawnPositionsList { get; private set; }
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
 
-        // EnableCamera();
+        InitSpawnPositions();
     }
 
-    void Update()
+    void InitSpawnPositions()
     {
-        // if (currentIndex == 2)
-        // {
-        //     Destroy(_camera);
-        //     EnableCamera();
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.Tab))
-        // {
-        //     scoreboard.SetActive(true);
-        // }
-        // else if (Input.GetKeyUp(KeyCode.Tab))
-        // {
-        //     scoreboard.SetActive(false);
-        // }
-
-        // // LoadChatUI();
+        SpawnPositionsList = new List<Transform>();
+        foreach (Transform child in _spawnPositions)
+        {
+            SpawnPositionsList.Add(child);
+        }
     }
 
-    // public void LoadChatUI() {
-    //     Debug.Log(currentIndex);
-    //     if (currentIndex == 2) {
-    //         ChatCanvasUI.Instance.Show();
-    //     }
-    // }
+    public Transform GetRandomPos()
+    {
+        if (SpawnPositionsList == null || SpawnPositionsList.Count == 0)
+        {
+            Debug.LogError("SpawnPositionsList is empty!");
+            return null;
+        }
 
-    // public static Dictionary<string, Player> players = new Dictionary<string, Player>();
-
-    // public static Player[] GetAllPlayers()
-    // {
-    //     return players.Values.ToArray();
-    // }
+        return SpawnPositionsList[Random.Range(0, SpawnPositionsList.Count)];
+    }
 }

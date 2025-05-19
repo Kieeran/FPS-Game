@@ -55,6 +55,8 @@ public class PlayerNetwork : NetworkBehaviour
         EnableScripts();
         MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
 
+        SetRandomPos();
+
         CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
         {
@@ -66,7 +68,14 @@ public class PlayerNetwork : NetworkBehaviour
         _playerUI.OnOpenScoreBoard += OnOpenScoreBoard;
     }
 
-    private void EnableScripts()
+    void SetRandomPos()
+    {
+        Transform randomPos = GameManager.Instance.GetRandomPos();
+
+        transform.position = randomPos.position;
+    }
+
+    void EnableScripts()
     {
         playerInput.enabled = true;
         characterController.enabled = true;
