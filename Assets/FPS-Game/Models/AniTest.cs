@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class AniTest : MonoBehaviour
+using Unity.Netcode;
+using UnityEngine;
+public class AniTest : NetworkBehaviour
 {
     public Animator animator;
     public bool Automatic;
@@ -12,6 +11,8 @@ public class AniTest : MonoBehaviour
 
     void Update()
     {
+        if (!IsOwner) return;
+
         if (Automatic)
         {
             if (Input.GetMouseButton(0) && !IsShooting && !IsReloading)
@@ -49,11 +50,15 @@ public class AniTest : MonoBehaviour
 
     public void OnDoneShoot()
     {
+        if (!IsOwner) return;
+
         IsShooting = false;
     }
 
     public void OnDoneReload()
     {
+        if (!IsOwner) return;
+
         animator.SetBool("Reload", false);
         IsReloading = false;
     }
