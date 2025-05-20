@@ -7,7 +7,7 @@ using System;
 
 public class PlayerTakeDamage : NetworkBehaviour
 {
-    private NetworkVariable<float> HP = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> HP = new(1);
     [SerializeField] private Image health;
     [SerializeField] private Image hitEffect;
 
@@ -16,19 +16,24 @@ public class PlayerTakeDamage : NetworkBehaviour
 
     public Action PlayerDead;
 
-    public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID)
+    public override void OnNetworkSpawn()
     {
-        // Debug.Log($"{OwnerClientId} take {damage} damage");
-        ChangeHPServerRpc(damage, targetClientId, ownerPlayerID);
-
-        UpdateUI(damage, targetClientId);
+        HP.OnValueChanged += OnHPChanged;
     }
 
-    private void Update()
+    private void OnHPChanged(float previous, float current)
     {
-        if (!IsOwner) return;
+        if (previous == current) return;
 
-        //health.fillAmount = HP.Value;
+        health.fillAmount = current;
+
+        if (current == 0)
+            PlayerDead?.Invoke();
+    }
+
+    public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID)
+    {
+        ChangeHPServerRpc(damage, targetClientId, ownerPlayerID);
     }
 
     public void UpdateUI(float damage, ulong targetClientId)
@@ -44,16 +49,15 @@ public class PlayerTakeDamage : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ChangeHPServerRpc(float damage, ulong targetClientId, ulong ownerPlayerID)
+    public void ChangeHPServerRpc(float damage, ulong targetClientId, ulong ownerClientId)
     {
-        bool isPlayerDead = false;
-
         var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
-        var ownerPlayer = NetworkManager.Singleton.ConnectedClients[ownerPlayerID].PlayerObject;
+        var ownerPlayer = NetworkManager.Singleton.ConnectedClients[ownerClientId].PlayerObject;
         if (targetPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
         {
-            targetHealth.HP.Value -= damage;
+            if (targetHealth.HP.Value == 0) return;
 
+            targetHealth.HP.Value -= damage;
             if (targetHealth.HP.Value <= 0)
             {
                 if (targetPlayer.TryGetComponent<PlayerNetwork>(out var clientPlayerNetwork))
@@ -64,33 +68,22 @@ public class PlayerTakeDamage : NetworkBehaviour
                 {
                     ownerPlayerNetwork.KillCount.Value += 1;
                 }
-                targetHealth.HP.Value = 1;
-                isPlayerDead = true;
+                targetHealth.HP.Value = 0;
             }
 
             Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
         }
 
-        ChangeHPClientRpc(
-            isPlayerDead,
-            new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams
-                {
-                    TargetClientIds = new List<ulong> { targetClientId }
-                }
-            }
-        );
+        UpdateUI(damage, targetClientId);
     }
 
-    [ClientRpc]
-    public void ChangeHPClientRpc(bool isPlayerDead, ClientRpcParams clientRpcParams)
+    [ServerRpc(RequireOwnership = false)]
+    public void ResetPlayerHP_ServerRpc(ulong ownerClientId)
     {
-        health.fillAmount = HP.Value;
-
-        if (isPlayerDead == true)
+        var ownerPlayer = NetworkManager.Singleton.ConnectedClients[ownerClientId].PlayerObject;
+        if (ownerPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
         {
-            PlayerDead?.Invoke();
+            targetHealth.HP.Value = 1;
         }
     }
 

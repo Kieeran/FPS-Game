@@ -112,9 +112,7 @@ public class PlayerShoot : NetworkBehaviour
 
                 if (player != null)
                 {
-                    NetworkObject networkObject = player.GetComponent<NetworkObject>();
-
-                    if (networkObject != null)
+                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
                     {
                         player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId, OwnerClientId);
                     }
@@ -127,9 +125,7 @@ public class PlayerShoot : NetworkBehaviour
 
                 if (player != null)
                 {
-                    NetworkObject networkObject = player.GetComponent<NetworkObject>();
-
-                    if (networkObject != null)
+                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
                     {
                         player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId, OwnerClientId);
                     }

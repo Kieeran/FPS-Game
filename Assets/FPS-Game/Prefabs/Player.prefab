@@ -6416,11 +6416,11 @@ GameObject:
   - component: {fileID: 5948730102944647971}
   - component: {fileID: 6827196641280625600}
   - component: {fileID: 2453111897199623720}
-  - component: {fileID: 610120243110111006}
   - component: {fileID: 7795738832339507943}
-  - component: {fileID: 3776603355074829376}
   - component: {fileID: 4530824154142287168}
   - component: {fileID: 6360967479396315239}
+  - component: {fileID: 3776603355074829376}
+  - component: {fileID: 610120243110111006}
   - component: {fileID: 3198145288386460731}
   - component: {fileID: 5572411656813290491}
   - component: {fileID: 4334006862577660681}
@@ -6585,29 +6585,6 @@ MonoBehaviour:
   _playerUI: {fileID: 610120243110111006}
   health: {fileID: 3001421045714532504}
   playerUI: {fileID: 3467197557248155166}
---- !u!114 &610120243110111006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3086927271415625819}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b46154c6a57c5194cb8179ee92e860e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerNetwork: {fileID: 2453111897199623720}
-  _playerAim: {fileID: 8832729229337073953}
-  _escapeUI: {fileID: 4899559789729042288}
-  _quitGameButton: {fileID: 2505009646391887672}
-  _scoreBoard: {fileID: 2149139602982937363}
-  _bulletHud: {fileID: 1559660989067655385}
-  _weaponHud: {fileID: 5782654837945854555}
-  _crossHair: {fileID: 7234308128171618085}
-  playerScoreboardItem: {fileID: 391833806404409984, guid: 2917454508093bd488e708db262baafc, type: 3}
-  playerScoreboardList: {fileID: 7071621261489479138}
 --- !u!114 &7795738832339507943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6639,6 +6616,39 @@ MonoBehaviour:
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
+--- !u!114 &4530824154142287168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086927271415625819}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 103e755e890646e4e96e108f2f143d72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 3001421045714532504}
+  hitEffect: {fileID: 9147513432015690146}
+  hitBodyAlpha: 43
+  hitHeadAlpha: 143
+  IsPlayerDead: 0
+--- !u!114 &6360967479396315239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086927271415625819}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f1c5fa5e4222824a983a28184e6c46a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletSpawnPoint: {fileID: 1972134987204318308}
+  hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
+  playerAssetsInputs: {fileID: 7795738832339507943}
+  FireCoolDown: 0.2
 --- !u!114 &3776603355074829376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6684,7 +6694,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
   FootstepAudioVolume: 0.5
   playerModel: {fileID: 0}
---- !u!114 &4530824154142287168
+--- !u!114 &610120243110111006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6693,29 +6703,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 3086927271415625819}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 103e755e890646e4e96e108f2f143d72, type: 3}
+  m_Script: {fileID: 11500000, guid: b46154c6a57c5194cb8179ee92e860e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 3001421045714532504}
-  hitEffect: {fileID: 9147513432015690146}
-  hitBodyAlpha: 43
-  hitHeadAlpha: 143
---- !u!114 &6360967479396315239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3086927271415625819}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f1c5fa5e4222824a983a28184e6c46a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BulletSpawnPoint: {fileID: 1972134987204318308}
-  hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
-  playerAssetsInputs: {fileID: 7795738832339507943}
-  FireCoolDown: 0.2
+  _playerAssetsInputs: {fileID: 7795738832339507943}
+  _playerNetwork: {fileID: 2453111897199623720}
+  _playerAim: {fileID: 8832729229337073953}
+  _escapeUI: {fileID: 4899559789729042288}
+  _quitGameButton: {fileID: 2505009646391887672}
+  _scoreBoard: {fileID: 2149139602982937363}
+  _bulletHud: {fileID: 1559660989067655385}
+  _weaponHud: {fileID: 5782654837945854555}
+  _crossHair: {fileID: 7234308128171618085}
+  playerScoreboardItem: {fileID: 391833806404409984, guid: 2917454508093bd488e708db262baafc, type: 3}
+  playerScoreboardList: {fileID: 7071621261489479138}
 --- !u!114 &3198145288386460731
 MonoBehaviour:
   m_ObjectHideFlags: 0

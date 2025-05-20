@@ -57,7 +57,7 @@ public class PlayerNetwork : NetworkBehaviour
         EnableScripts();
         MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
 
-        RequestSetRandomPos_ServerRpc(OwnerClientId);
+        SetRandomPos_ServerRpc(OwnerClientId);
 
         CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
@@ -72,7 +72,7 @@ public class PlayerNetwork : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void RequestSetRandomPos_ServerRpc(ulong clientId)
+    void SetRandomPos_ServerRpc(ulong clientId)
     {
         Transform randomPos = GameManager.Instance.GetRandomPos();
         if (randomPos == null)
@@ -117,9 +117,62 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    void SetRandomPos1_ServerRpc(ulong clientId)
+    {
+        Transform randomPos = GameManager.Instance.GetRandomPos();
+        if (randomPos == null)
+        {
+            Debug.Log("Null");
+            return;
+        }
+
+        SetRandomPos1_ClientRpc(
+            randomPos.position,
+            new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new List<ulong> { clientId }
+                }
+            }
+        );
+    }
+
+    [ClientRpc]
+    void SetRandomPos1_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
+    {
+        _clientNetworkTransform.Interpolate = false;
+
+        transform.position = randomPos;
+
+        Invoke(nameof(EnableInterpolation1), 0.1f);
+
+        characterController.enabled = true;
+        playerController.enabled = true;
+    }
+
+    void EnableInterpolation1()
+    {
+        if (_clientNetworkTransform != null)
+        {
+            _clientNetworkTransform.Interpolate = true;
+
+            playerTakeDamage.ResetPlayerHP_ServerRpc(OwnerClientId);
+        }
+    }
+
+    void RequestSetRandomPos()
+    {
+        SetRandomPos1_ServerRpc(OwnerClientId);
+    }
+
     void OnPlayerDead()
     {
-        RequestSetRandomPos_ServerRpc(OwnerClientId);
+        characterController.enabled = false;
+        playerController.enabled = false;
+
+        Invoke(nameof(RequestSetRandomPos), 2f);
     }
 
     void EnableScripts()
@@ -128,7 +181,6 @@ public class PlayerNetwork : NetworkBehaviour
         characterController.enabled = true;
         playerController.enabled = true;
         playerShoot.enabled = true;
-        playerTakeDamage.enabled = true;
         _playerUI.enabled = true;
 
         playerUI.gameObject.SetActive(true);
