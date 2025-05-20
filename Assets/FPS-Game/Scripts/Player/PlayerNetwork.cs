@@ -57,7 +57,7 @@ public class PlayerNetwork : NetworkBehaviour
         EnableScripts();
         MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
 
-        SetRandomPos_ServerRpc(OwnerClientId);
+        SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
 
         CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
@@ -69,6 +69,52 @@ public class PlayerNetwork : NetworkBehaviour
 
         _playerUI.OnOpenScoreBoard += OnOpenScoreBoard;
         playerTakeDamage.PlayerDead += OnPlayerDead;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetRandomPosAtSpawn_ServerRpc(ulong clientId)
+    {
+        Transform randomPos = GameManager.Instance.GetRandomPos();
+        if (randomPos == null)
+        {
+            Debug.Log("Null");
+            return;
+        }
+
+        SetRandomPosAtSpawn_ClientRpc(
+            randomPos.position,
+            new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new List<ulong> { clientId }
+                }
+            }
+        );
+    }
+
+    [ClientRpc]
+    void SetRandomPosAtSpawn_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
+    {
+        characterController.enabled = false;
+        playerController.enabled = false;
+
+        _clientNetworkTransform.Interpolate = false;
+
+        transform.position = randomPos;
+
+        Invoke(nameof(EnableInterpolationAtSpawn), 0.1f);
+
+        characterController.enabled = true;
+        playerController.enabled = true;
+    }
+
+    void EnableInterpolationAtSpawn()
+    {
+        if (_clientNetworkTransform != null)
+        {
+            _clientNetworkTransform.Interpolate = true;
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -96,9 +142,6 @@ public class PlayerNetwork : NetworkBehaviour
     [ClientRpc]
     void SetRandomPos_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
     {
-        characterController.enabled = false;
-        playerController.enabled = false;
-
         _clientNetworkTransform.Interpolate = false;
 
         transform.position = randomPos;
@@ -114,49 +157,6 @@ public class PlayerNetwork : NetworkBehaviour
         if (_clientNetworkTransform != null)
         {
             _clientNetworkTransform.Interpolate = true;
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    void SetRandomPos1_ServerRpc(ulong clientId)
-    {
-        Transform randomPos = GameManager.Instance.GetRandomPos();
-        if (randomPos == null)
-        {
-            Debug.Log("Null");
-            return;
-        }
-
-        SetRandomPos1_ClientRpc(
-            randomPos.position,
-            new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams
-                {
-                    TargetClientIds = new List<ulong> { clientId }
-                }
-            }
-        );
-    }
-
-    [ClientRpc]
-    void SetRandomPos1_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
-    {
-        _clientNetworkTransform.Interpolate = false;
-
-        transform.position = randomPos;
-
-        Invoke(nameof(EnableInterpolation1), 0.1f);
-
-        characterController.enabled = true;
-        playerController.enabled = true;
-    }
-
-    void EnableInterpolation1()
-    {
-        if (_clientNetworkTransform != null)
-        {
-            _clientNetworkTransform.Interpolate = true;
 
             playerTakeDamage.ResetPlayerHP_ServerRpc(OwnerClientId);
         }
@@ -164,7 +164,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     void RequestSetRandomPos()
     {
-        SetRandomPos1_ServerRpc(OwnerClientId);
+        SetRandomPos_ServerRpc(OwnerClientId);
     }
 
     void OnPlayerDead()
