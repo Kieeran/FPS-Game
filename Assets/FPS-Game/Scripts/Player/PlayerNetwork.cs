@@ -28,8 +28,6 @@ public class PlayerNetwork : NetworkBehaviour
 
     public Canvas playerUI;
 
-    List<PlayerInfo> playerInfos;
-
     public struct PlayerInfo
     {
         public string Name;
@@ -51,7 +49,7 @@ public class PlayerNetwork : NetworkBehaviour
         EnableScripts();
         MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
 
-        RequestSetRandomPosServerRpc();
+        RequestSetRandomPos_ServerRpc(OwnerClientId);
 
         CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
@@ -62,14 +60,12 @@ public class PlayerNetwork : NetworkBehaviour
         }
 
         _playerUI.OnOpenScoreBoard += OnOpenScoreBoard;
+        playerTakeDamage.PlayerDead += OnPlayerDead;
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void RequestSetRandomPosServerRpc()
+    void RequestSetRandomPos_ServerRpc(ulong clientId)
     {
-        characterController.enabled = false;
-        playerController.enabled = false;
-
         Transform randomPos = GameManager.Instance.GetRandomPos();
         if (randomPos == null)
         {
@@ -77,10 +73,33 @@ public class PlayerNetwork : NetworkBehaviour
             return;
         }
 
-        transform.SetPositionAndRotation(randomPos.position, randomPos.rotation);
+        SetRandomPos_ClientRpc(
+            randomPos.position,
+            new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new List<ulong> { clientId }
+                }
+            }
+        );
+    }
+
+    [ClientRpc]
+    void SetRandomPos_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
+    {
+        characterController.enabled = false;
+        playerController.enabled = false;
+
+        transform.position = randomPos;
 
         characterController.enabled = true;
         playerController.enabled = true;
+    }
+
+    void OnPlayerDead()
+    {
+        RequestSetRandomPos_ServerRpc(OwnerClientId);
     }
 
     void EnableScripts()
@@ -119,10 +138,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log("Ấn T");
-
             // GetAllPlayerInfos_ServerRPC(OwnerClientId);
-            RequestSetRandomPosServerRpc();
         }
     }
 

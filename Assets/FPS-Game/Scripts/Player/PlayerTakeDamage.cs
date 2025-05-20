@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Services.Lobbies.Models;
-using UnityEngine.InputSystem;
+using System;
 
 public class PlayerTakeDamage : NetworkBehaviour
 {
@@ -14,6 +13,8 @@ public class PlayerTakeDamage : NetworkBehaviour
 
     public float hitBodyAlpha;
     public float hitHeadAlpha;
+
+    public Action PlayerDead;
 
     public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID)
     {
@@ -45,6 +46,8 @@ public class PlayerTakeDamage : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ChangeHPServerRpc(float damage, ulong targetClientId, ulong ownerPlayerID)
     {
+        bool isPlayerDead = false;
+
         var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
         var ownerPlayer = NetworkManager.Singleton.ConnectedClients[ownerPlayerID].PlayerObject;
         if (targetPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
@@ -62,12 +65,14 @@ public class PlayerTakeDamage : NetworkBehaviour
                     ownerPlayerNetwork.KillCount.Value += 1;
                 }
                 targetHealth.HP.Value = 1;
+                isPlayerDead = true;
             }
 
             Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
         }
 
         ChangeHPClientRpc(
+            isPlayerDead,
             new ClientRpcParams
             {
                 Send = new ClientRpcSendParams
@@ -79,19 +84,14 @@ public class PlayerTakeDamage : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void ChangeHPClientRpc(ClientRpcParams clientRpcParams)
+    public void ChangeHPClientRpc(bool isPlayerDead, ClientRpcParams clientRpcParams)
     {
-        // var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
-        // if (targetPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
-        // {
-        //     targetHealth.HP.Value -= damage;
-
-        //     if (targetHealth.HP.Value <= 0) targetHealth.HP.Value = 1;
-
-        //     //Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
-        // }
-
         health.fillAmount = HP.Value;
+
+        if (isPlayerDead == true)
+        {
+            PlayerDead?.Invoke();
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
