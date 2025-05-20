@@ -67,6 +67,9 @@ public class PlayerNetwork : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void RequestSetRandomPosServerRpc()
     {
+        characterController.enabled = false;
+        playerController.enabled = false;
+
         Transform randomPos = GameManager.Instance.GetRandomPos();
         if (randomPos == null)
         {
@@ -75,6 +78,9 @@ public class PlayerNetwork : NetworkBehaviour
         }
 
         transform.SetPositionAndRotation(randomPos.position, randomPos.rotation);
+
+        characterController.enabled = true;
+        playerController.enabled = true;
     }
 
     void EnableScripts()
@@ -113,6 +119,8 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
+            Debug.Log("Ấn T");
+
             // GetAllPlayerInfos_ServerRPC(OwnerClientId);
             RequestSetRandomPosServerRpc();
         }
