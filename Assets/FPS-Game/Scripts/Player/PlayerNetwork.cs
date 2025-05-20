@@ -8,6 +8,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
+using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 
 public class PlayerNetwork : NetworkBehaviour
 {
@@ -28,6 +29,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     public Canvas playerUI;
 
+    ClientNetworkTransform _clientNetworkTransform;
+
     public struct PlayerInfo
     {
         public string Name;
@@ -40,6 +43,11 @@ public class PlayerNetwork : NetworkBehaviour
             KillCount = killCount;
             DeathCount = deathCount;
         }
+    }
+
+    void Awake()
+    {
+        _clientNetworkTransform = GetComponent<ClientNetworkTransform>();
     }
 
     public override void OnNetworkSpawn()
@@ -91,10 +99,22 @@ public class PlayerNetwork : NetworkBehaviour
         characterController.enabled = false;
         playerController.enabled = false;
 
+        _clientNetworkTransform.Interpolate = false;
+
         transform.position = randomPos;
+
+        Invoke(nameof(EnableInterpolation), 0.1f);
 
         characterController.enabled = true;
         playerController.enabled = true;
+    }
+
+    void EnableInterpolation()
+    {
+        if (_clientNetworkTransform != null)
+        {
+            _clientNetworkTransform.Interpolate = true;
+        }
     }
 
     void OnPlayerDead()
