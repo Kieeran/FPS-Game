@@ -9,9 +9,7 @@ using UnityEngine.UI;
 
 public class PlayerUI : NetworkBehaviour
 {
-    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
-    [SerializeField] PlayerNetwork _playerNetwork;
-    [SerializeField] PlayerAim _playerAim;
+    public PlayerRoot PlayerRoot { get; private set; }
 
     [SerializeField] Image _escapeUI;
     [SerializeField] Button _quitGameButton;
@@ -42,6 +40,8 @@ public class PlayerUI : NetworkBehaviour
 
     void Awake()
     {
+        PlayerRoot = GetComponent<PlayerRoot>();
+
         _reloadEffect = _bulletHud.transform.Find("Reload").GetComponent<ReloadEffect>();
 
         Transform ammoInfoTransform = _bulletHud.transform.Find("BulletAmount/AmmoInfo");
@@ -79,12 +79,12 @@ public class PlayerUI : NetworkBehaviour
             GameSceneManager.Instance.LoadScene("Lobby Room");
         });
 
-        _playerAim.OnAim += () =>
+        PlayerRoot.PlayerAim.OnAim += () =>
         {
             _crossHair.gameObject.SetActive(false);
         };
 
-        _playerAim.OnUnAim += () =>
+        PlayerRoot.PlayerAim.OnUnAim += () =>
         {
             _crossHair.gameObject.SetActive(true);
         };
@@ -119,16 +119,16 @@ public class PlayerUI : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (_playerAssetsInputs.escapeUI == true)
+        if (PlayerRoot.PlayerAssetsInputs.escapeUI == true)
         {
             _escapeUI.gameObject.SetActive(!_escapeUI.gameObject.activeSelf);
 
             Cursor.lockState = !_escapeUI.gameObject.activeSelf ? CursorLockMode.Locked : CursorLockMode.None;
 
-            _playerAssetsInputs.escapeUI = false;
+            PlayerRoot.PlayerAssetsInputs.escapeUI = false;
         }
 
-        if (_playerAssetsInputs.openScoreboard == true)
+        if (PlayerRoot.PlayerAssetsInputs.openScoreboard == true)
         {
             _scoreBoard.SetActive(!_scoreBoard.activeSelf);
 
@@ -137,7 +137,7 @@ public class PlayerUI : NetworkBehaviour
             else
                 ClearScoreBoard();
 
-            _playerAssetsInputs.openScoreboard = false;
+            PlayerRoot.PlayerAssetsInputs.openScoreboard = false;
         }
     }
 

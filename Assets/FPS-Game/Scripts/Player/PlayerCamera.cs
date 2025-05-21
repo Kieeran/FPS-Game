@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerCamera : NetworkBehaviour
 {
-    [SerializeField] PlayerAim _playerAim;
+    public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] WeaponHolder _weaponHolder;
     [SerializeField] Image _scopeAim;
     CinemachineVirtualCamera _playerCamera;
@@ -17,6 +17,11 @@ public class PlayerCamera : NetworkBehaviour
 
     bool _isAim;
     bool _isUnAim;
+
+    void Awake()
+    {
+        PlayerRoot = GetComponent<PlayerRoot>();
+    }
 
     public void SetFOV(float fov)
     {
@@ -30,13 +35,13 @@ public class PlayerCamera : NetworkBehaviour
         _isAim = false;
         _isUnAim = false;
 
-        _playerAim.OnAim += () =>
+        PlayerRoot.PlayerAim.OnAim += () =>
         {
             _isAim = true;
             _isUnAim = false;
         };
 
-        _playerAim.OnUnAim += () =>
+        PlayerRoot.PlayerAim.OnUnAim += () =>
         {
             _isAim = false;
             _isUnAim = true;

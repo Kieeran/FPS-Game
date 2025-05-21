@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerReload : MonoBehaviour
 {
-    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    public PlayerRoot PlayerRoot { get; private set; }
 
     bool _isReloading;
     public bool GetIsReloading() { return _isReloading; }
@@ -15,12 +15,17 @@ public class PlayerReload : MonoBehaviour
     public event EventHandler OnReload;
     public Action reload;
 
+    void Awake()
+    {
+        PlayerRoot = GetComponent<PlayerRoot>();
+    }
+
     void Update()
     {
-        if (_playerAssetsInputs.reload == true)
+        if (PlayerRoot.PlayerAssetsInputs.reload == true)
         {
             reload?.Invoke();
-            _playerAssetsInputs.reload = false;
+            PlayerRoot.PlayerAssetsInputs.reload = false;
 
             if (_isReloading != true)
             {

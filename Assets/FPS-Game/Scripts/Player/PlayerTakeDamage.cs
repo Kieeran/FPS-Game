@@ -7,6 +7,7 @@ using System;
 
 public class PlayerTakeDamage : NetworkBehaviour
 {
+    [HideInInspector]
     public NetworkVariable<float> HP = new(1);
     [SerializeField] private Image health;
     [SerializeField] private Image hitEffect;

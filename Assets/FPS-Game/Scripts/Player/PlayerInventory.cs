@@ -1,29 +1,30 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] PlayerUI _playerUI;
-    [SerializeField] PlayerReload _playerReload;
+    public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] WeaponHolder _weaponHolder;
 
     GameObject _currentWeapon;
     SupplyLoad _currentWeaponSupplyLoad;
+
+    void Awake()
+    {
+        PlayerRoot = GetComponent<PlayerRoot>();
+    }
 
     void Start()
     {
         _currentWeapon = null;
 
         _weaponHolder.OnChangeWeapon += SetCurrentWeapon;
-        _playerReload.OnReload += Reload;
+        PlayerRoot.PlayerReload.OnReload += Reload;
     }
 
     void OnDestroy()
     {
         _weaponHolder.OnChangeWeapon -= SetCurrentWeapon;
-        _playerReload.OnReload -= Reload;
+        PlayerRoot.PlayerReload.OnReload -= Reload;
     }
 
     public void RefillAmmos()
@@ -43,7 +44,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (_currentWeaponSupplyLoad == null || _currentWeaponSupplyLoad.IsTotalSuppliesEmpty())
         {
-            _playerReload.ResetIsReloading();
+            PlayerRoot.PlayerReload.ResetIsReloading();
             return;
         }
 
@@ -51,7 +52,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (ammoToReload == 0)
         {
-            _playerReload.ResetIsReloading();
+            PlayerRoot.PlayerReload.ResetIsReloading();
             return;
         }
 
@@ -60,10 +61,10 @@ public class PlayerInventory : MonoBehaviour
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += _currentWeaponSupplyLoad.TotalSupplies;
             _currentWeaponSupplyLoad.TotalSupplies = 0;
 
-            _playerUI.StartReloadEffect(() =>
+            PlayerRoot.PlayerUI.StartReloadEffect(() =>
             {
                 SetAmmoInfoUI();
-                _playerReload.ResetIsReloading();
+                PlayerRoot.PlayerReload.ResetIsReloading();
             });
         }
 
@@ -72,10 +73,10 @@ public class PlayerInventory : MonoBehaviour
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += ammoToReload;
             _currentWeaponSupplyLoad.TotalSupplies -= ammoToReload;
 
-            _playerUI.StartReloadEffect(() =>
+            PlayerRoot.PlayerUI.StartReloadEffect(() =>
             {
                 SetAmmoInfoUI();
-                _playerReload.ResetIsReloading();
+                PlayerRoot.PlayerReload.ResetIsReloading();
             });
         }
     }
@@ -94,7 +95,7 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
         _currentWeaponSupplyLoad = null;
-        _playerUI.SetAmmoInfoUI(0, 0);
+        PlayerRoot.PlayerUI.SetAmmoInfoUI(0, 0);
     }
 
     public void UpdatecurrentMagazineAmmo()
@@ -106,7 +107,7 @@ public class PlayerInventory : MonoBehaviour
 
     void SetAmmoInfoUI()
     {
-        _playerUI.SetAmmoInfoUI(
+        PlayerRoot.PlayerUI.SetAmmoInfoUI(
             _currentWeaponSupplyLoad.CurrentMagazineAmmo,
             _currentWeaponSupplyLoad.TotalSupplies
         );

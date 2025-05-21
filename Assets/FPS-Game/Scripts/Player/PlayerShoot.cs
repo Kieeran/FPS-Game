@@ -9,7 +9,6 @@ public class PlayerShoot : NetworkBehaviour
 {
     [SerializeField] private GameObject BulletSpawnPoint;
     [SerializeField] private GameObject hitEffect;
-    [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
     [SerializeField] private float FireCoolDown;
 
     private float CurrentCoolDown;

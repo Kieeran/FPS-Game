@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class PlayerAim : NetworkBehaviour
 {
-    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] WeaponHolder _weaponHolder;
     public Action OnAim;
     public Action OnUnAim;
 
     public bool ToggleAim { get; private set; }
+
+    void Awake()
+    {
+        PlayerRoot = GetComponent<PlayerRoot>();
+    }
 
     void Start()
     {
@@ -27,9 +32,9 @@ public class PlayerAim : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (_playerAssetsInputs.aim == true)
+        if (PlayerRoot.PlayerAssetsInputs.aim == true)
         {
-            _playerAssetsInputs.aim = false;
+            PlayerRoot.PlayerAssetsInputs.aim = false;
 
             ToggleAim = !ToggleAim;
 

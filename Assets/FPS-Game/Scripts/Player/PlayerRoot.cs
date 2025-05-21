@@ -36,6 +36,7 @@ public class PlayerRoot : MonoBehaviour
         PlayerUI = GetComponent<PlayerUI>();
         PlayerInteract = GetComponent<PlayerInteract>();
         PlayerInventory = GetComponent<PlayerInventory>();
+        PlayerReload = GetComponent<PlayerReload>();
         PlayerAim = GetComponent<PlayerAim>();
         PlayerCamera = GetComponent<PlayerCamera>();
     }
