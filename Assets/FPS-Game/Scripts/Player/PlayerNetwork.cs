@@ -71,6 +71,7 @@ public class PlayerNetwork : NetworkBehaviour
         playerTakeDamage.PlayerDead += OnPlayerDead;
     }
 
+    #region =========================================At Spawn=========================================
     [ServerRpc(RequireOwnership = false)]
     void SetRandomPosAtSpawn_ServerRpc(ulong clientId)
     {
@@ -116,6 +117,7 @@ public class PlayerNetwork : NetworkBehaviour
             _clientNetworkTransform.Interpolate = true;
         }
     }
+    #endregion ============================================================================================
 
     [ServerRpc(RequireOwnership = false)]
     void SetRandomPos_ServerRpc(ulong clientId)
