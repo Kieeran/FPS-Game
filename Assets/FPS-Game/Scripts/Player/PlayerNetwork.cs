@@ -29,6 +29,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     public Canvas playerUI;
 
+    public float RespawnDelay;
+
     ClientNetworkTransform _clientNetworkTransform;
 
     public struct PlayerInfo
@@ -174,7 +176,7 @@ public class PlayerNetwork : NetworkBehaviour
         characterController.enabled = false;
         playerController.enabled = false;
 
-        Invoke(nameof(RequestSetRandomPos), 2f);
+        Invoke(nameof(RequestSetRandomPos), RespawnDelay);
     }
 
     void EnableScripts()

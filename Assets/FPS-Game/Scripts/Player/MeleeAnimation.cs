@@ -4,6 +4,7 @@ using UnityEngine;
 public class MeleeAnimation : MonoBehaviour
 {
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] PlayerTakeDamage _playerTakeDamage;
     public Animator animator;
 
     public bool isAttacking = false;
@@ -12,6 +13,8 @@ public class MeleeAnimation : MonoBehaviour
 
     void Update()
     {
+        if (_playerTakeDamage.HP.Value == 0) return;
+
         if (!isAttacking)
         {
             if (Input.GetMouseButtonDown(0))

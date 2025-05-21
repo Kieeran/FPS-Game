@@ -11,6 +11,7 @@ public class Explosives : NetworkBehaviour
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
     [SerializeField] PlayerInventory _playerInventory;
     [SerializeField] PlayerReload _playerReload;
+    [SerializeField] PlayerTakeDamage _playerTakeDamage;
 
     [SerializeField] GameObject _explosiveEffectPrefab;
     [SerializeField] GameObject _currentGrenade;
@@ -127,6 +128,7 @@ public class Explosives : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
+        if (_playerTakeDamage.HP.Value == 0) return;
 
         if (_supplyLoad.IsMagazineEmpty()) return;
         if (_playerReload.GetIsReloading()) return;

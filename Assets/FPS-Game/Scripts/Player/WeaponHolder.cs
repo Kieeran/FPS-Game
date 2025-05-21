@@ -7,6 +7,7 @@ using UnityEngine;
 public class WeaponHolder : NetworkBehaviour
 {
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
+    [SerializeField] PlayerTakeDamage _playerTakeDamage;
     [SerializeField] PlayerUI _playerUI;
 
     List<GameObject> _weaponList;
@@ -45,6 +46,7 @@ public class WeaponHolder : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
+        if (_playerTakeDamage.HP.Value == 0) return;
 
         if (_playerAssetsInputs.hotkey1)
         {

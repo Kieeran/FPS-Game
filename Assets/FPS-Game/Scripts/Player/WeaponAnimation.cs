@@ -6,6 +6,7 @@ public class WeaponAnimation : NetworkBehaviour
     [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
     [SerializeField] PlayerReload _playerReload;
     [SerializeField] PlayerAim _playerAim;
+    [SerializeField] PlayerTakeDamage _playerTakeDamage;
     public Animator animator;
     public bool Automatic;
 
@@ -28,6 +29,7 @@ public class WeaponAnimation : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
+        if (_playerTakeDamage.HP.Value == 0) return;
 
         if (Automatic)
         {

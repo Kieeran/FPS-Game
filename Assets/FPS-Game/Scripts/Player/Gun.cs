@@ -14,6 +14,7 @@ public class Gun : NetworkBehaviour
     [SerializeField] PlayerReload _playerReload;
     [SerializeField] PlayerShoot _playerShoot;
     [SerializeField] PlayerAim _playerAim;
+    [SerializeField] PlayerTakeDamage _playerTakeDamage;
 
     SupplyLoad _supplyLoad;
 
@@ -230,6 +231,7 @@ public class Gun : NetworkBehaviour
         //isReload = PlayerInput.Instance.GetIsReloaded();
 
         if (IsOwner == false) return;
+        if (_playerTakeDamage.HP.Value == 0) return;
 
         Shoot();
         Aim();
