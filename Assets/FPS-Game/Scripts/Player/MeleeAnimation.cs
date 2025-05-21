@@ -17,7 +17,7 @@ public class MeleeAnimation : MonoBehaviour
 
     void Update()
     {
-        if (PlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
 
         if (!isAttacking)
         {

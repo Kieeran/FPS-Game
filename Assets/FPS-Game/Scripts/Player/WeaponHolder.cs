@@ -46,7 +46,7 @@ public class WeaponHolder : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (PlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
 
         if (PlayerRoot.PlayerAssetsInputs.hotkey1)
         {

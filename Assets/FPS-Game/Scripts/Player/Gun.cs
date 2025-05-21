@@ -225,7 +225,7 @@ public class Gun : NetworkBehaviour
         //isReload = PlayerInput.Instance.GetIsReloaded();
 
         if (IsOwner == false) return;
-        if (PlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
 
         Shoot();
         Aim();

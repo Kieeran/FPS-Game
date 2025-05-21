@@ -130,7 +130,7 @@ public class Explosives : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (PlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
 
         if (_supplyLoad.IsMagazineEmpty()) return;
         if (PlayerRoot.PlayerReload.GetIsReloading()) return;
