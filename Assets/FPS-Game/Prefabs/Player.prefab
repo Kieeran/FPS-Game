@@ -6416,6 +6416,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2586426588074311077}
+  - component: {fileID: 5786631840013576090}
   - component: {fileID: 623660729272532357}
   - component: {fileID: 411114129890139701}
   - component: {fileID: 5948730102944647971}
@@ -6457,6 +6458,33 @@ Transform:
   - {fileID: 4702462702862471269}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5786631840013576090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086927271415625819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f933b6324320d1348a3961be600848d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkObject: {fileID: 623660729272532357}
+  ClientNetworkTransform: {fileID: 411114129890139701}
+  PlayerInput: {fileID: 5948730102944647971}
+  CharacterController: {fileID: 6827196641280625600}
+  PlayerNetwork: {fileID: 2453111897199623720}
+  PlayerAssetsInputs: {fileID: 7795738832339507943}
+  PlayerTakeDamage: {fileID: 4530824154142287168}
+  PlayerShoot: {fileID: 6360967479396315239}
+  PlayerController: {fileID: 3776603355074829376}
+  PlayerUI: {fileID: 610120243110111006}
+  PlayerInteract: {fileID: 3198145288386460731}
+  PlayerInventory: {fileID: 5572411656813290491}
+  PlayerReload: {fileID: 4334006862577660681}
+  PlayerAim: {fileID: 8832729229337073953}
+  PlayerCamera: {fileID: 7620230814923784887}
 --- !u!114 &623660729272532357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6582,6 +6610,7 @@ MonoBehaviour:
     m_InternalValue: 0
   DeathCount:
     m_InternalValue: 0
+  _playerRoot: {fileID: 5786631840013576090}
   playerInput: {fileID: 5948730102944647971}
   characterController: {fileID: 6827196641280625600}
   playerController: {fileID: 3776603355074829376}

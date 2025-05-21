@@ -1,37 +1,27 @@
 using Cinemachine;
-using PlayerAssets;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
-using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 
 public class PlayerNetwork : NetworkBehaviour
 {
+    [HideInInspector]
     public string playerName = "Playername";
     [HideInInspector]
     public NetworkVariable<int> KillCount = new();
     [HideInInspector]
     public NetworkVariable<int> DeathCount = new();
 
-    public PlayerInput playerInput;
-    public CharacterController characterController;
-    public PlayerController playerController;
-    public PlayerShoot playerShoot;
-    public PlayerTakeDamage playerTakeDamage;
-    public PlayerUI _playerUI;
+    public PlayerRoot PlayerRoot { get; private set; }
 
     public Image health;
-
     public Canvas playerUI;
 
     public float RespawnDelay;
-
-    ClientNetworkTransform _clientNetworkTransform;
 
     public struct PlayerInfo
     {
@@ -49,7 +39,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     void Awake()
     {
-        _clientNetworkTransform = GetComponent<ClientNetworkTransform>();
+        PlayerRoot = GetComponent<PlayerRoot>();
     }
 
     public override void OnNetworkSpawn()
@@ -69,8 +59,8 @@ public class PlayerNetwork : NetworkBehaviour
             if (playerCameraRoot != null) _camera.Follow = playerCameraRoot;
         }
 
-        _playerUI.OnOpenScoreBoard += OnOpenScoreBoard;
-        playerTakeDamage.PlayerDead += OnPlayerDead;
+        PlayerRoot.PlayerUI.OnOpenScoreBoard += OnOpenScoreBoard;
+        PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
     }
 
     #region =========================================At Spawn=========================================
@@ -99,24 +89,24 @@ public class PlayerNetwork : NetworkBehaviour
     [ClientRpc]
     void SetRandomPosAtSpawn_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
     {
-        characterController.enabled = false;
-        playerController.enabled = false;
+        PlayerRoot.CharacterController.enabled = false;
+        PlayerRoot.PlayerController.enabled = false;
 
-        _clientNetworkTransform.Interpolate = false;
+        PlayerRoot.ClientNetworkTransform.Interpolate = false;
 
         transform.position = randomPos;
 
         Invoke(nameof(EnableInterpolationAtSpawn), 0.1f);
 
-        characterController.enabled = true;
-        playerController.enabled = true;
+        PlayerRoot.CharacterController.enabled = true;
+        PlayerRoot.PlayerController.enabled = true;
     }
 
     void EnableInterpolationAtSpawn()
     {
-        if (_clientNetworkTransform != null)
+        if (PlayerRoot.ClientNetworkTransform != null)
         {
-            _clientNetworkTransform.Interpolate = true;
+            PlayerRoot.ClientNetworkTransform.Interpolate = true;
         }
     }
     #endregion ============================================================================================
@@ -146,23 +136,23 @@ public class PlayerNetwork : NetworkBehaviour
     [ClientRpc]
     void SetRandomPos_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
     {
-        _clientNetworkTransform.Interpolate = false;
+        PlayerRoot.ClientNetworkTransform.Interpolate = false;
 
         transform.position = randomPos;
 
         Invoke(nameof(EnableInterpolation), 0.1f);
 
-        characterController.enabled = true;
-        playerController.enabled = true;
+        PlayerRoot.CharacterController.enabled = true;
+        PlayerRoot.PlayerController.enabled = true;
     }
 
     void EnableInterpolation()
     {
-        if (_clientNetworkTransform != null)
+        if (PlayerRoot.ClientNetworkTransform != null)
         {
-            _clientNetworkTransform.Interpolate = true;
+            PlayerRoot.ClientNetworkTransform.Interpolate = true;
 
-            playerTakeDamage.ResetPlayerHP_ServerRpc(OwnerClientId);
+            PlayerRoot.PlayerTakeDamage.ResetPlayerHP_ServerRpc(OwnerClientId);
         }
     }
 
@@ -173,19 +163,19 @@ public class PlayerNetwork : NetworkBehaviour
 
     void OnPlayerDead()
     {
-        characterController.enabled = false;
-        playerController.enabled = false;
+        PlayerRoot.CharacterController.enabled = false;
+        PlayerRoot.PlayerController.enabled = false;
 
         Invoke(nameof(RequestSetRandomPos), RespawnDelay);
     }
 
     void EnableScripts()
     {
-        playerInput.enabled = true;
-        characterController.enabled = true;
-        playerController.enabled = true;
-        playerShoot.enabled = true;
-        _playerUI.enabled = true;
+        PlayerRoot.PlayerInput.enabled = true;
+        PlayerRoot.CharacterController.enabled = true;
+        PlayerRoot.PlayerController.enabled = true;
+        PlayerRoot.PlayerShoot.enabled = true;
+        PlayerRoot.PlayerUI.enabled = true;
 
         playerUI.gameObject.SetActive(true);
     }
@@ -273,6 +263,6 @@ public class PlayerNetwork : NetworkBehaviour
             }
         }
 
-        _playerUI.AddInfoToScoreBoard(playerInfos);
+        PlayerRoot.PlayerUI.AddInfoToScoreBoard(playerInfos);
     }
 }
