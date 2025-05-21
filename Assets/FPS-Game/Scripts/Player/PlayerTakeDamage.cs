@@ -16,6 +16,7 @@ public class PlayerTakeDamage : NetworkBehaviour
     public float hitHeadAlpha;
 
     public Action PlayerDead;
+    public bool IsPlayerDead = false;
 
     public override void OnNetworkSpawn()
     {
@@ -28,8 +29,13 @@ public class PlayerTakeDamage : NetworkBehaviour
 
         health.fillAmount = current;
 
+        if (previous == 0) IsPlayerDead = false;
+
         if (current == 0)
+        {
+            IsPlayerDead = true;
             PlayerDead?.Invoke();
+        }
     }
 
     public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID)

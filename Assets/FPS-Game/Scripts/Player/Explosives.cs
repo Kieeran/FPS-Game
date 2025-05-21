@@ -8,10 +8,7 @@ using UnityEngine;
 
 public class Explosives : NetworkBehaviour
 {
-    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
-    [SerializeField] PlayerInventory _playerInventory;
-    [SerializeField] PlayerReload _playerReload;
-    [SerializeField] PlayerTakeDamage _playerTakeDamage;
+    public PlayerRoot PlayerRoot { get; private set; }
 
     [SerializeField] GameObject _explosiveEffectPrefab;
     [SerializeField] GameObject _currentGrenade;
@@ -23,6 +20,11 @@ public class Explosives : NetworkBehaviour
     bool _onCoolDown = false;
 
     float _throwForce;
+
+    void Awake()
+    {
+        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+    }
 
     private void Start()
     {
@@ -128,25 +130,25 @@ public class Explosives : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (_playerTakeDamage.HP.Value == 0) return;
+        if (PlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
 
         if (_supplyLoad.IsMagazineEmpty()) return;
-        if (_playerReload.GetIsReloading()) return;
+        if (PlayerRoot.PlayerReload.GetIsReloading()) return;
 
         if (_currentGrenade.activeSelf == false)
         {
             EnableCurrentGrenade_ServerRPC();
         }
 
-        if (_playerAssetsInputs.shoot == true)
+        if (PlayerRoot.PlayerAssetsInputs.shoot == true)
         {
-            _playerAssetsInputs.shoot = false;
+            PlayerRoot.PlayerAssetsInputs.shoot = false;
 
             if (_onCoolDown == true) return;
 
             _onCoolDown = true;
 
-            _playerInventory.UpdatecurrentMagazineAmmo();
+            PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
 
             ThrowGrenade_ServerRPC();
         }

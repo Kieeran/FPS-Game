@@ -6,9 +6,7 @@ using UnityEngine;
 
 public class WeaponHolder : NetworkBehaviour
 {
-    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
-    [SerializeField] PlayerTakeDamage _playerTakeDamage;
-    [SerializeField] PlayerUI _playerUI;
+    public PlayerRoot PlayerRoot { get; private set; }
 
     List<GameObject> _weaponList;
 
@@ -24,6 +22,8 @@ public class WeaponHolder : NetworkBehaviour
 
     void Start()
     {
+        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+
         _weaponList = new List<GameObject>();
 
         foreach (Transform child in transform)
@@ -46,47 +46,47 @@ public class WeaponHolder : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (_playerTakeDamage.HP.Value == 0) return;
+        if (PlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
 
-        if (_playerAssetsInputs.hotkey1)
+        if (PlayerRoot.PlayerAssetsInputs.hotkey1)
         {
-            _playerAssetsInputs.hotkey1 = false;
+            PlayerRoot.PlayerAssetsInputs.hotkey1 = false;
             if (_currentWeaponIndex == 0) return;
 
             _currentWeaponIndex = 0;
             ChangeWeapon();
         }
 
-        else if (_playerAssetsInputs.hotkey2)
+        else if (PlayerRoot.PlayerAssetsInputs.hotkey2)
         {
-            _playerAssetsInputs.hotkey2 = false;
+            PlayerRoot.PlayerAssetsInputs.hotkey2 = false;
             if (_currentWeaponIndex == 1) return;
 
             _currentWeaponIndex = 1;
             ChangeWeapon();
         }
 
-        else if (_playerAssetsInputs.hotkey3)
+        else if (PlayerRoot.PlayerAssetsInputs.hotkey3)
         {
-            _playerAssetsInputs.hotkey3 = false;
+            PlayerRoot.PlayerAssetsInputs.hotkey3 = false;
             if (_currentWeaponIndex == 2) return;
 
             _currentWeaponIndex = 2;
             ChangeWeapon();
         }
 
-        else if (_playerAssetsInputs.hotkey4)
+        else if (PlayerRoot.PlayerAssetsInputs.hotkey4)
         {
-            _playerAssetsInputs.hotkey4 = false;
+            PlayerRoot.PlayerAssetsInputs.hotkey4 = false;
             if (_currentWeaponIndex == 3) return;
 
             _currentWeaponIndex = 3;
             ChangeWeapon();
         }
 
-        else if (_playerAssetsInputs.hotkey5)
+        else if (PlayerRoot.PlayerAssetsInputs.hotkey5)
         {
-            _playerAssetsInputs.hotkey5 = false;
+            PlayerRoot.PlayerAssetsInputs.hotkey5 = false;
             if (_currentWeaponIndex == 4) return;
 
             _currentWeaponIndex = 4;
@@ -99,7 +99,7 @@ public class WeaponHolder : NetworkBehaviour
         OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
 
         RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
-        _playerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
+        PlayerRoot.PlayerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
     }
 
     [ServerRpc(RequireOwnership = false)]

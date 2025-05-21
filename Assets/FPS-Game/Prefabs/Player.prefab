@@ -1011,10 +1011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e81735596631e40bc60231f546c005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerReload: {fileID: 4334006862577660681}
-  _playerAim: {fileID: 8832729229337073953}
-  _playerTakeDamage: {fileID: 4530824154142287168}
+  _playerRoot: {fileID: 5786631840013576090}
   animator: {fileID: 8021387592346993996}
   Automatic: 1
   IsShooting: 0
@@ -1670,8 +1667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d35180c16df8c1642b54ba5b1b126c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerTakeDamage: {fileID: 4530824154142287168}
+  _playerRoot: {fileID: 5786631840013576090}
   animator: {fileID: 2849443147055145248}
   isAttacking: 0
   queuedAttackB: 0
@@ -5051,12 +5047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerInventory: {fileID: 5572411656813290491}
-  _playerReload: {fileID: 4334006862577660681}
-  _playerShoot: {fileID: 6360967479396315239}
-  _playerAim: {fileID: 8832729229337073953}
-  _playerTakeDamage: {fileID: 4530824154142287168}
+  _playerRoot: {fileID: 5786631840013576090}
   FireCoolDown: 0.15
   shootEffect: {fileID: 3327655574649894840}
   _aimFOV: 30
@@ -5196,9 +5187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fa16d510cf36f449f31c296070c289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerTakeDamage: {fileID: 4530824154142287168}
-  _playerUI: {fileID: 610120243110111006}
+  _playerRoot: {fileID: 5786631840013576090}
 --- !u!1 &2324842217495540853
 GameObject:
   m_ObjectHideFlags: 0
@@ -5613,10 +5602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e81735596631e40bc60231f546c005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerReload: {fileID: 4334006862577660681}
-  _playerAim: {fileID: 8832729229337073953}
-  _playerTakeDamage: {fileID: 4530824154142287168}
+  _playerRoot: {fileID: 5786631840013576090}
   animator: {fileID: 209696228727527026}
   Automatic: 0
   IsShooting: 0
@@ -5948,10 +5934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819f7e4615e31654f93deb7b981c1342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerCamera: {fileID: 7620230814923784887}
-  _playerReload: {fileID: 4334006862577660681}
-  _playerAim: {fileID: 8832729229337073953}
+  _playerRoot: {fileID: 5786631840013576090}
   animator: {fileID: 6923736987763261450}
 --- !u!114 &9086066378912105567
 MonoBehaviour:
@@ -6470,21 +6453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f933b6324320d1348a3961be600848d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkObject: {fileID: 623660729272532357}
-  ClientNetworkTransform: {fileID: 411114129890139701}
-  PlayerInput: {fileID: 5948730102944647971}
-  CharacterController: {fileID: 6827196641280625600}
-  PlayerNetwork: {fileID: 2453111897199623720}
-  PlayerAssetsInputs: {fileID: 7795738832339507943}
-  PlayerTakeDamage: {fileID: 4530824154142287168}
-  PlayerShoot: {fileID: 6360967479396315239}
-  PlayerController: {fileID: 3776603355074829376}
-  PlayerUI: {fileID: 610120243110111006}
-  PlayerInteract: {fileID: 3198145288386460731}
-  PlayerInventory: {fileID: 5572411656813290491}
-  PlayerReload: {fileID: 4334006862577660681}
-  PlayerAim: {fileID: 8832729229337073953}
-  PlayerCamera: {fileID: 7620230814923784887}
 --- !u!114 &623660729272532357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6610,13 +6578,6 @@ MonoBehaviour:
     m_InternalValue: 0
   DeathCount:
     m_InternalValue: 0
-  _playerRoot: {fileID: 5786631840013576090}
-  playerInput: {fileID: 5948730102944647971}
-  characterController: {fileID: 6827196641280625600}
-  playerController: {fileID: 3776603355074829376}
-  playerShoot: {fileID: 6360967479396315239}
-  playerTakeDamage: {fileID: 4530824154142287168}
-  _playerUI: {fileID: 610120243110111006}
   health: {fileID: 3001421045714532504}
   playerUI: {fileID: 3467197557248155166}
   RespawnDelay: 2
@@ -6669,6 +6630,7 @@ MonoBehaviour:
   hitEffect: {fileID: 9147513432015690146}
   hitBodyAlpha: 43
   hitHeadAlpha: 143
+  IsPlayerDead: 0
 --- !u!114 &6360967479396315239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6683,7 +6645,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletSpawnPoint: {fileID: 1972134987204318308}
   hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
-  playerAssetsInputs: {fileID: 7795738832339507943}
   FireCoolDown: 0.2
 --- !u!114 &3776603355074829376
 MonoBehaviour:
@@ -6742,9 +6703,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46154c6a57c5194cb8179ee92e860e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerNetwork: {fileID: 2453111897199623720}
-  _playerAim: {fileID: 8832729229337073953}
   _escapeUI: {fileID: 4899559789729042288}
   _quitGameButton: {fileID: 2505009646391887672}
   _scoreBoard: {fileID: 2149139602982937363}
@@ -6777,8 +6735,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbb7ae00c97e8c478333cfe2f454c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerUI: {fileID: 610120243110111006}
-  _playerReload: {fileID: 4334006862577660681}
   _weaponHolder: {fileID: 1571463807456523207}
 --- !u!114 &4334006862577660681
 MonoBehaviour:
@@ -6792,7 +6748,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce37de0135b180f4ca8f361e51be1785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
 --- !u!114 &8832729229337073953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6805,7 +6760,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecaa6534025523438ac0b7f92d52e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
   _weaponHolder: {fileID: 1571463807456523207}
 --- !u!114 &7620230814923784887
 MonoBehaviour:
@@ -6819,7 +6773,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcdb3d53de57e141a52e7dbbd67f35b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAim: {fileID: 8832729229337073953}
   _weaponHolder: {fileID: 1571463807456523207}
   _scopeAim: {fileID: 2180025428092006954}
   normalFOV: 40
@@ -10724,12 +10677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerInventory: {fileID: 5572411656813290491}
-  _playerReload: {fileID: 4334006862577660681}
-  _playerShoot: {fileID: 6360967479396315239}
-  _playerAim: {fileID: 8832729229337073953}
-  _playerTakeDamage: {fileID: 4530824154142287168}
+  _playerRoot: {fileID: 5786631840013576090}
   FireCoolDown: 0.15
   shootEffect: {fileID: 2125436478189442123}
   _aimFOV: 30
@@ -11932,12 +11880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerInventory: {fileID: 5572411656813290491}
-  _playerReload: {fileID: 4334006862577660681}
-  _playerShoot: {fileID: 6360967479396315239}
-  _playerAim: {fileID: 8832729229337073953}
-  _playerTakeDamage: {fileID: 4530824154142287168}
+  _playerRoot: {fileID: 5786631840013576090}
   FireCoolDown: 2
   shootEffect: {fileID: 5275834517874757834}
   _aimFOV: 10
@@ -12820,10 +12763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a8d5348f4085c40bd2527f891e8eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832339507943}
-  _playerInventory: {fileID: 5572411656813290491}
-  _playerReload: {fileID: 4334006862577660681}
-  _playerTakeDamage: {fileID: 4530824154142287168}
+  _playerRoot: {fileID: 5786631840013576090}
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _currentGrenade: {fileID: 8644957872373403998}
 --- !u!114 &8279102339201576451

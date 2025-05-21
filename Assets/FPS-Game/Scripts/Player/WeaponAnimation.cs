@@ -3,19 +3,21 @@ using Unity.Netcode;
 using UnityEngine;
 public class WeaponAnimation : NetworkBehaviour
 {
-    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
-    [SerializeField] PlayerReload _playerReload;
-    [SerializeField] PlayerAim _playerAim;
-    [SerializeField] PlayerTakeDamage _playerTakeDamage;
+    public PlayerRoot PlayerRoot { get; private set; }
     public Animator animator;
     public bool Automatic;
 
     public bool IsShooting = false;
     public bool IsReloading = false;
 
+    void Awake()
+    {
+        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+    }
+
     public override void OnNetworkSpawn()
     {
-        _playerReload.reload += () =>
+        PlayerRoot.PlayerReload.reload += () =>
         {
             if (!IsShooting && !IsReloading)
             {
@@ -29,11 +31,11 @@ public class WeaponAnimation : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (_playerTakeDamage.HP.Value == 0) return;
+        if (PlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
 
         if (Automatic)
         {
-            if (_playerAssetsInputs.shoot == true && !IsShooting && !IsReloading)
+            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !IsReloading)
             {
                 animator.SetTrigger("Shoot");
 
@@ -50,7 +52,7 @@ public class WeaponAnimation : NetworkBehaviour
 
         else
         {
-            if (_playerAssetsInputs.shoot == true && !IsShooting && !IsReloading)
+            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !IsReloading)
             {
                 animator.SetTrigger("Shoot");
 

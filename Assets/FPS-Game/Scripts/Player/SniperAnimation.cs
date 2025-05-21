@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class SniperAnimation : NetworkBehaviour
 {
-    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
-    [SerializeField] PlayerCamera _playerCamera;
-    [SerializeField] PlayerReload _playerReload;
-    [SerializeField] PlayerAim _playerAim;
+    public PlayerRoot PlayerRoot { get; private set; }
 
     public Animator animator;
 
+    void Awake()
+    {
+        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+    }
+
     public override void OnNetworkSpawn()
     {
-        _playerReload.reload += () =>
+        PlayerRoot.PlayerReload.reload += () =>
         {
             if (animator.GetBool("Reload_Mag") == false)
             {
                 animator.SetBool("Reload_Mag", true);
 
-                if (_playerAim.ToggleAim == true)
-                    _playerCamera.UnAimScope();
+                if (PlayerRoot.PlayerAim.ToggleAim == true)
+                    PlayerRoot.PlayerCamera.UnAimScope();
             }
         };
     }
@@ -29,13 +31,13 @@ public class SniperAnimation : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (_playerAssetsInputs.shoot == true &&
+        if (PlayerRoot.PlayerAssetsInputs.shoot == true &&
         animator.GetBool("Shoot") == false && animator.GetBool("Reload_Single") == false)
         {
             animator.SetBool("Shoot", true);
 
-            if (_playerAim.ToggleAim == true)
-                _playerCamera.UnAimScope();
+            if (PlayerRoot.PlayerAim.ToggleAim == true)
+                PlayerRoot.PlayerCamera.UnAimScope();
         }
     }
 
@@ -49,8 +51,8 @@ public class SniperAnimation : NetworkBehaviour
     {
         animator.SetBool("Reload_Single", false);
 
-        if (_playerAim.ToggleAim == true)
-            _playerCamera.AimScope();
+        if (PlayerRoot.PlayerAim.ToggleAim == true)
+            PlayerRoot.PlayerCamera.AimScope();
     }
 
     public void DoneReloadMag()

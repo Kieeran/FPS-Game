@@ -3,17 +3,21 @@ using UnityEngine;
 
 public class MeleeAnimation : MonoBehaviour
 {
-    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
-    [SerializeField] PlayerTakeDamage _playerTakeDamage;
+    public PlayerRoot PlayerRoot { get; private set; }
     public Animator animator;
 
     public bool isAttacking = false;
     public bool queuedAttackB = false;
     public bool mouseButtonUp = false;
 
+    void Awake()
+    {
+        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+    }
+
     void Update()
     {
-        if (_playerTakeDamage.HP.Value == 0) return;
+        if (PlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
 
         if (!isAttacking)
         {

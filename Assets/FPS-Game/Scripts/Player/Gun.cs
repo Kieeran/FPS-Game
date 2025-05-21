@@ -1,20 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Events;
 using UnityEngine;
-using UnityEngine.UI;
-using PlayerAssets;
 using Unity.Netcode;
 
 public class Gun : NetworkBehaviour
 {
-    // public UnityEvent OnGunShoot;
-    [SerializeField] PlayerAssetsInputs _playerAssetsInputs;
-    [SerializeField] PlayerInventory _playerInventory;
-    [SerializeField] PlayerReload _playerReload;
-    [SerializeField] PlayerShoot _playerShoot;
-    [SerializeField] PlayerAim _playerAim;
-    [SerializeField] PlayerTakeDamage _playerTakeDamage;
+    public PlayerRoot PlayerRoot { get; private set; }
 
     SupplyLoad _supplyLoad;
 
@@ -58,6 +47,11 @@ public class Gun : NetworkBehaviour
 
     public float GetAimFOV() { return _aimFOV; }
 
+    void Awake()
+    {
+        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+    }
+
     void Start()
     {
         _supplyLoad = GetComponent<SupplyLoad>();
@@ -76,8 +70,8 @@ public class Gun : NetworkBehaviour
 
     void OnEnable()
     {
-        _playerAim.OnAim += OnAim;
-        _playerAim.OnUnAim += OnUnAim;
+        PlayerRoot.PlayerAim.OnAim += OnAim;
+        PlayerRoot.PlayerAim.OnUnAim += OnUnAim;
         _isAim = false;
         _isUnAim = false;
         _elapsedTime = 0;
@@ -85,8 +79,8 @@ public class Gun : NetworkBehaviour
 
     void OnDisable()
     {
-        _playerAim.OnAim -= OnAim;
-        _playerAim.OnUnAim -= OnUnAim;
+        PlayerRoot.PlayerAim.OnAim -= OnAim;
+        PlayerRoot.PlayerAim.OnUnAim -= OnUnAim;
 
         transform.SetLocalPositionAndRotation(_normalPos, _normalRot);
     }
@@ -104,18 +98,18 @@ public class Gun : NetworkBehaviour
     private void Shoot()
     {
         if (_supplyLoad.IsMagazineEmpty()) return;
-        if (_playerReload.GetIsReloading()) return;
+        if (PlayerRoot.PlayerReload.GetIsReloading()) return;
 
         if (Automatic)
         {
-            if (_playerAssetsInputs.shoot == true)
+            if (PlayerRoot.PlayerAssetsInputs.shoot == true)
             {
                 if (CurrentCoolDown <= 0f /*&& OnGunShoot != null*/)
                 {
                     //OnGunShoot.Invoke();
                     CurrentCoolDown = FireCoolDown;
-                    _playerInventory.UpdatecurrentMagazineAmmo();
-                    _playerShoot.Shoot(_spreadAngle);
+                    PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
+                    PlayerRoot.PlayerShoot.Shoot(_spreadAngle);
 
                     // shootEffect.ActiveShootEffect();
                 }
@@ -124,7 +118,7 @@ public class Gun : NetworkBehaviour
 
         else
         {
-            if (_playerAssetsInputs.shoot == true && isPressed == false)
+            if (PlayerRoot.PlayerAssetsInputs.shoot == true && isPressed == false)
             {
                 isPressed = true;
 
@@ -132,14 +126,14 @@ public class Gun : NetworkBehaviour
                 {
                     //OnGunShoot.Invoke();
                     CurrentCoolDown = FireCoolDown;
-                    _playerInventory.UpdatecurrentMagazineAmmo();
-                    _playerShoot.Shoot(_spreadAngle);
+                    PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
+                    PlayerRoot.PlayerShoot.Shoot(_spreadAngle);
 
                     // shootEffect.ActiveShootEffect();
                 }
             }
 
-            if (_playerAssetsInputs.shoot == false) isPressed = false;
+            if (PlayerRoot.PlayerAssetsInputs.shoot == false) isPressed = false;
         }
 
         CurrentCoolDown -= Time.deltaTime;
@@ -231,7 +225,7 @@ public class Gun : NetworkBehaviour
         //isReload = PlayerInput.Instance.GetIsReloaded();
 
         if (IsOwner == false) return;
-        if (_playerTakeDamage.HP.Value == 0) return;
+        if (PlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
 
         Shoot();
         Aim();
