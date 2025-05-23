@@ -6,6 +6,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
+using Unity.VisualScripting;
 
 public class PlayerNetwork : NetworkBehaviour
 {
@@ -37,9 +38,41 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
+    public PlayerHead PlayerHead;
+    public PlayerBody PlayerBody;
+
+    Vector3 originPosHead;
+    Quaternion originRotHead;
+
+    Vector3 originPosBody;
+    Quaternion originRotBody;
+
     void Awake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
+
+        SetOrigin();
+    }
+
+    void Start()
+    {
+        PlayerHead.Rb.isKinematic = true;
+        PlayerBody.Rb.isKinematic = true;
+    }
+
+    void SetOrigin()
+    {
+        originPosHead = PlayerHead.transform.localPosition;
+        originRotHead = PlayerHead.transform.localRotation;
+
+        originPosBody = PlayerBody.transform.localPosition;
+        originRotBody = PlayerBody.transform.localRotation;
+    }
+
+    void ResetParts()
+    {
+        PlayerHead.transform.SetLocalPositionAndRotation(originPosHead, originRotHead);
+        PlayerBody.transform.SetLocalPositionAndRotation(originPosBody, originRotBody);
     }
 
     public override void OnNetworkSpawn()
@@ -51,6 +84,14 @@ public class PlayerNetwork : NetworkBehaviour
 
         SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
 
+        SetCinemachineVirtualCamera();
+
+        PlayerRoot.PlayerUI.OnOpenScoreBoard += OnOpenScoreBoard;
+        PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
+    }
+
+    void SetCinemachineVirtualCamera()
+    {
         CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
         {
@@ -58,9 +99,17 @@ public class PlayerNetwork : NetworkBehaviour
 
             if (playerCameraRoot != null) _camera.Follow = playerCameraRoot;
         }
+    }
 
-        PlayerRoot.PlayerUI.OnOpenScoreBoard += OnOpenScoreBoard;
-        PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
+    void RemoveCinemachineVirtualCamera()
+    {
+        CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
+        if (_camera != null)
+        {
+            Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
+
+            if (playerCameraRoot != null) _camera.Follow = null;
+        }
     }
 
     #region =========================================At Spawn=========================================
@@ -166,6 +215,10 @@ public class PlayerNetwork : NetworkBehaviour
         PlayerRoot.CharacterController.enabled = false;
         PlayerRoot.PlayerController.enabled = false;
 
+        RemoveCinemachineVirtualCamera();
+        AddRig();
+        Invoke(nameof(RestartModel), RespawnDelay);
+
         Invoke(nameof(RequestSetRandomPos), RespawnDelay);
     }
 
@@ -198,12 +251,30 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
+    void AddRig()
+    {
+        PlayerHead.Rb.isKinematic = false;
+        PlayerBody.Rb.isKinematic = false;
+    }
+
+    void RestartModel()
+    {
+        PlayerHead.Rb.isKinematic = true;
+        PlayerBody.Rb.isKinematic = true;
+        
+        ResetParts();
+        SetCinemachineVirtualCamera();
+    }
+
     void Update()
     {
         if (IsOwner == false) return;
 
         if (Input.GetKeyDown(KeyCode.T))
         {
+            RemoveCinemachineVirtualCamera();
+            AddRig();
+            Invoke(nameof(RestartModel), 4f);
             // GetAllPlayerInfos_ServerRPC(OwnerClientId);
         }
     }
