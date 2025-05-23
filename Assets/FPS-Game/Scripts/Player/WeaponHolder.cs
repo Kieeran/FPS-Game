@@ -99,7 +99,7 @@ public class WeaponHolder : NetworkBehaviour
         OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
 
         RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
-        // PlayerRoot.PlayerUI.GetWeaponHud().EquipWeaponUI(_currentWeaponIndex);
+        PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
     }
 
     [ServerRpc(RequireOwnership = false)]

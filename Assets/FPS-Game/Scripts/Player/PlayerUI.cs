@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -36,6 +37,20 @@ public class PlayerUI : NetworkBehaviour
 
         CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
 
+        CurrentPlayerCanvas.EscapeUI.OnQuitGame += (() =>
+        {
+            if (IsOwner == false) return;
+
+            // Gửi sự kiện cho tất cả Client để xử lý thoát game
+            NotifyClientsToQuit_ServerRpc();
+
+            NetworkManager.Singleton.Shutdown();
+            LobbyManager.Instance.ExitGame();
+
+            // GameSceneManager.Instance.LoadPreviousScene();
+            GameSceneManager.Instance.LoadScene("Lobby Room");
+        });
+
         PlayerRoot.PlayerAim.OnAim += () =>
         {
             CurrentPlayerCanvas.ToggleCrossHair(false);
@@ -45,6 +60,51 @@ public class PlayerUI : NetworkBehaviour
         {
             CurrentPlayerCanvas.ToggleCrossHair(true);
         };
+    }
+
+    public void UpdateUI(float damage, ulong targetClientId)
+    {
+        UpdateUIServerRpc(damage, targetClientId);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdateUIServerRpc(float damage, ulong targetClientId)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new List<ulong> { targetClientId }
+            }
+        };
+
+        UpdateUIClientRpc(damage, clientRpcParams);
+    }
+
+    [ClientRpc]
+    public void UpdateUIClientRpc(float damage, ClientRpcParams clientRpcParams)
+    {
+        CurrentPlayerCanvas.HitEffect.StartFadeHitEffect(damage);
+    }
+
+    [ServerRpc]
+    private void NotifyClientsToQuit_ServerRpc()
+    {
+        NotifyClientsToQuit_ClientRpc();
+    }
+
+    [ClientRpc]
+    private void NotifyClientsToQuit_ClientRpc()
+    {
+        // Hành động cho từng Client khi host thoát
+        if (!IsOwner)
+        {
+            NetworkManager.Singleton.Shutdown();
+            LobbyManager.Instance.ExitGame();
+
+            // GameSceneManager.Instance.LoadPreviousScene();
+            GameSceneManager.Instance.LoadScene("Lobby Room");
+        }
     }
 
     void Update()

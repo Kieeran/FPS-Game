@@ -1,7 +1,6 @@
 using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;

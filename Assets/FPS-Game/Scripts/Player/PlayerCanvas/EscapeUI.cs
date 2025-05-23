@@ -1,50 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EscapeUI : NetworkBehaviour
+public class EscapeUI : MonoBehaviour
 {
-    [SerializeField] Image _escapeUI;
-    [SerializeField] Button _quitGameButton;
+    public Button QuitGameButton;
+    public Action OnQuitGame;
 
     void Awake()
     {
-        if (!LobbyManager.Instance.IsLobbyHost()) _quitGameButton.gameObject.SetActive(false);
+        if (!LobbyManager.Instance.IsLobbyHost()) QuitGameButton.gameObject.SetActive(false);
 
-        _quitGameButton.onClick.AddListener(() =>
+        QuitGameButton.onClick.AddListener(() =>
         {
-            if (IsOwner == false) return;
-
-            // Gửi sự kiện cho tất cả Client để xử lý thoát game
-            NotifyClientsToQuit_ServerRpc();
-
-            NetworkManager.Singleton.Shutdown();
-            LobbyManager.Instance.ExitGame();
-
-            // GameSceneManager.Instance.LoadPreviousScene();
-            GameSceneManager.Instance.LoadScene("Lobby Room");
+            OnQuitGame?.Invoke();
         });
-    }
-
-    [ServerRpc]
-    private void NotifyClientsToQuit_ServerRpc()
-    {
-        NotifyClientsToQuit_ClientRpc();
-    }
-
-    [ClientRpc]
-    private void NotifyClientsToQuit_ClientRpc()
-    {
-        // Hành động cho từng Client khi host thoát
-        if (!IsOwner)
-        {
-            NetworkManager.Singleton.Shutdown();
-            LobbyManager.Instance.ExitGame();
-
-            // GameSceneManager.Instance.LoadPreviousScene();
-            GameSceneManager.Instance.LoadScene("Lobby Room");
-        }
     }
 }

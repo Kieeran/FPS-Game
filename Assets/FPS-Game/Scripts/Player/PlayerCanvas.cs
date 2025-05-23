@@ -8,6 +8,7 @@ public class PlayerCanvas : MonoBehaviour
     public EscapeUI EscapeUI;
     public Scoreboard Scoreboard;
     public BulletHud BulletHud;
+    public WeaponHud WeaponHud;
 
     public Image ScopeAim;
     public Image CrossHair;

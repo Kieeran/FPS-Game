@@ -71,7 +71,7 @@ public class PlayerTakeDamage : NetworkBehaviour
             Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
         }
 
-        PlayerRoot.PlayerUI.CurrentPlayerCanvas.HitEffect.UpdateUI(damage, targetClientId);
+        PlayerRoot.PlayerUI.UpdateUI(damage, targetClientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
