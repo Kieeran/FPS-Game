@@ -6,7 +6,6 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
 
 public class PlayerNetwork : NetworkBehaviour
 {

@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Mono.CSharp;
-using PlayerAssets;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -38,13 +35,13 @@ public class PlayerShoot : NetworkBehaviour
         {
             BulletHitSpawn_ClientRpc(hit.point);
 
+            Transform player = hit.collider.transform.root;
+
             PlayerBody playerBody = hit.collider.GetComponent<PlayerBody>();
             PlayerHead playerHead = hit.collider.GetComponent<PlayerHead>();
 
             if (playerBody != null)
             {
-                Transform player = hit.collider.transform.parent;
-
                 if (player != null)
                 {
                     if (player.TryGetComponent<NetworkObject>(out var networkObject))
@@ -56,8 +53,6 @@ public class PlayerShoot : NetworkBehaviour
 
             if (playerHead != null)
             {
-                Transform player = hit.collider.transform.parent.parent;
-
                 if (player != null)
                 {
                     if (player.TryGetComponent<NetworkObject>(out var networkObject))

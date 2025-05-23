@@ -1,7 +1,7 @@
-using PlayerAssets;
+using Unity.Netcode;
 using UnityEngine;
 
-public class MeleeAnimation : MonoBehaviour
+public class MeleeAnimation : NetworkBehaviour
 {
     public PlayerRoot PlayerRoot { get; private set; }
     public Animator animator;
@@ -17,6 +17,8 @@ public class MeleeAnimation : MonoBehaviour
 
     void Update()
     {
+        if (!IsOwner) return;
+
         if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
 
         if (!isAttacking)
