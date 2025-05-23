@@ -277,6 +277,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
+            DeadAnimation();
             // GetAllPlayerInfos_ServerRPC(OwnerClientId);
         }
     }
