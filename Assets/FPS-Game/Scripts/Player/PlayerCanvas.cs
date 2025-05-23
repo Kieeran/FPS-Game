@@ -26,6 +26,6 @@ public class PlayerCanvas : MonoBehaviour
 
     public void ToggleScoreBoard()
     {
-
+        Scoreboard.gameObject.SetActive(!Scoreboard.gameObject.activeSelf);
     }
 }

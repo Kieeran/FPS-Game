@@ -11,8 +11,6 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
 
     [SerializeField] PlayerCanvas _playerCanvas;
 
-    public Action OnOpenScoreBoard;
-
     // Awake
     public int PriorityAwake => 1000;
     public void InitializeAwake()

@@ -24,17 +24,19 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     public struct PlayerInfo
     {
-        public string Name;
+        public string PlayerName;
         public int KillCount;
         public int DeathCount;
 
         public PlayerInfo(string name, int killCount, int deathCount)
         {
-            Name = name;
+            PlayerName = name;
             KillCount = killCount;
             DeathCount = deathCount;
         }
     }
+
+    List<PlayerInfo> _playerInfos;
 
     Vector3 originPosHead;
     Quaternion originRotHead;
@@ -48,6 +50,8 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     {
         PlayerRoot = GetComponent<PlayerRoot>();
         SetOrigin();
+
+        _playerInfos = new List<PlayerInfo>();
     }
 
     // Start
@@ -71,13 +75,11 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
         SetCinemachineVirtualCamera();
 
-        PlayerRoot.PlayerUI.OnOpenScoreBoard += OnOpenScoreBoard;
         PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
     }
 
     void OnDisable()
     {
-        PlayerRoot.PlayerUI.OnOpenScoreBoard -= OnOpenScoreBoard;
         PlayerRoot.PlayerTakeDamage.PlayerDead -= OnPlayerDead;
     }
 
@@ -286,14 +288,10 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
         }
     }
 
-    void OnOpenScoreBoard()
-    {
-        GetAllPlayerInfos();
-    }
-
-    public void GetAllPlayerInfos()
+    public List<PlayerInfo> GetAllPlayerInfos()
     {
         GetAllPlayerInfos_ServerRPC(OwnerClientId);
+        return _playerInfos;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -325,7 +323,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     {
         string[] playerEntries = data.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
-        List<PlayerInfo> playerInfos = new();
+        _playerInfos?.Clear();
 
         foreach (string entry in playerEntries)
         {
@@ -335,12 +333,10 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
                 string name = tokens[0];
                 int kill = int.Parse(tokens[1]);
                 int death = int.Parse(tokens[2]);
-                playerInfos.Add(new PlayerInfo(name, kill, death));
+                _playerInfos.Add(new PlayerInfo(name, kill, death));
 
                 Debug.Log($"Name: {name}, Kill: {kill}, Death: {death}");
             }
         }
-
-        // PlayerRoot.PlayerUI.AddInfoToScoreBoard(playerInfos);
     }
 }
