@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,7 +7,6 @@ public class PlayerCamera : NetworkBehaviour
 {
     public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] WeaponHolder _weaponHolder;
-    [SerializeField] Image _scopeAim;
     CinemachineVirtualCamera _playerCamera;
     public float normalFOV;
     float _currentAimFOV;
@@ -76,7 +73,7 @@ public class PlayerCamera : NetworkBehaviour
                 Time.deltaTime * fovSpeed
             );
 
-            if (_playerCamera.m_Lens.FieldOfView < 30f && _scopeAim.gameObject.activeSelf == false)
+            if (_playerCamera.m_Lens.FieldOfView < 30f && PlayerRoot.PlayerUI.ScopeAim.gameObject.activeSelf == false)
             {
                 UpdateScopeAimUI(true);
             }
@@ -96,7 +93,7 @@ public class PlayerCamera : NetworkBehaviour
                 Time.deltaTime * fovSpeed
             );
 
-            if (_scopeAim.gameObject.activeSelf == true)
+            if (PlayerRoot.PlayerUI.ScopeAim.gameObject.activeSelf == true)
             {
                 UpdateScopeAimUI(false);
             }
@@ -111,7 +108,7 @@ public class PlayerCamera : NetworkBehaviour
 
     public void UpdateScopeAimUI(bool b)
     {
-        _scopeAim.gameObject.SetActive(b);
+        PlayerRoot.PlayerUI.ScopeAim.gameObject.SetActive(b);
     }
 
     public void UnAimScope()

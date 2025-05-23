@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class PlayerShoot : NetworkBehaviour
 {
-    [SerializeField] private GameObject BulletSpawnPoint;
-    [SerializeField] private GameObject hitEffect;
-    [SerializeField] private float FireCoolDown;
-
-    private float CurrentCoolDown;
+    [SerializeField] GameObject _hitEffect;
 
     public void Shoot(float spreadAngle)
     {
@@ -64,16 +60,10 @@ public class PlayerShoot : NetworkBehaviour
         }
     }
 
-    // [ServerRpc(RequireOwnership = false)]
-    // public void BulletHitSpawnServerRpc(Vector3 spawnPos)
-    // {
-    //     BulletHitSpawnClientRpc(spawnPos);
-    // }
-
     [ClientRpc]
     public void BulletHitSpawn_ClientRpc(Vector3 spawnPos)
     {
-        GameObject effect = Instantiate(hitEffect);
+        GameObject effect = Instantiate(_hitEffect);
         effect.transform.position = spawnPos;
         StartCoroutine(DestroyEffect(effect));
     }

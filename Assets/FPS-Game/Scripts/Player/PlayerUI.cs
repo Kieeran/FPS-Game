@@ -1,16 +1,22 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using PlayerAssets;
 using TMPro;
 using Unity.Netcode;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerUI : NetworkBehaviour
 {
     public PlayerRoot PlayerRoot { get; private set; }
+    public Image HealthUI { get; private set; }
+    public Image HitEffect { get; private set; }
+    public Image ScopeAim { get; private set; }
 
+    [SerializeField] float _hitBodyAlpha;
+    [SerializeField] float _hitHeadAlpha;
+
+    [SerializeField] Canvas _playerUI;
     [SerializeField] Image _escapeUI;
     [SerializeField] Button _quitGameButton;
     [SerializeField] GameObject _scoreBoard;
@@ -36,8 +42,6 @@ public class PlayerUI : NetworkBehaviour
         });
     }
 
-    // public Image GetEscapeUI() { return escapeUI; }
-
     void Awake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
@@ -59,9 +63,18 @@ public class PlayerUI : NetworkBehaviour
         }
     }
 
+    public void UpdatePlayerHealthBar(float amount)
+    {
+        HealthUI.fillAmount = amount;
+    }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+
+        if (!IsOwner) return;
+
+        Instantiate(_playerUI, transform);
 
         if (!LobbyManager.Instance.IsLobbyHost()) _quitGameButton.gameObject.SetActive(false);
 
@@ -159,5 +172,49 @@ public class PlayerUI : NetworkBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    [ClientRpc]
+    public void UpdateUIClientRpc(float alpha, ClientRpcParams clientRpcParams)
+    {
+        StartCoroutine(FadeHitEffect(HitEffect, alpha));
+    }
+
+    private IEnumerator FadeHitEffect(Image hitEffect, float targetAlpha)
+    {
+        float currentAlpha = targetAlpha;
+
+        while (currentAlpha > 0)
+        {
+            hitEffect.color = new Color(1, 0, 0, currentAlpha);
+            currentAlpha -= Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public void UpdateUI(float damage, ulong targetClientId)
+    {
+        if (damage == 0.05f)
+        {
+            UpdateUIServerRpc(_hitBodyAlpha / 255, targetClientId);
+        }
+        else if (damage == 0.1f)
+        {
+            UpdateUIServerRpc(_hitHeadAlpha / 255, targetClientId);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdateUIServerRpc(float alpha, ulong targetClientId)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new List<ulong> { targetClientId }
+            }
+        };
+
+        PlayerRoot.PlayerUI.UpdateUIClientRpc(alpha, clientRpcParams);
     }
 }

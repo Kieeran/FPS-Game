@@ -18,8 +18,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     public PlayerRoot PlayerRoot { get; private set; }
 
-    public Image health;
-    public Canvas playerUI;
+    public PlayerHead PlayerHead;
+    public PlayerBody PlayerBody;
 
     public float RespawnDelay;
 
@@ -36,9 +36,6 @@ public class PlayerNetwork : NetworkBehaviour
             DeathCount = deathCount;
         }
     }
-
-    public PlayerHead PlayerHead;
-    public PlayerBody PlayerBody;
 
     Vector3 originPosHead;
     Quaternion originRotHead;
@@ -233,8 +230,6 @@ public class PlayerNetwork : NetworkBehaviour
         PlayerRoot.PlayerController.enabled = true;
         PlayerRoot.PlayerShoot.enabled = true;
         PlayerRoot.PlayerUI.enabled = true;
-
-        playerUI.gameObject.SetActive(true);
     }
 
     [ServerRpc(RequireOwnership = false)]
