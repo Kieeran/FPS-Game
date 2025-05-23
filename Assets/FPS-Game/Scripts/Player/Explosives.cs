@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Mathematics;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using UnityEngine;
@@ -44,6 +43,8 @@ public class Explosives : NetworkBehaviour
 
             _grenadeRb.isKinematic = true;
             _collider.enabled = false;
+
+            _clientNetworkTransform.enabled = false;
         }
         else
         {
@@ -51,6 +52,13 @@ public class Explosives : NetworkBehaviour
         }
 
         _throwForce = 20f;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        _clientNetworkTransform.enabled = true;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -93,7 +101,7 @@ public class Explosives : NetworkBehaviour
     {
         _currentGrenade.SetActive(true);
 
-        // _clientNetworkTransform.Interpolate = false;
+        _clientNetworkTransform.Interpolate = false;
         _grenadeRb.isKinematic = true;
         _collider.enabled = false;
 
@@ -121,7 +129,7 @@ public class Explosives : NetworkBehaviour
     {
         if (_clientNetworkTransform != null)
         {
-            // _clientNetworkTransform.Interpolate = true;
+            _clientNetworkTransform.Interpolate = true;
             _onCoolDown = false;
         }
     }
