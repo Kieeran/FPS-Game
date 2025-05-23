@@ -5278,7 +5278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbb7ae00c97e8c478333cfe2f454c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponHolder: {fileID: 1571463807456523207}
 --- !u!114 &4334006862577660681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5303,7 +5302,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecaa6534025523438ac0b7f92d52e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponHolder: {fileID: 1571463807456523207}
 --- !u!114 &7620230814923784887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5316,7 +5314,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcdb3d53de57e141a52e7dbbd67f35b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponHolder: {fileID: 1571463807456523207}
   normalFOV: 40
   fovSpeed: 10
 --- !u!1 &3151989627777339677
@@ -11087,10 +11084,10 @@ GameObject:
   - component: {fileID: 7151017922048312701}
   - component: {fileID: 6986494519134676063}
   - component: {fileID: 307787791578452420}
-  - component: {fileID: 2269592863048711612}
-  - component: {fileID: 5189767769618410264}
-  - component: {fileID: 2286020709259788368}
-  - component: {fileID: 5612497227600645051}
+  - component: {fileID: 8970192732410312209}
+  - component: {fileID: 9081781581866689825}
+  - component: {fileID: 7034986586507937392}
+  - component: {fileID: 1646963638256195603}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -11164,7 +11161,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &2269592863048711612
+--- !u!135 &8970192732410312209
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11184,8 +11181,35 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.08522308
-  m_Center: {x: -0.008905295, y: 0.027728995, z: -0.000571707}
---- !u!114 &5189767769618410264
+  m_Center: {x: -0.008905324, y: 0.027728995, z: -0.0005717072}
+--- !u!54 &9081781581866689825
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8644957872373403998}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!114 &7034986586507937392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11216,34 +11240,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!54 &2286020709259788368
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8644957872373403998}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0.5
-  m_AngularDrag: 0.5
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
---- !u!114 &5612497227600645051
+--- !u!114 &1646963638256195603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

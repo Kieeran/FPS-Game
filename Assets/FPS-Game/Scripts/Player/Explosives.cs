@@ -19,6 +19,10 @@ public class Explosives : NetworkBehaviour
 
     float _throwForce;
 
+    Vector3 originPosGrenade;
+    Quaternion originRotGrenade;
+    Vector3 originScaGrenade;
+
     void Awake()
     {
         PlayerRoot = transform.root.GetComponent<PlayerRoot>();
@@ -28,12 +32,23 @@ public class Explosives : NetworkBehaviour
     {
         _supplyLoad = GetComponent<SupplyLoad>();
 
-        _clientNetworkTransform = _currentGrenade.GetComponent<ClientNetworkTransform>();
-        _grenadeRb = _currentGrenade.GetComponent<Rigidbody>();
-        _collider = _currentGrenade.GetComponent<Collider>();
+        if (_currentGrenade != null)
+        {
+            _clientNetworkTransform = _currentGrenade.GetComponent<ClientNetworkTransform>();
+            _grenadeRb = _currentGrenade.GetComponent<Rigidbody>();
+            _collider = _currentGrenade.GetComponent<Collider>();
 
-        _grenadeRb.isKinematic = true;
-        _collider.enabled = false;
+            originPosGrenade = _currentGrenade.transform.localPosition;
+            originRotGrenade = _currentGrenade.transform.localRotation;
+            originScaGrenade = _currentGrenade.transform.localScale;
+
+            _grenadeRb.isKinematic = true;
+            _collider.enabled = false;
+        }
+        else
+        {
+            Debug.LogError("Current grenade is not assigned!", this);
+        }
 
         _throwForce = 20f;
     }
@@ -59,10 +74,10 @@ public class Explosives : NetworkBehaviour
 
         _grenadeRb.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
 
-        Invoke(nameof(GrenadeExplodeState), 2f);
+        Invoke(nameof(GrenadeExplode), 2f);
     }
 
-    void GrenadeExplodeState()
+    void GrenadeExplode()
     {
         _currentGrenade.SetActive(false);
 
@@ -71,24 +86,28 @@ public class Explosives : NetworkBehaviour
 
         StartCoroutine(DestroyExplodeEffect(explodeEffect));
 
-        Invoke(nameof(GrenadeReturnState), 0.5f);
+        Invoke(nameof(GrenadeReturn), 0.5f);
     }
 
-    void GrenadeReturnState()
+    void GrenadeReturn()
     {
         _currentGrenade.SetActive(true);
 
-        _clientNetworkTransform.Interpolate = false;
+        // _clientNetworkTransform.Interpolate = false;
         _grenadeRb.isKinematic = true;
         _collider.enabled = false;
 
         _currentGrenade.transform.SetParent(transform);
-        _currentGrenade.transform.SetLocalPositionAndRotation(Vector3.zero, quaternion.identity);
-
-        _currentGrenade.transform.localScale = Vector3.one;
+        ResetGrenadeTransform();
 
         _currentGrenade.SetActive(false);
         Invoke(nameof(EnableInterpolation), 0.1f);
+    }
+
+    void ResetGrenadeTransform()
+    {
+        _currentGrenade.transform.SetLocalPositionAndRotation(originPosGrenade, originRotGrenade);
+        _currentGrenade.transform.localScale = originScaGrenade;
     }
 
     IEnumerator DestroyExplodeEffect(GameObject effect)
@@ -102,7 +121,7 @@ public class Explosives : NetworkBehaviour
     {
         if (_clientNetworkTransform != null)
         {
-            _clientNetworkTransform.Interpolate = true;
+            // _clientNetworkTransform.Interpolate = true;
             _onCoolDown = false;
         }
     }
