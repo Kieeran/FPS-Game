@@ -4,6 +4,24 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public interface IInitAwake
+{
+    int PriorityAwake { get; }
+    void InitializeAwake();
+}
+
+public interface IInitStart
+{
+    int PriorityStart { get; }
+    void InitializeStart();
+}
+
+public interface IInitNetwork
+{
+    int PriorityNetwork { get; }
+    void InitializeOnNetworkSpawn();
+}
+
 public class PlayerRoot : MonoBehaviour
 {
     public NetworkObject NetworkObject { get; private set; }

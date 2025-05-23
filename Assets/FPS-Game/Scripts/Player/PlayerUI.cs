@@ -11,24 +11,21 @@ public class PlayerUI : NetworkBehaviour
 
     [SerializeField] PlayerCanvas _playerCanvas;
 
-    ReloadEffect _reloadEffect;
-
     public Action OnOpenScoreBoard;
 
     void Awake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
-        CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        if (IsOwner == false) return;
+        CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
 
         CurrentPlayerCanvas.EscapeUI.OnQuitGame += (() =>
         {
-            if (IsOwner == false) return;
-
             // Gửi sự kiện cho tất cả Client để xử lý thoát game
             NotifyClientsToQuit_ServerRpc();
 
