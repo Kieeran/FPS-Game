@@ -9021,7 +9021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsRifle: 0
-  IsPistol: 0
+  IsPistol: 1
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
@@ -11090,7 +11090,7 @@ GameObject:
   - component: {fileID: 5189767769618410264}
   - component: {fileID: 2286020709259788368}
   - component: {fileID: 5612497227600645051}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}

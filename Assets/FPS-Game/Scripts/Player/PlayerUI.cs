@@ -11,31 +11,19 @@ public class PlayerUI : NetworkBehaviour
 
     [SerializeField] PlayerCanvas _playerCanvas;
 
-    TextMeshProUGUI _ammoInfo;
     ReloadEffect _reloadEffect;
 
     public Action OnOpenScoreBoard;
 
-    public void StartReloadEffect(Action onDone)
-    {
-        _reloadEffect.StartReloadEffect(() =>
-        {
-            onDone?.Invoke();
-        });
-    }
-
     void Awake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
+        CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
-        if (!IsOwner) return;
-
-        CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
 
         CurrentPlayerCanvas.EscapeUI.OnQuitGame += (() =>
         {

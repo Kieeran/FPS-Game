@@ -1,7 +1,6 @@
 using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerCamera : NetworkBehaviour
 {
@@ -65,6 +64,8 @@ public class PlayerCamera : NetworkBehaviour
 
     void Update()
     {
+        if (!IsOwner) return;
+
         if (_isAim == true)
         {
             _playerCamera.m_Lens.FieldOfView = Mathf.Lerp(

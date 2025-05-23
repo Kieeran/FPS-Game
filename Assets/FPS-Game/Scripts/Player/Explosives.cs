@@ -1,6 +1,4 @@
 using System.Collections;
-using Mono.CSharp;
-using PlayerAssets;
 using Unity.Mathematics;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;

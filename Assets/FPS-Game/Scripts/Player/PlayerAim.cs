@@ -20,6 +20,10 @@ public class PlayerAim : NetworkBehaviour
     void Start()
     {
         ToggleAim = false;
+    }
+
+    public override void OnNetworkSpawn()
+    {
         _weaponHolder.OnChangeWeapon += OnChangeWeapon;
     }
 

@@ -20,7 +20,7 @@ public class WeaponHolder : NetworkBehaviour
 
     public List<GameObject> GetWeaponList() { return _weaponList; }
 
-    void Start()
+    void Awake()
     {
         PlayerRoot = transform.root.GetComponent<PlayerRoot>();
 
@@ -31,15 +31,14 @@ public class WeaponHolder : NetworkBehaviour
             if (child.gameObject.activeSelf == true)
                 _weaponList.Add(child.gameObject);
         }
-
-        _currentWeaponIndex = 0;
-
-        OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
-        EquipWeapon(_currentWeaponIndex);
     }
 
     public override void OnNetworkSpawn()
     {
+        _currentWeaponIndex = 0;
+
+        OnChangeWeapon?.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
+        EquipWeapon(_currentWeaponIndex);
         // RequestEquipWeapon_ServerRpc(1);
     }
 

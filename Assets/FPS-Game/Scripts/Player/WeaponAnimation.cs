@@ -1,4 +1,3 @@
-using PlayerAssets;
 using Unity.Netcode;
 using UnityEngine;
 public class WeaponAnimation : NetworkBehaviour
@@ -41,13 +40,6 @@ public class WeaponAnimation : NetworkBehaviour
 
                 IsShooting = true;
             }
-
-            // if (Input.GetKeyDown(KeyCode.R) && !IsShooting && !IsReloading)
-            // {
-            //     animator.SetBool("Reload", true);
-
-            //     IsReloading = true;
-            // }
         }
 
         else
@@ -58,13 +50,6 @@ public class WeaponAnimation : NetworkBehaviour
 
                 IsShooting = true;
             }
-
-            // if (Input.GetKeyDown(KeyCode.R) && !IsShooting && !IsReloading)
-            // {
-            //     animator.SetBool("Reload", true);
-
-            //     IsReloading = true;
-            // }
         }
     }
 

@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventory : NetworkBehaviour
 {
     public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] WeaponHolder _weaponHolder;
@@ -16,16 +17,19 @@ public class PlayerInventory : MonoBehaviour
     void Start()
     {
         _currentWeapon = null;
+    }
 
+    public override void OnNetworkSpawn()
+    {
         _weaponHolder.OnChangeWeapon += SetCurrentWeapon;
         PlayerRoot.PlayerReload.OnReload += Reload;
     }
 
-    void OnDestroy()
-    {
-        _weaponHolder.OnChangeWeapon -= SetCurrentWeapon;
-        PlayerRoot.PlayerReload.OnReload -= Reload;
-    }
+    // void OnDestroy()
+    // {
+    //     _weaponHolder.OnChangeWeapon -= SetCurrentWeapon;
+    //     PlayerRoot.PlayerReload.OnReload -= Reload;
+    // }
 
     public void RefillAmmos()
     {
@@ -61,7 +65,7 @@ public class PlayerInventory : MonoBehaviour
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += _currentWeaponSupplyLoad.TotalSupplies;
             _currentWeaponSupplyLoad.TotalSupplies = 0;
 
-            PlayerRoot.PlayerUI.StartReloadEffect(() =>
+            PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(() =>
             {
                 SetAmmoInfoUI();
                 PlayerRoot.PlayerReload.ResetIsReloading();
@@ -73,7 +77,7 @@ public class PlayerInventory : MonoBehaviour
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += ammoToReload;
             _currentWeaponSupplyLoad.TotalSupplies -= ammoToReload;
 
-            PlayerRoot.PlayerUI.StartReloadEffect(() =>
+            PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(() =>
             {
                 SetAmmoInfoUI();
                 PlayerRoot.PlayerReload.ResetIsReloading();
