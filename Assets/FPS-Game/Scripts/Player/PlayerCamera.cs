@@ -2,10 +2,9 @@ using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerCamera : NetworkBehaviour
+public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
-    [SerializeField] WeaponHolder _weaponHolder;
     CinemachineVirtualCamera _playerCamera;
     public float normalFOV;
     float _currentAimFOV;
@@ -14,17 +13,16 @@ public class PlayerCamera : NetworkBehaviour
     bool _isAim;
     bool _isUnAim;
 
-    void Awake()
+    // Awake
+    public int PriorityAwake => 1000;
+    public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
     }
 
-    public void SetFOV(float fov)
-    {
-        _playerCamera.m_Lens.FieldOfView = fov;
-    }
-
-    public override void OnNetworkSpawn()
+    // OnNetworkSpawn
+    public int PriorityNetwork => 15;
+    public void InitializeOnNetworkSpawn()
     {
         _playerCamera = GameManager.Instance.GetCinemachineVirtualCamera();
 
@@ -43,7 +41,12 @@ public class PlayerCamera : NetworkBehaviour
             _isUnAim = true;
         };
 
-        _weaponHolder.OnChangeWeapon += OnChangeWeapon;
+        PlayerRoot.WeaponHolder.OnChangeWeapon += OnChangeWeapon;
+    }
+
+    public void SetFOV(float fov)
+    {
+        _playerCamera.m_Lens.FieldOfView = fov;
     }
 
     void OnChangeWeapon(object sender, WeaponHolder.WeaponEventArgs e)

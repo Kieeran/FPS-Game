@@ -1,39 +1,44 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerInventory : NetworkBehaviour
+public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
-    [SerializeField] WeaponHolder _weaponHolder;
 
     GameObject _currentWeapon;
     SupplyLoad _currentWeaponSupplyLoad;
 
-    void Awake()
+    // Awake
+    public int PriorityAwake => 1000;
+    public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
     }
 
-    void Start()
+    // Start
+    public int PriorityStart => 1000;
+    public void InitializeStart()
     {
         _currentWeapon = null;
     }
 
-    public override void OnNetworkSpawn()
+    // OnNetworkSpawn
+    public int PriorityNetwork => 15;
+    public void InitializeOnNetworkSpawn()
     {
-        _weaponHolder.OnChangeWeapon += SetCurrentWeapon;
+        PlayerRoot.WeaponHolder.OnChangeWeapon += SetCurrentWeapon;
         PlayerRoot.PlayerReload.OnReload += Reload;
     }
 
-    // void OnDestroy()
-    // {
-    //     _weaponHolder.OnChangeWeapon -= SetCurrentWeapon;
-    //     PlayerRoot.PlayerReload.OnReload -= Reload;
-    // }
+    void OnDisable()
+    {
+        PlayerRoot.WeaponHolder.OnChangeWeapon -= SetCurrentWeapon;
+        PlayerRoot.PlayerReload.OnReload -= Reload;
+    }
 
     public void RefillAmmos()
     {
-        foreach (GameObject weapon in _weaponHolder.GetWeaponList())
+        foreach (GameObject weapon in PlayerRoot.WeaponHolder.GetWeaponList())
         {
             if (weapon.TryGetComponent<SupplyLoad>(out var supplyLoad))
             {
@@ -95,7 +100,8 @@ public class PlayerInventory : NetworkBehaviour
 
             _currentWeaponSupplyLoad.EnsureInitialized();
 
-            SetAmmoInfoUI();
+            if (IsOwner)
+                SetAmmoInfoUI();
             return;
         }
         _currentWeaponSupplyLoad = null;

@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 
-public class PlayerTakeDamage : NetworkBehaviour
+public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
 
@@ -15,12 +12,17 @@ public class PlayerTakeDamage : NetworkBehaviour
     public Action PlayerDead;
     public bool IsPlayerDead = false;
 
-    void Awake()
+
+    // Awake
+    public int PriorityAwake => 1000;
+    public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
     }
 
-    public override void OnNetworkSpawn()
+    // OnNetworkSpawn
+    public int PriorityNetwork => 15;
+    public void InitializeOnNetworkSpawn()
     {
         HP.OnValueChanged += OnHPChanged;
     }

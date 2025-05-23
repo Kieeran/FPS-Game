@@ -6,7 +6,7 @@ using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
 
-public class PlayerNetwork : NetworkBehaviour
+public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
 {
     [HideInInspector]
     public string playerName = "Playername";
@@ -42,17 +42,43 @@ public class PlayerNetwork : NetworkBehaviour
     Vector3 originPosBody;
     Quaternion originRotBody;
 
-    void Awake()
+    // Awake
+    public int PriorityAwake => 1000;
+    public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
-
         SetOrigin();
     }
 
-    void Start()
+    // Start
+    public int PriorityStart => 1000;
+    public void InitializeStart()
     {
         PlayerHead.Rb.isKinematic = true;
         PlayerBody.Rb.isKinematic = true;
+    }
+
+    // OnNetworkSpawn
+    public int PriorityNetwork => 5;
+    public void InitializeOnNetworkSpawn()
+    {
+        if (IsOwner == false) return;
+
+        EnableScripts();
+        MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
+
+        SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
+
+        SetCinemachineVirtualCamera();
+
+        PlayerRoot.PlayerUI.OnOpenScoreBoard += OnOpenScoreBoard;
+        PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
+    }
+
+    void OnDisable()
+    {
+        PlayerRoot.PlayerUI.OnOpenScoreBoard -= OnOpenScoreBoard;
+        PlayerRoot.PlayerTakeDamage.PlayerDead -= OnPlayerDead;
     }
 
     void SetOrigin()
@@ -68,21 +94,6 @@ public class PlayerNetwork : NetworkBehaviour
     {
         PlayerHead.transform.SetLocalPositionAndRotation(originPosHead, originRotHead);
         PlayerBody.transform.SetLocalPositionAndRotation(originPosBody, originRotBody);
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        if (IsOwner == false) return;
-
-        EnableScripts();
-        MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
-
-        SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
-
-        SetCinemachineVirtualCamera();
-
-        PlayerRoot.PlayerUI.OnOpenScoreBoard += OnOpenScoreBoard;
-        PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
     }
 
     void SetCinemachineVirtualCamera()

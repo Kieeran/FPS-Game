@@ -1,8 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using PlayerAssets;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+/// <summary>
+/// Priority = 1000 => không ảnh hưởng bởi thứ tự ưu tiên
+/// </summary>
 
 public interface IInitAwake
 {
@@ -22,9 +29,8 @@ public interface IInitNetwork
     void InitializeOnNetworkSpawn();
 }
 
-public class PlayerRoot : MonoBehaviour
+public class PlayerRoot : NetworkBehaviour
 {
-    public NetworkObject NetworkObject { get; private set; }
     public ClientNetworkTransform ClientNetworkTransform { get; private set; }
     public PlayerInput PlayerInput { get; private set; }
     public CharacterController CharacterController { get; private set; }
@@ -40,9 +46,11 @@ public class PlayerRoot : MonoBehaviour
     public PlayerAim PlayerAim { get; private set; }
     public PlayerCamera PlayerCamera { get; private set; }
 
+    public WeaponHolder WeaponHolder { get; private set; }
+    [SerializeField] WeaponHolder _weaponHolder;
+
     void Awake()
     {
-        NetworkObject = GetComponent<NetworkObject>();
         ClientNetworkTransform = GetComponent<ClientNetworkTransform>();
         PlayerInput = GetComponent<PlayerInput>();
         CharacterController = GetComponent<CharacterController>();
@@ -57,5 +65,82 @@ public class PlayerRoot : MonoBehaviour
         PlayerReload = GetComponent<PlayerReload>();
         PlayerAim = GetComponent<PlayerAim>();
         PlayerCamera = GetComponent<PlayerCamera>();
+        WeaponHolder = _weaponHolder;
+
+        InitAwake(gameObject);
     }
+
+    void Start()
+    {
+        InitStart(gameObject);
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        InitOnNetworkSpawn(gameObject);
+    }
+
+    void InitByPriorityInRootInterface<TInterface, TPriority>(
+    GameObject root,
+    Func<TInterface, TPriority> getPriority,
+    Action<TInterface> initMethod) where TInterface : class
+    {
+        var allMonoBehaviours = root.GetComponentsInChildren<MonoBehaviour>(true);
+        var list = allMonoBehaviours
+            .OfType<TInterface>()   // Lọc component có implement interface TInterface
+            .ToList();
+
+        list.Sort((a, b) => Comparer<TPriority>.Default.Compare(getPriority(a), getPriority(b)));
+
+        foreach (var item in list)
+            initMethod(item);
+    }
+
+    void InitAwake(GameObject root)
+    {
+        InitByPriorityInRootInterface<IInitAwake, int>(
+            root,
+            x => x.PriorityAwake,
+            x => x.InitializeAwake()
+        );
+    }
+
+    void InitStart(GameObject root)
+    {
+        InitByPriorityInRootInterface<IInitStart, int>(
+            root,
+            x => x.PriorityStart,
+            x => x.InitializeStart()
+        );
+    }
+
+    void InitOnNetworkSpawn(GameObject root)
+    {
+        InitByPriorityInRootInterface<IInitNetwork, int>(
+            root,
+            x => x.PriorityNetwork,
+            x => x.InitializeOnNetworkSpawn()
+        );
+    }
+
+    // // Awake
+    // public int PriorityAwake => -1;
+    // public void InitializeAwake()
+    // {
+
+    // }
+
+    // // Start
+    // public int PriorityStart => -1;
+    // public void InitializeStart()
+    // {
+
+    // }
+
+    // // OnNetworkSpawn
+    // public int PriorityNetwork => -1;
+    // public void InitializeOnNetworkSpawn()
+    // {
+
+    // }
 }

@@ -4,7 +4,7 @@ using PlayerAssets;
 using Unity.Netcode;
 using UnityEngine;
 
-public class WeaponHolder : NetworkBehaviour
+public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
 
@@ -20,7 +20,9 @@ public class WeaponHolder : NetworkBehaviour
 
     public List<GameObject> GetWeaponList() { return _weaponList; }
 
-    void Awake()
+    // Awake
+    public int PriorityAwake => 1000;
+    public void InitializeAwake()
     {
         PlayerRoot = transform.root.GetComponent<PlayerRoot>();
 
@@ -33,13 +35,13 @@ public class WeaponHolder : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkSpawn()
+    // OnNetworkSpawn
+    public int PriorityNetwork => 20;
+    public void InitializeOnNetworkSpawn()
     {
         _currentWeaponIndex = 0;
-
         OnChangeWeapon?.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
         EquipWeapon(_currentWeaponIndex);
-        // RequestEquipWeapon_ServerRpc(1);
     }
 
     void Update()

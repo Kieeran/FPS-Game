@@ -1,14 +1,17 @@
 using PlayerAssets;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerInteract : MonoBehaviour
+public class PlayerInteract : NetworkBehaviour, IInitStart
 {
     PlayerAssetsInputs _playerAssetsInputs;
     PlayerInventory _playerInventory;
     Interactable _currentInteractableObj;
     float _playerReach;
 
-    void Start()
+    // Start
+    public int PriorityStart => 1000;
+    public void InitializeStart()
     {
         _playerAssetsInputs = GetComponent<PlayerAssetsInputs>();
         _playerInventory = GetComponent<PlayerInventory>();
@@ -18,6 +21,8 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
+        if (!IsOwner) return;
+
         CheckInteraction();
 
         if (_playerAssetsInputs.interact == true)

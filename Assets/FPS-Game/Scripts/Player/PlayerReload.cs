@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using PlayerAssets;
-using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerReload : MonoBehaviour
+public class PlayerReload : NetworkBehaviour, IInitAwake
 {
     public PlayerRoot PlayerRoot { get; private set; }
 
@@ -15,13 +12,17 @@ public class PlayerReload : MonoBehaviour
     public event EventHandler OnReload;
     public Action reload;
 
-    void Awake()
+    // Awake
+    public int PriorityAwake => 1000;
+    public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
     }
 
     void Update()
     {
+        if (!IsOwner) return;
+
         if (PlayerRoot.PlayerAssetsInputs.reload == true)
         {
             reload?.Invoke();

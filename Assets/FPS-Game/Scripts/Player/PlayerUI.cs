@@ -4,7 +4,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerUI : NetworkBehaviour
+public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
     public PlayerCanvas CurrentPlayerCanvas { get; private set; }
@@ -13,12 +13,16 @@ public class PlayerUI : NetworkBehaviour
 
     public Action OnOpenScoreBoard;
 
-    void Awake()
+    // Awake
+    public int PriorityAwake => 1000;
+    public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
     }
 
-    public override void OnNetworkSpawn()
+    // OnNetworkSpawn
+    public int PriorityNetwork => 10;
+    public void InitializeOnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         if (IsOwner == false) return;

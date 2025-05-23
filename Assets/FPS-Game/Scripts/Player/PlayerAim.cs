@@ -1,30 +1,28 @@
 using System;
-using PlayerAssets;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerAim : NetworkBehaviour
+public class PlayerAim : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
-    [SerializeField] WeaponHolder _weaponHolder;
     public Action OnAim;
     public Action OnUnAim;
 
     public bool ToggleAim { get; private set; }
 
-    void Awake()
+    // Awake
+    public int PriorityAwake => 1000;
+    public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
-    }
-
-    void Start()
-    {
         ToggleAim = false;
     }
 
-    public override void OnNetworkSpawn()
+    // OnNetworkSpawn
+    public int PriorityNetwork => 15;
+    public void InitializeOnNetworkSpawn()
     {
-        _weaponHolder.OnChangeWeapon += OnChangeWeapon;
+        PlayerRoot.WeaponHolder.OnChangeWeapon += OnChangeWeapon;
     }
 
     private void OnChangeWeapon(object sender, WeaponHolder.WeaponEventArgs e)
