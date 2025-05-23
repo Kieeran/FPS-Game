@@ -31,7 +31,8 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
     {
         if (previous == current) return;
 
-        PlayerRoot.PlayerUI.CurrentPlayerCanvas.HealthBar.UpdatePlayerHealthBar(current);
+        if (IsOwner)
+            PlayerRoot.PlayerUI.CurrentPlayerCanvas.HealthBar.UpdatePlayerHealthBar(current);
 
         if (previous == 0) IsPlayerDead = false;
 
