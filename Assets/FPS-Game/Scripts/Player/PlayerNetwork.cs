@@ -215,11 +215,16 @@ public class PlayerNetwork : NetworkBehaviour
         PlayerRoot.CharacterController.enabled = false;
         PlayerRoot.PlayerController.enabled = false;
 
+        DeadAnimation();
+
+        Invoke(nameof(RequestSetRandomPos), RespawnDelay);
+    }
+
+    void DeadAnimation()
+    {
         RemoveCinemachineVirtualCamera();
         AddRig();
         Invoke(nameof(RestartModel), RespawnDelay);
-
-        Invoke(nameof(RequestSetRandomPos), RespawnDelay);
     }
 
     void EnableScripts()
@@ -261,7 +266,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         PlayerHead.Rb.isKinematic = true;
         PlayerBody.Rb.isKinematic = true;
-        
+
         ResetParts();
         SetCinemachineVirtualCamera();
     }
@@ -272,9 +277,6 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            RemoveCinemachineVirtualCamera();
-            AddRig();
-            Invoke(nameof(RestartModel), 4f);
             // GetAllPlayerInfos_ServerRPC(OwnerClientId);
         }
     }

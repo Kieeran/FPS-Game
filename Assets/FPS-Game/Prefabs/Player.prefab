@@ -2691,7 +2691,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5494759692168154427}
   - {fileID: 9205122254843379356}
   - {fileID: 1957954801315663397}
   m_Father: {fileID: 2586426588074311077}
@@ -4468,7 +4467,7 @@ Transform:
   m_GameObject: {fileID: 1972134987204318308}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.435, z: 0.702}
+  m_LocalPosition: {x: 0, y: 2.435, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7961,7 +7960,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.042000055, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 5494759692168154427}
   m_Father: {fileID: 9090760930605295615}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7659002970131291369
@@ -8299,7 +8299,8 @@ GameObject:
   - component: {fileID: 5494759692168154427}
   - component: {fileID: 4853908131596940935}
   - component: {fileID: 4811752072173970162}
-  m_Layer: 0
+  - component: {fileID: 4816060705914000965}
+  m_Layer: 2
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8315,11 +8316,11 @@ Transform:
   m_GameObject: {fileID: 4036424223234089295}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.1791}
-  m_LocalScale: {x: 0.420825, y: 0.19436681, z: 0.40740144}
+  m_LocalPosition: {x: 0, y: 0.056000076, z: 0.23880002}
+  m_LocalScale: {x: 0.5611, y: 0.25915575, z: 0.5432019}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 9090760930605295615}
+  m_Father: {fileID: 9205122254843379356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4853908131596940935
 MeshFilter:
@@ -8371,6 +8372,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4816060705914000965
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4036424223234089295}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000001, y: 1.0000001, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4052515320085130639
 GameObject:
   m_ObjectHideFlags: 0

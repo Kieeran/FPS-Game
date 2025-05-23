@@ -19,63 +19,6 @@ public class PlayerShoot : NetworkBehaviour
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
         Shoot_ServerRPC(ray.origin, ray.direction, spreadAngle);
-
-        // if (Physics.Raycast(ray, out RaycastHit hit))
-        // {
-        //     // Debug.Log(hit.point);
-
-        //     // GameObject effect = Instantiate(hitEffect);
-        //     // effect.transform.position = hit.point;
-
-        //     // StartCoroutine(DestroyEffect(effect));
-
-        //     BulletHitSpawnServerRpc(hit.point);
-
-        //     PlayerBody playerBody = hit.collider.GetComponent<PlayerBody>();
-        //     PlayerHead playerHead = hit.collider.GetComponent<PlayerHead>();
-
-        //     if (playerBody != null)
-        //     {
-        //         // if (IsOwner == true)
-        //         // {
-        //         //     playerBody.Hit();
-        //         // }
-
-        //         Transform player = hit.collider.transform.parent;
-
-        //         if (player != null)
-        //         {
-        //             NetworkObject networkObject = player.GetComponent<NetworkObject>();
-
-        //             if (networkObject != null)
-        //             {
-        //                 //Debug.Log($"Detech {networkObject.OwnerClientId} body");
-        //                 player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId);
-        //             }
-        //         }
-        //     }
-
-        //     if (playerHead != null)
-        //     {
-        //         // if (IsOwner == true)
-        //         // {
-        //         //     playerHead.Hit();
-        //         // }
-
-        //         Transform player = hit.collider.transform.parent.parent;
-
-        //         if (player != null)
-        //         {
-        //             NetworkObject networkObject = player.GetComponent<NetworkObject>();
-
-        //             if (networkObject != null)
-        //             {
-        //                 //Debug.Log($"Detech {networkObject.OwnerClientId} head");
-        //                 player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId);
-        //             }
-        //         }
-        //     }
-        // }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -88,18 +31,11 @@ public class PlayerShoot : NetworkBehaviour
         ) * shootDirection;
 
         Ray ray = new(point, spreadDirection);
+        int layerMask = ~(1 << 2);
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        // Raycast bỏ qua Ignore Raycast layer
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
         {
-            // Debug.Log(hit.point);
-
-            // GameObject effect = Instantiate(hitEffect);
-            // effect.transform.position = hit.point;
-
-            // StartCoroutine(DestroyEffect(effect));
-
-            // BulletHitSpawnServerRpc(hit.point);
-
             BulletHitSpawn_ClientRpc(hit.point);
 
             PlayerBody playerBody = hit.collider.GetComponent<PlayerBody>();
