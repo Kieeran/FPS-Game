@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 1471373783781446586}
   - component: {fileID: 6076434659701675907}
   - component: {fileID: 8333832395885384220}
+  - component: {fileID: 487951673554493520}
   m_Layer: 5
   m_Name: HitEffect
   m_TagString: Untagged
@@ -360,6 +361,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &487951673554493520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574071355375121869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 513d62cc9fd20c247800bc3ef35e4654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitBodyAlpha: 43
+  _hitHeadAlpha: 143
 --- !u!1 &980976352782559204
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,13 +621,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6546268028543371176}
+  - component: {fileID: 4205964392934405895}
   m_Layer: 5
   m_Name: Scoreboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6546268028543371176
 RectTransform:
   m_ObjectHideFlags: 0
@@ -636,6 +652,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4205964392934405895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190780429931210925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28816ce07d828064e9949f99007eea1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScoreboardItem: {fileID: 391833806404409984, guid: 2917454508093bd488e708db262baafc, type: 3}
+  playerScoreboardList: {fileID: 8031806517263128156}
 --- !u!1 &1380400809077253068
 GameObject:
   m_ObjectHideFlags: 0
@@ -3264,8 +3294,9 @@ GameObject:
   - component: {fileID: 4415835123433084320}
   - component: {fileID: 3865647500365303166}
   - component: {fileID: 1662882997259575016}
+  - component: {fileID: 1601783973869959321}
   m_Layer: 5
-  m_Name: PlayerUI
+  m_Name: PlayerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3361,6 +3392,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1601783973869959321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7499836833694627424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96755ff0087fa2540824739094a363e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBar: {fileID: 589017671769713085}
+  HitEffect: {fileID: 487951673554493520}
+  EscapeUI: {fileID: 4230991096200768079}
+  ScopeAim: {fileID: 1374942569635707284}
 --- !u!1 &7502960429214307528
 GameObject:
   m_ObjectHideFlags: 0
@@ -3448,13 +3495,14 @@ GameObject:
   - component: {fileID: 7358926778659324603}
   - component: {fileID: 5449366219498952334}
   - component: {fileID: 5668761735446299854}
+  - component: {fileID: 4230991096200768079}
   m_Layer: 5
   m_Name: EscapeUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7358926778659324603
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3515,6 +3563,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4230991096200768079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7616339553739749248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f682a1a4b0669d4f963cdec3115fd66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _escapeUI: {fileID: 5668761735446299854}
+  _quitGameButton: {fileID: 3429018775990652038}
 --- !u!1 &7987012718671049963
 GameObject:
   m_ObjectHideFlags: 0
@@ -3877,6 +3939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3648ccbf1124c9541a57883cc58e53fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthUI: {fileID: 2662462875741647654}
 --- !u!1 &8656582663835752663
 GameObject:
   m_ObjectHideFlags: 0

@@ -73,7 +73,7 @@ public class PlayerCamera : NetworkBehaviour
                 Time.deltaTime * fovSpeed
             );
 
-            if (_playerCamera.m_Lens.FieldOfView < 30f && PlayerRoot.PlayerUI.ScopeAim.gameObject.activeSelf == false)
+            if (_playerCamera.m_Lens.FieldOfView < 30f && PlayerRoot.PlayerUI.CurrentPlayerCanvas.ScopeAim.gameObject.activeSelf == false)
             {
                 UpdateScopeAimUI(true);
             }
@@ -93,7 +93,7 @@ public class PlayerCamera : NetworkBehaviour
                 Time.deltaTime * fovSpeed
             );
 
-            if (PlayerRoot.PlayerUI.ScopeAim.gameObject.activeSelf == true)
+            if (PlayerRoot.PlayerUI.CurrentPlayerCanvas.ScopeAim.gameObject.activeSelf == true)
             {
                 UpdateScopeAimUI(false);
             }
@@ -108,7 +108,7 @@ public class PlayerCamera : NetworkBehaviour
 
     public void UpdateScopeAimUI(bool b)
     {
-        PlayerRoot.PlayerUI.ScopeAim.gameObject.SetActive(b);
+        PlayerRoot.PlayerUI.CurrentPlayerCanvas.ScopeAim.gameObject.SetActive(b);
     }
 
     public void UnAimScope()

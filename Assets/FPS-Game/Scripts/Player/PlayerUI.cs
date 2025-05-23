@@ -9,17 +9,9 @@ using UnityEngine.UI;
 public class PlayerUI : NetworkBehaviour
 {
     public PlayerRoot PlayerRoot { get; private set; }
-    public Image HealthUI { get; private set; }
-    public Image HitEffect { get; private set; }
-    public Image ScopeAim { get; private set; }
+    public PlayerCanvas CurrentPlayerCanvas { get; private set; }
 
-    [SerializeField] float _hitBodyAlpha;
-    [SerializeField] float _hitHeadAlpha;
-
-    [SerializeField] Canvas _playerUI;
-    [SerializeField] Image _escapeUI;
-    [SerializeField] Button _quitGameButton;
-    [SerializeField] GameObject _scoreBoard;
+    [SerializeField] PlayerCanvas _playerCanvas;
     [SerializeField] GameObject _bulletHud;
     [SerializeField] WeaponHud _weaponHud;
     [SerializeField] Image _crossHair;
@@ -34,7 +26,7 @@ public class PlayerUI : NetworkBehaviour
 
     public WeaponHud GetWeaponHud() { return _weaponHud; }
 
-    public void StartReloadEffect(System.Action onDone)
+    public void StartReloadEffect(Action onDone)
     {
         _reloadEffect.StartReloadEffect(() =>
         {
@@ -63,34 +55,13 @@ public class PlayerUI : NetworkBehaviour
         }
     }
 
-    public void UpdatePlayerHealthBar(float amount)
-    {
-        HealthUI.fillAmount = amount;
-    }
-
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
         if (!IsOwner) return;
 
-        Instantiate(_playerUI, transform);
-
-        if (!LobbyManager.Instance.IsLobbyHost()) _quitGameButton.gameObject.SetActive(false);
-
-        _quitGameButton.onClick.AddListener(() =>
-        {
-            if (IsOwner == false) return;
-
-            // Gửi sự kiện cho tất cả Client để xử lý thoát game
-            NotifyClientsToQuit_ServerRpc();
-
-            NetworkManager.Singleton.Shutdown();
-            LobbyManager.Instance.ExitGame();
-
-            // GameSceneManager.Instance.LoadPreviousScene();
-            GameSceneManager.Instance.LoadScene("Lobby Room");
-        });
+        CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
 
         PlayerRoot.PlayerAim.OnAim += () =>
         {
@@ -103,25 +74,7 @@ public class PlayerUI : NetworkBehaviour
         };
     }
 
-    [ServerRpc]
-    private void NotifyClientsToQuit_ServerRpc()
-    {
-        NotifyClientsToQuit_ClientRpc();
-    }
 
-    [ClientRpc]
-    private void NotifyClientsToQuit_ClientRpc()
-    {
-        // Hành động cho từng Client khi host thoát
-        if (!IsOwner)
-        {
-            NetworkManager.Singleton.Shutdown();
-            LobbyManager.Instance.ExitGame();
-
-            // GameSceneManager.Instance.LoadPreviousScene();
-            GameSceneManager.Instance.LoadScene("Lobby Room");
-        }
-    }
 
     public void SetAmmoInfoUI(int currentMagazineAmmo, int totalAmmo)
     {
@@ -134,22 +87,13 @@ public class PlayerUI : NetworkBehaviour
 
         if (PlayerRoot.PlayerAssetsInputs.escapeUI == true)
         {
-            _escapeUI.gameObject.SetActive(!_escapeUI.gameObject.activeSelf);
-
-            Cursor.lockState = !_escapeUI.gameObject.activeSelf ? CursorLockMode.Locked : CursorLockMode.None;
-
+            CurrentPlayerCanvas.ToggleEscapeUI();
             PlayerRoot.PlayerAssetsInputs.escapeUI = false;
         }
 
         if (PlayerRoot.PlayerAssetsInputs.openScoreboard == true)
         {
-            _scoreBoard.SetActive(!_scoreBoard.activeSelf);
-
-            if (_scoreBoard.activeSelf == true)
-                OnOpenScoreBoard?.Invoke();
-            else
-                ClearScoreBoard();
-
+            CurrentPlayerCanvas.ToggleScoreBoard();
             PlayerRoot.PlayerAssetsInputs.openScoreboard = false;
         }
     }
@@ -164,57 +108,5 @@ public class PlayerUI : NetworkBehaviour
                 item.Setup(playerInfo.Name + "", playerInfo.KillCount, playerInfo.DeathCount);
             }
         }
-    }
-
-    void ClearScoreBoard()
-    {
-        foreach (Transform child in playerScoreboardList)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
-    [ClientRpc]
-    public void UpdateUIClientRpc(float alpha, ClientRpcParams clientRpcParams)
-    {
-        StartCoroutine(FadeHitEffect(HitEffect, alpha));
-    }
-
-    private IEnumerator FadeHitEffect(Image hitEffect, float targetAlpha)
-    {
-        float currentAlpha = targetAlpha;
-
-        while (currentAlpha > 0)
-        {
-            hitEffect.color = new Color(1, 0, 0, currentAlpha);
-            currentAlpha -= Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    public void UpdateUI(float damage, ulong targetClientId)
-    {
-        if (damage == 0.05f)
-        {
-            UpdateUIServerRpc(_hitBodyAlpha / 255, targetClientId);
-        }
-        else if (damage == 0.1f)
-        {
-            UpdateUIServerRpc(_hitHeadAlpha / 255, targetClientId);
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void UpdateUIServerRpc(float alpha, ulong targetClientId)
-    {
-        ClientRpcParams clientRpcParams = new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new List<ulong> { targetClientId }
-            }
-        };
-
-        PlayerRoot.PlayerUI.UpdateUIClientRpc(alpha, clientRpcParams);
     }
 }

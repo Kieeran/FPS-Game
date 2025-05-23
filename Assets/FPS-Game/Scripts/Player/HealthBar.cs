@@ -5,8 +5,12 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    //public Image healthBar;
-    //private float health;
+    [SerializeField] Image HealthUI;
+
+    public void UpdatePlayerHealthBar(float amount)
+    {
+        HealthUI.fillAmount = amount;
+    }
 
     //private void Start()
     //{

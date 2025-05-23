@@ -29,7 +29,7 @@ public class PlayerTakeDamage : NetworkBehaviour
     {
         if (previous == current) return;
 
-        PlayerRoot.PlayerUI.UpdatePlayerHealthBar(current);
+        PlayerRoot.PlayerUI.CurrentPlayerCanvas.HealthBar.UpdatePlayerHealthBar(current);
 
         if (previous == 0) IsPlayerDead = false;
 
@@ -71,7 +71,7 @@ public class PlayerTakeDamage : NetworkBehaviour
             Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
         }
 
-        PlayerRoot.PlayerUI.UpdateUI(damage, targetClientId);
+        PlayerRoot.PlayerUI.CurrentPlayerCanvas.HitEffect.UpdateUI(damage, targetClientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
