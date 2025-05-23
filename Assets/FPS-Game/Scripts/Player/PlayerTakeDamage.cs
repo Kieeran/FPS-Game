@@ -73,7 +73,7 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
             Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
         }
 
-        PlayerRoot.PlayerUI.UpdateUI(damage, targetClientId);
+        PlayerRoot.PlayerUI.AddTakeDamageEffect(damage, targetClientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
