@@ -331,6 +331,6 @@ public class PlayerNetwork : NetworkBehaviour
             }
         }
 
-        PlayerRoot.PlayerUI.AddInfoToScoreBoard(playerInfos);
+        // PlayerRoot.PlayerUI.AddInfoToScoreBoard(playerInfos);
     }
 }

@@ -1036,8 +1036,9 @@ GameObject:
   - component: {fileID: 8861177528185036924}
   - component: {fileID: 4061715762896964073}
   - component: {fileID: 1484770409805968516}
+  - component: {fileID: 5408833140347830528}
   m_Layer: 5
-  m_Name: BulletsHud
+  m_Name: BulletHud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1104,6 +1105,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5408833140347830528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797147422320079719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 051968e35c194d34bb71b47392333cc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1828041997014023823
 GameObject:
   m_ObjectHideFlags: 0
@@ -3407,7 +3420,9 @@ MonoBehaviour:
   HealthBar: {fileID: 589017671769713085}
   HitEffect: {fileID: 487951673554493520}
   EscapeUI: {fileID: 4230991096200768079}
+  Scoreboard: {fileID: 0}
   ScopeAim: {fileID: 1374942569635707284}
+  CrossHair: {fileID: 0}
 --- !u!1 &7502960429214307528
 GameObject:
   m_ObjectHideFlags: 0

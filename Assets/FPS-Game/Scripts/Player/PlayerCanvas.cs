@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +7,15 @@ public class PlayerCanvas : MonoBehaviour
     public HitEffect HitEffect;
     public EscapeUI EscapeUI;
     public Scoreboard Scoreboard;
+    public BulletHud BulletHud;
+
     public Image ScopeAim;
+    public Image CrossHair;
+
+    public void ToggleCrossHair(bool b)
+    {
+        CrossHair.gameObject.SetActive(b);
+    }
 
     public void ToggleEscapeUI()
     {

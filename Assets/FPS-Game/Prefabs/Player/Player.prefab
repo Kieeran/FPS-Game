@@ -3380,37 +3380,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1972134987204318308
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9084859349505623268}
-  m_Layer: 8
-  m_Name: BulletSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9084859349505623268
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1972134987204318308}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.435, z: 0.462}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2586426588074311077}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2028697579795638957
 GameObject:
   m_ObjectHideFlags: 0
@@ -5025,7 +4994,6 @@ Transform:
   m_Children:
   - {fileID: 9090760930605295615}
   - {fileID: 951268845210976874}
-  - {fileID: 9084859349505623268}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5786631840013576090
@@ -5226,7 +5194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1c5fa5e4222824a983a28184e6c46a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitEffect: {fileID: 0}
+  _hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
 --- !u!114 &3776603355074829376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5285,14 +5253,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCanvas: {fileID: 1601783973869959321, guid: 1cc3070521de99243b444c89e07b5e59, type: 3}
-  _escapeUI: {fileID: 0}
-  _quitGameButton: {fileID: 0}
-  _scoreBoard: {fileID: 0}
-  _bulletHud: {fileID: 0}
-  _weaponHud: {fileID: 0}
-  _crossHair: {fileID: 0}
-  playerScoreboardItem: {fileID: 391833806404409984, guid: 2917454508093bd488e708db262baafc, type: 3}
-  playerScoreboardList: {fileID: 0}
 --- !u!114 &3198145288386460731
 MonoBehaviour:
   m_ObjectHideFlags: 0

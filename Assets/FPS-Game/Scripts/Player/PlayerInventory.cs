@@ -95,7 +95,7 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
         _currentWeaponSupplyLoad = null;
-        PlayerRoot.PlayerUI.SetAmmoInfoUI(0, 0);
+        PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.SetAmmoInfoUI(0, 0);
     }
 
     public void UpdatecurrentMagazineAmmo()
@@ -107,7 +107,7 @@ public class PlayerInventory : MonoBehaviour
 
     void SetAmmoInfoUI()
     {
-        PlayerRoot.PlayerUI.SetAmmoInfoUI(
+        PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.SetAmmoInfoUI(
             _currentWeaponSupplyLoad.CurrentMagazineAmmo,
             _currentWeaponSupplyLoad.TotalSupplies
         );
