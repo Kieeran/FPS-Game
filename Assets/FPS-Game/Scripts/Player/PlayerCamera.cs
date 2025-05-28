@@ -67,7 +67,11 @@ public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
 
     void Update()
     {
-        if (!IsOwner) return;
+        // if (!IsOwner) return;
+
+
+
+        // if (_playerCamera == null) { Debug.Log("_playerCamera = null"); }
 
         if (_isAim == true)
         {

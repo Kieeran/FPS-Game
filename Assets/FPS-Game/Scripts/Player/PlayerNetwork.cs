@@ -5,6 +5,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
 {
@@ -20,7 +21,15 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     public PlayerHead PlayerHead;
     public PlayerBody PlayerBody;
 
-    public float RespawnDelay;
+
+    // public float RespawnDelay;
+    // public Canvas playerUI;
+
+    // private GameObject[] spawnerList;
+
+    // List<PlayerInfo> playerInfos;
+
+
 
     public struct PlayerInfo
     {
@@ -68,6 +77,29 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     {
         if (IsOwner == false) return;
 
+
+        // // Handling random spawning
+        // spawnerList = new GameObject[4];
+
+        // spawnerList = GameObject.FindGameObjectsWithTag("Spawner");
+
+        // // spawnerList[0] = GameObject.Find("Spawner1");
+        // // spawnerList[1] = GameObject.Find("Spawner2");
+        // // spawnerList[2] = GameObject.Find("Spawner3");
+        // // spawnerList[3] = GameObject.Find("Spawner4");
+        // if (spawnerList != null)
+        // {
+        //     int randomIndex = UnityEngine.Random.Range(0, spawnerList.Length);
+        //     GameObject randomObject = spawnerList[randomIndex];
+
+        //     transform.position = randomObject.transform.position;
+        // }
+
+
+        // KillCount = new();
+        // DeathCount = new();
+
+
         EnableScripts();
         MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
 
@@ -103,9 +135,12 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
         CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
         {
-            Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
+            // Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
+            Transform[] allChildren = transform.GetComponentsInChildren<Transform>();
+            Transform playerCameraRoot = allChildren.FirstOrDefault(t => t.name == "PlayerCameraRoot");
 
             if (playerCameraRoot != null) _camera.Follow = playerCameraRoot;
+            if (_camera.Follow == null) Debug.Log("_camera.Follow = null");
         }
     }
 
