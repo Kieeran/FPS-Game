@@ -327,11 +327,12 @@ namespace PlayerAssets
 
         [SerializeField] GameObject _playerModel;
         [SerializeField] Animator _animator;
+        [SerializeField] CharacterController _controller;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
 #endif
-        private CharacterController _controller;
+        // private CharacterController _controller;
         private PlayerAssetsInputs _input;
         private GameObject _mainCamera;
 
@@ -373,10 +374,8 @@ namespace PlayerAssets
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
             // _hasAnimator = TryGetComponent(out _animator);
-            _controller = GetComponent<CharacterController>();
+            // _controller = GetComponent<CharacterController>();
             _input = GetComponent<PlayerAssetsInputs>();
-
-
 
 #if ENABLE_INPUT_SYSTEM
             _playerInput = GetComponent<PlayerInput>();

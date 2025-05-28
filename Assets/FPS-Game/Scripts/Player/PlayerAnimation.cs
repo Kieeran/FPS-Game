@@ -2,12 +2,7 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-
-    void Awake()
-    {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-    }
+    public PlayerRoot PlayerRoot;
 
     public void OnFootstep(AnimationEvent animationEvent)
     {
