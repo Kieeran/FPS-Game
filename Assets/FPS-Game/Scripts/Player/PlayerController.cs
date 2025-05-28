@@ -346,6 +346,9 @@ namespace PlayerAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
+        Vector3 _currentPos;
+        Quaternion _currentRot;
+
         private bool IsCurrentDeviceMouse
         {
             get
@@ -374,6 +377,8 @@ namespace PlayerAssets
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<PlayerAssetsInputs>();
 
+
+
 #if ENABLE_INPUT_SYSTEM
             _playerInput = GetComponent<PlayerInput>();
 #endif
@@ -382,9 +387,12 @@ namespace PlayerAssets
 
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            _currentPos = transform.localPosition;
+            _currentRot = transform.localRotation;
         }
 
-        private void Update()
+        void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
 
@@ -393,6 +401,8 @@ namespace PlayerAssets
             Move();
 
             playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
+
+            transform.SetLocalPositionAndRotation(_currentPos, transform.localRotation);
         }
 
         private void LateUpdate()
@@ -461,6 +471,9 @@ namespace PlayerAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
+
+            transform.localPosition = Vector3.Lerp(_currentPos, _currentPos, 0);
+            transform.localRotation = playerModel.transform.rotation;
         }
 
         private void JumpAndGravity()
