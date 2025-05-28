@@ -43,11 +43,13 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     List<PlayerInfo> _playerInfos;
 
-    Vector3 originPosHead;
-    Quaternion originRotHead;
+    // Vector3 originPosHead;
+    // Quaternion originRotHead;
 
-    Vector3 originPosBody;
-    Quaternion originRotBody;
+    // Vector3 originPosBody;
+    // Quaternion originRotBody;
+
+    public List<Renderer> headParts;
 
     // Awake
     public int PriorityAwake => 1000;
@@ -104,6 +106,8 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
         SetCinemachineVirtualCamera();
 
         // PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
+
+        HideHead();
     }
 
     // void OnDisable()
@@ -148,6 +152,14 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
             if (playerCamera != null) _camera.Follow = playerCamera;
             if (_camera.Follow == null) Debug.Log("_camera.Follow = null");
+        }
+    }
+
+    void HideHead()
+    {
+        foreach (var part in headParts)
+        {
+            part.enabled = false;
         }
     }
 
