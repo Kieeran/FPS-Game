@@ -34,13 +34,13 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
         if (IsOwner)
             PlayerRoot.PlayerUI.CurrentPlayerCanvas.HealthBar.UpdatePlayerHealthBar(current);
 
-        if (previous == 0) IsPlayerDead = false;
+        // if (previous == 0) IsPlayerDead = false;
 
-        if (current == 0)
-        {
-            IsPlayerDead = true;
-            PlayerDead?.Invoke();
-        }
+        // if (current == 0)
+        // {
+        //     IsPlayerDead = true;
+        //     PlayerDead?.Invoke();
+        // }
     }
 
     public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID)
@@ -68,7 +68,8 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
                 {
                     ownerPlayerNetwork.KillCount.Value += 1;
                 }
-                targetHealth.HP.Value = 0;
+                // targetHealth.HP.Value = 0;
+                targetHealth.HP.Value = 1;
             }
 
             Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");

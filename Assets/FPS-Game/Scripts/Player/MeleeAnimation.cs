@@ -6,13 +6,26 @@ public class MeleeAnimation : NetworkBehaviour
     public PlayerRoot PlayerRoot { get; private set; }
     public Animator animator;
 
+    [HideInInspector]
     public bool isAttacking = false;
+    [HideInInspector]
     public bool queuedAttackB = false;
+    [HideInInspector]
     public bool mouseButtonUp = false;
 
     void Awake()
     {
         PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+    }
+
+    void OnEnable()
+    {
+        animator.Rebind();
+        animator.Update(0f);
+
+        isAttacking = false;
+        queuedAttackB = false;
+        mouseButtonUp = false;
     }
 
     void Update()

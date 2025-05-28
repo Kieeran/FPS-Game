@@ -6,12 +6,27 @@ public class WeaponAnimation : NetworkBehaviour
     public Animator animator;
     public bool Automatic;
 
+    [HideInInspector]
     public bool IsShooting = false;
+    [HideInInspector]
     public bool IsReloading = false;
 
     void Awake()
     {
         PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+    }
+
+    void OnEnable()
+    {
+        animator.Play("Reload", 0, 0f);
+        animator.Play("Shoot", 0, 0f);
+
+        animator.Rebind();
+        animator.Play("Idle", 0, 0f);
+        animator.Update(0f);
+
+        IsShooting = false;
+        IsReloading = false;
     }
 
     public override void OnNetworkSpawn()
@@ -26,6 +41,8 @@ public class WeaponAnimation : NetworkBehaviour
             }
         };
     }
+
+    bool _isPressed = false;
 
     void Update()
     {
@@ -44,12 +61,16 @@ public class WeaponAnimation : NetworkBehaviour
 
         else
         {
-            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !IsReloading)
+            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !IsReloading && _isPressed == false)
             {
+                _isPressed = true;
+
                 animator.SetTrigger("Shoot");
 
                 IsShooting = true;
             }
+
+            if (PlayerRoot.PlayerAssetsInputs.shoot == false) _isPressed = false;
         }
     }
 

@@ -899,10 +899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819f7e4615e31654f93deb7b981c1342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
-  _playerCamera: {fileID: 2555932696361061220}
-  _playerReload: {fileID: 4763198483577472323}
-  _playerAim: {fileID: 3721964784766542707}
   animator: {fileID: 4748273866860016001}
 --- !u!114 &6911757470906447316
 MonoBehaviour:
@@ -3006,7 +3002,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5049b1619332b0244b9bb28281f9043c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTakeDamage: {fileID: 2959830739264947113}
 --- !u!1 &2163595336350981832
 GameObject:
   m_ObjectHideFlags: 0
@@ -4116,11 +4111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
-  _playerInventory: {fileID: 6974190241322348192}
-  _playerReload: {fileID: 4763198483577472323}
-  _playerShoot: {fileID: 634530322159841188}
-  _playerAim: {fileID: 3721964784766542707}
   FireCoolDown: 0.15
   shootEffect: {fileID: 1238639354304013778}
   _aimFOV: 0
@@ -4160,7 +4150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRifle: 1
   IsPistol: 0
-  canvas: {fileID: 2287724672447800508}
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
@@ -6619,14 +6608,9 @@ MonoBehaviour:
     m_InternalValue: 0
   DeathCount:
     m_InternalValue: 0
-  playerInput: {fileID: 2527947492270828723}
-  characterController: {fileID: 3264883963333901782}
-  playerController: {fileID: 6969653289034052401}
-  playerShoot: {fileID: 634530322159841188}
-  playerTakeDamage: {fileID: 2959830739264947113}
-  _playerUI: {fileID: 7752479045729103711}
-  health: {fileID: 3391448702023818792}
-  playerUI: {fileID: 6700488208951052106}
+  PlayerHead: {fileID: 0}
+  PlayerBody: {fileID: 0}
+  RespawnDelay: 0
 --- !u!114 &7752479045729103711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6639,17 +6623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46154c6a57c5194cb8179ee92e860e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
-  _playerNetwork: {fileID: 8200320052041686988}
-  _playerAim: {fileID: 3721964784766542707}
-  _escapeUI: {fileID: 1566723534717607797}
-  _quitGameButton: {fileID: 4551601665048309989}
-  _scoreBoard: {fileID: 3671331757476281013}
-  _bulletHud: {fileID: 8352911769655062095}
-  _weaponHud: {fileID: 653372931691667460}
-  _crossHair: {fileID: 3268467905913513269}
-  playerScoreboardItem: {fileID: 391833806404409984, guid: 2917454508093bd488e708db262baafc, type: 3}
-  playerScoreboardList: {fileID: 5154763167290916931}
+  _playerCanvas: {fileID: 0}
 --- !u!114 &2912334420687421683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6725,7 +6699,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
   FootstepAudioVolume: 0.5
-  playerModel: {fileID: 3167414634477638001}
 --- !u!114 &2527947492270828723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6794,10 +6767,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103e755e890646e4e96e108f2f143d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 3391448702023818792}
-  hitEffect: {fileID: 7980834632186611589}
-  hitBodyAlpha: 43
-  hitHeadAlpha: 143
+  HP:
+    m_InternalValue: 1
+  IsPlayerDead: 0
 --- !u!114 &634530322159841188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6810,10 +6782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1c5fa5e4222824a983a28184e6c46a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletSpawnPoint: {fileID: 7087505307511436483}
-  hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
-  playerAssetsInputs: {fileID: 2912334420687421683}
-  FireCoolDown: 0.2
+  _hitEffect: {fileID: 0}
 --- !u!114 &7016374966649227858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6838,9 +6807,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbb7ae00c97e8c478333cfe2f454c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerUI: {fileID: 7752479045729103711}
-  _playerReload: {fileID: 4763198483577472323}
-  _weaponHolder: {fileID: 242424453162288860}
 --- !u!114 &4763198483577472323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6853,7 +6819,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce37de0135b180f4ca8f361e51be1785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
 --- !u!114 &1185568898052280712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6880,8 +6845,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecaa6534025523438ac0b7f92d52e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
-  _weaponHolder: {fileID: 242424453162288860}
 --- !u!114 &2555932696361061220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6894,9 +6857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcdb3d53de57e141a52e7dbbd67f35b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAim: {fileID: 3721964784766542707}
-  _weaponHolder: {fileID: 242424453162288860}
-  _scopeAim: {fileID: 8201040325478074755}
   normalFOV: 40
   fovSpeed: 10
 --- !u!114 &675728657005383279
@@ -7685,9 +7645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a8d5348f4085c40bd2527f891e8eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
-  _playerInventory: {fileID: 6974190241322348192}
-  _playerReload: {fileID: 4763198483577472323}
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _currentGrenade: {fileID: 9115655838255600341}
 --- !u!114 &1423345229356989621
@@ -8405,7 +8362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1079af39dec007e448ed5e807879b366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTakeDamage: {fileID: 2959830739264947113}
 --- !u!1 &5644263655936684139
 GameObject:
   m_ObjectHideFlags: 0
@@ -8970,11 +8926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
-  _playerInventory: {fileID: 6974190241322348192}
-  _playerReload: {fileID: 4763198483577472323}
-  _playerShoot: {fileID: 634530322159841188}
-  _playerAim: {fileID: 3721964784766542707}
   FireCoolDown: 2
   shootEffect: {fileID: 6577332735403547560}
   _aimFOV: 10
@@ -9014,7 +8965,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRifle: 0
   IsPistol: 0
-  canvas: {fileID: 7232729180504937563}
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
@@ -10551,7 +10501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5049b1619332b0244b9bb28281f9043c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTakeDamage: {fileID: 2959830739264947113}
 --- !u!1 &6729522930442088527
 GameObject:
   m_ObjectHideFlags: 0
@@ -11248,6 +11197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3648ccbf1124c9541a57883cc58e53fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthUI: {fileID: 0}
 --- !u!1 &7734338860590835135
 GameObject:
   m_ObjectHideFlags: 0
@@ -12280,11 +12230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
-  _playerInventory: {fileID: 6974190241322348192}
-  _playerReload: {fileID: 4763198483577472323}
-  _playerShoot: {fileID: 634530322159841188}
-  _playerAim: {fileID: 3721964784766542707}
   FireCoolDown: 0.15
   shootEffect: {fileID: 4214811040772116781}
   _aimFOV: 0
@@ -12324,7 +12269,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRifle: 0
   IsPistol: 1
-  canvas: {fileID: 6728744365868198826}
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
@@ -13120,8 +13064,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fa16d510cf36f449f31c296070c289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 2912334420687421683}
-  _playerUI: {fileID: 7752479045729103711}
 --- !u!1 &8663247112928417616
 GameObject:
   m_ObjectHideFlags: 0

@@ -326,7 +326,7 @@ namespace PlayerAssets
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
-        [SerializeField] public GameObject playerModel;
+        // [SerializeField] public GameObject playerModel;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -394,15 +394,15 @@ namespace PlayerAssets
 
         void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
+            // _hasAnimator = TryGetComponent(out _animator);
 
             GroundedCheck();
             JumpAndGravity();
             Move();
 
-            playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
+            // playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
 
-            transform.SetLocalPositionAndRotation(_currentPos, transform.localRotation);
+            // transform.SetLocalPositionAndRotation(_currentPos, transform.localRotation);
         }
 
         private void LateUpdate()
@@ -426,7 +426,7 @@ namespace PlayerAssets
 
             if (_hasAnimator)
             {
-                _animator.SetBool(_animIDGrounded, Grounded);
+                // _animator.SetBool(_animIDGrounded, Grounded);
             }
         }
 
@@ -468,12 +468,12 @@ namespace PlayerAssets
 
             if (_hasAnimator)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                // _animator.SetFloat(_animIDSpeed, _animationBlend);
+                // _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
 
-            transform.localPosition = Vector3.Lerp(_currentPos, _currentPos, 0);
-            transform.localRotation = playerModel.transform.rotation;
+            // transform.localPosition = Vector3.Lerp(_currentPos, _currentPos, 0);
+            // transform.localRotation = playerModel.transform.rotation;
         }
 
         private void JumpAndGravity()
@@ -484,8 +484,8 @@ namespace PlayerAssets
 
                 if (_hasAnimator)
                 {
-                    _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
+                    // _animator.SetBool(_animIDJump, false);
+                    // _animator.SetBool(_animIDFreeFall, false);
                 }
 
                 if (_verticalVelocity < 0.0f)
@@ -520,7 +520,7 @@ namespace PlayerAssets
                 {
                     if (_hasAnimator)
                     {
-                        _animator.SetBool(_animIDFreeFall, true);
+                        // _animator.SetBool(_animIDFreeFall, true);
                     }
                 }
 

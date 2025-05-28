@@ -27,18 +27,31 @@ public class SniperAnimation : NetworkBehaviour
         };
     }
 
+    void OnEnable()
+    {
+        animator.Rebind();
+        animator.Update(0f);
+    }
+
+    bool _isPressed = false;
+
     void Update()
     {
         if (!IsOwner) return;
 
         if (PlayerRoot.PlayerAssetsInputs.shoot == true &&
-        animator.GetBool("Shoot") == false && animator.GetBool("Reload_Single") == false)
+        animator.GetBool("Shoot") == false &&
+        animator.GetBool("Reload_Single") == false &&
+        _isPressed == false)
         {
+            _isPressed = true;
             animator.SetBool("Shoot", true);
 
             if (PlayerRoot.PlayerAim.ToggleAim == true)
                 PlayerRoot.PlayerCamera.UnAimScope();
         }
+
+        if (PlayerRoot.PlayerAssetsInputs.shoot == false) _isPressed = false;
     }
 
     public void DoneShoot()
