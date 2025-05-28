@@ -21,15 +21,12 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     public PlayerHead PlayerHead;
     public PlayerBody PlayerBody;
 
+    public float RespawnDelay;
+    public Canvas playerUI;
 
-    // public float RespawnDelay;
-    // public Canvas playerUI;
+    private GameObject[] spawnerList;
 
-    // private GameObject[] spawnerList;
-
-    // List<PlayerInfo> playerInfos;
-
-
+    List<PlayerInfo> playerInfos;
 
     public struct PlayerInfo
     {
@@ -77,27 +74,27 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     {
         if (IsOwner == false) return;
 
+        // Handling random spawning
+        spawnerList = new GameObject[4];
 
-        // // Handling random spawning
-        // spawnerList = new GameObject[4];
+        spawnerList = GameObject.FindGameObjectsWithTag("Spawner");
 
-        // spawnerList = GameObject.FindGameObjectsWithTag("Spawner");
+        // spawnerList[0] = GameObject.Find("Spawner1");
+        // spawnerList[1] = GameObject.Find("Spawner2");
+        // spawnerList[2] = GameObject.Find("Spawner3");
+        // spawnerList[3] = GameObject.Find("Spawner4");
 
-        // // spawnerList[0] = GameObject.Find("Spawner1");
-        // // spawnerList[1] = GameObject.Find("Spawner2");
-        // // spawnerList[2] = GameObject.Find("Spawner3");
-        // // spawnerList[3] = GameObject.Find("Spawner4");
-        // if (spawnerList != null)
-        // {
-        //     int randomIndex = UnityEngine.Random.Range(0, spawnerList.Length);
-        //     GameObject randomObject = spawnerList[randomIndex];
+        if (spawnerList != null && spawnerList.Length <= 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, spawnerList.Length);
+            GameObject randomObject = spawnerList[randomIndex];
 
-        //     transform.position = randomObject.transform.position;
-        // }
+            transform.position = randomObject.transform.position;
+        }
 
 
-        // KillCount = new();
-        // DeathCount = new();
+        KillCount = new();
+        DeathCount = new();
 
 
         EnableScripts();
