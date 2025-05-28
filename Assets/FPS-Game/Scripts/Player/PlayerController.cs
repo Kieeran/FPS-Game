@@ -268,7 +268,6 @@
 //     }
 // }
 
-using Unity.VisualScripting;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -326,18 +325,18 @@ namespace PlayerAssets
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
-        // [SerializeField] public GameObject playerModel;
+        [SerializeField] GameObject _playerModel;
+        [SerializeField] Animator _animator;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
 #endif
-        private Animator _animator;
         private CharacterController _controller;
         private PlayerAssetsInputs _input;
         private GameObject _mainCamera;
 
         private const float _threshold = 0.01f;
-        private bool _hasAnimator;
+        // public bool _hasAnimator;
 
         // Animator parameters
         private int _animIDSpeed;
@@ -373,7 +372,7 @@ namespace PlayerAssets
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
-            _hasAnimator = TryGetComponent(out _animator);
+            // _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<PlayerAssetsInputs>();
 
@@ -400,7 +399,7 @@ namespace PlayerAssets
             JumpAndGravity();
             Move();
 
-            // playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
+            _playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
 
             // transform.SetLocalPositionAndRotation(_currentPos, transform.localRotation);
         }
@@ -424,10 +423,12 @@ namespace PlayerAssets
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
             Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 
-            if (_hasAnimator)
-            {
-                // _animator.SetBool(_animIDGrounded, Grounded);
-            }
+            // if (_hasAnimator)
+            // {
+            //     _animator.SetBool(_animIDGrounded, Grounded);
+            // }
+
+            _animator.SetBool(_animIDGrounded, Grounded);
         }
 
         private void Move()
@@ -466,14 +467,19 @@ namespace PlayerAssets
 
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-            if (_hasAnimator)
-            {
-                // _animator.SetFloat(_animIDSpeed, _animationBlend);
-                // _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-            }
+            // if (_hasAnimator)
+            // {
+            //     _animator.SetFloat(_animIDSpeed, _animationBlend);
+            //     _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+            // }
 
-            // transform.localPosition = Vector3.Lerp(_currentPos, _currentPos, 0);
-            // transform.localRotation = playerModel.transform.rotation;
+            _animator.SetFloat(_animIDSpeed, _animationBlend);
+            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+
+            // transform.SetLocalPositionAndRotation(
+            //     Vector3.Lerp(_currentPos, _currentPos, 0),
+            //     _playerModel.transform.rotation
+            // );
         }
 
         private void JumpAndGravity()
@@ -482,11 +488,14 @@ namespace PlayerAssets
             {
                 _fallTimeoutDelta = FallTimeout;
 
-                if (_hasAnimator)
-                {
-                    // _animator.SetBool(_animIDJump, false);
-                    // _animator.SetBool(_animIDFreeFall, false);
-                }
+                // if (_hasAnimator)
+                // {
+                //     _animator.SetBool(_animIDJump, false);
+                //     _animator.SetBool(_animIDFreeFall, false);
+                // }
+
+                _animator.SetBool(_animIDJump, false);
+                _animator.SetBool(_animIDFreeFall, false);
 
                 if (_verticalVelocity < 0.0f)
                 {
@@ -497,10 +506,12 @@ namespace PlayerAssets
                 {
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDJump, true);
-                    }
+                    // if (_hasAnimator)
+                    // {
+                    //     _animator.SetBool(_animIDJump, true);
+                    // }
+
+                    _animator.SetBool(_animIDJump, true);
                 }
 
                 if (_jumpTimeoutDelta >= 0.0f)
@@ -518,10 +529,12 @@ namespace PlayerAssets
                 }
                 else
                 {
-                    if (_hasAnimator)
-                    {
-                        // _animator.SetBool(_animIDFreeFall, true);
-                    }
+                    // if (_hasAnimator)
+                    // {
+                    //     _animator.SetBool(_animIDFreeFall, true);
+                    // }
+
+                    _animator.SetBool(_animIDFreeFall, true);
                 }
 
                 _input.jump = false;
