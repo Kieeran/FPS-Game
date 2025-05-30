@@ -5932,7 +5932,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 1.88
   m_Radius: 0.1
   m_SlopeLimit: 45
   m_StepOffset: 0.25
@@ -12609,9 +12609,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseUnreliableDeltas: 0
-  SyncPositionX: 0
-  SyncPositionY: 0
-  SyncPositionZ: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
   SyncRotAngleX: 0
   SyncRotAngleY: 1
   SyncRotAngleZ: 0
