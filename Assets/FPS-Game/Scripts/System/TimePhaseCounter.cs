@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,16 +12,21 @@ public enum MatchPhase
 
 public class TimePhaseCounter : NetworkBehaviour
 {
+    [Header("Network Variable")]
+    public NetworkVariable<MatchPhase> _currentPhase = new(MatchPhase.Waiting);
+    public NetworkVariable<double> _currentPhaseStartTime = new NetworkVariable<double>(0);
+    public NetworkVariable<float> _currentPhaseDuration = new NetworkVariable<float>(0f);
+
+    [Header("Phase Durations")]
     public float waitingPhaseDuration;
     public float preparationPhaseDuration;
     public float combatPhaseDuration;
     public float resultPhaseDuration;
 
-    [HideInInspector]
-    public NetworkVariable<float> CurrentPhaseTimeRemaining = new(0f);
-    NetworkVariable<MatchPhase> currentPhase = new(MatchPhase.Waiting);
+    [Space(10)]
+    public int _lastDisplayedSeconds = -1;
 
-    bool _isPhaseRunning = false;
+    public Action<int> OnTimeChanged;
 
     public override void OnNetworkSpawn()
     {
@@ -29,29 +35,33 @@ public class TimePhaseCounter : NetworkBehaviour
             StartPhase(MatchPhase.Waiting, waitingPhaseDuration);
         }
 
-        currentPhase.OnValueChanged += OnPhaseChanged;
-        CurrentPhaseTimeRemaining.OnValueChanged += (oldVal, newVal) => UpdateTimerUI(newVal);
+        // UIs
+        _currentPhase.OnValueChanged += OnPhaseChanged;
     }
 
     void Update()
     {
-        if (!IsServer || !_isPhaseRunning) return;
+        double timeElapsed = NetworkManager.Singleton.LocalTime.Time - _currentPhaseStartTime.Value;
+        float remaining = Mathf.Max(_currentPhaseDuration.Value - (float)timeElapsed, 0f);
 
-        if (CurrentPhaseTimeRemaining.Value > 0)
+        UpdateTimerUI(remaining);
+
+        int secondsToDisplay = Mathf.FloorToInt(remaining);
+        if (secondsToDisplay != _lastDisplayedSeconds)
         {
-            CurrentPhaseTimeRemaining.Value -= Time.deltaTime;
+            _lastDisplayedSeconds = secondsToDisplay;
+            OnTimeChanged?.Invoke(secondsToDisplay);
         }
-        else
+
+        if (IsServer && remaining <= 0)
         {
-            CurrentPhaseTimeRemaining.Value = 0;
-            _isPhaseRunning = false;
-            OnPhaseEnded();
+            AdvancePhase();
         }
     }
 
-    private void OnPhaseEnded()
+    private void AdvancePhase()
     {
-        switch (currentPhase.Value)
+        switch (_currentPhase.Value)
         {
             case MatchPhase.Waiting:
                 StartPhase(MatchPhase.Preparation, preparationPhaseDuration);
@@ -63,8 +73,8 @@ public class TimePhaseCounter : NetworkBehaviour
                 StartPhase(MatchPhase.Result, resultPhaseDuration);
                 break;
             case MatchPhase.Result:
-                Debug.Log("Match Ended!");
-                // TODO: Kết thúc game hoặc quay về lobby
+                Debug.Log("Match ended.");
+                // TODO: Gọi hàm kết thúc trận đấu hoặc quay về lobby
                 break;
         }
     }
@@ -76,9 +86,10 @@ public class TimePhaseCounter : NetworkBehaviour
 
     void StartPhase(MatchPhase phase, float duration)
     {
-        currentPhase.Value = phase;
-        CurrentPhaseTimeRemaining.Value = duration;
-        _isPhaseRunning = true;
+        _currentPhase.Value = phase;
+
+        _currentPhaseStartTime.Value = NetworkManager.ServerTime.Time;
+        _currentPhaseDuration.Value = duration;
     }
 
     void UpdateTimerUI(float seconds)

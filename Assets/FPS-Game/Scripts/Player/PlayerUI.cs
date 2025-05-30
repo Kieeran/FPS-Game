@@ -48,7 +48,7 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
             CurrentPlayerCanvas.ToggleCrossHair(true);
         };
 
-        GameManager.Instance.TimePhaseCounter.CurrentPhaseTimeRemaining.OnValueChanged += (oldVal, newVal) => UpdateTimerUI(newVal);
+        GameManager.Instance.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
     }
 
     public void AddTakeDamageEffect(string shotType, ulong targetClientId)
@@ -96,9 +96,11 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
         }
     }
 
-    void UpdateTimerUI(float seconds)
+    void UpdateTimerUI(int seconds)
     {
-        CurrentPlayerCanvas.UpdateTimerNum(Mathf.RoundToInt(seconds));
+        int mins = seconds / 60;
+        int secs = seconds % 60;
+        CurrentPlayerCanvas.UpdateTimerNum(mins, secs);
     }
 
     void Update()

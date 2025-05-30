@@ -32,10 +32,8 @@ public class PlayerCanvas : MonoBehaviour
         Scoreboard.gameObject.SetActive(!Scoreboard.gameObject.activeSelf);
     }
 
-    public void UpdateTimerNum(int seconds)
+    public void UpdateTimerNum(int mins, int secs)
     {
-        int minutes = seconds / 60;
-        int secs = seconds % 60;
-        timerNum.text = $"{minutes}:{secs:D2}";
+        timerNum.text = $"{mins}:{secs:D2}";
     }
 }
