@@ -4573,6 +4573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1957954801315663397}
   - component: {fileID: 1571463807456523207}
+  - component: {fileID: 6928678171669489212}
   m_Layer: 0
   m_Name: WeaponHolder
   m_TagString: Untagged
@@ -4612,6 +4613,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fa16d510cf36f449f31c296070c289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6928678171669489212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323722425924976332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &2324842217495540853
 GameObject:
   m_ObjectHideFlags: 0

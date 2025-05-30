@@ -17,14 +17,9 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     public PlayerRoot PlayerRoot { get; private set; }
 
-    // public PlayerHead PlayerHead;
-    // public PlayerBody PlayerBody;
-
     public float RespawnDelay;
 
     private GameObject[] spawnerList;
-
-    List<PlayerInfo> playerInfos;
 
     public struct PlayerInfo
     {
@@ -42,19 +37,11 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     List<PlayerInfo> _playerInfos;
 
-    // Vector3 originPosHead;
-    // Quaternion originRotHead;
-
-    // Vector3 originPosBody;
-    // Quaternion originRotBody;
-
     // Awake
     public int PriorityAwake => 1000;
     public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
-        // SetOrigin();
-
         _playerInfos = new List<PlayerInfo>();
     }
 
@@ -62,8 +49,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     public int PriorityStart => 1000;
     public void InitializeStart()
     {
-        // PlayerHead.Rb.isKinematic = true;
-        // PlayerBody.Rb.isKinematic = true;
+
     }
 
     // OnNetworkSpawn
@@ -110,40 +96,21 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
         SetCinemachineVirtualCamera();
 
-        // PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
+        PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
 
         PlayerRoot.PlayerModel.HideHead();
     }
 
-    // void OnDisable()
-    // {
-    //     PlayerRoot.PlayerTakeDamage.PlayerDead -= OnPlayerDead;
-    // }
-
-    // void SetOrigin()
-    // {
-    //     originPosHead = PlayerHead.transform.localPosition;
-    //     originRotHead = PlayerHead.transform.localRotation;
-
-    //     originPosBody = PlayerBody.transform.localPosition;
-    //     originRotBody = PlayerBody.transform.localRotation;
-    // }
-
-    // void ResetParts()
-    // {
-    //     PlayerHead.transform.SetLocalPositionAndRotation(originPosHead, originRotHead);
-    //     PlayerBody.transform.SetLocalPositionAndRotation(originPosBody, originRotBody);
-    // }
+    void OnDisable()
+    {
+        PlayerRoot.PlayerTakeDamage.PlayerDead -= OnPlayerDead;
+    }
 
     void SetCinemachineVirtualCamera()
     {
         CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
         {
-            // Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
-            // Transform[] allChildren = transform.GetComponentsInChildren<Transform>();
-            // Transform playerCamera = allChildren.FirstOrDefault(t => t.name == "PlayerCamera");
-
             Transform playerCamera = null;
 
             foreach (Transform child in transform)
@@ -171,53 +138,53 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
         }
     }
 
-    #region =========================================At Spawn=========================================
-    [ServerRpc(RequireOwnership = false)]
-    void SetRandomPosAtSpawn_ServerRpc(ulong clientId)
-    {
-        Transform randomPos = GameManager.Instance.GetRandomPos();
-        if (randomPos == null)
-        {
-            Debug.Log("Null");
-            return;
-        }
+    // #region =========================================At Spawn=========================================
+    // [ServerRpc(RequireOwnership = false)]
+    // void SetRandomPosAtSpawn_ServerRpc(ulong clientId)
+    // {
+    //     Transform randomPos = GameManager.Instance.GetRandomPos();
+    //     if (randomPos == null)
+    //     {
+    //         Debug.Log("Null");
+    //         return;
+    //     }
 
-        SetRandomPosAtSpawn_ClientRpc(
-            randomPos.position,
-            new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams
-                {
-                    TargetClientIds = new List<ulong> { clientId }
-                }
-            }
-        );
-    }
+    //     SetRandomPosAtSpawn_ClientRpc(
+    //         randomPos.position,
+    //         new ClientRpcParams
+    //         {
+    //             Send = new ClientRpcSendParams
+    //             {
+    //                 TargetClientIds = new List<ulong> { clientId }
+    //             }
+    //         }
+    //     );
+    // }
 
-    [ClientRpc]
-    void SetRandomPosAtSpawn_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
-    {
-        PlayerRoot.CharacterController.enabled = false;
-        PlayerRoot.PlayerController.enabled = false;
+    // [ClientRpc]
+    // void SetRandomPosAtSpawn_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
+    // {
+    //     PlayerRoot.CharacterController.enabled = false;
+    //     PlayerRoot.PlayerController.enabled = false;
 
-        PlayerRoot.ClientNetworkTransform.Interpolate = false;
+    //     PlayerRoot.ClientNetworkTransform.Interpolate = false;
 
-        transform.position = randomPos;
+    //     transform.position = randomPos;
 
-        Invoke(nameof(EnableInterpolationAtSpawn), 0.1f);
+    //     Invoke(nameof(EnableInterpolationAtSpawn), 0.1f);
 
-        PlayerRoot.CharacterController.enabled = true;
-        PlayerRoot.PlayerController.enabled = true;
-    }
+    //     PlayerRoot.CharacterController.enabled = true;
+    //     PlayerRoot.PlayerController.enabled = true;
+    // }
 
-    void EnableInterpolationAtSpawn()
-    {
-        if (PlayerRoot.ClientNetworkTransform != null)
-        {
-            PlayerRoot.ClientNetworkTransform.Interpolate = true;
-        }
-    }
-    #endregion ============================================================================================
+    // void EnableInterpolationAtSpawn()
+    // {
+    //     if (PlayerRoot.ClientNetworkTransform != null)
+    //     {
+    //         PlayerRoot.ClientNetworkTransform.Interpolate = true;
+    //     }
+    // }
+    // #endregion ============================================================================================
 
     [ServerRpc(RequireOwnership = false)]
     void SetRandomPos_ServerRpc(ulong clientId)
@@ -244,6 +211,8 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     [ClientRpc]
     void SetRandomPos_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
     {
+        PlayerRoot.PlayerModel.OnPlayerRespawn();
+
         PlayerRoot.ClientNetworkTransform.Interpolate = false;
 
         transform.position = randomPos;
@@ -271,19 +240,28 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     void OnPlayerDead()
     {
-        // PlayerRoot.CharacterController.enabled = false;
-        // PlayerRoot.PlayerController.enabled = false;
+        PlayerRoot.CharacterController.enabled = false;
+        PlayerRoot.PlayerController.enabled = false;
 
-        // DeadAnimation();
+        DeadAnimation();
 
-        // Invoke(nameof(RequestSetRandomPos), RespawnDelay);
+        Invoke(nameof(RequestSetRandomPos), RespawnDelay);
     }
 
     void DeadAnimation()
     {
-        // RemoveCinemachineVirtualCamera();
-        // AddRig();
-        // Invoke(nameof(RestartModel), RespawnDelay);
+        RemoveCinemachineVirtualCamera();
+
+        PlayerRoot.PlayerModel.OnPlayerDie();
+        PlayerRoot.WeaponHolder.DropWeapon();
+
+        Invoke(nameof(Respawn), RespawnDelay);
+    }
+
+    void Respawn()
+    {
+        PlayerRoot.WeaponHolder.ResetWeaponHolder();
+        SetCinemachineVirtualCamera();
     }
 
     void EnableScripts()
@@ -313,28 +291,13 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
         }
     }
 
-    // void AddRig()
-    // {
-    //     PlayerHead.Rb.isKinematic = false;
-    //     PlayerBody.Rb.isKinematic = false;
-    // }
-
-    // void RestartModel()
-    // {
-    //     PlayerHead.Rb.isKinematic = true;
-    //     PlayerBody.Rb.isKinematic = true;
-
-    //     ResetParts();
-    //     SetCinemachineVirtualCamera();
-    // }
-
     void Update()
     {
         if (IsOwner == false) return;
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            // DeadAnimation();
+            OnPlayerDead();
             // GetAllPlayerInfos_ServerRPC(OwnerClientId);
         }
     }

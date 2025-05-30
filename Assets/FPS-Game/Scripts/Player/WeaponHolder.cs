@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using PlayerAssets;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
@@ -20,6 +22,11 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 
     public List<GameObject> GetWeaponList() { return _weaponList; }
 
+    public Rigidbody Rb { get; private set; }
+
+    Vector3 originWeaponHolderPos;
+    Quaternion originWeaponHolderRot;
+
     // Awake
     public int PriorityAwake => 1000;
     public void InitializeAwake()
@@ -33,6 +40,12 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
             if (child.gameObject.activeSelf == true)
                 _weaponList.Add(child.gameObject);
         }
+
+        SetOrigin();
+
+        Rb = gameObject.AddComponent<Rigidbody>();
+        gameObject.AddComponent<NetworkRigidbody>();
+        StartCoroutine(SetKinematicNextFrame());
     }
 
     // OnNetworkSpawn
@@ -122,5 +135,29 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         {
             _weaponList[i].SetActive(weaponIndex == i);
         }
+    }
+
+    IEnumerator SetKinematicNextFrame()
+    {
+        yield return null; // đợi 1 frame
+
+        ResetWeaponHolder();
+    }
+
+    void SetOrigin()
+    {
+        originWeaponHolderPos = transform.localPosition;
+        originWeaponHolderRot = transform.localRotation;
+    }
+
+    public void DropWeapon()
+    {
+        Rb.isKinematic = false;
+    }
+
+    public void ResetWeaponHolder()
+    {
+        Rb.isKinematic = true;
+        transform.SetLocalPositionAndRotation(originWeaponHolderPos, originWeaponHolderRot);
     }
 }
