@@ -27,9 +27,12 @@ public class PlayerShoot : NetworkBehaviour
         ) * shootDirection;
 
         Ray ray = new(point, spreadDirection);
-        int layerMask = ~(1 << 2);
 
-        // Raycast bỏ qua Ignore Raycast layer
+        int ignoreRaycastLayer = LayerMask.NameToLayer("Ignore Raycast");
+        int dummyLayer = LayerMask.NameToLayer("Dummy");
+        int layerMask = ~((1 << ignoreRaycastLayer) | (1 << dummyLayer));
+
+        // Raycast bỏ qua Ignore Raycast layer và Dummy
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
         {
             BulletHitSpawn_ClientRpc(hit.point);
