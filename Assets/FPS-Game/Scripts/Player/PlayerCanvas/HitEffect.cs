@@ -13,16 +13,29 @@ public class HitEffect : MonoBehaviour
         Effect = GetComponent<Image>();
     }
 
-    public void StartFadeHitEffect(float damage)
+    public void StartFadeHitEffect(string shotType)
     {
-        if (damage == 0.05f)
+        switch (shotType)
         {
-            StartCoroutine(FadeHitEffect(Effect, _hitBodyAlpha / 255));
+            case "Headshot":
+                StartCoroutine(FadeHitEffect(Effect, _hitHeadAlpha / 255));
+                break;
+            case "Torsoshot":
+            case "Legshot":
+                StartCoroutine(FadeHitEffect(Effect, _hitBodyAlpha / 255));
+                break;
+            default:
+                Debug.Log("Unvalid shotType ");
+                break;
         }
-        else if (damage == 0.1f)
-        {
-            StartCoroutine(FadeHitEffect(Effect, _hitHeadAlpha / 255));
-        }
+        // if (damage == 0.05f || damage == 0.02f)
+        // {
+        //     StartCoroutine(FadeHitEffect(Effect, _hitBodyAlpha / 255));
+        // }
+        // else if (damage == 0.1f)
+        // {
+        //     StartCoroutine(FadeHitEffect(Effect, _hitHeadAlpha / 255));
+        // }
     }
 
     public IEnumerator FadeHitEffect(Image hitEffect, float targetAlpha)

@@ -6016,6 +6016,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
+  _headDamage: 0.1
+  _torsoDamage: 0.05
+  _legDamage: 0.02
 --- !u!114 &3776603355074829376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14232,7 +14235,7 @@ GameObject:
   - component: {fileID: 9081781581866689825}
   - component: {fileID: 7034986586507937392}
   - component: {fileID: 1646963638256195603}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}

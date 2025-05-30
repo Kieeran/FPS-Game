@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerShoot : NetworkBehaviour
 {
     [SerializeField] GameObject _hitEffect;
+    [SerializeField] float _headDamage;
+    [SerializeField] float _torsoDamage;
+    [SerializeField] float _legDamage;
 
     public void Shoot(float spreadAngle)
     {
@@ -31,72 +34,34 @@ public class PlayerShoot : NetworkBehaviour
         {
             BulletHitSpawn_ClientRpc(hit.point);
 
-            // Transform player = hit.collider.transform.root;
+            Transform player = hit.collider.transform.root;
 
-            // PlayerBody playerBody = hit.collider.GetComponent<PlayerBody>();
-            // PlayerHead playerHead = hit.collider.GetComponent<PlayerHead>();
+            if (player != null)
+            {
+                if (hit.transform.CompareTag("PlayerHead"))
+                {
+                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
+                    {
+                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_headDamage, "Headshot", networkObject.OwnerClientId, OwnerClientId);
+                    }
+                }
 
-            // if (player != null)
-            // {
-            //     if (playerBody != null)
-            //     {
-            //         if (player.TryGetComponent<NetworkObject>(out var networkObject))
-            //         {
-            //             player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId, OwnerClientId);
-            //         }
-            //     }
+                else if (hit.transform.CompareTag("PlayerTorso"))
+                {
+                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
+                    {
+                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_torsoDamage, "Torsoshot", networkObject.OwnerClientId, OwnerClientId);
+                    }
+                }
 
-            //     if (playerHead != null)
-            //     {
-            //         if (player.TryGetComponent<NetworkObject>(out var networkObject))
-            //         {
-            //             player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId, OwnerClientId);
-            //         }
-            //     }
-            // }
-
-            // Transform rootPlayerTransform = hit.collider.transform;
-
-            // while (rootPlayerTransform != null && rootPlayerTransform.GetComponent<NetworkObject>() == null)
-            // {
-            //     if (player != null)
-            //     {
-            //         if (player.TryGetComponent<NetworkObject>(out var networkObject))
-            //         {
-            //             player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId, OwnerClientId);
-            //         }
-            //     }
-            //     rootPlayerTransform = rootPlayerTransform.parent;
-
-            // }
-
-            // if (rootPlayerTransform != null)
-            // {
-            //     if (player != null)
-            //     {
-            //         if (player.TryGetComponent<NetworkObject>(out var networkObject))
-            //         {
-            //             player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId, OwnerClientId);
-            //         }
-            //         PlayerBody playerBody = rootPlayerTransform.GetComponentInChildren<PlayerBody>(true);
-            //         PlayerHead playerHead = rootPlayerTransform.GetComponentInChildren<PlayerHead>(true);
-
-            //         if (playerBody == null) Debug.Log("playerBody = null");
-            //         if (playerHead == null) Debug.Log("playerHead = null");
-
-            //         if (playerBody != null)
-            //         {
-            //             NetworkObject netObj = rootPlayerTransform.GetComponent<NetworkObject>();
-            //             rootPlayerTransform.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, netObj.OwnerClientId, OwnerClientId);
-            //         }
-
-            //         if (playerHead != null)
-            //         {
-            //             NetworkObject netObj = rootPlayerTransform.GetComponent<NetworkObject>();
-            //             rootPlayerTransform.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, netObj.OwnerClientId, OwnerClientId);
-            //         }
-            //     }
-            // }
+                else if (hit.transform.CompareTag("PlayerLeg"))
+                {
+                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
+                    {
+                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_legDamage, "Legshot", networkObject.OwnerClientId, OwnerClientId);
+                    }
+                }
+            }
         }
     }
 
