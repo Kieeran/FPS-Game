@@ -47,6 +47,8 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
         {
             CurrentPlayerCanvas.ToggleCrossHair(true);
         };
+
+        GameManager.Instance.TimePhaseCounter.CurrentPhaseTimeRemaining.OnValueChanged += (oldVal, newVal) => UpdateTimerUI(newVal);
     }
 
     public void AddTakeDamageEffect(string shotType, ulong targetClientId)
@@ -92,6 +94,11 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
             // GameSceneManager.Instance.LoadPreviousScene();
             GameSceneManager.Instance.LoadScene("Lobby Room");
         }
+    }
+
+    void UpdateTimerUI(float seconds)
+    {
+        CurrentPlayerCanvas.UpdateTimerNum(Mathf.RoundToInt(seconds));
     }
 
     void Update()

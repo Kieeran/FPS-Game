@@ -11,6 +11,7 @@ public class GameManager : NetworkBehaviour
     public static GameManager Instance { get; private set; }
     public CinemachineVirtualCamera GetCinemachineVirtualCamera() { return _cinemachineVirtualCamera; }
     public List<Transform> SpawnPositionsList { get; private set; }
+    public TimePhaseCounter TimePhaseCounter { get; private set; }
 
     void Awake()
     {
@@ -22,6 +23,8 @@ public class GameManager : NetworkBehaviour
         Instance = this;
 
         InitSpawnPositions();
+
+        TimePhaseCounter = GetComponent<TimePhaseCounter>();
     }
 
     void InitSpawnPositions()

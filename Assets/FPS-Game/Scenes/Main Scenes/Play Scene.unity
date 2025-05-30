@@ -1835,8 +1835,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1484286840}
   - component: {fileID: 1484286841}
-  - component: {fileID: 1484286842}
   - component: {fileID: 1484286839}
+  - component: {fileID: 1484286842}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1902,14 +1902,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1484286838}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b95ff5b453d7f64e992e8761df24edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstPhaseDuration: 5
-  secondPhaseDuration: 3
-  thirdPhaseDuration: 2
+  waitingPhaseDuration: 10
+  preparationPhaseDuration: 5
+  combatPhaseDuration: 20
+  resultPhaseDuration: 5
+  CurrentPhaseTimeRemaining:
+    m_InternalValue: 0
 --- !u!1 &1558338567
 GameObject:
   m_ObjectHideFlags: 0
