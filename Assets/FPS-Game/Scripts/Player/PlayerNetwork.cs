@@ -73,22 +73,30 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
         if (IsOwner == false) return;
 
         // Handling random spawning
-        spawnerList = new GameObject[4];
+        // spawnerList = new GameObject[4];
 
-        spawnerList = GameObject.FindGameObjectsWithTag("Spawner");
+        // spawnerList = GameObject.FindGameObjectsWithTag("Spawner");
 
         // spawnerList[0] = GameObject.Find("Spawner1");
         // spawnerList[1] = GameObject.Find("Spawner2");
         // spawnerList[2] = GameObject.Find("Spawner3");
         // spawnerList[3] = GameObject.Find("Spawner4");
 
-        if (spawnerList != null && spawnerList.Length <= 0)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, spawnerList.Length);
-            GameObject randomObject = spawnerList[randomIndex];
+        // if (spawnerList != null && spawnerList.Length <= 0)
+        // {
+        //     int randomIndex = UnityEngine.Random.Range(0, spawnerList.Length);
+        //     GameObject randomObject = spawnerList[randomIndex];
 
-            transform.position = randomObject.transform.position;
-        }
+        //     transform.position = randomObject.transform.position;
+        // }
+
+        // else
+        // {
+        //     Debug.Log("No hope");
+        // }
+
+        Transform randomPos = GameManager.Instance.GetRandomPos();
+        transform.position = randomPos.position;
 
 
         KillCount = new();
@@ -163,53 +171,53 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
         }
     }
 
-    // #region =========================================At Spawn=========================================
-    // [ServerRpc(RequireOwnership = false)]
-    // void SetRandomPosAtSpawn_ServerRpc(ulong clientId)
-    // {
-    //     Transform randomPos = GameManager.Instance.GetRandomPos();
-    //     if (randomPos == null)
-    //     {
-    //         Debug.Log("Null");
-    //         return;
-    //     }
+    #region =========================================At Spawn=========================================
+    [ServerRpc(RequireOwnership = false)]
+    void SetRandomPosAtSpawn_ServerRpc(ulong clientId)
+    {
+        Transform randomPos = GameManager.Instance.GetRandomPos();
+        if (randomPos == null)
+        {
+            Debug.Log("Null");
+            return;
+        }
 
-    //     SetRandomPosAtSpawn_ClientRpc(
-    //         randomPos.position,
-    //         new ClientRpcParams
-    //         {
-    //             Send = new ClientRpcSendParams
-    //             {
-    //                 TargetClientIds = new List<ulong> { clientId }
-    //             }
-    //         }
-    //     );
-    // }
+        SetRandomPosAtSpawn_ClientRpc(
+            randomPos.position,
+            new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new List<ulong> { clientId }
+                }
+            }
+        );
+    }
 
-    // [ClientRpc]
-    // void SetRandomPosAtSpawn_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
-    // {
-    //     PlayerRoot.CharacterController.enabled = false;
-    //     PlayerRoot.PlayerController.enabled = false;
+    [ClientRpc]
+    void SetRandomPosAtSpawn_ClientRpc(Vector3 randomPos, ClientRpcParams clientRpcParams)
+    {
+        PlayerRoot.CharacterController.enabled = false;
+        PlayerRoot.PlayerController.enabled = false;
 
-    //     PlayerRoot.ClientNetworkTransform.Interpolate = false;
+        PlayerRoot.ClientNetworkTransform.Interpolate = false;
 
-    //     transform.position = randomPos;
+        transform.position = randomPos;
 
-    //     Invoke(nameof(EnableInterpolationAtSpawn), 0.1f);
+        Invoke(nameof(EnableInterpolationAtSpawn), 0.1f);
 
-    //     PlayerRoot.CharacterController.enabled = true;
-    //     PlayerRoot.PlayerController.enabled = true;
-    // }
+        PlayerRoot.CharacterController.enabled = true;
+        PlayerRoot.PlayerController.enabled = true;
+    }
 
-    // void EnableInterpolationAtSpawn()
-    // {
-    //     if (PlayerRoot.ClientNetworkTransform != null)
-    //     {
-    //         PlayerRoot.ClientNetworkTransform.Interpolate = true;
-    //     }
-    // }
-    // #endregion ============================================================================================
+    void EnableInterpolationAtSpawn()
+    {
+        if (PlayerRoot.ClientNetworkTransform != null)
+        {
+            PlayerRoot.ClientNetworkTransform.Interpolate = true;
+        }
+    }
+    #endregion ============================================================================================
 
     [ServerRpc(RequireOwnership = false)]
     void SetRandomPos_ServerRpc(ulong clientId)
