@@ -3670,7 +3670,7 @@ GameObject:
   - component: {fileID: 6229587444926380312}
   m_Layer: 0
   m_Name: Sk_Police_girl_torso
-  m_TagString: PlayerBody
+  m_TagString: PlayerTorso
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6292,7 +6292,7 @@ GameObject:
   - component: {fileID: 961340100815689165}
   m_Layer: 8
   m_Name: Sk_Police_girl_leg
-  m_TagString: PlayerBody
+  m_TagString: PlayerLeg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6463,8 +6463,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.4626325, y: 0.2884115, z: 1.1765031}
-  m_Center: {x: 0.009276013, y: 0.014401188, z: 0.56817913}
+  m_Size: {x: 0.4626325, y: 0.2884115, z: 1.0891294}
+  m_Center: {x: 0.009276013, y: 0.014401189, z: 0.5244956}
 --- !u!1 &3151989627777339677
 GameObject:
   m_ObjectHideFlags: 0

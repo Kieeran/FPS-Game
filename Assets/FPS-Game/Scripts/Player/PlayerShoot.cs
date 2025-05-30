@@ -31,29 +31,29 @@ public class PlayerShoot : NetworkBehaviour
         {
             BulletHitSpawn_ClientRpc(hit.point);
 
-            Transform player = hit.collider.transform.root;
+            // Transform player = hit.collider.transform.root;
 
-            PlayerBody playerBody = hit.collider.GetComponent<PlayerBody>();
-            PlayerHead playerHead = hit.collider.GetComponent<PlayerHead>();
+            // PlayerBody playerBody = hit.collider.GetComponent<PlayerBody>();
+            // PlayerHead playerHead = hit.collider.GetComponent<PlayerHead>();
 
-            if (player != null)
-            {
-                if (playerBody != null)
-                {
-                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
-                    {
-                        player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId, OwnerClientId);
-                    }
-                }
+            // if (player != null)
+            // {
+            //     if (playerBody != null)
+            //     {
+            //         if (player.TryGetComponent<NetworkObject>(out var networkObject))
+            //         {
+            //             player.GetComponent<PlayerTakeDamage>().TakeDamage(0.05f, networkObject.OwnerClientId, OwnerClientId);
+            //         }
+            //     }
 
-                if (playerHead != null)
-                {
-                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
-                    {
-                        player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId, OwnerClientId);
-                    }
-                }
-            }
+            //     if (playerHead != null)
+            //     {
+            //         if (player.TryGetComponent<NetworkObject>(out var networkObject))
+            //         {
+            //             player.GetComponent<PlayerTakeDamage>().TakeDamage(0.1f, networkObject.OwnerClientId, OwnerClientId);
+            //         }
+            //     }
+            // }
 
             // Transform rootPlayerTransform = hit.collider.transform;
 

@@ -9,8 +9,9 @@ TagManager:
   - CinemachineTarget
   - Interactable
   - Spawner
+  - PlayerLeg
+  - PlayerTorso
   - PlayerHead
-  - PlayerBody
   layers:
   - Default
   - TransparentFX
