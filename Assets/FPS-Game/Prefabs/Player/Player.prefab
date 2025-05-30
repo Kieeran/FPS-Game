@@ -5851,6 +5851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponHolder: {fileID: 1571463807456523207}
+  _playerModel: {fileID: 3259726636942283676}
 --- !u!114 &411114129890139701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5956,10 +5957,6 @@ MonoBehaviour:
   DeathCount:
     m_InternalValue: 0
   RespawnDelay: 3
-  headParts:
-  - {fileID: 3648110311778012349}
-  - {fileID: 3790781869278159726}
-  - {fileID: 3625977746909435059}
 --- !u!114 &7795738832339507943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12506,9 +12503,10 @@ GameObject:
   - component: {fileID: 1112543772426065889}
   - component: {fileID: 9017631100371318311}
   - component: {fileID: 7462313934132111681}
+  - component: {fileID: 3259726636942283676}
   - component: {fileID: 2141835910137028712}
   m_Layer: 0
-  m_Name: Model
+  m_Name: PlayerModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12565,6 +12563,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: 9017631100371318311}
+--- !u!114 &3259726636942283676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7269146818134583252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7299af810730e744ba68de4e313fc848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headParts:
+  - {fileID: 3648110311778012349}
+  - {fileID: 3790781869278159726}
+  - {fileID: 3625977746909435059}
 --- !u!114 &2141835910137028712
 MonoBehaviour:
   m_ObjectHideFlags: 0

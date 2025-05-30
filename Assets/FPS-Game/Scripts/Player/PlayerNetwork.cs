@@ -5,7 +5,6 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
-using System.Linq;
 
 public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
 {
@@ -48,8 +47,6 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     // Vector3 originPosBody;
     // Quaternion originRotBody;
-
-    public List<Renderer> headParts;
 
     // Awake
     public int PriorityAwake => 1000;
@@ -107,7 +104,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
         // PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
 
-        HideHead();
+        PlayerRoot.PlayerModel.HideHead();
     }
 
     // void OnDisable()
@@ -152,14 +149,6 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
             if (playerCamera != null) _camera.Follow = playerCamera;
             if (_camera.Follow == null) Debug.Log("_camera.Follow = null");
-        }
-    }
-
-    void HideHead()
-    {
-        foreach (var part in headParts)
-        {
-            part.enabled = false;
         }
     }
 
