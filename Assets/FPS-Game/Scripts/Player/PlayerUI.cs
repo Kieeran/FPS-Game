@@ -11,6 +11,8 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
 
     [SerializeField] PlayerCanvas _playerCanvas;
 
+    public Action ToggleEscapeUI;
+
     // Awake
     public int PriorityAwake => 1000;
     public void InitializeAwake()
@@ -109,6 +111,8 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
 
         if (PlayerRoot.PlayerAssetsInputs.escapeUI == true)
         {
+            ToggleEscapeUI?.Invoke();
+
             CurrentPlayerCanvas.ToggleEscapeUI();
             PlayerRoot.PlayerAssetsInputs.escapeUI = false;
         }

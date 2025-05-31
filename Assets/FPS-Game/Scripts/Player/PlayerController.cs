@@ -325,9 +325,12 @@ namespace PlayerAssets
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
+        public PlayerRoot PlayerRoot { get; private set; }
         [SerializeField] GameObject _playerModel;
         [SerializeField] Animator _animator;
         [SerializeField] CharacterController _controller;
+
+        bool _toggleCameraRotation = true;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -367,6 +370,12 @@ namespace PlayerAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+
+            PlayerRoot = GetComponent<PlayerRoot>();
+            PlayerRoot.PlayerUI.ToggleEscapeUI += () =>
+            {
+                _toggleCameraRotation = !_toggleCameraRotation;
+            };
         }
 
         private void Start()
@@ -459,7 +468,7 @@ namespace PlayerAssets
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
 
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                // transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
@@ -547,6 +556,8 @@ namespace PlayerAssets
 
         private void CameraRotation()
         {
+            if (!_toggleCameraRotation) return;
+
             if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
             {
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;

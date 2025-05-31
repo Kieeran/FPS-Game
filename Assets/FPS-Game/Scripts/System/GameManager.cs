@@ -10,7 +10,7 @@ public class GameManager : NetworkBehaviour
 
     public static GameManager Instance { get; private set; }
     public CinemachineVirtualCamera GetCinemachineVirtualCamera() { return _cinemachineVirtualCamera; }
-    public List<Transform> SpawnPositionsList { get; private set; }
+    public List<SpawnPosition> SpawnPositionsList { get; private set; }
     public TimePhaseCounter TimePhaseCounter { get; private set; }
 
     void Awake()
@@ -29,14 +29,14 @@ public class GameManager : NetworkBehaviour
 
     void InitSpawnPositions()
     {
-        SpawnPositionsList = new List<Transform>();
+        SpawnPositionsList = new List<SpawnPosition>();
         foreach (Transform child in _spawnPositions)
         {
-            SpawnPositionsList.Add(child);
+            SpawnPositionsList.Add(child.GetComponent<SpawnPosition>());
         }
     }
 
-    public Transform GetRandomPos()
+    public SpawnPosition GetRandomPos()
     {
         if (SpawnPositionsList == null || SpawnPositionsList.Count == 0)
         {
