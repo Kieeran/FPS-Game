@@ -46,4 +46,9 @@ public class GameManager : NetworkBehaviour
 
         return SpawnPositionsList[Random.Range(0, SpawnPositionsList.Count)];
     }
+
+    public void RemoveBlockingWalls()
+    {
+
+    }
 }
