@@ -34,6 +34,9 @@ public class Gun : NetworkBehaviour
     [SerializeField] Vector3 _aimRot;
     [SerializeField] float _moveDuration;
     [SerializeField] float _spreadAngle;
+
+    [SerializeField] AudioSource gunSound;
+
     Vector3 _normalPos;
     Quaternion _normalRot;
     float _elapsedTime;
@@ -43,6 +46,8 @@ public class Gun : NetworkBehaviour
     public bool Automatic;
 
     private float CurrentCoolDown;
+
+    private float nextFireTime;
 
     // [SerializeField] private Magazine magazine;
 
@@ -80,6 +85,9 @@ public class Gun : NetworkBehaviour
         _isAim = false;
         _isUnAim = false;
         _elapsedTime = 0;
+
+        gunSound.spatialBlend = 1f;
+        gunSound.maxDistance = 100f;
     }
 
     void OnDisable()
@@ -117,6 +125,17 @@ public class Gun : NetworkBehaviour
                     _playerShoot.Shoot(_spreadAngle);
 
                     shootEffect.ActiveShootEffect();
+
+                    if (gameObject.tag == "AK47")
+                    {
+                        if (Time.time >= nextFireTime)
+                        {
+                            // ak47Sound.Stop();
+                            PlayGunAudio_ServerRpc(transform.position);
+                            nextFireTime = Time.time + FireCoolDown;
+                        }
+                        // ak47Sound.Stop();
+                    }
                 }
             }
         }
@@ -135,6 +154,26 @@ public class Gun : NetworkBehaviour
                     _playerShoot.Shoot(_spreadAngle);
 
                     shootEffect.ActiveShootEffect();
+
+                    if (gameObject.tag == "Sniper")
+                    {
+                        if (Time.time >= nextFireTime)
+                        {
+                            StopGunAudio_ServerRpc(transform.position);
+                            PlayGunAudio_ServerRpc(transform.position);
+                            // nextFireTime = Time.time + FireCoolDown;
+                        }
+                    }
+
+                    if (gameObject.tag == "Pistol")
+                    {
+                        if (Time.time >= nextFireTime)
+                        {
+                            StopGunAudio_ServerRpc(transform.position);
+                            PlayGunAudio_ServerRpc(transform.position);
+                            // nextFireTime = Time.time + FireCoolDown;
+                        }
+                    }
                 }
             }
 
@@ -175,6 +214,44 @@ public class Gun : NetworkBehaviour
                 _elapsedTime = 0;
             }
         }
+    }
+
+    public void PlayGunAudio(Vector3 position)
+    {
+        gunSound.transform.position = position;
+        gunSound.Play();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PlayGunAudio_ServerRpc(Vector3 position)
+    {
+        PlayGunAudio(position);
+        PlayGunAudio_ClientRpc(position);
+    }
+
+    [ClientRpc]
+    public void PlayGunAudio_ClientRpc(Vector3 position)
+    {
+        PlayGunAudio(position);
+    }
+
+    public void StopGunAudio(Vector3 position)
+    {
+        gunSound.transform.position = position;
+        gunSound.Stop();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void StopGunAudio_ServerRpc(Vector3 position)
+    {
+        StopGunAudio(position);
+        StopGunAudio_ClientRpc(position);
+    }
+
+    [ClientRpc]
+    public void StopGunAudio_ClientRpc(Vector3 position)
+    {
+        StopGunAudio(position);
     }
 
     // private void ShootBullet()

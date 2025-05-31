@@ -58,4 +58,9 @@ public class WeaponAnimation : NetworkBehaviour
         animator.SetBool("Reload_Mag", false);
         animator.SetBool("Reload_Single", true);
     }
+
+    public void ABC()
+    {
+        Debug.Log("IDK");
+    }
 }
