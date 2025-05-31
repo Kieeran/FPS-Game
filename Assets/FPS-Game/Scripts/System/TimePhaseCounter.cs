@@ -13,9 +13,9 @@ public enum MatchPhase
 public class TimePhaseCounter : NetworkBehaviour
 {
     [Header("Network Variable")]
-    public NetworkVariable<MatchPhase> _currentPhase = new(MatchPhase.Waiting);
-    public NetworkVariable<double> _currentPhaseStartTime = new NetworkVariable<double>(0);
-    public NetworkVariable<float> _currentPhaseDuration = new NetworkVariable<float>(0f);
+    NetworkVariable<MatchPhase> _currentPhase = new(MatchPhase.Waiting);
+    NetworkVariable<double> _currentPhaseStartTime = new NetworkVariable<double>(0);
+    NetworkVariable<float> _currentPhaseDuration = new NetworkVariable<float>(0f);
 
     [Header("Phase Durations")]
     public float waitingPhaseDuration;
@@ -24,7 +24,7 @@ public class TimePhaseCounter : NetworkBehaviour
     public float resultPhaseDuration;
 
     [Space(10)]
-    public int _lastDisplayedSeconds = -1;
+    int _lastDisplayedSeconds = -1;
 
     public Action<int> OnTimeChanged;
 
