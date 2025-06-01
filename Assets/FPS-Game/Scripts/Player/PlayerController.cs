@@ -572,6 +572,17 @@ namespace PlayerAssets
             CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
         }
 
+        public void RotateCameraTo(Quaternion targetRotation)
+        {
+            CinemachineCameraTarget.transform.rotation = targetRotation;
+
+            _input.look = Vector2.zero;
+
+            Vector3 euler = targetRotation.eulerAngles;
+            _cinemachineTargetYaw = euler.y;
+            _cinemachineTargetPitch = euler.x - CameraAngleOverride;
+        }
+
         private static float ClampAngle(float angle, float min, float max)
         {
             if (angle < -360f) angle += 360f;

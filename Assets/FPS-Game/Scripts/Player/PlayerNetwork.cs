@@ -62,7 +62,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
         Debug.Log($"Spawn at {randomPos.gameObject.name}: {randomPos.SpawnPos} {randomPos.SpawnRot.eulerAngles}");
         transform.position = randomPos.SpawnPos;
-        // transform.GetChild(0).rotation = randomPos.SpawnRot;
+        transform.GetChild(0).rotation = randomPos.SpawnRot;
 
         KillCount = new();
         DeathCount = new();
@@ -152,6 +152,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
         transform.position = randomPos;
         // transform.GetChild(0).rotation = rot;
+        PlayerRoot.PlayerController.RotateCameraTo(rot);
 
         Invoke(nameof(EnableInterpolationAtSpawn), 0.1f);
 
@@ -202,6 +203,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
         transform.position = randomPos;
         // transform.GetChild(0).rotation = rot;
+        PlayerRoot.PlayerController.RotateCameraTo(rot);
 
         Invoke(nameof(EnableInterpolation), 0.1f);
 
