@@ -5965,7 +5965,7 @@ CharacterController:
   m_Enabled: 0
   serializedVersion: 3
   m_Height: 1.88
-  m_Radius: 0.1
+  m_Radius: 0.37
   m_SlopeLimit: 45
   m_StepOffset: 0.5
   m_SkinWidth: 0.02
@@ -6073,7 +6073,7 @@ MonoBehaviour:
   FallTimeout: 0.15
   Grounded: 1
   GroundedOffset: -0.14
-  GroundedRadius: 0.5
+  GroundedRadius: 0.25
   GroundLayers:
     serializedVersion: 2
     m_Bits: 1
@@ -6324,8 +6324,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4488891921856877547}
   - component: {fileID: 2812345444998554172}
-  - component: {fileID: 961340100815689165}
-  m_Layer: 8
+  - component: {fileID: 8727402913531197869}
+  m_Layer: 10
   m_Name: Sk_Police_girl_leg
   m_TagString: PlayerLeg
   m_Icon: {fileID: 0}
@@ -6479,7 +6479,7 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.01368843, y: 0.034394518, z: 0.53796124}
     m_Extent: {x: 0.29750198, y: 0.19494843, z: 0.66094327}
   m_DirtyAABB: 0
---- !u!65 &961340100815689165
+--- !u!65 &8727402913531197869
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6498,8 +6498,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.4626325, y: 0.2884115, z: 1.0891294}
-  m_Center: {x: 0.009276013, y: 0.014401189, z: 0.5244956}
+  m_Size: {x: 0.468893, y: 0.30069685, z: 1.2062844}
+  m_Center: {x: -0.0038269758, y: 0.015801208, z: 0.57976216}
 --- !u!1 &3151989627777339677
 GameObject:
   m_ObjectHideFlags: 0
@@ -14969,7 +14969,7 @@ GameObject:
   - component: {fileID: 3627860370494284159}
   - component: {fileID: 3625977746909435059}
   - component: {fileID: 4214660122442063780}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sk_Police_girl_Head
   m_TagString: PlayerHead
   m_Icon: {fileID: 0}
