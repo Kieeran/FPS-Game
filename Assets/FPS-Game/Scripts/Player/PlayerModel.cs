@@ -41,6 +41,7 @@ public class PlayerModel : NetworkBehaviour
 
     public void OnPlayerDie()
     {
+        if (!IsOwner) return;
         Debug.Log("Die animation");
 
         PlayerAni.Animator.Play("FallingForwardDeath", 0, 0f);
@@ -48,6 +49,7 @@ public class PlayerModel : NetworkBehaviour
 
     public void OnPlayerRespawn()
     {
+        if (!IsOwner) return;
         Debug.Log("Restart animation");
 
         PlayerAni.Animator.Play("Idle Walk Run Blend", 0, 0f);
