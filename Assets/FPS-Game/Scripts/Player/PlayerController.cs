@@ -268,6 +268,7 @@
 //     }
 // }
 
+using Unity.Netcode;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -279,7 +280,7 @@ namespace PlayerAssets
 #if ENABLE_INPUT_SYSTEM
     [RequireComponent(typeof(PlayerInput))]
 #endif
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : NetworkBehaviour
     {
         [Header("Player Movement")]
         public float MoveSpeed = 2.0f;
@@ -401,6 +402,8 @@ namespace PlayerAssets
 
         void Update()
         {
+            if (!IsOwner) return;
+
             // _hasAnimator = TryGetComponent(out _animator);
 
             GroundedCheck();
