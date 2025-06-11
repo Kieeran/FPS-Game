@@ -3,7 +3,7 @@ using Cinemachine;
 using Unity.Netcode;
 using System.Collections.Generic;
 
-public class GameManager : NetworkBehaviour
+public class GameManager : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera _cinemachineVirtualCamera;
     [SerializeField] Transform _spawnPositions;

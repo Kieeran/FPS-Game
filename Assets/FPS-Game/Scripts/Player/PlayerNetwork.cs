@@ -167,6 +167,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
             PlayerRoot.ClientNetworkTransform.Interpolate = true;
         }
     }
+
     #endregion ============================================================================================
 
     [ServerRpc(RequireOwnership = false)]

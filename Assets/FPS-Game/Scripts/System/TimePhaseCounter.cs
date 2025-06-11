@@ -14,8 +14,9 @@ public class TimePhaseCounter : NetworkBehaviour
 {
     [Header("Network Variable")]
     NetworkVariable<MatchPhase> _currentPhase = new(MatchPhase.Waiting);
-    NetworkVariable<double> _currentPhaseStartTime = new NetworkVariable<double>(0);
-    NetworkVariable<float> _currentPhaseDuration = new NetworkVariable<float>(0f);
+    NetworkVariable<double> _currentPhaseStartTime = new(0);
+    NetworkVariable<float> _currentPhaseDuration = new(0);
+    NetworkVariable<bool> _countdownStarted = new(false);
 
     [Header("Phase Durations")]
     public float waitingPhaseDuration;
@@ -28,11 +29,19 @@ public class TimePhaseCounter : NetworkBehaviour
 
     public Action<int> OnTimeChanged;
 
+    [SerializeField] LobbyRelayChecker _lobbyRelayChecker;
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
             StartPhase(MatchPhase.Waiting, waitingPhaseDuration);
+
+            _lobbyRelayChecker.StartChecking(LobbyManager.joinedLobby.Id);
+            _lobbyRelayChecker.onAllPlayersConnected += () =>
+            {
+                _countdownStarted.Value = true;
+            };
         }
 
         // UIs
@@ -41,6 +50,8 @@ public class TimePhaseCounter : NetworkBehaviour
 
     void Update()
     {
+        if (!_countdownStarted.Value) return;
+
         double timeElapsed = NetworkManager.Singleton.LocalTime.Time - _currentPhaseStartTime.Value;
         float remaining = Mathf.Max(_currentPhaseDuration.Value - (float)timeElapsed, 0f);
 
@@ -74,7 +85,7 @@ public class TimePhaseCounter : NetworkBehaviour
                 break;
             case MatchPhase.Result:
                 Debug.Log("Match ended.");
-                // TODO: Gọi hàm kết thúc trận đấu hoặc quay về lobby
+                // TODO: Gọi hàm kết thúc trận đấu hoặc  quay về lobby
                 break;
         }
     }
