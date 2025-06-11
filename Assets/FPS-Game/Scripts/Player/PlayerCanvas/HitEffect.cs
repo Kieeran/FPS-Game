@@ -28,14 +28,6 @@ public class HitEffect : MonoBehaviour
                 Debug.Log("Unvalid shotType ");
                 break;
         }
-        // if (damage == 0.05f || damage == 0.02f)
-        // {
-        //     StartCoroutine(FadeHitEffect(Effect, _hitBodyAlpha / 255));
-        // }
-        // else if (damage == 0.1f)
-        // {
-        //     StartCoroutine(FadeHitEffect(Effect, _hitHeadAlpha / 255));
-        // }
     }
 
     public IEnumerator FadeHitEffect(Image hitEffect, float targetAlpha)
@@ -48,5 +40,10 @@ public class HitEffect : MonoBehaviour
             currentAlpha -= Time.deltaTime;
             yield return null;
         }
+    }
+
+    public void ResetHitEffect()
+    {
+        Effect.color = new Color(1, 0, 0, 0);
     }
 }

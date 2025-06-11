@@ -12,7 +12,6 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
     public Action PlayerDead;
     public bool IsPlayerDead = false;
 
-
     // Awake
     public int PriorityAwake => 1000;
     public void InitializeAwake()

@@ -209,6 +209,8 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
         PlayerRoot.CharacterController.enabled = true;
         PlayerRoot.PlayerController.enabled = true;
+
+        PlayerRoot.PlayerUI.CurrentPlayerCanvas.HitEffect.ResetHitEffect();
     }
 
     void EnableInterpolation()
