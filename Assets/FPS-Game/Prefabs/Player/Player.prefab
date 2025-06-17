@@ -12418,6 +12418,12 @@ MonoBehaviour:
   _currentGrenade: {fileID: 8644957872373403998}
   _throwForce: 30
   _explosionRadius: 9
+  _outerRadius: 9
+  _middleRadius: 6.75
+  _innerRadius: 4.5
+  _outerDamage: 0.2
+  _middleDamage: 0.4
+  _innerDamage: 1
 --- !u!114 &8279102339201576451
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,6 +20,14 @@ public class Explosives : NetworkBehaviour
     [SerializeField] float _throwForce;
     [SerializeField] float _explosionRadius;
 
+    [SerializeField] float _outerRadius;
+    [SerializeField] float _middleRadius;
+    [SerializeField] float _innerRadius;
+
+    [SerializeField] float _outerDamage;
+    [SerializeField] float _middleDamage;
+    [SerializeField] float _innerDamage;
+
     Vector3 originPosGrenade;
     Quaternion originRotGrenade;
     Vector3 originScaGrenade;
@@ -63,19 +71,19 @@ public class Explosives : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ThrowGrenade_ServerRPC()
+    private void ThrowGrenade_ServerRPC(ulong throwerClientId)
     {
         // ThrowGrenade();
-        ThrowGrenade_ClientRPC();
+        ThrowGrenade_ClientRPC(throwerClientId);
     }
 
     [ClientRpc]
-    private void ThrowGrenade_ClientRPC()
+    private void ThrowGrenade_ClientRPC(ulong throwerClientId)
     {
-        ThrowGrenade();
+        ThrowGrenade(throwerClientId);
     }
 
-    private void ThrowGrenade()
+    private void ThrowGrenade(ulong throwerClientId)
     {
         _currentGrenade.transform.parent = null;
         _grenadeRb.isKinematic = false;
@@ -83,16 +91,31 @@ public class Explosives : NetworkBehaviour
 
         _grenadeRb.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
 
-        Invoke(nameof(GrenadeExplode), 2f);
+        StartCoroutine(GrenadeExplode(throwerClientId));
+    }
+
+    IEnumerator GrenadeExplode(ulong throwerClientId)
+    {
+        yield return new WaitForSeconds(2f);
+
+        if (IsServer) ScanForTargets_ServerRPC(throwerClientId);
+
+        _currentGrenade.SetActive(false);
+
+        GameObject explodeEffect = Instantiate(_explosiveEffectPrefab);
+        explodeEffect.transform.position = _currentGrenade.transform.position;
+
+        StartCoroutine(DestroyExplodeEffect(explodeEffect));
+
+        Invoke(nameof(GrenadeReturn), 0.5f);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void ScanForTargets_ServerRPC()
+    void ScanForTargets_ServerRPC(ulong throwerClientId)
     {
         Collider[] hitColliders = Physics.OverlapSphere(_currentGrenade.transform.position, _explosionRadius);
 
         HashSet<ulong> affectedClientIds = new(); // Tự động loại trùng
-        List<NetworkObject> affectedPlayers = new(); // Nếu muốn lưu cả player object
 
         foreach (var hitCollider in hitColliders)
         {
@@ -106,26 +129,37 @@ public class Explosives : NetworkBehaviour
 
                     if (affectedClientIds.Add(clientId)) // Add trả về false nếu clientId đã có
                     {
-                        Debug.Log($"Phát hiện player: {root.name} (name: {root.GetComponent<PlayerNetwork>().playerName})");
-                        affectedPlayers.Add(netObj);
+                        float damage = GetDamageByDistance(netObj.transform.position);
+                        netObj.GetComponent<PlayerTakeDamage>().TakeDamage(damage, "Headshot", clientId, throwerClientId);
                     }
                 }
             }
         }
     }
 
-    void GrenadeExplode()
+    float GetDamageByDistance(Vector3 playerPos)
     {
-        if (IsServer) ScanForTargets_ServerRPC();
+        float distance = Vector3.Distance(_currentGrenade.transform.position, playerPos);
 
-        _currentGrenade.SetActive(false);
+        if (distance < _outerRadius && distance >= _middleRadius)
+        {
+            Debug.Log("In outer range");
+            return _outerDamage;
+        }
 
-        GameObject explodeEffect = Instantiate(_explosiveEffectPrefab);
-        explodeEffect.transform.position = _currentGrenade.transform.position;
+        else if (distance < _middleRadius && distance >= _innerRadius)
+        {
+            Debug.Log("In middle range");
+            return _middleDamage;
+        }
 
-        StartCoroutine(DestroyExplodeEffect(explodeEffect));
+        else if (distance < _innerRadius)
+        {
+            Debug.Log("In inner range");
+            return _innerDamage;
+        }
 
-        Invoke(nameof(GrenadeReturn), 0.5f);
+        else return 0;
     }
 
     void GrenadeReturn()
@@ -208,15 +242,23 @@ public class Explosives : NetworkBehaviour
 
             PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
 
-            ThrowGrenade_ServerRPC();
+            ThrowGrenade_ServerRPC(OwnerClientId);
         }
     }
 
-    // void OnDrawGizmos()
-    // {
-    //     Color color = Color.green;
-    //     color.a = 0.25f;
-    //     Gizmos.color = color;
-    //     Gizmos.DrawSphere(_currentGrenade.transform.position, _explosionRadius);
-    // }
+    void OnDrawGizmos()
+    {
+        Color colorGreen = Color.green;
+        Color colorYellow = Color.yellow;
+        Color colorRed = Color.red;
+
+        Gizmos.color = colorGreen;
+        Gizmos.DrawWireSphere(_currentGrenade.transform.position, _outerRadius);
+
+        Gizmos.color = colorYellow;
+        Gizmos.DrawWireSphere(_currentGrenade.transform.position, _middleRadius);
+
+        Gizmos.color = colorRed;
+        Gizmos.DrawWireSphere(_currentGrenade.transform.position, _innerRadius);
+    }
 }
