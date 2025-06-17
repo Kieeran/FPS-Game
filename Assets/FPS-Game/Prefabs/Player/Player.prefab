@@ -12417,6 +12417,7 @@ MonoBehaviour:
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _currentGrenade: {fileID: 8644957872373403998}
   _throwForce: 30
+  _explosionRadius: 9
 --- !u!114 &8279102339201576451
 MonoBehaviour:
   m_ObjectHideFlags: 0

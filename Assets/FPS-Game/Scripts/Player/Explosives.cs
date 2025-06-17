@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class Explosives : NetworkBehaviour
     bool _onCoolDown = false;
 
     [SerializeField] float _throwForce;
+    [SerializeField] float _explosionRadius;
 
     Vector3 originPosGrenade;
     Quaternion originRotGrenade;
@@ -46,6 +48,7 @@ public class Explosives : NetworkBehaviour
 
             _clientNetworkTransform.enabled = false;
         }
+
         else
         {
             Debug.LogError("Current grenade is not assigned!", this);
@@ -83,8 +86,38 @@ public class Explosives : NetworkBehaviour
         Invoke(nameof(GrenadeExplode), 2f);
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    void ScanForTargets_ServerRPC()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(_currentGrenade.transform.position, _explosionRadius);
+
+        HashSet<ulong> affectedClientIds = new(); // Tự động loại trùng
+        List<NetworkObject> affectedPlayers = new(); // Nếu muốn lưu cả player object
+
+        foreach (var hitCollider in hitColliders)
+        {
+            Transform root = hitCollider.transform.root;
+
+            if (root.CompareTag("Player"))
+            {
+                if (root.TryGetComponent<NetworkObject>(out var netObj))
+                {
+                    ulong clientId = netObj.OwnerClientId;
+
+                    if (affectedClientIds.Add(clientId)) // Add trả về false nếu clientId đã có
+                    {
+                        Debug.Log($"Phát hiện player: {root.name} (name: {root.GetComponent<PlayerNetwork>().playerName})");
+                        affectedPlayers.Add(netObj);
+                    }
+                }
+            }
+        }
+    }
+
     void GrenadeExplode()
     {
+        if (IsServer) ScanForTargets_ServerRPC();
+
         _currentGrenade.SetActive(false);
 
         GameObject explodeEffect = Instantiate(_explosiveEffectPrefab);
@@ -178,4 +211,12 @@ public class Explosives : NetworkBehaviour
             ThrowGrenade_ServerRPC();
         }
     }
+
+    // void OnDrawGizmos()
+    // {
+    //     Color color = Color.green;
+    //     color.a = 0.25f;
+    //     Gizmos.color = color;
+    //     Gizmos.DrawSphere(_currentGrenade.transform.position, _explosionRadius);
+    // }
 }
