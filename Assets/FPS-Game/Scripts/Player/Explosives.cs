@@ -16,7 +16,7 @@ public class Explosives : NetworkBehaviour
     ClientNetworkTransform _clientNetworkTransform;
     bool _onCoolDown = false;
 
-    float _throwForce;
+    [SerializeField] float _throwForce;
 
     Vector3 originPosGrenade;
     Quaternion originRotGrenade;
@@ -50,8 +50,6 @@ public class Explosives : NetworkBehaviour
         {
             Debug.LogError("Current grenade is not assigned!", this);
         }
-
-        _throwForce = 20f;
     }
 
     public override void OnNetworkSpawn()
@@ -64,7 +62,7 @@ public class Explosives : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void ThrowGrenade_ServerRPC()
     {
-        ThrowGrenade();
+        // ThrowGrenade();
         ThrowGrenade_ClientRPC();
     }
 
@@ -99,7 +97,7 @@ public class Explosives : NetworkBehaviour
 
     void GrenadeReturn()
     {
-        _currentGrenade.SetActive(true);
+        // _currentGrenade.SetActive(true);
 
         _clientNetworkTransform.Interpolate = false;
         _grenadeRb.isKinematic = true;
@@ -108,7 +106,7 @@ public class Explosives : NetworkBehaviour
         _currentGrenade.transform.SetParent(transform);
         ResetGrenadeTransform();
 
-        _currentGrenade.SetActive(false);
+        // _currentGrenade.SetActive(false);
         Invoke(nameof(EnableInterpolation), 0.1f);
     }
 
@@ -132,25 +130,27 @@ public class Explosives : NetworkBehaviour
             _clientNetworkTransform.Interpolate = true;
             _onCoolDown = false;
         }
+
+        _currentGrenade.SetActive(true);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    void EnableCurrentGrenade_ServerRPC()
-    {
-        EnableCurrentGrenade();
-        EnableCurrentGrenade_ClientRPC();
-    }
+    // [ServerRpc(RequireOwnership = false)]
+    // void EnableCurrentGrenade_ServerRPC()
+    // {
+    //     EnableCurrentGrenade();
+    //     EnableCurrentGrenade_ClientRPC();
+    // }
 
-    [ClientRpc]
-    void EnableCurrentGrenade_ClientRPC()
-    {
-        EnableCurrentGrenade();
-    }
+    // [ClientRpc]
+    // void EnableCurrentGrenade_ClientRPC()
+    // {
+    //     EnableCurrentGrenade();
+    // }
 
-    void EnableCurrentGrenade()
-    {
-        _currentGrenade.gameObject.SetActive(true);
-    }
+    // void EnableCurrentGrenade()
+    // {
+    //     _currentGrenade.gameObject.SetActive(true);
+    // }
 
     void Update()
     {
@@ -160,10 +160,10 @@ public class Explosives : NetworkBehaviour
         if (_supplyLoad.IsMagazineEmpty()) return;
         if (PlayerRoot.PlayerReload.GetIsReloading()) return;
 
-        if (_currentGrenade.activeSelf == false)
-        {
-            EnableCurrentGrenade_ServerRPC();
-        }
+        // if (_currentGrenade.activeSelf == false)
+        // {
+        //     EnableCurrentGrenade_ServerRPC();
+        // }
 
         if (PlayerRoot.PlayerAssetsInputs.shoot == true)
         {
