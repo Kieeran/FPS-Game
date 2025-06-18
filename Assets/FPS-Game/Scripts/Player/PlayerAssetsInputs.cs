@@ -14,6 +14,7 @@ namespace PlayerAssets
 		public bool sprint;
 		public bool aim;
 		public bool shoot;
+		public bool rightSlash;
 		public bool reload;
 		public bool openInventory;
 		public bool openScoreboard;
@@ -64,6 +65,11 @@ namespace PlayerAssets
 		public void OnShoot(InputValue value)
 		{
 			ShootInput(value.isPressed);
+		}
+
+		public void OnRightSlash(InputValue value)
+		{
+			RightSlashInput(value.isPressed);
 		}
 
 		public void OnReload(InputValue value)
@@ -117,7 +123,6 @@ namespace PlayerAssets
 		}
 #endif
 
-
 		public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
@@ -146,6 +151,11 @@ namespace PlayerAssets
 		public void ShootInput(bool newShootState)
 		{
 			shoot = newShootState;
+		}
+
+		public void RightSlashInput(bool newRightSlashState)
+		{
+			rightSlash = newRightSlashState;
 		}
 
 		public void ReloadInput(bool newReloadState)

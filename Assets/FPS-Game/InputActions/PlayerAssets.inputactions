@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "RightSlash",
+                    "type": "PassThrough",
+                    "id": "719941f8-720a-4b31-ac3c-e0ff5c33e2ce",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Reload",
                     "type": "Button",
                     "id": "b1e1e12f-5d99-422d-93fe-18eefa7e4aa2",
@@ -456,6 +465,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Hotkey5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "db7e560c-cb1d-4ed8-9975-157a6c04397c",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "RightSlash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
