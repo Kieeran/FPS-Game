@@ -12005,15 +12005,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeleeAnimation: {fileID: 500191308576157680}
-  EnableLeftSlashBBVisual: 0
-  _leftSlashBoundsSize: {x: 0.15, y: 0.15, z: 0.5}
+  EnableLeftSlashBBVisual: 1
+  _leftSlashBoundsSize: {x: 1, y: 0.15, z: 0.5}
   _leftSlashOffset: {x: -0.56, y: 0.24, z: 0}
-  EnableRightSlashBBVisual: 0
-  _rightSlashBoundsSize: {x: 0.15, y: 0.15, z: 0.75}
-  _rightSlashOffset: {x: -0.56, y: 0.24, z: 0.125}
-  isAttacking: 0
-  ComboBufferTime: 0.5
-  CurrentSlashType: 
+  EnableRightSlashBBVisual: 1
+  _rightSlashBoundsSize: {x: 0.15, y: 0.15, z: 1}
+  _rightSlashOffset: {x: -0.56, y: 0.24, z: 0.25}
 --- !u!1 &7011383869357581714
 GameObject:
   m_ObjectHideFlags: 0

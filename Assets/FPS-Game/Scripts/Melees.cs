@@ -10,20 +10,20 @@ public class Melees : NetworkBehaviour
 
     [Header("Left Slash")]
     public bool EnableLeftSlashBBVisual;
-    [SerializeField] Vector3 _leftSlashBoundsSize = new(0.15f, 0.15f, 0.5f);
+    [SerializeField] Vector3 _leftSlashBoundsSize = new(1f, 0.15f, 0.5f);
     [SerializeField] Vector3 _leftSlashOffset = new(-0.56f, 0.24f, 0f);
 
     [Header("Right Slash")]
     public bool EnableRightSlashBBVisual;
-    [SerializeField] Vector3 _rightSlashBoundsSize = new(0.15f, 0.15f, 0.75f);
-    [SerializeField] Vector3 _rightSlashOffset = new(-0.56f, 0.24f, 0.125f);
-
-    public bool isAttacking = false;
-    public string CurrentSlashType = "";
+    [SerializeField] Vector3 _rightSlashBoundsSize = new(0.15f, 0.15f, 1f);
+    [SerializeField] Vector3 _rightSlashOffset = new(-0.56f, 0.24f, 0.25f);
 
     public Action OnLeftSlash_1;
     public Action OnLeftSlash_2;
     public Action OnRightSlash;
+
+    bool _isAttacking = false;
+    string _currentSlashType = "";
 
     void Awake()
     {
@@ -39,48 +39,48 @@ public class Melees : NetworkBehaviour
     {
         if (!IsOwner) return;
         if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
-        if (isAttacking) return;
+        if (_isAttacking) return;
 
-        if (PlayerRoot.PlayerAssetsInputs.shoot && CurrentSlashType == "")
+        if (PlayerRoot.PlayerAssetsInputs.shoot && _currentSlashType == "")
         {
-            isAttacking = true;
-            CurrentSlashType = "Left 1";
+            _isAttacking = true;
+            _currentSlashType = "Left 1";
             OnLeftSlash_1?.Invoke();
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.rightSlash)
         {
-            isAttacking = true;
-            CurrentSlashType = "";
+            _isAttacking = true;
+            _currentSlashType = "";
             OnRightSlash?.Invoke();
         }
     }
 
     void CheckComboChain()
     {
-        if (PlayerRoot.PlayerAssetsInputs.shoot && CurrentSlashType == "")
+        if (PlayerRoot.PlayerAssetsInputs.shoot && _currentSlashType == "")
         {
-            CurrentSlashType = "Left 1";
+            _currentSlashType = "Left 1";
             OnLeftSlash_1?.Invoke();
             return;
         }
 
-        else if (PlayerRoot.PlayerAssetsInputs.shoot && CurrentSlashType == "Left 1")
+        else if (PlayerRoot.PlayerAssetsInputs.shoot && _currentSlashType == "Left 1")
         {
-            CurrentSlashType = "";
+            _currentSlashType = "";
             OnLeftSlash_2?.Invoke();
             return;
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.rightSlash)
         {
-            CurrentSlashType = "";
+            _currentSlashType = "";
             OnRightSlash?.Invoke();
             return;
         }
 
-        CurrentSlashType = "";
-        isAttacking = false;
+        _currentSlashType = "";
+        _isAttacking = false;
     }
 
     void OnDrawGizmos()
