@@ -22,8 +22,11 @@ public class Melees : NetworkBehaviour
     public Action OnLeftSlash_2;
     public Action OnRightSlash;
 
+    [SerializeField]
     bool _isAttacking = false;
+    [SerializeField]
     string _currentSlashType = "";
+    [SerializeField] float _rightSlashDelay;
 
     void Awake()
     {
@@ -31,7 +34,15 @@ public class Melees : NetworkBehaviour
 
         MeleeAnimation.OnDoneSlash += () =>
         {
-            CheckComboChain();
+            if (_currentSlashType == "Right")
+                Invoke(nameof(CheckComboChain), _rightSlashDelay);
+            else
+                CheckComboChain();
+        };
+
+        MeleeAnimation.OnCheckSlashHit += () =>
+        {
+            CheckSlashHit();
         };
     }
 
@@ -51,14 +62,16 @@ public class Melees : NetworkBehaviour
         else if (PlayerRoot.PlayerAssetsInputs.rightSlash)
         {
             _isAttacking = true;
-            _currentSlashType = "";
+            _currentSlashType = "Right";
             OnRightSlash?.Invoke();
         }
     }
 
     void CheckComboChain()
     {
-        if (PlayerRoot.PlayerAssetsInputs.shoot && _currentSlashType == "")
+        if (PlayerRoot.PlayerAssetsInputs.shoot &&
+        (_currentSlashType == "Left 2" ||
+        _currentSlashType == "Right"))
         {
             _currentSlashType = "Left 1";
             OnLeftSlash_1?.Invoke();
@@ -67,20 +80,36 @@ public class Melees : NetworkBehaviour
 
         else if (PlayerRoot.PlayerAssetsInputs.shoot && _currentSlashType == "Left 1")
         {
-            _currentSlashType = "";
+            _currentSlashType = "Left 2";
             OnLeftSlash_2?.Invoke();
             return;
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.rightSlash)
         {
-            _currentSlashType = "";
+            _currentSlashType = "Right";
             OnRightSlash?.Invoke();
             return;
         }
 
         _currentSlashType = "";
         _isAttacking = false;
+    }
+
+    public void CheckSlashHit()
+    {
+        Vector3 slashBoundsSize = Vector3.zero;
+        Vector3 slashOffset = Vector3.zero;
+
+        Vector3 worldCenter = transform.TransformPoint(slashOffset);
+        Vector3 worldHalfExtents = Vector3.Scale(slashBoundsSize, transform.lossyScale) * 0.5f;
+
+        Collider[] hits = Physics.OverlapBox(worldCenter, worldHalfExtents);
+
+        foreach (var hit in hits)
+        {
+            Debug.Log("Slash Hit: " + hit.name);
+        }
     }
 
     void OnDrawGizmos()

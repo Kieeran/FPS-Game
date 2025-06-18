@@ -12011,6 +12011,9 @@ MonoBehaviour:
   EnableRightSlashBBVisual: 1
   _rightSlashBoundsSize: {x: 0.15, y: 0.15, z: 1}
   _rightSlashOffset: {x: -0.56, y: 0.24, z: 0.25}
+  _isAttacking: 0
+  _currentSlashType: 
+  _rightSlashDelay: 0.3
 --- !u!1 &7011383869357581714
 GameObject:
   m_ObjectHideFlags: 0

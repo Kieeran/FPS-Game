@@ -9,6 +9,7 @@ public class MeleeAnimation : NetworkBehaviour
     public Melees Melees;
 
     public Action OnDoneSlash;
+    public Action OnCheckSlashHit;
 
     void Awake()
     {
@@ -39,5 +40,10 @@ public class MeleeAnimation : NetworkBehaviour
     public void DoneSlash()
     {
         OnDoneSlash?.Invoke();
+    }
+
+    public void CheckSlashHit()
+    {
+        OnCheckSlashHit?.Invoke();
     }
 }
