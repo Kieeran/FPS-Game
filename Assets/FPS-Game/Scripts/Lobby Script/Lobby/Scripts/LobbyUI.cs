@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using Unity.Netcode;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class LobbyUI : MonoBehaviour
 {
@@ -74,6 +69,8 @@ public class LobbyUI : MonoBehaviour
             // GameSceneManager.Instance.LoadNextScene();
             LobbyManager.Instance.StartGame();
         });
+
+        startGameButton.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -144,8 +141,6 @@ public class LobbyUI : MonoBehaviour
         {
             return;
         }
-
-        //Debug.Log(lobby);
 
         ShowLobbyCode();
         startGameButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());

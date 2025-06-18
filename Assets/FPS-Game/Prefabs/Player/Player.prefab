@@ -12418,6 +12418,7 @@ MonoBehaviour:
   _currentGrenade: {fileID: 8644957872373403998}
   _throwForce: 30
   _explosionRadius: 9
+  EnableRadiusVisual: 0
   _outerRadius: 9
   _middleRadius: 6.75
   _innerRadius: 4.5

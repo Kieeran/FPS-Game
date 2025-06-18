@@ -7,7 +7,6 @@ using UnityEngine;
 public class Explosives : NetworkBehaviour
 {
     public PlayerRoot PlayerRoot { get; private set; }
-
     [SerializeField] GameObject _explosiveEffectPrefab;
     [SerializeField] GameObject _currentGrenade;
     Rigidbody _grenadeRb;
@@ -17,9 +16,10 @@ public class Explosives : NetworkBehaviour
     ClientNetworkTransform _clientNetworkTransform;
     bool _onCoolDown = false;
 
+
+    public bool EnableRadiusVisual;
     [SerializeField] float _throwForce;
     [SerializeField] float _explosionRadius;
-
     [SerializeField] float _outerRadius;
     [SerializeField] float _middleRadius;
     [SerializeField] float _innerRadius;
@@ -248,6 +248,8 @@ public class Explosives : NetworkBehaviour
 
     void OnDrawGizmos()
     {
+        if (!EnableRadiusVisual) return;
+
         Color colorGreen = Color.green;
         Color colorYellow = Color.yellow;
         Color colorRed = Color.red;
