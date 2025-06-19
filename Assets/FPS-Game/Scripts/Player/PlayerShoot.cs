@@ -17,7 +17,7 @@ public enum GunType
     Pistol,
 }
 
-public class PlayerShoot : NetworkBehaviour, IInitAwake, IInitNetwork
+public class PlayerShoot : NetworkBehaviour, IInitAwake
 {
     public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] GameObject _hitEffect;
@@ -32,13 +32,6 @@ public class PlayerShoot : NetworkBehaviour, IInitAwake, IInitNetwork
         _rifle = PlayerRoot.WeaponHolder.Rifle;
         _sniper = PlayerRoot.WeaponHolder.Sniper;
         _pistol = PlayerRoot.WeaponHolder.Pistol;
-    }
-
-    // OnNetworkSpawn
-    public int PriorityNetwork => 1000;
-    public void InitializeOnNetworkSpawn()
-    {
-
     }
 
     float GetDamageByWeaponAndHitArea(GunType gunType, HitArea hitArea)
@@ -83,38 +76,15 @@ public class PlayerShoot : NetworkBehaviour, IInitAwake, IInitNetwork
 
     [ServerRpc(RequireOwnership = false)]
     public void HandleServerShoot_ServerRPC(
-        Vector3 point, Vector3 shootDirection,
+        Vector3 point,
+        Vector3 shootDirection,
         float spreadAngle,
         GunType gunType,
         ulong shooterClientId)
     {
-        // Tìm súng hiện tại của người bắn (người gọi hàm Shoot_ServerRPC: shooterClientId)
-        // Gun currentShooterGun;
-        // NetworkObject shooterNetworkObj = NetworkManager.Singleton.ConnectedClients[shooterClientId].PlayerObject;
-
-        // if (!shooterNetworkObj.TryGetComponent<PlayerRoot>(out var shooterPlayerRoot))
-        // {
-        //     Debug.LogWarning("Shooter PlayerRoot not found");
-        //     return;
-        // }
-
-        // GameObject shooterWeapon = shooterPlayerRoot.WeaponHolder.GetCurrentWeapon();
-        // if (shooterWeapon.TryGetComponent<Gun>(out var shooterGun))
-        // {
-        //     currentShooterGun = shooterGun;
-        // }
-        // else
-        // {
-        //     Debug.Log("Shooter gun not found: " + shooterClientId);
-        //     return;
-        // }
-        //======================================================================================================
-
         Vector3 spreadDirection = Quaternion.Euler(
             Random.Range(-spreadAngle, spreadAngle),
-            Random.Range(-spreadAngle, spreadAngle),
-            0
-        ) * shootDirection;
+            Random.Range(-spreadAngle, spreadAngle), 0) * shootDirection;
 
         Ray ray = new(point, spreadDirection);
 
