@@ -5,6 +5,7 @@ using UnityEngine;
 public class KillCountChecker : NetworkBehaviour
 {
     public int MaxKillCount;
+    public float EndGameSlowFactor;
     public Action OnGameEnd;
 
     bool _isGameEnd = false;
@@ -35,5 +36,6 @@ public class KillCountChecker : NetworkBehaviour
     void NotifyGameEnd_ClientRpc()
     {
         OnGameEnd?.Invoke();
+        Time.timeScale = EndGameSlowFactor;
     }
 }

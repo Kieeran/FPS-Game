@@ -25,20 +25,10 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
     public void InitializeOnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if (IsOwner == false) return;
+        if (!IsOwner) return;
         CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
 
-        CurrentPlayerCanvas.EscapeUI.OnQuitGame += (() =>
-        {
-            // Gửi sự kiện cho tất cả Client để xử lý thoát game
-            NotifyClientsToQuit_ServerRpc();
-
-            NetworkManager.Singleton.Shutdown();
-            LobbyManager.Instance.ExitGame();
-
-            // GameSceneManager.Instance.LoadPreviousScene();
-            GameSceneManager.Instance.LoadScene("Lobby Room");
-        });
+        CurrentPlayerCanvas.EscapeUI.OnQuitGame += QuitGame;
 
         PlayerRoot.PlayerAim.OnAim += () =>
         {
@@ -58,6 +48,11 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
                 CurrentPlayerCanvas.PopUpVictoryDefeat("VICTORY");
             else
                 CurrentPlayerCanvas.PopUpVictoryDefeat("DEFEAT");
+
+            CurrentPlayerCanvas.PlayEndGameFadeOut(() =>
+            {
+                QuitGame();
+            });
         };
     }
 
@@ -84,6 +79,18 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
     public void AddTakeDamageEffect_ClientRpc(float damage, ClientRpcParams clientRpcParams)
     {
         CurrentPlayerCanvas.HitEffect.StartFadeHitEffect(damage);
+    }
+
+    void QuitGame()
+    {
+        // Gửi sự kiện cho tất cả Client để xử lý thoát game
+        NotifyClientsToQuit_ServerRpc();
+
+        NetworkManager.Singleton.Shutdown();
+        LobbyManager.Instance.ExitGame();
+
+        // GameSceneManager.Instance.LoadPreviousScene();
+        GameSceneManager.Instance.LoadScene("Lobby Room");
     }
 
     [ServerRpc]
