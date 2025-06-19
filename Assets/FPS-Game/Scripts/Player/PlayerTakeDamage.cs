@@ -68,6 +68,7 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
                     ownerPlayerNetwork.KillCount.Value += 1;
                 }
                 targetHealth.HP.Value = 0;
+                InGameManager.Instance.KillCountChecker.CheckPlayerKillCount(ownerPlayerNetwork.KillCount.Value);
             }
 
             Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");

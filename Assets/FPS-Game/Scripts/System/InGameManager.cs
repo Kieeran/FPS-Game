@@ -26,6 +26,7 @@ public class InGameManager : NetworkBehaviour
     public CinemachineVirtualCamera GetCinemachineVirtualCamera() { return _cinemachineVirtualCamera; }
     public List<SpawnPosition> SpawnPositionsList { get; private set; }
     public TimePhaseCounter TimePhaseCounter { get; private set; }
+    public KillCountChecker KillCountChecker { get; private set; }
 
     public System.Action<List<PlayerInfo>> OnReceivedPlayerInfo;
 
@@ -40,6 +41,7 @@ public class InGameManager : NetworkBehaviour
 
         InitSpawnPositions();
         TimePhaseCounter = GetComponent<TimePhaseCounter>();
+        KillCountChecker = GetComponent<KillCountChecker>();
     }
 
     void InitSpawnPositions()
