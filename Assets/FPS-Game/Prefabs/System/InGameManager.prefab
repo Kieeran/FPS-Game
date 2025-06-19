@@ -399,7 +399,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1408114438560642136
 Transform:
   m_ObjectHideFlags: 0
@@ -440,7 +440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5858090778935246851
 Transform:
   m_ObjectHideFlags: 0
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cinemachineVirtualCamera: {fileID: 0}
-  _spawnPositions: {fileID: 1408114438560642136}
+  _spawnPositions: {fileID: 5858090778935246851}
 --- !u!114 &2782243707476674553
 MonoBehaviour:
   m_ObjectHideFlags: 0

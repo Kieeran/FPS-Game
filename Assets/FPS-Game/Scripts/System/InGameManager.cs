@@ -17,7 +17,7 @@ public struct PlayerInfo
     }
 }
 
-public class InGameManager : MonoBehaviour
+public class InGameManager : NetworkBehaviour
 {
     [SerializeField] CinemachineVirtualCamera _cinemachineVirtualCamera;
     [SerializeField] Transform _spawnPositions;
@@ -62,16 +62,18 @@ public class InGameManager : MonoBehaviour
         return SpawnPositionsList[Random.Range(0, SpawnPositionsList.Count)];
     }
 
-    public void GetAllPlayerInfos(ulong clientId)
+    public void GetAllPlayerInfos()
     {
-        GetAllPlayerInfos_ServerRPC(clientId);
+        GetAllPlayerInfos_ServerRPC();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void GetAllPlayerInfos_ServerRPC(ulong clientID)
+    void GetAllPlayerInfos_ServerRPC(ServerRpcParams rpcParams = default)
     {
-        string result = "";
+        // Chỉ chạy đoạn này nếu là server
+        if (!NetworkManager.Singleton.IsServer) return;
 
+        string result = "";
         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
         {
             if (client.PlayerObject.TryGetComponent<PlayerNetwork>(out var playerNetwork))
@@ -80,11 +82,13 @@ public class InGameManager : MonoBehaviour
             }
         }
 
-        ClientRpcParams clientRpcParams = new ClientRpcParams
+        // Gửi kết quả về đúng client đã yêu cầu
+        ulong requestingClientId = rpcParams.Receive.SenderClientId;
+        ClientRpcParams clientRpcParams = new()
         {
             Send = new ClientRpcSendParams
             {
-                TargetClientIds = new List<ulong> { clientID }
+                TargetClientIds = new List<ulong> { requestingClientId }
             }
         };
 
@@ -92,7 +96,7 @@ public class InGameManager : MonoBehaviour
     }
 
     [ClientRpc]
-    void GetAllPlayerInfos_ClientRPC(string data, ClientRpcParams clientRpcParams)
+    void GetAllPlayerInfos_ClientRPC(string data, ClientRpcParams clientRpcParams = default)
     {
         List<PlayerInfo> playerInfos = new();
         string[] playerEntries = data.Split('|', System.StringSplitOptions.RemoveEmptyEntries);
@@ -109,7 +113,6 @@ public class InGameManager : MonoBehaviour
                 Debug.Log($"Name: {name}, Kill: {kill}, Death: {death}");
             }
         }
-
         OnReceivedPlayerInfo?.Invoke(playerInfos);
     }
 }

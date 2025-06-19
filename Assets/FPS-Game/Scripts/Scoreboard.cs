@@ -9,14 +9,14 @@ public class Scoreboard : MonoBehaviour
 
     void Awake()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
         InGameManager.Instance.OnReceivedPlayerInfo += DisplayPlayerScoreboard;
+        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
         gameObject.SetActive(false);
     }
 
     void OnEnable()
     {
-        InGameManager.Instance.GetAllPlayerInfos(PlayerRoot.NetworkObject.OwnerClientId);
+        InGameManager.Instance.GetAllPlayerInfos();
     }
 
     void DisplayPlayerScoreboard(List<PlayerInfo> playerInfos)
