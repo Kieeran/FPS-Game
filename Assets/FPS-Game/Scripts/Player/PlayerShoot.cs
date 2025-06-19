@@ -43,7 +43,7 @@ public class PlayerShoot : NetworkBehaviour
                 {
                     if (player.TryGetComponent<NetworkObject>(out var networkObject))
                     {
-                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_headDamage, "Headshot", networkObject.OwnerClientId, OwnerClientId);
+                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_headDamage, networkObject.OwnerClientId, OwnerClientId);
                     }
                 }
 
@@ -51,7 +51,7 @@ public class PlayerShoot : NetworkBehaviour
                 {
                     if (player.TryGetComponent<NetworkObject>(out var networkObject))
                     {
-                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_torsoDamage, "Torsoshot", networkObject.OwnerClientId, OwnerClientId);
+                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_torsoDamage, networkObject.OwnerClientId, OwnerClientId);
                     }
                 }
 
@@ -59,7 +59,7 @@ public class PlayerShoot : NetworkBehaviour
                 {
                     if (player.TryGetComponent<NetworkObject>(out var networkObject))
                     {
-                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_legDamage, "Legshot", networkObject.OwnerClientId, OwnerClientId);
+                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_legDamage, networkObject.OwnerClientId, OwnerClientId);
                     }
                 }
             }

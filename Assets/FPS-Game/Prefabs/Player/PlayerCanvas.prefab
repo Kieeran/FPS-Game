@@ -373,8 +373,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513d62cc9fd20c247800bc3ef35e4654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitBodyAlpha: 43
-  _hitHeadAlpha: 143
+  _minorHitEffectAlpha: 50
+  _moderateHitEffectAlpha: 100
+  _criticalHitEffectAlpha: 150
+  _minorDamageThreshold: 0.2
+  _moderateDamageThreshold: 0.55
+  _hitEffectDuration: 0.3
 --- !u!1 &980976352782559204
 GameObject:
   m_ObjectHideFlags: 0

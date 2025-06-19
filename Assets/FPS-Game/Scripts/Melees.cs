@@ -146,7 +146,7 @@ public class Melees : NetworkBehaviour
 
                     if (affectedClientIds.Add(targetClientID)) // Add trả về false nếu clientId đã có
                     {
-                        netObj.GetComponent<PlayerTakeDamage>().TakeDamage(damage, "Headshot", targetClientID, clientId);
+                        netObj.GetComponent<PlayerTakeDamage>().TakeDamage(damage, targetClientID, clientId);
                     }
                 }
             }

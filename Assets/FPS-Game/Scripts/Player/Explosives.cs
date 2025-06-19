@@ -16,7 +16,6 @@ public class Explosives : NetworkBehaviour
     ClientNetworkTransform _clientNetworkTransform;
     bool _onCoolDown = false;
 
-
     public bool EnableRadiusVisual;
     [SerializeField] float _throwForce;
     [SerializeField] float _explosionRadius;
@@ -119,8 +118,9 @@ public class Explosives : NetworkBehaviour
 
         foreach (var hitCollider in hitColliders)
         {
-            Transform root = hitCollider.transform.root;
+            if (hitCollider.CompareTag("Weapon")) continue;
 
+            Transform root = hitCollider.transform.root;
             if (root.CompareTag("Player"))
             {
                 if (root.TryGetComponent<NetworkObject>(out var netObj))
@@ -130,7 +130,7 @@ public class Explosives : NetworkBehaviour
                     if (affectedClientIds.Add(clientId)) // Add trả về false nếu clientId đã có
                     {
                         float damage = GetDamageByDistance(netObj.transform.position);
-                        netObj.GetComponent<PlayerTakeDamage>().TakeDamage(damage, "Headshot", clientId, throwerClientId);
+                        netObj.GetComponent<PlayerTakeDamage>().TakeDamage(damage, clientId, throwerClientId);
                     }
                 }
             }

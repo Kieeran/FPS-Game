@@ -53,13 +53,13 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
         GameManager.Instance.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
     }
 
-    public void AddTakeDamageEffect(string shotType, ulong targetClientId)
+    public void AddTakeDamageEffect(float damage, ulong targetClientId)
     {
-        AddTakeDamageEffect_ServerRpc(shotType, targetClientId);
+        AddTakeDamageEffect_ServerRpc(damage, targetClientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddTakeDamageEffect_ServerRpc(string shotType, ulong targetClientId)
+    public void AddTakeDamageEffect_ServerRpc(float damage, ulong targetClientId)
     {
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
@@ -69,13 +69,13 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
             }
         };
 
-        AddTakeDamageEffect_ClientRpc(shotType, clientRpcParams);
+        AddTakeDamageEffect_ClientRpc(damage, clientRpcParams);
     }
 
     [ClientRpc]
-    public void AddTakeDamageEffect_ClientRpc(string shotType, ClientRpcParams clientRpcParams)
+    public void AddTakeDamageEffect_ClientRpc(float damage, ClientRpcParams clientRpcParams)
     {
-        CurrentPlayerCanvas.HitEffect.StartFadeHitEffect(shotType);
+        CurrentPlayerCanvas.HitEffect.StartFadeHitEffect(damage);
     }
 
     [ServerRpc]

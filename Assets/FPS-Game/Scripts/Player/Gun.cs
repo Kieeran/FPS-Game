@@ -45,11 +45,24 @@ public class Gun : NetworkBehaviour
     // [SerializeField] private float fireRate;
     // [SerializeField] private float speed;
 
+    [Header("Damage")]
+    [SerializeField] float _headDamage;
+    [SerializeField] float _torsoDamage;
+    [SerializeField] float _legDamage;
+
+    public float HeadDamage { get; private set; }
+    public float TorsoDamage { get; private set; }
+    public float LegDamage { get; private set; }
+
     public float GetAimFOV() { return _aimFOV; }
 
     void Awake()
     {
         PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+
+        HeadDamage = _headDamage;
+        TorsoDamage = _torsoDamage;
+        LegDamage = _legDamage;
     }
 
     void Start()

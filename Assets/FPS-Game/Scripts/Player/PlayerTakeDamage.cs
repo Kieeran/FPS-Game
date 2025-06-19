@@ -42,13 +42,13 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
         }
     }
 
-    public void TakeDamage(float damage, string shotType, ulong targetClientId, ulong ownerPlayerID)
+    public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID)
     {
-        ChangeHPServerRpc(damage, shotType, targetClientId, ownerPlayerID);
+        ChangeHPServerRpc(damage, targetClientId, ownerPlayerID);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ChangeHPServerRpc(float damage, string shotType, ulong targetClientId, ulong ownerClientId)
+    public void ChangeHPServerRpc(float damage, ulong targetClientId, ulong ownerClientId)
     {
         var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
         var ownerPlayer = NetworkManager.Singleton.ConnectedClients[ownerClientId].PlayerObject;
@@ -73,7 +73,7 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
             Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
         }
 
-        PlayerRoot.PlayerUI.AddTakeDamageEffect(shotType, targetClientId);
+        PlayerRoot.PlayerUI.AddTakeDamageEffect(damage, targetClientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
