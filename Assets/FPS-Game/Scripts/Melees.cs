@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -22,11 +23,12 @@ public class Melees : NetworkBehaviour
     public Action OnLeftSlash_2;
     public Action OnRightSlash;
 
-    [SerializeField]
+    [SerializeField] float _rightSlashDelay = 0.3f;
+    [SerializeField] float _meleeLeftSlashDamage = 0.1f;
+    [SerializeField] float _meleeRightSlashDamage = 0.3f;
+
     bool _isAttacking = false;
-    [SerializeField]
     string _currentSlashType = "";
-    [SerializeField] float _rightSlashDelay;
 
     void Awake()
     {
@@ -42,7 +44,7 @@ public class Melees : NetworkBehaviour
 
         MeleeAnimation.OnCheckSlashHit += () =>
         {
-            CheckSlashHit();
+            CheckSlashHit_ServerRPC(_currentSlashType, OwnerClientId);
         };
     }
 
@@ -96,19 +98,58 @@ public class Melees : NetworkBehaviour
         _isAttacking = false;
     }
 
-    public void CheckSlashHit()
+    [ServerRpc(RequireOwnership = false)]
+    public void CheckSlashHit_ServerRPC(string currentSlashType, ulong clientId)
     {
-        Vector3 slashBoundsSize = Vector3.zero;
-        Vector3 slashOffset = Vector3.zero;
+        Vector3 slashBoundsSize, slashOffset;
+        float damage;
+
+        switch (currentSlashType)
+        {
+            case "Left 1":
+            case "Left 2":
+                slashBoundsSize = _leftSlashBoundsSize;
+                slashOffset = _leftSlashOffset;
+                damage = _meleeLeftSlashDamage;
+
+                break;
+            case "Right":
+                slashBoundsSize = _rightSlashBoundsSize;
+                slashOffset = _rightSlashOffset;
+                damage = _meleeRightSlashDamage;
+
+                break;
+            default:
+                Debug.Log("_currentSlashType error");
+                return;
+        }
 
         Vector3 worldCenter = transform.TransformPoint(slashOffset);
         Vector3 worldHalfExtents = Vector3.Scale(slashBoundsSize, transform.lossyScale) * 0.5f;
 
-        Collider[] hits = Physics.OverlapBox(worldCenter, worldHalfExtents);
+        Collider[] hitColliders = Physics.OverlapBox(worldCenter, worldHalfExtents);
 
-        foreach (var hit in hits)
+        HashSet<ulong> affectedClientIds = new(); // Tự động loại trùng
+
+        foreach (var hitCollider in hitColliders)
         {
-            Debug.Log("Slash Hit: " + hit.name);
+            if (hitCollider.CompareTag("Weapon")) continue;
+
+            Transform root = hitCollider.transform.root;
+            if (root.CompareTag("Player"))
+            {
+                if (root.TryGetComponent<NetworkObject>(out var netObj))
+                {
+                    ulong targetClientID = netObj.OwnerClientId;
+
+                    if (targetClientID == clientId) continue;
+
+                    if (affectedClientIds.Add(targetClientID)) // Add trả về false nếu clientId đã có
+                    {
+                        netObj.GetComponent<PlayerTakeDamage>().TakeDamage(damage, "Headshot", targetClientID, clientId);
+                    }
+                }
+            }
         }
     }
 

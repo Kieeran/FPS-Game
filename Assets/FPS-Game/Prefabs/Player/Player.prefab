@@ -947,7 +947,7 @@ GameObject:
   - component: {fileID: 1764666686505884524}
   m_Layer: 2
   m_Name: arms@ak
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1709,11 +1709,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6327882276773848452}
   - component: {fileID: 2849443147055145248}
-  - component: {fileID: 500191308576157680}
   - component: {fileID: 7285417968855938332}
+  - component: {fileID: 500191308576157680}
   m_Layer: 0
   m_Name: arms@knife
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1760,20 +1760,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &500191308576157680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742867246704085820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d35180c16df8c1642b54ba5b1b126c58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Animator: {fileID: 2849443147055145248}
-  Melees: {fileID: 2144477545034913600}
 --- !u!114 &7285417968855938332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1809,6 +1795,20 @@ MonoBehaviour:
     TriggerNameHash: -2070186573
     TransitionIndex: 2
   m_Animator: {fileID: 2849443147055145248}
+--- !u!114 &500191308576157680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742867246704085820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35180c16df8c1642b54ba5b1b126c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 2849443147055145248}
+  Melees: {fileID: 2144477545034913600}
 --- !u!1 &744962520749373115
 GameObject:
   m_ObjectHideFlags: 0
@@ -5189,7 +5189,7 @@ GameObject:
   - component: {fileID: 2211200954905999891}
   m_Layer: 2
   m_Name: arms@talon
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5439,7 +5439,7 @@ GameObject:
   - component: {fileID: 7822546661044709180}
   m_Layer: 2
   m_Name: arms@sniper
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12005,15 +12005,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeleeAnimation: {fileID: 500191308576157680}
-  EnableLeftSlashBBVisual: 1
+  EnableLeftSlashBBVisual: 0
   _leftSlashBoundsSize: {x: 1, y: 0.15, z: 0.5}
   _leftSlashOffset: {x: -0.56, y: 0.24, z: 0}
-  EnableRightSlashBBVisual: 1
+  EnableRightSlashBBVisual: 0
   _rightSlashBoundsSize: {x: 0.15, y: 0.15, z: 1}
   _rightSlashOffset: {x: -0.56, y: 0.24, z: 0.25}
-  _isAttacking: 0
-  _currentSlashType: 
   _rightSlashDelay: 0.3
+  _meleeLeftSlashDamage: 0.1
+  _meleeRightSlashDamage: 0.3
 --- !u!1 &7011383869357581714
 GameObject:
   m_ObjectHideFlags: 0
@@ -14332,7 +14332,7 @@ GameObject:
   - component: {fileID: 1646963638256195603}
   m_Layer: 2
   m_Name: Grenade
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

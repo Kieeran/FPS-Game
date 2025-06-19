@@ -52,6 +52,13 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     public int PriorityNetwork => 20;
     public void InitializeOnNetworkSpawn()
     {
+        StartCoroutine(SetFirstWeapon());
+    }
+
+    IEnumerator SetFirstWeapon()
+    {
+        yield return null;
+
         _currentWeaponIndex = 0;
         OnChangeWeapon?.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
         EquipWeapon(_currentWeaponIndex);
