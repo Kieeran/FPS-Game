@@ -4479,6 +4479,9 @@ MonoBehaviour:
   _moveDuration: 0.15
   _spreadAngle: 1
   Automatic: 0
+  _headDamage: 0.4
+  _torsoDamage: 0.15
+  _legDamage: 0.1
 --- !u!114 &3736074866538794915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6047,9 +6050,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
-  _headDamage: 0.1
-  _torsoDamage: 0.05
-  _legDamage: 0.02
 --- !u!114 &3776603355074829376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10358,6 +10358,9 @@ MonoBehaviour:
   _moveDuration: 0.15
   _spreadAngle: 1
   Automatic: 1
+  _headDamage: 1
+  _torsoDamage: 0.3
+  _legDamage: 0.15
 --- !u!114 &169921863895426106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11384,6 +11387,9 @@ MonoBehaviour:
   _moveDuration: 0.15
   _spreadAngle: 0
   Automatic: 0
+  _headDamage: 2
+  _torsoDamage: 1
+  _legDamage: 0.3
 --- !u!114 &4460800013304567988
 MonoBehaviour:
   m_ObjectHideFlags: 0

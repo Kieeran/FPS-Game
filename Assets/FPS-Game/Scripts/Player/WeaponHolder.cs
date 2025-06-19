@@ -10,6 +10,8 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
 
+    public GameObject CurrentGun;
+
     List<GameObject> _weaponList;
 
     int _currentWeaponIndex;
@@ -60,7 +62,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         yield return null;
 
         _currentWeaponIndex = 0;
-        OnChangeWeapon?.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
+        OnChangeWeapon?.Invoke(this, new WeaponEventArgs { CurrentWeapon = GetCurrentWeapon() });
         EquipWeapon(_currentWeaponIndex);
     }
 
@@ -117,16 +119,17 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 
     void ChangeWeapon()
     {
-        OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = _weaponList[_currentWeaponIndex] });
+        OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = GetCurrentWeapon() });
 
         RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
         PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
+
+        CurrentGun = GetCurrentWeapon();
     }
 
     [ServerRpc(RequireOwnership = false)]
     void RequestEquipWeapon_ServerRpc(int weaponIndex)
     {
-        EquipWeapon(weaponIndex);
         UpdateWeapon_ClientRpc(weaponIndex);
     }
 
@@ -166,5 +169,10 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     {
         Rb.isKinematic = true;
         transform.SetLocalPositionAndRotation(originWeaponHolderPos, originWeaponHolderRot);
+    }
+
+    public GameObject GetCurrentWeapon()
+    {
+        return _weaponList[_currentWeaponIndex];
     }
 }

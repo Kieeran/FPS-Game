@@ -5,21 +5,40 @@ using UnityEngine;
 public class PlayerShoot : NetworkBehaviour
 {
     [SerializeField] GameObject _hitEffect;
-    [SerializeField] float _headDamage;
-    [SerializeField] float _torsoDamage;
-    [SerializeField] float _legDamage;
 
     public void Shoot(float spreadAngle)
     {
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
-        Shoot_ServerRPC(ray.origin, ray.direction, spreadAngle);
+        HandleServerShoot_ServerRPC(ray.origin, ray.direction, spreadAngle, OwnerClientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void Shoot_ServerRPC(Vector3 point, Vector3 shootDirection, float spreadAngle)
+    public void HandleServerShoot_ServerRPC(Vector3 point, Vector3 shootDirection, float spreadAngle, ulong shooterClientId)
     {
+        // Tìm súng hiện tại của người bắn (người gọi hàm Shoot_ServerRPC: shooterClientId)
+        Gun currentShooterGun;
+        NetworkObject shooterNetworkObj = NetworkManager.Singleton.ConnectedClients[shooterClientId].PlayerObject;
+
+        if (!shooterNetworkObj.TryGetComponent<PlayerRoot>(out var shooterPlayerRoot))
+        {
+            Debug.LogWarning("Shooter PlayerRoot not found");
+            return;
+        }
+
+        GameObject shooterWeapon = shooterPlayerRoot.WeaponHolder.GetCurrentWeapon();
+        if (shooterWeapon.TryGetComponent<Gun>(out var shooterGun))
+        {
+            currentShooterGun = shooterGun;
+        }
+        else
+        {
+            Debug.Log("Shooter gun not found: " + shooterClientId);
+            return;
+        }
+        //======================================================================================================
+
         Vector3 spreadDirection = Quaternion.Euler(
             Random.Range(-spreadAngle, spreadAngle),
             Random.Range(-spreadAngle, spreadAngle),
@@ -39,27 +58,26 @@ public class PlayerShoot : NetworkBehaviour
 
             if (player != null)
             {
-                if (hit.transform.CompareTag("PlayerHead"))
+                if (player.TryGetComponent<NetworkObject>(out var networkObject))
                 {
-                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
-                    {
-                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_headDamage, networkObject.OwnerClientId, OwnerClientId);
-                    }
-                }
+                    float damage = 0f;
 
-                else if (hit.transform.CompareTag("PlayerTorso"))
-                {
-                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
-                    {
-                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_torsoDamage, networkObject.OwnerClientId, OwnerClientId);
-                    }
-                }
+                    if (hit.transform.CompareTag("PlayerHead"))
+                        damage = currentShooterGun.HeadDamage;
+                    else if (hit.transform.CompareTag("PlayerTorso"))
+                        damage = currentShooterGun.TorsoDamage;
+                    else if (hit.transform.CompareTag("PlayerLeg"))
+                        damage = currentShooterGun.LegDamage;
 
-                else if (hit.transform.CompareTag("PlayerLeg"))
-                {
-                    if (player.TryGetComponent<NetworkObject>(out var networkObject))
+                    if (damage > 0)
                     {
-                        player.GetComponent<PlayerTakeDamage>().TakeDamage(_legDamage, networkObject.OwnerClientId, OwnerClientId);
+                        player.GetComponent<PlayerTakeDamage>().TakeDamage(
+                            damage,
+                            networkObject.OwnerClientId,
+                            shooterClientId
+                        );
+
+                        Debug.Log($"Gun: {currentShooterGun.gameObject.name}, damage: {damage}");
                     }
                 }
             }
