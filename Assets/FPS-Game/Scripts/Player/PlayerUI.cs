@@ -50,7 +50,7 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
             CurrentPlayerCanvas.ToggleCrossHair(true);
         };
 
-        GameManager.Instance.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
+        InGameManager.Instance.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
     }
 
     public void AddTakeDamageEffect(float damage, ulong targetClientId)

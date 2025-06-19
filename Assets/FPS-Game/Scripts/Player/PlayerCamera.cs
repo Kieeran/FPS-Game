@@ -24,7 +24,7 @@ public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
     public int PriorityNetwork => 15;
     public void InitializeOnNetworkSpawn()
     {
-        _playerCamera = GameManager.Instance.GetCinemachineVirtualCamera();
+        _playerCamera = InGameManager.Instance.GetCinemachineVirtualCamera();
 
         _isAim = false;
         _isUnAim = false;

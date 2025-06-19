@@ -10,17 +10,21 @@ public class Scoreboard : MonoBehaviour
     void Awake()
     {
         PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-
+        InGameManager.Instance.OnReceivedPlayerInfo += DisplayPlayerScoreboard;
         gameObject.SetActive(false);
     }
 
     void OnEnable()
     {
-        List<PlayerNetwork.PlayerInfo> playerInfos = PlayerRoot.PlayerNetwork.GetAllPlayerInfos();
+        InGameManager.Instance.GetAllPlayerInfos(PlayerRoot.NetworkObject.OwnerClientId);
+    }
 
+    void DisplayPlayerScoreboard(List<PlayerInfo> playerInfos)
+    {
         foreach (var playerInfo in playerInfos)
         {
             GameObject itemGO = Instantiate(playerScoreboardItem, playerScoreboardList);
+            itemGO.SetActive(true);
             if (itemGO.TryGetComponent<PlayerScoreboardItem>(out var item))
             {
                 item.Setup(playerInfo.PlayerName, playerInfo.KillCount, playerInfo.DeathCount);
@@ -32,7 +36,8 @@ public class Scoreboard : MonoBehaviour
     {
         foreach (Transform child in playerScoreboardList)
         {
-            Destroy(child.gameObject);
+            if (child.gameObject.activeSelf)
+                Destroy(child.gameObject);
         }
     }
 }

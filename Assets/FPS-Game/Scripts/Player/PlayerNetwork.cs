@@ -4,7 +4,6 @@ using UnityEngine;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
-using System;
 
 public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
 {
@@ -19,30 +18,11 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     public float RespawnDelay;
 
-    private GameObject[] spawnerList;
-
-    public struct PlayerInfo
-    {
-        public string PlayerName;
-        public int KillCount;
-        public int DeathCount;
-
-        public PlayerInfo(string name, int killCount, int deathCount)
-        {
-            PlayerName = name;
-            KillCount = killCount;
-            DeathCount = deathCount;
-        }
-    }
-
-    List<PlayerInfo> _playerInfos;
-
     // Awake
     public int PriorityAwake => 1000;
     public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
-        _playerInfos = new List<PlayerInfo>();
     }
 
     // Start
@@ -58,7 +38,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     {
         if (IsOwner == false) return;
 
-        SpawnPosition randomPos = GameManager.Instance.GetRandomPos();
+        SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
 
         Debug.Log($"Spawn at {randomPos.gameObject.name}: {randomPos.SpawnPos} {randomPos.SpawnRot.eulerAngles}");
         transform.position = randomPos.SpawnPos;
@@ -86,7 +66,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     void SetCinemachineVirtualCamera()
     {
-        CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
+        CinemachineVirtualCamera _camera = InGameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
         {
             Transform playerCamera = null;
@@ -107,7 +87,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     void RemoveCinemachineVirtualCamera()
     {
-        CinemachineVirtualCamera _camera = GameManager.Instance.GetCinemachineVirtualCamera();
+        CinemachineVirtualCamera _camera = InGameManager.Instance.GetCinemachineVirtualCamera();
         if (_camera != null)
         {
             Transform playerCameraRoot = transform.Find("PlayerCameraRoot");
@@ -120,7 +100,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     [ServerRpc(RequireOwnership = false)]
     void SetRandomPosAtSpawn_ServerRpc(ulong clientId)
     {
-        SpawnPosition randomPos = GameManager.Instance.GetRandomPos();
+        SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
         if (randomPos == null)
         {
             Debug.Log("Null");
@@ -173,7 +153,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     [ServerRpc(RequireOwnership = false)]
     void SetRandomPos_ServerRpc(ulong clientId)
     {
-        SpawnPosition randomPos = GameManager.Instance.GetRandomPos();
+        SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
         if (randomPos == null)
         {
             Debug.Log("Null");
@@ -291,58 +271,6 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
             SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
             // OnPlayerDead();
             // GetAllPlayerInfos_ServerRPC(OwnerClientId);
-        }
-    }
-
-    public List<PlayerInfo> GetAllPlayerInfos()
-    {
-        GetAllPlayerInfos_ServerRPC(OwnerClientId);
-        return _playerInfos;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    void GetAllPlayerInfos_ServerRPC(ulong clientID)
-    {
-        string result = "";
-
-        foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
-        {
-            if (client.PlayerObject.TryGetComponent<PlayerNetwork>(out var playerNetwork))
-            {
-                result += $"{playerNetwork.playerName};{playerNetwork.KillCount.Value};{playerNetwork.DeathCount.Value}|";
-            }
-        }
-
-        ClientRpcParams clientRpcParams = new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new List<ulong> { clientID }
-            }
-        };
-
-        GetAllPlayerInfos_ClientRPC(result, clientRpcParams);
-    }
-
-    [ClientRpc]
-    void GetAllPlayerInfos_ClientRPC(string data, ClientRpcParams clientRpcParams)
-    {
-        string[] playerEntries = data.Split('|', StringSplitOptions.RemoveEmptyEntries);
-
-        _playerInfos?.Clear();
-
-        foreach (string entry in playerEntries)
-        {
-            string[] tokens = entry.Split(';');
-            if (tokens.Length == 3)
-            {
-                string name = tokens[0];
-                int kill = int.Parse(tokens[1]);
-                int death = int.Parse(tokens[2]);
-                _playerInfos.Add(new PlayerInfo(name, kill, death));
-
-                Debug.Log($"Name: {name}, Kill: {kill}, Death: {death}");
-            }
         }
     }
 }
