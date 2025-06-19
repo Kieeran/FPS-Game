@@ -1264,7 +1264,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DEFEAT
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1840,7 +1840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6897891495160739802
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3853,6 +3853,8 @@ MonoBehaviour:
   ScopeAim: {fileID: 1374942569635707284}
   CrossHair: {fileID: 7579746744417592475}
   timerNum: {fileID: 3510193770982962918}
+  VictoryDefeatPopUp: {fileID: 6897891495160739802}
+  VictoryDefeatText: {fileID: 4521781574407054727}
 --- !u!1 &7502960429214307528
 GameObject:
   m_ObjectHideFlags: 0

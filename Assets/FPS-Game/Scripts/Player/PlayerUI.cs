@@ -51,6 +51,14 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
         };
 
         InGameManager.Instance.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
+
+        InGameManager.Instance.KillCountChecker.OnGameEnd += () =>
+        {
+            if (PlayerRoot.PlayerNetwork.KillCount.Value >= InGameManager.Instance.KillCountChecker.MaxKillCount)
+                CurrentPlayerCanvas.PopUpVictoryDefeat("VICTORY");
+            else
+                CurrentPlayerCanvas.PopUpVictoryDefeat("DEFEAT");
+        };
     }
 
     public void AddTakeDamageEffect(float damage, ulong targetClientId)

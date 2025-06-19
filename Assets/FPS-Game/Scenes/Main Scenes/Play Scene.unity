@@ -6102,6 +6102,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2782243707476674553, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: combatPhaseDuration
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782243707476674553, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: resultPhaseDuration
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3247283659202228985, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4054774198
@@ -6153,6 +6161,10 @@ PrefabInstance:
     - target: {fileID: 4920083990778913584, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: m_Name
       value: InGameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040054155949608307, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: MaxKillCount
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

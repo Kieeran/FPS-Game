@@ -1,8 +1,8 @@
 using System;
-using System.Data;
+using Unity.Netcode;
 using UnityEngine;
 
-public class KillCountChecker : MonoBehaviour
+public class KillCountChecker : NetworkBehaviour
 {
     public int MaxKillCount;
     public Action OnGameEnd;
@@ -14,8 +14,8 @@ public class KillCountChecker : MonoBehaviour
         if (_isGameEnd) return;
         if (killCount >= MaxKillCount)
         {
+            NotifyGameEnd_ServerRpc();
             Debug.Log("Game End");
-            OnGameEnd?.Invoke();
             _isGameEnd = true;
         }
 
@@ -23,5 +23,17 @@ public class KillCountChecker : MonoBehaviour
         {
             Debug.Log($"MaxKillCount: {MaxKillCount}, current MaxKillCount: {killCount}");
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void NotifyGameEnd_ServerRpc()
+    {
+        NotifyGameEnd_ClientRpc();
+    }
+
+    [ClientRpc]
+    void NotifyGameEnd_ClientRpc()
+    {
+        OnGameEnd?.Invoke();
     }
 }
