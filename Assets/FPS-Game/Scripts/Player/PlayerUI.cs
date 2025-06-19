@@ -49,6 +49,8 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
             else
                 CurrentPlayerCanvas.PopUpVictoryDefeat("DEFEAT");
 
+            PlayerRoot.PlayerAssetsInputs.IsInputEnabled = false;
+
             CurrentPlayerCanvas.PlayEndGameFadeOut(() =>
             {
                 QuitGame();

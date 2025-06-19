@@ -33,14 +33,18 @@ namespace PlayerAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
+		public bool IsInputEnabled = true;
+
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			MoveInput(value.Get<Vector2>());
 		}
 
 		public void OnLook(InputValue value)
 		{
+			if (!IsInputEnabled || !cursorInputForLook) return;
 			if (cursorInputForLook)
 			{
 				LookInput(value.Get<Vector2>());
@@ -49,76 +53,91 @@ namespace PlayerAssets
 
 		public void OnJump(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			JumpInput(value.isPressed);
 		}
 
 		public void OnSprint(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			SprintInput(value.isPressed);
 		}
 
 		public void OnAim(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			AimInput(value.isPressed);
 		}
 
 		public void OnShoot(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			ShootInput(value.isPressed);
 		}
 
 		public void OnRightSlash(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			RightSlashInput(value.isPressed);
 		}
 
 		public void OnReload(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			ReloadInput(value.isPressed);
 		}
 
 		public void OnInteract(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			InteractInput(value.isPressed);
 		}
 
 		public void OnOpenInventory(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			OpenInventoryInput(value.isPressed);
 		}
 
 		public void OnOpenScoreboard(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			OpenScoreboardInput(value.isPressed);
 		}
 
 		public void OnHotkey1(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			Hotkey1Input(value.isPressed);
 		}
 
 		public void OnHotkey2(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			Hotkey2Input(value.isPressed);
 		}
 
 		public void OnHotkey3(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			Hotkey3Input(value.isPressed);
 		}
 
 		public void OnHotkey4(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			Hotkey4Input(value.isPressed);
 		}
 
 		public void OnHotkey5(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			Hotkey5Input(value.isPressed);
 		}
 
 		public void OnEscapeUI(InputValue value)
 		{
+			if (!IsInputEnabled) return;
 			EscapeUIInput(value.isPressed);
 		}
 #endif
