@@ -2,41 +2,112 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerShoot : NetworkBehaviour
+public enum HitArea
 {
-    [SerializeField] GameObject _hitEffect;
+    Head,
+    Torso,
+    Leg
+}
 
-    public void Shoot(float spreadAngle)
+public enum GunType
+{
+    None,
+    Rifle,
+    Sniper,
+    Pistol,
+}
+
+public class PlayerShoot : NetworkBehaviour, IInitAwake, IInitNetwork
+{
+    public PlayerRoot PlayerRoot { get; private set; }
+    [SerializeField] GameObject _hitEffect;
+    Gun _rifle, _sniper, _pistol;
+
+    // Awake
+    public int PriorityAwake => 1000;
+    public void InitializeAwake()
     {
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        PlayerRoot = GetComponent<PlayerRoot>();
+
+        _rifle = PlayerRoot.WeaponHolder.Rifle;
+        _sniper = PlayerRoot.WeaponHolder.Sniper;
+        _pistol = PlayerRoot.WeaponHolder.Pistol;
+    }
+
+    // OnNetworkSpawn
+    public int PriorityNetwork => 1000;
+    public void InitializeOnNetworkSpawn()
+    {
+
+    }
+
+    float GetDamageByWeaponAndHitArea(GunType gunType, HitArea hitArea)
+    {
+        return gunType switch
+        {
+            GunType.Rifle => hitArea switch
+            {
+                HitArea.Head => _rifle.HeadDamage,
+                HitArea.Torso => _rifle.TorsoDamage,
+                HitArea.Leg => _rifle.LegDamage,
+                _ => 0f
+            },
+
+            GunType.Sniper => hitArea switch
+            {
+                HitArea.Head => _sniper.HeadDamage,
+                HitArea.Torso => _sniper.TorsoDamage,
+                HitArea.Leg => _sniper.LegDamage,
+                _ => 0f
+            },
+
+            GunType.Pistol => hitArea switch
+            {
+                HitArea.Head => _pistol.HeadDamage,
+                HitArea.Torso => _pistol.TorsoDamage,
+                HitArea.Leg => _pistol.LegDamage,
+                _ => 0f
+            },
+
+            _ => 0f,
+        };
+    }
+
+    public void Shoot(float spreadAngle, GunType gunType)
+    {
+        Vector2 screenCenterPoint = new(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
-        HandleServerShoot_ServerRPC(ray.origin, ray.direction, spreadAngle, OwnerClientId);
+        HandleServerShoot_ServerRPC(ray.origin, ray.direction, spreadAngle, gunType, OwnerClientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void HandleServerShoot_ServerRPC(Vector3 point, Vector3 shootDirection, float spreadAngle, ulong shooterClientId)
+    public void HandleServerShoot_ServerRPC(
+        Vector3 point, Vector3 shootDirection,
+        float spreadAngle,
+        GunType gunType,
+        ulong shooterClientId)
     {
         // Tìm súng hiện tại của người bắn (người gọi hàm Shoot_ServerRPC: shooterClientId)
-        Gun currentShooterGun;
-        NetworkObject shooterNetworkObj = NetworkManager.Singleton.ConnectedClients[shooterClientId].PlayerObject;
+        // Gun currentShooterGun;
+        // NetworkObject shooterNetworkObj = NetworkManager.Singleton.ConnectedClients[shooterClientId].PlayerObject;
 
-        if (!shooterNetworkObj.TryGetComponent<PlayerRoot>(out var shooterPlayerRoot))
-        {
-            Debug.LogWarning("Shooter PlayerRoot not found");
-            return;
-        }
+        // if (!shooterNetworkObj.TryGetComponent<PlayerRoot>(out var shooterPlayerRoot))
+        // {
+        //     Debug.LogWarning("Shooter PlayerRoot not found");
+        //     return;
+        // }
 
-        GameObject shooterWeapon = shooterPlayerRoot.WeaponHolder.GetCurrentWeapon();
-        if (shooterWeapon.TryGetComponent<Gun>(out var shooterGun))
-        {
-            currentShooterGun = shooterGun;
-        }
-        else
-        {
-            Debug.Log("Shooter gun not found: " + shooterClientId);
-            return;
-        }
+        // GameObject shooterWeapon = shooterPlayerRoot.WeaponHolder.GetCurrentWeapon();
+        // if (shooterWeapon.TryGetComponent<Gun>(out var shooterGun))
+        // {
+        //     currentShooterGun = shooterGun;
+        // }
+        // else
+        // {
+        //     Debug.Log("Shooter gun not found: " + shooterClientId);
+        //     return;
+        // }
         //======================================================================================================
 
         Vector3 spreadDirection = Quaternion.Euler(
@@ -60,14 +131,26 @@ public class PlayerShoot : NetworkBehaviour
             {
                 if (player.TryGetComponent<NetworkObject>(out var networkObject))
                 {
-                    float damage = 0f;
+                    if (networkObject.OwnerClientId == shooterClientId)
+                    {
+                        Debug.Log("Self-shoot");
+                        return;
+                    }
 
+                    HitArea hitArea;
                     if (hit.transform.CompareTag("PlayerHead"))
-                        damage = currentShooterGun.HeadDamage;
+                        hitArea = HitArea.Head;
                     else if (hit.transform.CompareTag("PlayerTorso"))
-                        damage = currentShooterGun.TorsoDamage;
+                        hitArea = HitArea.Torso;
                     else if (hit.transform.CompareTag("PlayerLeg"))
-                        damage = currentShooterGun.LegDamage;
+                        hitArea = HitArea.Leg;
+                    else
+                    {
+                        Debug.Log("Player part unvalid");
+                        return;
+                    }
+
+                    float damage = GetDamageByWeaponAndHitArea(gunType, hitArea);
 
                     if (damage > 0)
                     {
@@ -77,7 +160,7 @@ public class PlayerShoot : NetworkBehaviour
                             shooterClientId
                         );
 
-                        Debug.Log($"Gun: {currentShooterGun.gameObject.name}, damage: {damage}");
+                        Debug.Log($"Gun: {gunType}, damage: {damage}");
                     }
                 }
             }

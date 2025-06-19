@@ -50,6 +50,9 @@ public class Gun : NetworkBehaviour
     [SerializeField] float _torsoDamage;
     [SerializeField] float _legDamage;
 
+    [Header("Gun type")]
+    [SerializeField] GunType _gunType;
+
     public float HeadDamage { get; private set; }
     public float TorsoDamage { get; private set; }
     public float LegDamage { get; private set; }
@@ -122,7 +125,7 @@ public class Gun : NetworkBehaviour
                     //OnGunShoot.Invoke();
                     CurrentCoolDown = FireCoolDown;
                     PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
-                    PlayerRoot.PlayerShoot.Shoot(_spreadAngle);
+                    PlayerRoot.PlayerShoot.Shoot(_spreadAngle, _gunType);
 
                     // shootEffect.ActiveShootEffect();
                 }
@@ -140,7 +143,7 @@ public class Gun : NetworkBehaviour
                     //OnGunShoot.Invoke();
                     CurrentCoolDown = FireCoolDown;
                     PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
-                    PlayerRoot.PlayerShoot.Shoot(_spreadAngle);
+                    PlayerRoot.PlayerShoot.Shoot(_spreadAngle, _gunType);
 
                     // shootEffect.ActiveShootEffect();
                 }

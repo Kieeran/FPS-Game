@@ -3839,8 +3839,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3180049, y: 0.324716, z: 0.4905655}
-  m_Center: {x: 0.003967027, y: -0.01199015, z: 1.3258482}
+  m_Size: {x: 0.3180049, y: 0.32471594, z: 0.5935092}
+  m_Center: {x: 0.003967027, y: -0.01199015, z: 1.2743808}
 --- !u!1 &1879874942228869890
 GameObject:
   m_ObjectHideFlags: 0
@@ -4482,6 +4482,7 @@ MonoBehaviour:
   _headDamage: 0.4
   _torsoDamage: 0.15
   _legDamage: 0.1
+  _gunType: 3
 --- !u!114 &3736074866538794915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4614,6 +4615,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fa16d510cf36f449f31c296070c289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Rifle: {fileID: 5432729954051960007}
+  Sniper: {fileID: 3280156445995770102}
+  Pistol: {fileID: 5226092564806773297}
 --- !u!114 &6928678171669489212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6497,8 +6501,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.468893, y: 0.30069685, z: 1.2062844}
-  m_Center: {x: -0.0038269758, y: 0.015801208, z: 0.57976216}
+  m_Size: {x: 0.468893, y: 0.30069685, z: 0.9965896}
+  m_Center: {x: -0.0038269758, y: 0.015801212, z: 0.47491774}
 --- !u!1 &3151989627777339677
 GameObject:
   m_ObjectHideFlags: 0
@@ -10361,6 +10365,7 @@ MonoBehaviour:
   _headDamage: 1
   _torsoDamage: 0.3
   _legDamage: 0.15
+  _gunType: 1
 --- !u!114 &169921863895426106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11390,6 +11395,7 @@ MonoBehaviour:
   _headDamage: 2
   _torsoDamage: 1
   _legDamage: 0.3
+  _gunType: 2
 --- !u!114 &4460800013304567988
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using PlayerAssets;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -10,7 +9,9 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
 
-    public GameObject CurrentGun;
+    public Gun Rifle;
+    public Gun Sniper;
+    public Gun Pistol;
 
     List<GameObject> _weaponList;
 
@@ -123,8 +124,6 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 
         RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
         PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
-
-        CurrentGun = GetCurrentWeapon();
     }
 
     [ServerRpc(RequireOwnership = false)]
