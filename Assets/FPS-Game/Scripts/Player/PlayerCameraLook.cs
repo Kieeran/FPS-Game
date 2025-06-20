@@ -12,6 +12,11 @@ public class PlayerCameraLook : MonoBehaviour
         {
             _toggleCameraRotation = !_toggleCameraRotation;
         };
+
+        PlayerRoot.PlayerTakeDamage.OnPlayerDead += () =>
+        {
+            _toggleCameraRotation = false;
+        };
     }
 
     void LateUpdate()
