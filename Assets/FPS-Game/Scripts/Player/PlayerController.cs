@@ -341,7 +341,7 @@ namespace PlayerAssets
         private GameObject _mainCamera;
 
         private const float _threshold = 0.01f;
-        public bool _hasAnimator;
+        // public bool _hasAnimator;
 
         // Animator parameters
         private int _animIDSpeed;
@@ -390,7 +390,7 @@ namespace PlayerAssets
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
-            _hasAnimator = TryGetComponent(out _animator);
+            // _hasAnimator = TryGetComponent(out _animator);
             // _controller = GetComponent<CharacterController>();
             _input = GetComponent<PlayerAssetsInputs>();
 
@@ -484,41 +484,53 @@ namespace PlayerAssets
                 // Move Foward
                 if (_input.move.y > 0 || Input.GetMouseButtonDown(0))
                 {
-                    if (_hasAnimator)
-                    {
-                        _animator.SetFloat(_animIDVelocityY, 10);
-                        _animator.SetFloat(_animIDVelocityX, 0);
-                    }
+                    // if (_hasAnimator)
+                    // {
+                    //     _animator.SetFloat(_animIDVelocityY, 10);
+                    //     _animator.SetFloat(_animIDVelocityX, 0);
+                    // }
+
+                    _animator.SetFloat(_animIDVelocityY, 10);
+                    _animator.SetFloat(_animIDVelocityX, 0);
                 }
 
                 // Move Left
                 if (_input.move.x < 0 && _input.move.y == 0)
                 {
-                    if (_hasAnimator)
-                    {
-                        _animator.SetFloat(_animIDVelocityY, 0);
-                        _animator.SetFloat(_animIDVelocityX, -10);
-                    }
+                    // if (_hasAnimator)
+                    // {
+                    //     _animator.SetFloat(_animIDVelocityY, 0);
+                    //     _animator.SetFloat(_animIDVelocityX, -10);
+                    // }
+
+                    _animator.SetFloat(_animIDVelocityY, 0);
+                    _animator.SetFloat(_animIDVelocityX, -10);
                 }
 
                 // Move Right
                 if (_input.move.x > 0 && _input.move.y == 0)
                 {
-                    if (_hasAnimator)
-                    {
-                        _animator.SetFloat(_animIDVelocityY, 0);
-                        _animator.SetFloat(_animIDVelocityX, 10);
-                    }
+                    // if (_hasAnimator)
+                    // {
+                    //     _animator.SetFloat(_animIDVelocityY, 0);
+                    //     _animator.SetFloat(_animIDVelocityX, 10);
+                    // }
+
+                    _animator.SetFloat(_animIDVelocityY, 0);
+                    _animator.SetFloat(_animIDVelocityX, 10);
                 }
 
                 // Move Foward
                 if (_input.move.y < 0)
                 {
-                    if (_hasAnimator)
-                    {
-                        _animator.SetFloat(_animIDVelocityY, -10);
-                        _animator.SetFloat(_animIDVelocityX, 0);
-                    }
+                    // if (_hasAnimator)
+                    // {
+                    //     _animator.SetFloat(_animIDVelocityY, -10);
+                    //     _animator.SetFloat(_animIDVelocityX, 0);
+                    // }
+
+                    _animator.SetFloat(_animIDVelocityY, -10);
+                    _animator.SetFloat(_animIDVelocityX, 0);
                 }
 
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);

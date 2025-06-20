@@ -56,7 +56,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
         PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
 
-        PlayerRoot.PlayerModel.HideHead();
+        PlayerRoot.PlayerModel.DisableHead();
     }
 
     void OnDisable()

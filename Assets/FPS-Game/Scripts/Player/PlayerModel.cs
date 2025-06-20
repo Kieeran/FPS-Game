@@ -12,11 +12,19 @@ public class PlayerModel : NetworkBehaviour
         PlayerAni = GetComponent<PlayerAnimation>();
     }
 
-    public void HideHead()
+    public void DisableHead()
     {
         foreach (var part in headParts)
         {
             part.enabled = false;
+        }
+    }
+
+    public void EnableHead()
+    {
+        foreach (var part in headParts)
+        {
+            part.enabled = true;
         }
     }
 
@@ -43,8 +51,10 @@ public class PlayerModel : NetworkBehaviour
     {
         if (!IsOwner) return;
         Debug.Log("Die animation");
-
+        PlayerAni.Animator.applyRootMotion = true;
         PlayerAni.Animator.Play("FallingForwardDeath", 0, 0f);
+
+        EnableHead();
     }
 
     public void OnPlayerRespawn()
@@ -52,7 +62,10 @@ public class PlayerModel : NetworkBehaviour
         if (!IsOwner) return;
         Debug.Log("Restart animation");
 
-        PlayerAni.Animator.Play("Idle Walk Run Blend", 0, 0f);
+        PlayerAni.Animator.Play("Idle and Run", 0, 0f);
         transform.localPosition = Vector3.zero;
+        PlayerAni.Animator.applyRootMotion = false;
+
+        DisableHead();
     }
 }

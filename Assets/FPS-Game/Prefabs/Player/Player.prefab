@@ -1300,6 +1300,37 @@ Transform:
   - {fileID: 6871817162653300922}
   m_Father: {fileID: 2345105488209091216}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &469504477707229225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3264875762752540847}
+  m_Layer: 0
+  m_Name: WeaponMountPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3264875762752540847
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469504477707229225}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0.04, y: 0.39, z: -0.01}
+  m_LocalScale: {x: 0.92666686, y: 0.9266668, z: 0.92666686}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1827666085702583628}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -180}
 --- !u!1 &474655316874721720
 GameObject:
   m_ObjectHideFlags: 0
@@ -4608,7 +4639,7 @@ MonoBehaviour:
   _aimRot: {x: 357, y: 0, z: 0}
   _moveDuration: 0.15
   _spreadAngle: 1
-  gunSound: {fileID: 0}
+  gunSound: {fileID: 2357293348895689498}
   Automatic: 0
   _headDamage: 0.4
   _torsoDamage: 0.15
@@ -4746,6 +4777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fa16d510cf36f449f31c296070c289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponMountPoint: {fileID: 3264875762752540847}
   Rifle: {fileID: 5432729954051960007}
   Sniper: {fileID: 3280156445995770102}
   Pistol: {fileID: 5226092564806773297}
@@ -6233,7 +6265,6 @@ MonoBehaviour:
   _playerModel: {fileID: 7269146818134583252}
   _animator: {fileID: 9017631100371318311}
   _controller: {fileID: 6827196641280625600}
-  _hasAnimator: 0
 --- !u!114 &610120243110111006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10758,7 +10789,7 @@ MonoBehaviour:
   _aimRot: {x: 0, y: 0, z: 0}
   _moveDuration: 0.15
   _spreadAngle: 1
-  gunSound: {fileID: 0}
+  gunSound: {fileID: 4156372565415818502}
   Automatic: 1
   _headDamage: 1
   _torsoDamage: 0.3
@@ -11472,6 +11503,7 @@ Transform:
   - {fileID: 2345105488209091216}
   - {fileID: 1942857151430059397}
   - {fileID: 2291193376036761747}
+  - {fileID: 3264875762752540847}
   m_Father: {fileID: 2428145161514652812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6343612649722902400
@@ -12047,7 +12079,7 @@ MonoBehaviour:
   _aimRot: {x: 0, y: 0, z: 0}
   _moveDuration: 0.15
   _spreadAngle: 0
-  gunSound: {fileID: 0}
+  gunSound: {fileID: 7604934311450489074}
   Automatic: 0
   _headDamage: 2
   _torsoDamage: 1
@@ -13108,7 +13140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _currentGrenade: {fileID: 8644957872373403998}
-  grenadeAudio: {fileID: 0}
+  grenadeAudio: {fileID: 1563177728557822073}
   EnableRadiusVisual: 0
   _throwForce: 30
   _explosionRadius: 9
@@ -13276,10 +13308,10 @@ Animator:
   m_GameObject: {fileID: 7269146818134583252}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 85d4e0981a5b87e4c8ac3bb8f15a83a6, type: 3}
-  m_Controller: {fileID: 9100000, guid: 688da5358cf34724e9def55f29893810, type: 2}
+  m_Controller: {fileID: 9100000, guid: 380bc70b52e77c1448fcdbb49ecf8700, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
