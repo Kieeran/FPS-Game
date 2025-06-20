@@ -380,7 +380,7 @@ namespace PlayerAssets
                 _toggleCameraRotation = !_toggleCameraRotation;
             };
 
-            InGameManager.Instance.KillCountChecker.OnGameEnd += () =>
+            InGameManager.Instance.OnGameEnd += () =>
             {
                 _toggleCameraRotation = false;
             };

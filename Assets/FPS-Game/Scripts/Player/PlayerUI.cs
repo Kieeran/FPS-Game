@@ -41,16 +41,30 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
         };
 
         InGameManager.Instance.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
-
-        InGameManager.Instance.KillCountChecker.OnGameEnd += () =>
+        InGameManager.Instance.OnReceivedPlayerInfo += (playerInfos) =>
         {
-            if (PlayerRoot.PlayerNetwork.KillCount.Value >= InGameManager.Instance.KillCountChecker.MaxKillCount)
+            int currentMaxKillCountIndex = 0;
+            for (int i = 1; i < playerInfos.Count; i++)
+            {
+                if (playerInfos[i].KillCount > playerInfos[currentMaxKillCountIndex].KillCount)
+                {
+                    currentMaxKillCountIndex = i;
+                }
+            }
+
+            if (!InGameManager.Instance.IsTimeOut.Value &&
+            playerInfos[currentMaxKillCountIndex].KillCount < InGameManager.Instance.KillCountChecker.MaxKillCount)
+                return;
+
+            if (playerInfos[currentMaxKillCountIndex].PlayerId == OwnerClientId)
                 CurrentPlayerCanvas.PopUpVictoryDefeat("VICTORY");
             else
                 CurrentPlayerCanvas.PopUpVictoryDefeat("DEFEAT");
-
+        };
+        InGameManager.Instance.OnGameEnd += () =>
+        {
+            InGameManager.Instance.GetAllPlayerInfos();
             PlayerRoot.PlayerAssetsInputs.IsInputEnabled = false;
-
             CurrentPlayerCanvas.PlayEndGameFadeOut(() =>
             {
                 QuitGame();

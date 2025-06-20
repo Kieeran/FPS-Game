@@ -70,7 +70,7 @@ public class TimePhaseCounter : NetworkBehaviour
         }
     }
 
-    private void AdvancePhase()
+    void AdvancePhase()
     {
         switch (_currentPhase.Value)
         {
@@ -82,11 +82,14 @@ public class TimePhaseCounter : NetworkBehaviour
                 break;
             case MatchPhase.Combat:
                 StartPhase(MatchPhase.Result, resultPhaseDuration);
-                break;
-            case MatchPhase.Result:
+                InGameManager.Instance.IsTimeOut.Value = true;
+                InGameManager.Instance.KillCountChecker.NotifyGameEnd_ServerRpc();
                 Debug.Log("Match ended.");
-                // TODO: Gọi hàm kết thúc trận đấu hoặc  quay về lobby
                 break;
+                // case MatchPhase.Result:
+                //     Debug.Log("Match ended.");
+                //     // TODO: Gọi hàm kết thúc trận đấu hoặc  quay về lobby
+                //     break;
         }
     }
 

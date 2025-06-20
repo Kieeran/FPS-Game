@@ -10,10 +10,8 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 {
     [HideInInspector]
     public string playerName = "Playername";
-    [HideInInspector]
-    public NetworkVariable<int> KillCount = new();
-    [HideInInspector]
-    public NetworkVariable<int> DeathCount = new();
+    public NetworkVariable<int> KillCount = new(0);
+    public NetworkVariable<int> DeathCount = new(0);
 
     public PlayerRoot PlayerRoot { get; private set; }
 

@@ -53,26 +53,23 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
     {
         var targetPlayer = NetworkManager.Singleton.ConnectedClients[targetClientId].PlayerObject;
         var ownerPlayer = NetworkManager.Singleton.ConnectedClients[ownerClientId].PlayerObject;
-        if (targetPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
+        if (targetPlayer.TryGetComponent<PlayerRoot>(out var targetPlayerRoot))
         {
-            if (targetHealth.HP.Value == 0) return;
+            if (targetPlayerRoot.PlayerTakeDamage.HP.Value == 0) return;
 
-            targetHealth.HP.Value -= damage;
-            if (targetHealth.HP.Value <= 0)
+            targetPlayerRoot.PlayerTakeDamage.HP.Value -= damage;
+            if (targetPlayerRoot.PlayerTakeDamage.HP.Value <= 0)
             {
-                if (targetPlayer.TryGetComponent<PlayerNetwork>(out var clientPlayerNetwork))
-                {
-                    clientPlayerNetwork.DeathCount.Value += 1;
-                }
+                targetPlayerRoot.PlayerNetwork.DeathCount.Value += 1;
                 if (ownerPlayer.TryGetComponent<PlayerNetwork>(out var ownerPlayerNetwork))
                 {
                     ownerPlayerNetwork.KillCount.Value += 1;
                 }
-                targetHealth.HP.Value = 0;
+                targetPlayerRoot.PlayerTakeDamage.HP.Value = 0;
                 InGameManager.Instance.KillCountChecker.CheckPlayerKillCount(ownerPlayerNetwork.KillCount.Value);
             }
 
-            Debug.Log($"{targetClientId} current HP: {targetHealth.HP.Value}");
+            Debug.Log($"{targetClientId} current HP: {targetPlayerRoot.PlayerTakeDamage.HP.Value}");
         }
 
         PlayerRoot.PlayerUI.AddTakeDamageEffect(damage, targetClientId);

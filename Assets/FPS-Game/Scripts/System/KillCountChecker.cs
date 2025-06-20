@@ -6,7 +6,6 @@ public class KillCountChecker : NetworkBehaviour
 {
     public int MaxKillCount;
     public float EndGameSlowFactor;
-    public Action OnGameEnd;
 
     bool _isGameEnd = false;
 
@@ -27,7 +26,7 @@ public class KillCountChecker : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void NotifyGameEnd_ServerRpc()
+    public void NotifyGameEnd_ServerRpc()
     {
         NotifyGameEnd_ClientRpc();
     }
@@ -35,7 +34,7 @@ public class KillCountChecker : NetworkBehaviour
     [ClientRpc]
     void NotifyGameEnd_ClientRpc()
     {
-        OnGameEnd?.Invoke();
+        InGameManager.Instance.OnGameEnd?.Invoke();
         Time.timeScale = EndGameSlowFactor;
     }
 }

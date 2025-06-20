@@ -576,7 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0fbf9a0c81aba4493285f9522d6f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxKillCount: 10
+  MaxKillCount: 2
   EndGameSlowFactor: 0.1
 --- !u!114 &7704118952696633411
 MonoBehaviour:
@@ -590,6 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1966c64e2b13be747b1b059ba3549355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthPickupPrefab: {fileID: 442882122778481016, guid: b00c8e40b864b6f46a556f270a628b26, type: 3}
 --- !u!1 &5202762981308986384
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,12 +5,14 @@ using Unity.Netcode;
 
 public struct PlayerInfo
 {
+    public ulong PlayerId;
     public string PlayerName;
     public int KillCount;
     public int DeathCount;
 
-    public PlayerInfo(string name, int killCount, int deathCount)
+    public PlayerInfo(ulong playerId, string name, int killCount, int deathCount)
     {
+        PlayerId = playerId;
         PlayerName = name;
         KillCount = killCount;
         DeathCount = deathCount;
@@ -29,6 +31,11 @@ public class InGameManager : NetworkBehaviour
     public KillCountChecker KillCountChecker { get; private set; }
     public GenerateHealthPickup GenerateHealthPickup { get; private set; }
 
+    public System.Action OnGameEnd;
+
+    public bool IsGameEnd = false;
+    public NetworkVariable<bool> IsTimeOut = new();
+
     public System.Action<List<PlayerInfo>> OnReceivedPlayerInfo;
 
     void Awake()
@@ -44,6 +51,11 @@ public class InGameManager : NetworkBehaviour
         TimePhaseCounter = GetComponent<TimePhaseCounter>();
         KillCountChecker = GetComponent<KillCountChecker>();
         GenerateHealthPickup = GetComponent<GenerateHealthPickup>();
+
+        OnGameEnd += () =>
+        {
+            IsGameEnd = true;
+        };
     }
 
     void InitSpawnPositions()
@@ -82,7 +94,7 @@ public class InGameManager : NetworkBehaviour
         {
             if (client.PlayerObject.TryGetComponent<PlayerNetwork>(out var playerNetwork))
             {
-                result += $"{playerNetwork.playerName};{playerNetwork.KillCount.Value};{playerNetwork.DeathCount.Value}|";
+                result += $"{playerNetwork.OwnerClientId};{playerNetwork.playerName};{playerNetwork.KillCount.Value};{playerNetwork.DeathCount.Value}|";
             }
         }
 
@@ -107,14 +119,15 @@ public class InGameManager : NetworkBehaviour
         foreach (string entry in playerEntries)
         {
             string[] tokens = entry.Split(';');
-            if (tokens.Length == 3)
+            if (tokens.Length == 4)
             {
-                string name = tokens[0];
-                int kill = int.Parse(tokens[1]);
-                int death = int.Parse(tokens[2]);
-                playerInfos.Add(new PlayerInfo(name, kill, death));
+                ulong id = ulong.Parse(tokens[0]);
+                string name = tokens[1];
+                int kill = int.Parse(tokens[2]);
+                int death = int.Parse(tokens[3]);
+                playerInfos.Add(new PlayerInfo(id, name, kill, death));
 
-                Debug.Log($"Name: {name}, Kill: {kill}, Death: {death}");
+                Debug.Log($"Id: {id}, Name: {name}, Kill: {kill}, Death: {death}");
             }
         }
         OnReceivedPlayerInfo?.Invoke(playerInfos);
