@@ -9,11 +9,11 @@ public class ChatManager : NetworkBehaviour
     public static ChatManager Singleton;
     public static bool isChatting;
 
-    [SerializeField] GameObject chatCanvasUI;
     [SerializeField] ChatMessage chatMessagePrefab;
     [SerializeField] CanvasGroup chatContent;
     [SerializeField] TMP_InputField chatInput;
-    // [SerializeField] GameObject chatCanvas;
+    [SerializeField] GameObject ChatInput;
+    [SerializeField] GameObject ChatView;
 
     public string playerName;
 
@@ -22,18 +22,23 @@ public class ChatManager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ChatInput.SetActive(false);
+        ChatView.SetActive(false);
         isChatting = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.BackQuote)) {
-            chatCanvasUI.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            ChatInput.SetActive(true);
+            ChatView.SetActive(true);
             isChatting = true;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            if (Input.GetKeyDown(KeyCode.Return)) {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
                 SendChatMessage(chatInput.text, EditPlayerName.Instance.GetPlayerName());
                 chatInput.text = "";
                 isChatting = false;
@@ -41,7 +46,8 @@ public class ChatManager : NetworkBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Return)) {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
             SendChatMessage(chatInput.text, EditPlayerName.Instance.GetPlayerName());
             chatInput.text = "";
             isChatting = false;
@@ -50,25 +56,29 @@ public class ChatManager : NetworkBehaviour
         }
     }
 
-    public void SendChatMessage(string _message, string _fromWho = null) {
+    public void SendChatMessage(string _message, string _fromWho = null)
+    {
         if (string.IsNullOrWhiteSpace(_message)) return;
 
         string S = _fromWho + " > " + _message;
         SendChatMessageServerRpc(S);
     }
 
-    void AddMessage(string msg) {
+    void AddMessage(string msg)
+    {
         ChatMessage CM = Instantiate(chatMessagePrefab, chatContent.transform);
         CM.SetText(msg);
     }
 
-    [ServerRpc (RequireOwnership = false)]
-    void SendChatMessageServerRpc(string message) {
+    [ServerRpc(RequireOwnership = false)]
+    void SendChatMessageServerRpc(string message)
+    {
         ReceiveChatMessageClientRpc(message);
     }
 
     [ClientRpc]
-    void ReceiveChatMessageClientRpc(string message) {
+    void ReceiveChatMessageClientRpc(string message)
+    {
         ChatManager.Singleton.AddMessage(message);
     }
 

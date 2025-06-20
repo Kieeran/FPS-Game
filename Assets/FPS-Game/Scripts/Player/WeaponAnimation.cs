@@ -88,4 +88,9 @@ public class WeaponAnimation : NetworkBehaviour
         animator.SetBool("Reload", false);
         IsReloading = false;
     }
+
+    public void ABC()
+    {
+        Debug.Log("IDK");
+    }
 }

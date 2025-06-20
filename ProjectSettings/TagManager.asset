@@ -13,6 +13,12 @@ TagManager:
   - PlayerTorso
   - PlayerHead
   - Weapon
+  - PlayerBody
+  - AK47
+  - Sniper
+  - Pistol
+  - Knife
+  - Grenade
   layers:
   - Default
   - TransparentFX

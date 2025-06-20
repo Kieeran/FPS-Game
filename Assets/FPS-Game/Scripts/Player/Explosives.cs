@@ -9,6 +9,9 @@ public class Explosives : NetworkBehaviour
     public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] GameObject _explosiveEffectPrefab;
     [SerializeField] GameObject _currentGrenade;
+
+    [SerializeField] AudioSource grenadeAudio;
+
     Rigidbody _grenadeRb;
     Collider _collider;
     SupplyLoad _supplyLoad;
@@ -67,6 +70,10 @@ public class Explosives : NetworkBehaviour
         base.OnNetworkSpawn();
 
         _clientNetworkTransform.enabled = true;
+        _throwForce = 20f;
+
+        grenadeAudio.spatialBlend = 1f;
+        grenadeAudio.maxDistance = 100f;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -102,6 +109,7 @@ public class Explosives : NetworkBehaviour
         _currentGrenade.SetActive(false);
 
         GameObject explodeEffect = Instantiate(_explosiveEffectPrefab);
+        grenadeAudio.Play();
         explodeEffect.transform.position = _currentGrenade.transform.position;
 
         StartCoroutine(DestroyExplodeEffect(explodeEffect));
