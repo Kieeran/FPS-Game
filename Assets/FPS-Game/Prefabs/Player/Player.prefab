@@ -4478,6 +4478,7 @@ MonoBehaviour:
   _aimRot: {x: 357, y: 0, z: 0}
   _moveDuration: 0.15
   _spreadAngle: 1
+  gunSound: {fileID: 0}
   Automatic: 0
   _headDamage: 0.4
   _torsoDamage: 0.15
@@ -6026,6 +6027,7 @@ MonoBehaviour:
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
+  IsInputEnabled: 1
 --- !u!114 &4530824154142287168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6150,6 +6152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce37de0135b180f4ca8f361e51be1785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rifle: {fileID: 5951750704950840910}
+  sniper: {fileID: 6712177035632313221}
+  pistol: {fileID: 2321940653453447232}
+  rifleReloadAudio: {fileID: 0}
+  sniperReloadAudio: {fileID: 0}
+  pistolReloadAudio: {fileID: 0}
 --- !u!114 &8832729229337073953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10361,6 +10369,7 @@ MonoBehaviour:
   _aimRot: {x: 0, y: 0, z: 0}
   _moveDuration: 0.15
   _spreadAngle: 1
+  gunSound: {fileID: 0}
   Automatic: 1
   _headDamage: 1
   _torsoDamage: 0.3
@@ -11391,6 +11400,7 @@ MonoBehaviour:
   _aimRot: {x: 0, y: 0, z: 0}
   _moveDuration: 0.15
   _spreadAngle: 0
+  gunSound: {fileID: 0}
   Automatic: 0
   _headDamage: 2
   _torsoDamage: 1
@@ -12450,6 +12460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _currentGrenade: {fileID: 8644957872373403998}
+  grenadeAudio: {fileID: 0}
   EnableRadiusVisual: 0
   _throwForce: 30
   _explosionRadius: 9

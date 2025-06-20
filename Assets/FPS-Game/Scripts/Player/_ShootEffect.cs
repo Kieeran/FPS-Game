@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class _ShootEffect : NetworkBehaviour
 {
@@ -33,12 +30,12 @@ public class _ShootEffect : NetworkBehaviour
 
         if (IsRifle)
         {
-            StartCoroutine(RifleRecoil());
+            // StartCoroutine(RifleRecoil());
         }
 
         else if (IsPistol)
         {
-            StartCoroutine(PistolRecoil());
+            // StartCoroutine(PistolRecoil());
         }
     }
 

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using QFSW.QC.Actions;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
@@ -24,29 +21,29 @@ public class GameUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            exitGamePopUp.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     exitGamePopUp.SetActive(true);
+        //     Cursor.visible = true;
+        //     Cursor.lockState = CursorLockMode.None;
 
-            graphicsButton.onClick.AddListener(() =>
-            {
-                graphicsSettings.SetActive(true);
-                audioSettings.SetActive(false);
-            });
+        //     graphicsButton.onClick.AddListener(() =>
+        //     {
+        //         graphicsSettings.SetActive(true);
+        //         audioSettings.SetActive(false);
+        //     });
 
-            audioButton.onClick.AddListener(() =>
-            {
-                graphicsSettings.SetActive(false);
-                audioSettings.SetActive(true);
-            });
-        }
+        //     audioButton.onClick.AddListener(() =>
+        //     {
+        //         graphicsSettings.SetActive(false);
+        //         audioSettings.SetActive(true);
+        //     });
+        // }
 
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            exitGamePopUp.SetActive(false);
-        }
+        // if (Input.GetKeyDown(KeyCode.F1))
+        // {
+        //     exitGamePopUp.SetActive(false);
+        // }
     }
 
     public RenderPipelineAsset[] qualityLevels;

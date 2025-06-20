@@ -7,11 +7,14 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
 {
     public PlayerRoot PlayerRoot { get; private set; }
 
-    [SerializeField] GameObject ak47;
-    [SerializeField] GameObject ak47ReloadAudio;
+    [Header("Weapon")]
+    [SerializeField] GameObject rifle;
     [SerializeField] GameObject sniper;
-    [SerializeField] GameObject sniperReloadAudio;
     [SerializeField] GameObject pistol;
+
+    [Header("Weapon sound effect")]
+    [SerializeField] GameObject rifleReloadAudio;
+    [SerializeField] GameObject sniperReloadAudio;
     [SerializeField] GameObject pistolReloadAudio;
 
     bool _isReloading;
@@ -34,9 +37,9 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
 
         if (PlayerRoot.PlayerAssetsInputs.reload == true)
         {
-            if (ak47.activeSelf == true) StartCoroutine(PlayAk47ReloadAudio());
-            if (sniper.activeSelf == true) StartCoroutine(PlaySniperReloadAudio());
-            if (pistol.activeSelf == true) StartCoroutine(PlayPistolReloadAudio());
+            // if (rifle.activeSelf == true) StartCoroutine(PlayRifleReloadAudio());
+            // if (sniper.activeSelf == true) StartCoroutine(PlaySniperReloadAudio());
+            // if (pistol.activeSelf == true) StartCoroutine(PlayPistolReloadAudio());
 
             reload?.Invoke();
             PlayerRoot.PlayerAssetsInputs.reload = false;
@@ -46,15 +49,14 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
                 _isReloading = true;
                 OnReload.Invoke(this, EventArgs.Empty);
             }
-
         }
     }
 
-    IEnumerator PlayAk47ReloadAudio()
+    IEnumerator PlayRifleReloadAudio()
     {
-        ak47ReloadAudio.SetActive(true);
+        rifleReloadAudio.SetActive(true);
         yield return new WaitForSeconds(2f);
-        ak47ReloadAudio.SetActive(false);
+        rifleReloadAudio.SetActive(false);
     }
 
     IEnumerator PlaySniperReloadAudio()
