@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8278572217210519252}
   - component: {fileID: 8304515718322077893}
   - component: {fileID: 511861690434017239}
-  - component: {fileID: 1670464411701083585}
+  - component: {fileID: 2414105903160207429}
   - component: {fileID: 835397572056263975}
   m_Layer: 0
   m_Name: HealthPickup
@@ -85,8 +85,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1670464411701083585
-BoxCollider:
+--- !u!135 &2414105903160207429
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -104,8 +104,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.014510864, y: 0.059884287, z: 0.059884287}
-  m_Center: {x: 4.656613e-10, y: 0, z: 0}
+  m_Radius: 0.04
+  m_Center: {x: 4.6566134e-10, y: 0, z: 0}
 --- !u!114 &835397572056263975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatSpeed: 2
-  floatHeight: 0.5
+  floatHeight: 0.25
   rotationSpeed: 45
   raycastDistance: 5
   minHeightAboveGround: 1.5

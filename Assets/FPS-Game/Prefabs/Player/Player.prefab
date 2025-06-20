@@ -4277,7 +4277,7 @@ GameObject:
   - component: {fileID: 72865859253179882}
   m_Layer: 0
   m_Name: Secondary Weapon
-  m_TagString: Untagged
+  m_TagString: Pistol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10234,7 +10234,7 @@ GameObject:
   - component: {fileID: 2080470373135653277}
   m_Layer: 0
   m_Name: Primary Weapon 1
-  m_TagString: Untagged
+  m_TagString: AK47
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11729,7 +11729,7 @@ GameObject:
   - component: {fileID: 8404046301696806030}
   m_Layer: 0
   m_Name: Primary Weapon 2
-  m_TagString: Untagged
+  m_TagString: Sniper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12267,12 +12267,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeleeAnimation: {fileID: 500191308576157680}
-  EnableLeftSlashBBVisual: 0
+  EnableLeftSlashBBVisual: 1
   _leftSlashBoundsSize: {x: 1, y: 0.15, z: 0.5}
-  _leftSlashOffset: {x: -0.56, y: 0.24, z: 0}
-  EnableRightSlashBBVisual: 0
+  _leftSlashOffset: {x: -0.56, y: 0.24, z: 0.76}
+  EnableRightSlashBBVisual: 1
   _rightSlashBoundsSize: {x: 0.15, y: 0.15, z: 1}
-  _rightSlashOffset: {x: -0.56, y: 0.24, z: 0.25}
+  _rightSlashOffset: {x: -0.56, y: 0.24, z: 1.04}
   _rightSlashDelay: 0.3
   _meleeLeftSlashDamage: 0.1
   _meleeRightSlashDamage: 0.3
