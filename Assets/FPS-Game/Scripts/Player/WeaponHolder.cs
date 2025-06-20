@@ -8,7 +8,7 @@ using UnityEngine;
 public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
-    public WeaponMountPoint WeaponMountPoint;
+    // public WeaponMountPoint WeaponMountPoint;
     public Gun Rifle;
     public Gun Sniper;
     public Gun Pistol;
@@ -123,7 +123,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     void LateUpdate()
     {
         // Cập nhật vị trí và hướng theo weaponMountPoint
-        transform.SetPositionAndRotation(WeaponMountPoint.transform.position, WeaponMountPoint.transform.rotation);
+        // transform.SetPositionAndRotation(WeaponMountPoint.transform.position, WeaponMountPoint.transform.rotation);
     }
 
     void ChangeWeapon()
