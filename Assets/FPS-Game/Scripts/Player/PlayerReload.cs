@@ -37,9 +37,9 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
 
         if (PlayerRoot.PlayerAssetsInputs.reload == true)
         {
-            // if (rifle.activeSelf == true) StartCoroutine(PlayRifleReloadAudio());
-            // if (sniper.activeSelf == true) StartCoroutine(PlaySniperReloadAudio());
-            // if (pistol.activeSelf == true) StartCoroutine(PlayPistolReloadAudio());
+            if (rifle.activeSelf == true) StartCoroutine(PlayRifleReloadAudio());
+            if (sniper.activeSelf == true) StartCoroutine(PlaySniperReloadAudio());
+            if (pistol.activeSelf == true) StartCoroutine(PlayPistolReloadAudio());
 
             reload?.Invoke();
             PlayerRoot.PlayerAssetsInputs.reload = false;

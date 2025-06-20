@@ -25,7 +25,7 @@ public class Gun : NetworkBehaviour
     [SerializeField] float _moveDuration;
     [SerializeField] float _spreadAngle;
 
-    // [SerializeField] AudioSource gunSound;
+    [SerializeField] AudioSource gunSound;
 
     Vector3 _normalPos;
     Quaternion _normalRot;
@@ -97,8 +97,8 @@ public class Gun : NetworkBehaviour
         _isUnAim = false;
         _elapsedTime = 0;
 
-        // gunSound.spatialBlend = 1f;
-        // gunSound.maxDistance = 100f;
+        gunSound.spatialBlend = 1f;
+        gunSound.maxDistance = 100f;
     }
 
     void OnDisable()
@@ -231,8 +231,8 @@ public class Gun : NetworkBehaviour
 
     public void PlayGunAudio(Vector3 position)
     {
-        // gunSound.transform.position = position;
-        // gunSound.Play();
+        gunSound.transform.position = position;
+        gunSound.Play();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -250,8 +250,8 @@ public class Gun : NetworkBehaviour
 
     public void StopGunAudio(Vector3 position)
     {
-        // gunSound.transform.position = position;
-        // gunSound.Stop();
+        gunSound.transform.position = position;
+        gunSound.Stop();
     }
 
     [ServerRpc(RequireOwnership = false)]
