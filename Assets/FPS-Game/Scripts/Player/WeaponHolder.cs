@@ -8,10 +8,12 @@ using UnityEngine;
 public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
-    public Transform WeaponMountPoint;
+    public WeaponMountPoint WeaponMountPoint;
     public Gun Rifle;
     public Gun Sniper;
     public Gun Pistol;
+
+    public Action<GunType> OnChangeGun;
 
     List<GameObject> _weaponList;
 
@@ -76,7 +78,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         {
             PlayerRoot.PlayerAssetsInputs.hotkey1 = false;
             if (_currentWeaponIndex == 0) return;
-
+            OnChangeGun?.Invoke(GunType.Rifle);
             _currentWeaponIndex = 0;
             ChangeWeapon();
         }
@@ -85,7 +87,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         {
             PlayerRoot.PlayerAssetsInputs.hotkey2 = false;
             if (_currentWeaponIndex == 1) return;
-
+            OnChangeGun?.Invoke(GunType.Sniper);
             _currentWeaponIndex = 1;
             ChangeWeapon();
         }
@@ -94,7 +96,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         {
             PlayerRoot.PlayerAssetsInputs.hotkey3 = false;
             if (_currentWeaponIndex == 2) return;
-
+            OnChangeGun?.Invoke(GunType.Pistol);
             _currentWeaponIndex = 2;
             ChangeWeapon();
         }
@@ -121,7 +123,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     void LateUpdate()
     {
         // Cập nhật vị trí và hướng theo weaponMountPoint
-        transform.SetPositionAndRotation(WeaponMountPoint.position, WeaponMountPoint.rotation);
+        transform.SetPositionAndRotation(WeaponMountPoint.transform.position, WeaponMountPoint.transform.rotation);
     }
 
     void ChangeWeapon()
