@@ -210,27 +210,24 @@ public class Explosives : NetworkBehaviour
             _clientNetworkTransform.Interpolate = true;
             _onCoolDown = false;
         }
-
-        _currentGrenade.SetActive(true);
     }
 
-    // [ServerRpc(RequireOwnership = false)]
-    // void EnableCurrentGrenade_ServerRPC()
-    // {
-    //     EnableCurrentGrenade();
-    //     EnableCurrentGrenade_ClientRPC();
-    // }
+    [ServerRpc(RequireOwnership = false)]
+    void EnableCurrentGrenade_ServerRPC()
+    {
+        EnableCurrentGrenade_ClientRPC();
+    }
 
-    // [ClientRpc]
-    // void EnableCurrentGrenade_ClientRPC()
-    // {
-    //     EnableCurrentGrenade();
-    // }
+    [ClientRpc]
+    void EnableCurrentGrenade_ClientRPC()
+    {
+        EnableCurrentGrenade();
+    }
 
-    // void EnableCurrentGrenade()
-    // {
-    //     _currentGrenade.gameObject.SetActive(true);
-    // }
+    void EnableCurrentGrenade()
+    {
+        _currentGrenade.SetActive(true);
+    }
 
     void Update()
     {
@@ -240,10 +237,10 @@ public class Explosives : NetworkBehaviour
         if (_supplyLoad.IsMagazineEmpty()) return;
         if (PlayerRoot.PlayerReload.GetIsReloading()) return;
 
-        // if (_currentGrenade.activeSelf == false)
-        // {
-        //     EnableCurrentGrenade_ServerRPC();
-        // }
+        if (_currentGrenade.activeSelf == false && _supplyLoad.CurrentMagazineAmmo != 0)
+        {
+            EnableCurrentGrenade_ServerRPC();
+        }
 
         if (PlayerRoot.PlayerAssetsInputs.shoot == true)
         {

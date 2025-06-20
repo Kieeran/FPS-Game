@@ -684,7 +684,7 @@ GameObject:
   - component: {fileID: 87883327}
   - component: {fileID: 87883326}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1014,7 +1014,7 @@ GameObject:
   - component: {fileID: 167982062}
   - component: {fileID: 167982061}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3478,18 +3478,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &791671949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 817490447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &791671950
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3942,9 +3930,8 @@ GameObject:
   m_Component:
   - component: {fileID: 791671948}
   - component: {fileID: 791671950}
-  - component: {fileID: 791671949}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4005,42 +3992,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &825055929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 873905454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &825055930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 873905454}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &825055931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 873905454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &835626525
 GameObject:
   m_ObjectHideFlags: 0
@@ -4096,11 +4047,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 825055928}
-  - component: {fileID: 825055929}
-  - component: {fileID: 825055930}
-  - component: {fileID: 825055931}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4115,11 +4063,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 874174683}
-  - component: {fileID: 1011609272}
   - component: {fileID: 874174684}
   - component: {fileID: 1011609273}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4575,14 +4522,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1011609272
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 874174682}
-  m_Mesh: {fileID: 0}
 --- !u!222 &1011609273
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6282,7 +6221,7 @@ GameObject:
   - component: {fileID: 1364140283}
   - component: {fileID: 1364140282}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6371,7 +6310,7 @@ GameObject:
   - component: {fileID: 1378971688}
   - component: {fileID: 1391929515}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6397,7 +6336,7 @@ GameObject:
   - component: {fileID: 1391929514}
   - component: {fileID: 1391929516}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7080,7 +7019,7 @@ GameObject:
   - component: {fileID: 1485888360}
   - component: {fileID: 1485888359}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8735,7 +8674,7 @@ GameObject:
   - component: {fileID: 1701141951}
   - component: {fileID: 1701141950}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10143,9 +10082,8 @@ GameObject:
   - component: {fileID: 2081022668}
   - component: {fileID: 2059334544}
   - component: {fileID: 2059334543}
-  - component: {fileID: 2081022669}
   m_Layer: 0
-  m_Name: 
+  m_Name: Undefined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10430,18 +10368,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2081022669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2059334540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2131737565
 GameObject:
   m_ObjectHideFlags: 0

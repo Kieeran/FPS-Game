@@ -17,6 +17,11 @@ public class PlayerCameraLook : MonoBehaviour
         {
             _toggleCameraRotation = false;
         };
+
+        PlayerRoot.PlayerNetwork.OnPlayerRespawn += () =>
+        {
+            _toggleCameraRotation = true;
+        };
     }
 
     void LateUpdate()

@@ -12,7 +12,6 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
     [SerializeField] GameObject _sniper;
     [SerializeField] GameObject _pistol;
     [SerializeField] GameObject _knife;
-    [SerializeField] GameObject _grenade;
 
     [Header("Weapon sound effect")]
     [SerializeField] GameObject _rifleReloadAudio;
@@ -44,7 +43,6 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
             if (_pistol.activeSelf) StartCoroutine(PlayPistolReloadAudio());
 
             if (_knife.activeSelf) return;
-            if (_grenade.activeSelf) return;
 
             reload?.Invoke();
             PlayerRoot.PlayerAssetsInputs.reload = false;
