@@ -341,7 +341,7 @@ namespace PlayerAssets
         private GameObject _mainCamera;
 
         private const float _threshold = 0.01f;
-        // public bool _hasAnimator;
+        public bool _hasAnimator;
 
         // Animator parameters
         private int _animIDSpeed;
@@ -349,6 +349,8 @@ namespace PlayerAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animIDVelocityX;
+        private int _animIDVelocityY;
 
         Vector3 _currentPos;
         Quaternion _currentRot;
@@ -388,7 +390,7 @@ namespace PlayerAssets
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
-            // _hasAnimator = TryGetComponent(out _animator);
+            _hasAnimator = TryGetComponent(out _animator);
             // _controller = GetComponent<CharacterController>();
             _input = GetComponent<PlayerAssetsInputs>();
 
@@ -414,6 +416,7 @@ namespace PlayerAssets
             GroundedCheck();
             JumpAndGravity();
             Move();
+            Shoot();
 
             _playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
 
@@ -432,6 +435,8 @@ namespace PlayerAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDVelocityX = Animator.StringToHash("VelocityX");
+            _animIDVelocityY = Animator.StringToHash("VelocityY");
         }
 
         private void GroundedCheck()
@@ -476,7 +481,47 @@ namespace PlayerAssets
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
 
-                // transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                // Move Foward
+                if (_input.move.y > 0 || Input.GetMouseButtonDown(0))
+                {
+                    if (_hasAnimator)
+                    {
+                        _animator.SetFloat(_animIDVelocityY, 10);
+                        _animator.SetFloat(_animIDVelocityX, 0);
+                    }
+                }
+
+                // Move Left
+                if (_input.move.x < 0 && _input.move.y == 0)
+                {
+                    if (_hasAnimator)
+                    {
+                        _animator.SetFloat(_animIDVelocityY, 0);
+                        _animator.SetFloat(_animIDVelocityX, -10);
+                    }
+                }
+
+                // Move Right
+                if (_input.move.x > 0 && _input.move.y == 0)
+                {
+                    if (_hasAnimator)
+                    {
+                        _animator.SetFloat(_animIDVelocityY, 0);
+                        _animator.SetFloat(_animIDVelocityX, 10);
+                    }
+                }
+
+                // Move Foward
+                if (_input.move.y < 0)
+                {
+                    if (_hasAnimator)
+                    {
+                        _animator.SetFloat(_animIDVelocityY, -10);
+                        _animator.SetFloat(_animIDVelocityX, 0);
+                    }
+                }
+
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
@@ -496,6 +541,15 @@ namespace PlayerAssets
             //     Vector3.Lerp(_currentPos, _currentPos, 0),
             //     _playerModel.transform.rotation
             // );
+        }
+
+        private void Shoot()
+        {
+            if (_input.shoot)
+            {
+                _animator.SetLayerWeight(1, Mathf.Lerp(_animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
+            }
+            else _animator.SetLayerWeight(1, Mathf.Lerp(_animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
 
         private void JumpAndGravity()
