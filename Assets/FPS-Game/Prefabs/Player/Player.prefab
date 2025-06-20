@@ -1346,35 +1346,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponHolder: {fileID: 1571463807456523207}
   IdlePoseRifle:
-    GunType: 1
     PoseType: 0
     Position: {x: -0.006990447, y: 0.1249661, z: -0.0849025}
     EulerRotation: {x: -62.524, y: 163.591, z: 3.79}
   IdlePoseSniper:
-    GunType: 2
     PoseType: 0
     Position: {x: 0.02, y: -0.002, z: 0.025}
     EulerRotation: {x: -62.524, y: 163.591, z: 3.79}
   IdlePosePistol:
-    GunType: 3
     PoseType: 0
     Position: {x: 0.053, y: 0.133, z: 0.009}
     EulerRotation: {x: -62.524, y: 163.591, z: 0}
   AimPoseRifle:
-    GunType: 1
     PoseType: 1
     Position: {x: 0, y: 0, z: 0}
     EulerRotation: {x: 0, y: 0, z: 0}
   AimPoseSniper:
-    GunType: 2
     PoseType: 1
     Position: {x: 0, y: 0, z: 0}
     EulerRotation: {x: 0, y: 0, z: 0}
   AimPosePistol:
-    GunType: 3
     PoseType: 1
     Position: {x: 0, y: 0, z: 0}
     EulerRotation: {x: 0, y: 0, z: 0}
+  weaponPoseSOs:
+  - {fileID: 11400000, guid: 3ffa6babd7826bf45b8f2651e2889258, type: 2}
+  - {fileID: 11400000, guid: bb188be77eb514e41b28b9c83986ff90, type: 2}
+  - {fileID: 11400000, guid: 2500e0b545744df47b71195d9b81d0b6, type: 2}
 --- !u!1 &474655316874721720
 GameObject:
   m_ObjectHideFlags: 0
