@@ -15,5 +15,6 @@ MonoBehaviour:
   GunType: 1
   Poses:
   - PoseType: 0
-    Position: {x: -0.196, y: -0.024, z: -0.082}
-    EulerRotation: {x: 304.37982, y: 80.787865, z: 96.436806}
+    Position: {x: -0.232, y: 0.115, z: -0.014}
+  - PoseType: 1
+    Position: {x: -0.342, y: 0.103, z: 0.086}

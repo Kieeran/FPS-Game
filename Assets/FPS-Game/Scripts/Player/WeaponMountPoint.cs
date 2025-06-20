@@ -6,17 +6,31 @@ public class WeaponMountPoint : MonoBehaviour
     public WeaponHolder WeaponHolder;
     public List<WeaponPoseSO> weaponPoseSOs;
 
+    GunType _currentGuntype;
+
     void Awake()
     {
+        _currentGuntype = GunType.Rifle;
         WeaponHolder.OnChangeGun += (GunType) =>
         {
-            ApplyPose(GunType, PlayerWeaponPose.Idle);
+            _currentGuntype = GunType;
+            ApplyPose(_currentGuntype, PlayerWeaponPose.Idle);
+        };
+
+        WeaponHolder.PlayerRoot.PlayerAim.OnAim += () =>
+        {
+            ApplyPose(_currentGuntype, PlayerWeaponPose.Aim);
+        };
+
+        WeaponHolder.PlayerRoot.PlayerAim.OnUnAim += () =>
+        {
+            ApplyPose(_currentGuntype, PlayerWeaponPose.Idle);
         };
     }
 
     void Start()
     {
-        ApplyPose(GunType.Rifle, PlayerWeaponPose.Idle);
+        ApplyPose(_currentGuntype, PlayerWeaponPose.Idle);
     }
 
     public void ApplyPose(GunType gunType, PlayerWeaponPose pose)
@@ -27,7 +41,8 @@ public class WeaponMountPoint : MonoBehaviour
             {
                 if (poseSO.TryGetPose(pose, out var data))
                 {
-                    transform.SetLocalPositionAndRotation(data.Position, Quaternion.Euler(data.EulerRotation));
+                    // transform.SetLocalPositionAndRotation(data.Position, Quaternion.Euler(data.EulerRotation));
+                    transform.localPosition = data.Position;
                     return;
                 }
                 else
