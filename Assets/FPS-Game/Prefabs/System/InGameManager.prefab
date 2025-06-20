@@ -547,8 +547,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitingPhaseDuration: 26
   preparationPhaseDuration: 0
-  combatPhaseDuration: 180
-  resultPhaseDuration: 16
+  combatPhaseDuration: 60
+  resultPhaseDuration: 6
   _lobbyRelayChecker: {fileID: 6509468171419657047}
 --- !u!114 &6509468171419657047
 MonoBehaviour:
@@ -575,7 +575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0fbf9a0c81aba4493285f9522d6f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxKillCount: 5
+  MaxKillCount: 2
+  EndGameSlowFactor: 0.1
 --- !u!1 &5202762981308986384
 GameObject:
   m_ObjectHideFlags: 0
