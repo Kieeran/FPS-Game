@@ -8,14 +8,16 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
     public PlayerRoot PlayerRoot { get; private set; }
 
     [Header("Weapon")]
-    [SerializeField] GameObject rifle;
-    [SerializeField] GameObject sniper;
-    [SerializeField] GameObject pistol;
+    [SerializeField] GameObject _rifle;
+    [SerializeField] GameObject _sniper;
+    [SerializeField] GameObject _pistol;
+    [SerializeField] GameObject _knife;
+    [SerializeField] GameObject _grenade;
 
     [Header("Weapon sound effect")]
-    [SerializeField] GameObject rifleReloadAudio;
-    [SerializeField] GameObject sniperReloadAudio;
-    [SerializeField] GameObject pistolReloadAudio;
+    [SerializeField] GameObject _rifleReloadAudio;
+    [SerializeField] GameObject _sniperReloadAudio;
+    [SerializeField] GameObject _pistolReloadAudio;
 
     bool _isReloading;
     public bool GetIsReloading() { return _isReloading; }
@@ -37,9 +39,12 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
 
         if (PlayerRoot.PlayerAssetsInputs.reload == true)
         {
-            if (rifle.activeSelf == true) StartCoroutine(PlayRifleReloadAudio());
-            if (sniper.activeSelf == true) StartCoroutine(PlaySniperReloadAudio());
-            if (pistol.activeSelf == true) StartCoroutine(PlayPistolReloadAudio());
+            if (_rifle.activeSelf) StartCoroutine(PlayRifleReloadAudio());
+            if (_sniper.activeSelf) StartCoroutine(PlaySniperReloadAudio());
+            if (_pistol.activeSelf) StartCoroutine(PlayPistolReloadAudio());
+
+            if (_knife.activeSelf) return;
+            if (_grenade.activeSelf) return;
 
             reload?.Invoke();
             PlayerRoot.PlayerAssetsInputs.reload = false;
@@ -54,22 +59,22 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
 
     IEnumerator PlayRifleReloadAudio()
     {
-        rifleReloadAudio.SetActive(true);
+        _rifleReloadAudio.SetActive(true);
         yield return new WaitForSeconds(2f);
-        rifleReloadAudio.SetActive(false);
+        _rifleReloadAudio.SetActive(false);
     }
 
     IEnumerator PlaySniperReloadAudio()
     {
-        sniperReloadAudio.SetActive(true);
+        _sniperReloadAudio.SetActive(true);
         yield return new WaitForSeconds(2f);
-        sniperReloadAudio.SetActive(false);
+        _sniperReloadAudio.SetActive(false);
     }
 
     IEnumerator PlayPistolReloadAudio()
     {
-        pistolReloadAudio.SetActive(true);
+        _pistolReloadAudio.SetActive(true);
         yield return new WaitForSeconds(2f);
-        pistolReloadAudio.SetActive(false);
+        _pistolReloadAudio.SetActive(false);
     }
 }

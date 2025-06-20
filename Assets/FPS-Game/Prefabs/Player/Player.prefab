@@ -4371,8 +4371,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 9999
-  Capacity: 9999
+  Capacity: 15
+  InitSupplies: 45
   CurrentMagazineAmmo: 5
   TotalSupplies: 10
 --- !u!1 &2323145358988751434
@@ -6052,12 +6052,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce37de0135b180f4ca8f361e51be1785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rifle: {fileID: 5951750704950840910}
-  sniper: {fileID: 6712177035632313221}
-  pistol: {fileID: 2321940653453447232}
-  rifleReloadAudio: {fileID: 9070704616132791714}
-  sniperReloadAudio: {fileID: 4866137006682224838}
-  pistolReloadAudio: {fileID: 6571585669135444553}
+  _rifle: {fileID: 5951750704950840910}
+  _sniper: {fileID: 6712177035632313221}
+  _pistol: {fileID: 2321940653453447232}
+  _knife: {fileID: 6981481206373577465}
+  _grenade: {fileID: 7193671196599232154}
+  _rifleReloadAudio: {fileID: 9070704616132791714}
+  _sniperReloadAudio: {fileID: 4866137006682224838}
+  _pistolReloadAudio: {fileID: 6571585669135444553}
 --- !u!114 &8832729229337073953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6070,6 +6072,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecaa6534025523438ac0b7f92d52e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _knife: {fileID: 6981481206373577465}
+  _grenade: {fileID: 7193671196599232154}
 --- !u!114 &1886828829561383244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10325,8 +10329,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 9999
-  Capacity: 9999
+  Capacity: 25
+  InitSupplies: 75
   CurrentMagazineAmmo: 10
   TotalSupplies: 20
 --- !u!1 &5978298344161345861
@@ -11820,8 +11824,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 9999
-  Capacity: 9999
+  Capacity: 5
+  InitSupplies: 15
   CurrentMagazineAmmo: 10
   TotalSupplies: 20
 --- !u!1 &6745567527963396782
@@ -12655,8 +12659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 9999
-  Capacity: 9999
+  Capacity: 1
+  InitSupplies: 3
   CurrentMagazineAmmo: 1
   TotalSupplies: 3
 --- !u!1 &7245651015985609979

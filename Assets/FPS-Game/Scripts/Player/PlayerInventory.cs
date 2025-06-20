@@ -28,6 +28,7 @@ public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
     {
         PlayerRoot.WeaponHolder.OnChangeWeapon += SetCurrentWeapon;
         PlayerRoot.PlayerReload.OnReload += Reload;
+        PlayerRoot.PlayerCollision.OnCollectedHealthPickup += RefillAmmos;
     }
 
     void OnDisable()

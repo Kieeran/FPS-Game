@@ -68,12 +68,17 @@ public class Explosives : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
-        _clientNetworkTransform.enabled = true;
-        _throwForce = 20f;
+        StartCoroutine(WaitOneFrame());
 
         grenadeAudio.spatialBlend = 1f;
         grenadeAudio.maxDistance = 100f;
+    }
+
+    IEnumerator WaitOneFrame()
+    {
+        yield return null;
+        _clientNetworkTransform.enabled = true;
+        _throwForce = 20f;
     }
 
     [ServerRpc(RequireOwnership = false)]

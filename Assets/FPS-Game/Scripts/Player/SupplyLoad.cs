@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SupplyLoad : MonoBehaviour
 {
-    [SerializeField] public int InitSupplies;
-    [SerializeField] public int Capacity;
+    public int Capacity;
+    public int InitSupplies;
 
     [HideInInspector]
     public int CurrentMagazineAmmo;
@@ -15,9 +13,6 @@ public class SupplyLoad : MonoBehaviour
 
     void Start()
     {
-        // CurrentMagazineAmmo = Capacity;
-        // TotalSupplies = InitSupplies;
-
         if (!_isInitialized)
         {
             CurrentMagazineAmmo = Capacity;
