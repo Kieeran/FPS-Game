@@ -474,6 +474,7 @@ GameObject:
   - component: {fileID: 2782243707476674553}
   - component: {fileID: 6509468171419657047}
   - component: {fileID: 5040054155949608307}
+  - component: {fileID: 7704118952696633411}
   m_Layer: 0
   m_Name: InGameManager
   m_TagString: Untagged
@@ -575,8 +576,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0fbf9a0c81aba4493285f9522d6f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxKillCount: 2
+  MaxKillCount: 10
   EndGameSlowFactor: 0.1
+--- !u!114 &7704118952696633411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4920083990778913584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1966c64e2b13be747b1b059ba3549355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5202762981308986384
 GameObject:
   m_ObjectHideFlags: 0

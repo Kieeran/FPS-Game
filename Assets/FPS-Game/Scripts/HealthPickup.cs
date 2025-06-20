@@ -11,9 +11,34 @@ public class HealthPickup : MonoBehaviour
 
     private Vector3 _startPosition;
 
+    [Header("Raycast Settings")]
+    public float raycastDistance;           // Độ dài tối đa raycast
+    public float minHeightAboveGround;     // Khoảng cách tối thiểu so với mặt đất
+    public LayerMask groundLayer;                 // Layer mặt đất
+
+    public float lifeTime;
+
     void Start()
     {
+        AdjustHeightAboveGround();
         _startPosition = transform.position;
+
+        Invoke(nameof(AutoDestroy), lifeTime);
+    }
+
+    void AdjustHeightAboveGround()
+    {
+        Ray ray = new Ray(transform.position, Vector3.down);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, raycastDistance, groundLayer))
+        {
+            float currentHeight = hitInfo.distance;
+
+            if (currentHeight < minHeightAboveGround)
+            {
+                float adjustment = minHeightAboveGround - currentHeight;
+                transform.position += Vector3.up * adjustment;
+            }
+        }
     }
 
     void Update()
@@ -26,5 +51,10 @@ public class HealthPickup : MonoBehaviour
 
         // Xoay quanh trục Y theo chiều kim đồng hồ
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World);
+    }
+
+    void AutoDestroy()
+    {
+        Destroy(gameObject);
     }
 }

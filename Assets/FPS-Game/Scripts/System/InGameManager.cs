@@ -27,6 +27,7 @@ public class InGameManager : NetworkBehaviour
     public List<SpawnPosition> SpawnPositionsList { get; private set; }
     public TimePhaseCounter TimePhaseCounter { get; private set; }
     public KillCountChecker KillCountChecker { get; private set; }
+    public GenerateHealthPickup GenerateHealthPickup { get; private set; }
 
     public System.Action<List<PlayerInfo>> OnReceivedPlayerInfo;
 
@@ -42,6 +43,7 @@ public class InGameManager : NetworkBehaviour
         InitSpawnPositions();
         TimePhaseCounter = GetComponent<TimePhaseCounter>();
         KillCountChecker = GetComponent<KillCountChecker>();
+        GenerateHealthPickup = GetComponent<GenerateHealthPickup>();
     }
 
     void InitSpawnPositions()

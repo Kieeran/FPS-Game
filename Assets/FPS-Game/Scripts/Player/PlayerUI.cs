@@ -56,6 +56,11 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
                 QuitGame();
             });
         };
+
+        PlayerRoot.PlayerCollision.OnCollectedHealthPickup += () =>
+        {
+            CurrentPlayerCanvas.HealRefillAmmoEffect.StartEffect();
+        };
     }
 
     public void AddTakeDamageEffect(float damage, ulong targetClientId)

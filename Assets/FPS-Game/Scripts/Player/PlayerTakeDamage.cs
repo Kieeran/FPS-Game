@@ -39,6 +39,7 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
         {
             IsPlayerDead = true;
             OnPlayerDead?.Invoke();
+            InGameManager.Instance.GenerateHealthPickup.DropHealthPickup(transform.position);
         }
     }
 

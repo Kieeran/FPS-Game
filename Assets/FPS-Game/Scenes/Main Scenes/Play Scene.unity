@@ -12548,10 +12548,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InGameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 5040054155949608307, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
-      propertyPath: MaxKillCount
-      value: 10
-      objectReference: {fileID: 0}
+    - target: {fileID: 7704118952696633411, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: _healthPickupPrefab
+      value: 
+      objectReference: {fileID: 442882122778481016, guid: b00c8e40b864b6f46a556f270a628b26, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -12,7 +12,7 @@ public class PlayerCanvas : MonoBehaviour
     public Scoreboard Scoreboard;
     public BulletHud BulletHud;
     public WeaponHud WeaponHud;
-
+    public HealRefillAmmoEffect HealRefillAmmoEffect;
     public Image ScopeAim;
     public Image CrossHair;
 

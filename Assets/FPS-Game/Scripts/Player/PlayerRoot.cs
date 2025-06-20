@@ -45,6 +45,7 @@ public class PlayerRoot : NetworkBehaviour
     public PlayerReload PlayerReload { get; private set; }
     public PlayerAim PlayerAim { get; private set; }
     public PlayerCamera PlayerCamera { get; private set; }
+    public PlayerCollision PlayerCollision { get; private set; }
     public PlayerModel PlayerModel { get; private set; }
     public WeaponHolder WeaponHolder { get; private set; }
 
@@ -67,10 +68,11 @@ public class PlayerRoot : NetworkBehaviour
         PlayerReload = GetComponent<PlayerReload>();
         PlayerAim = GetComponent<PlayerAim>();
         PlayerCamera = GetComponent<PlayerCamera>();
+        PlayerCollision = GetComponent<PlayerCollision>();
 
         WeaponHolder = _weaponHolder;
         PlayerModel = _playerModel;
-        
+
         InitAwake(gameObject);
     }
 
