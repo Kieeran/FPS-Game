@@ -9,7 +9,7 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
     [HideInInspector]
     public NetworkVariable<float> HP = new(1);
 
-    public Action PlayerDead;
+    public Action OnPlayerDead;
     public bool IsPlayerDead = false;
 
     // Awake
@@ -38,7 +38,7 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
         if (current == 0)
         {
             IsPlayerDead = true;
-            PlayerDead?.Invoke();
+            OnPlayerDead?.Invoke();
         }
     }
 

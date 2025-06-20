@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
+using System;
 
 public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
 {
@@ -17,6 +18,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     public PlayerRoot PlayerRoot { get; private set; }
 
     public float RespawnDelay;
+    public Action OnPlayerRespawn;
 
     // Awake
     public int PriorityAwake => 1000;
@@ -54,14 +56,14 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
         SetCinemachineVirtualCamera();
 
-        PlayerRoot.PlayerTakeDamage.PlayerDead += OnPlayerDead;
+        PlayerRoot.PlayerTakeDamage.OnPlayerDead += OnPlayerDead;
 
         PlayerRoot.PlayerModel.DisableHead();
     }
 
     void OnDisable()
     {
-        PlayerRoot.PlayerTakeDamage.PlayerDead -= OnPlayerDead;
+        PlayerRoot.PlayerTakeDamage.OnPlayerDead -= OnPlayerDead;
     }
 
     void SetCinemachineVirtualCamera()
@@ -233,6 +235,7 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     {
         PlayerRoot.WeaponHolder.ResetWeaponHolder();
         SetCinemachineVirtualCamera();
+        OnPlayerRespawn?.Invoke();
     }
 
     void EnableScripts()
