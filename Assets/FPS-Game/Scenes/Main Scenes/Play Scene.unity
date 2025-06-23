@@ -12498,6 +12498,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InGameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5040054155949608307, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: MaxKillCount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5796035979851491149, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: m_Enabled
       value: 1
