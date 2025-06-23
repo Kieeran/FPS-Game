@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using PlayerAssets;
-using Unity.Netcode;
 using UnityEngine;
 
-public class _SwayAndBob : NetworkBehaviour
+public class _SwayAndBob : MonoBehaviour
 {
     [Header("External references")]
-    // public Rigidbody rb;
-
-    [SerializeField] private PlayerAssetsInputs playerAssetsInputs;
+    public Rigidbody rb;
 
     private Vector2 walkInput;
     private Vector2 lookInput;
@@ -21,22 +17,18 @@ public class _SwayAndBob : NetworkBehaviour
 
     private void Update()
     {
-        if (IsOwner == false) return;
-
         //lookInput = PlayerInput.Instance.GetMousePos();
         //walkInput = PlayerInput.Instance.GetMoveInput();
 
-        //if (Input.GetMouseButton(1)) return;
+        if (Input.GetMouseButton(1)) return;
         //if (Input.GetMouseButton(0)) return;
-
-        lookInput = playerAssetsInputs.look;
 
         Sway();
         SwayRotation();
 
-        //speedCurve += Time.deltaTime * rb.velocity.magnitude * 1.5f + 0.01f;
+        speedCurve += Time.deltaTime * rb.velocity.magnitude * 1.5f + 0.01f;
 
-        //BobOffset();
+        BobOffset();
         //BobRotation();
 
         CompositePositionRotation();
@@ -49,8 +41,6 @@ public class _SwayAndBob : NetworkBehaviour
 
     private void Sway()
     {
-        if (IsOwner == false) return;
-
         Vector3 invertLook = lookInput * -step;
         invertLook.x = Mathf.Clamp(invertLook.x, -maxStepDistance, maxStepDistance);
         invertLook.y = Mathf.Clamp(invertLook.y, -maxStepDistance, maxStepDistance);
@@ -65,8 +55,6 @@ public class _SwayAndBob : NetworkBehaviour
 
     private void SwayRotation()
     {
-        if (IsOwner == false) return;
-
         Vector2 invertLook = lookInput * -rotationStep;
 
         invertLook.x = Mathf.Clamp(invertLook.x, -maxRotationStep, maxRotationStep);
@@ -75,26 +63,26 @@ public class _SwayAndBob : NetworkBehaviour
         swayEulerRotation = new Vector3(invertLook.y, invertLook.x, invertLook.x);
     }
 
-    // [Header("Bobbing")]
-    // public float speedCurve;
+    [Header("Bobbing")]
+    public float speedCurve;
 
-    // float curveSin { get => Mathf.Sin(speedCurve); }
-    // float curveCos { get => Mathf.Cos(speedCurve); }
+    float curveSin { get => Mathf.Sin(speedCurve); }
+    float curveCos { get => Mathf.Cos(speedCurve); }
 
-    // public Vector3 travelLimit = Vector3.one * 0.025f;
-    // public Vector3 bobLimit = Vector3.one * 0.01f;
+    public Vector3 travelLimit = Vector3.one * 0.025f;
+    public Vector3 bobLimit = Vector3.one * 0.01f;
 
-    // Vector3 bobPosition;
+    Vector3 bobPosition;
 
-    // private void BobOffset()
-    // {
-    //     bobPosition.x = curveCos * bobLimit.x;
-    //     bobPosition.y = curveSin * bobLimit.y - rb.velocity.y * travelLimit.y;
-    //     bobPosition.z = -walkInput.y * travelLimit.z;
+    private void BobOffset()
+    {
+        bobPosition.x = curveCos * bobLimit.x;
+        bobPosition.y = curveSin * bobLimit.y - rb.velocity.y * travelLimit.y;
+        bobPosition.z = -walkInput.y * travelLimit.z;
 
-    //     //bobPosition.x = curveCos * bobLimit.x;
-    //     //bobPosition.y = curveSin * bobLimit.y;
-    // }
+        //bobPosition.x = curveCos * bobLimit.x;
+        //bobPosition.y = curveSin * bobLimit.y;
+    }
 
     //[Header("Bob Rotation")]
     //public Vector3 multiplier;
@@ -118,8 +106,7 @@ public class _SwayAndBob : NetworkBehaviour
     {
         transform.localPosition =
             Vector3.Lerp(transform.localPosition,
-            // swayPos + bobPosition,
-            swayPos,
+            swayPos + bobPosition,
             Time.deltaTime * smooth);
 
         transform.localRotation =

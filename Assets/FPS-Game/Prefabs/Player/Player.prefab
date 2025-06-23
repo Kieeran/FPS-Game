@@ -4315,16 +4315,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2321940653453447232}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832339507943}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
+  PlayerRoot: {fileID: 5786631840013576090}
+  Step: 0.1
+  MaxStepDistance: 0.5
+  RotationStep: 4
+  MaxRotationStep: 5
 --- !u!114 &3327655574649894840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9905,8 +9905,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerRoot: {fileID: 5786631840013576090}
   RigBuilder: {fileID: 1604434602729957443}
-  HeadLook: {fileID: 0}
-  BodyLook: {fileID: 0}
 --- !u!114 &140835691155244661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10275,16 +10273,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5951750704950840910}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832339507943}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
+  PlayerRoot: {fileID: 5786631840013576090}
+  Step: 0.1
+  MaxStepDistance: 0.5
+  RotationStep: 4
+  MaxRotationStep: 5
 --- !u!114 &2125436478189442123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11800,16 +11798,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6712177035632313221}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832339507943}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
+  PlayerRoot: {fileID: 5786631840013576090}
+  Step: 0.1
+  MaxStepDistance: 0.5
+  RotationStep: 4
+  MaxRotationStep: 5
 --- !u!114 &5275834517874757834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12265,11 +12263,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832339507943}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
+  PlayerRoot: {fileID: 0}
+  Step: 0.1
+  MaxStepDistance: 0.5
+  RotationStep: 4
+  MaxRotationStep: 5
 --- !u!114 &2144477545034913600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12633,11 +12631,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832339507943}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
+  PlayerRoot: {fileID: 0}
+  Step: 0.1
+  MaxStepDistance: 0.5
+  RotationStep: 4
+  MaxRotationStep: 5
 --- !u!114 &4933977361876597016
 MonoBehaviour:
   m_ObjectHideFlags: 0

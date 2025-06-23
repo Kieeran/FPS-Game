@@ -5,6 +5,7 @@ using System.Collections;
 public class Gun : NetworkBehaviour
 {
     public PlayerRoot PlayerRoot { get; private set; }
+    public SwayAndBob SwayAndBob { get; private set; }
 
     SupplyLoad _supplyLoad;
     private bool isPressed = false;
@@ -54,6 +55,7 @@ public class Gun : NetworkBehaviour
     void Awake()
     {
         PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+        SwayAndBob = GetComponent<SwayAndBob>();
 
         HeadDamage = _headDamage;
         TorsoDamage = _torsoDamage;
@@ -189,6 +191,8 @@ public class Gun : NetworkBehaviour
         if (originPos == targetPos && originEulerRot == targetEulerRot)
             yield break;
 
+        SwayAndBob.enabled = false;
+
         Quaternion originRot = Quaternion.Euler(originEulerRot);
         Quaternion targetRot = Quaternion.Euler(targetEulerRot);
 
@@ -209,6 +213,10 @@ public class Gun : NetworkBehaviour
 
         transform.localPosition = targetPos;
         transform.localEulerAngles = targetEulerRot;
+
+        SwayAndBob.enabled = true;
+        SwayAndBob.AimPositionOffset = transform.localPosition;
+        SwayAndBob.AimRotationOffset = Quaternion.Euler(transform.localEulerAngles);
     }
 
 
