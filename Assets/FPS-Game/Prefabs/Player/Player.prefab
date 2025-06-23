@@ -2456,7 +2456,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9090760930605295615}
   - component: {fileID: 3084308489686204664}
-  - component: {fileID: 3225831030423251551}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: CinemachineTarget
@@ -2512,20 +2511,6 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &3225831030423251551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1165831577204816612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 979ac53aa9da05f45beddb637029338f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
-  _cameraPivot: {fileID: 3300334772572796218}
 --- !u!1 &1189040347912986810
 GameObject:
   m_ObjectHideFlags: 0
@@ -4315,9 +4300,6 @@ MonoBehaviour:
   FireCoolDown: 0.15
   shootEffect: {fileID: 3327655574649894840}
   _aimFOV: 30
-  _aimPos: {x: -0.56, y: 0.15, z: -0.2}
-  _aimRot: {x: 357, y: 0, z: 0}
-  _moveDuration: 0.15
   _spreadAngle: 1
   gunSound: {fileID: 2357293348895689498}
   Automatic: 0
@@ -4325,6 +4307,7 @@ MonoBehaviour:
   _torsoDamage: 0.15
   _legDamage: 0.1
   _gunType: 3
+  _aimTransitionDuration: 0.15
 --- !u!114 &3736074866538794915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4457,7 +4440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fa16d510cf36f449f31c296070c289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponMountPoint: {fileID: 6697185570265817326}
+  _weaponPose_SOs:
+  - {fileID: 11400000, guid: 3ffa6babd7826bf45b8f2651e2889258, type: 2}
+  - {fileID: 11400000, guid: bb188be77eb514e41b28b9c83986ff90, type: 2}
+  - {fileID: 11400000, guid: 2500e0b545744df47b71195d9b81d0b6, type: 2}
   Rifle: {fileID: 5432729954051960007}
   Sniper: {fileID: 3280156445995770102}
   Pistol: {fileID: 5226092564806773297}
@@ -8261,55 +8247,6 @@ Transform:
   - {fileID: 3720227085282259887}
   m_Father: {fileID: 5244229812574427727}
   m_LocalEulerAnglesHint: {x: -0.97445244, y: 34.403057, z: -2.6618476}
---- !u!1 &4644411513527139379
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6703658808817951087}
-  - component: {fileID: 6697185570265817326}
-  m_Layer: 0
-  m_Name: WeaponMountPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6703658808817951087
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4644411513527139379}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1742817139693533618}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6697185570265817326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4644411513527139379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef062f4470e15c744a599ab8f5385208, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WeaponHolder: {fileID: 1571463807456523207}
-  weaponPoseSOs:
-  - {fileID: 11400000, guid: 3ffa6babd7826bf45b8f2651e2889258, type: 2}
-  - {fileID: 11400000, guid: bb188be77eb514e41b28b9c83986ff90, type: 2}
-  - {fileID: 11400000, guid: 2500e0b545744df47b71195d9b81d0b6, type: 2}
 --- !u!1 &4653369266094353537
 GameObject:
   m_ObjectHideFlags: 0
@@ -9932,8 +9869,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7299af810730e744ba68de4e313fc848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headParts:
+  modelParts:
   - {fileID: 9220390883198135289}
+  - {fileID: 4875256444284696006}
 --- !u!114 &5155779462957209349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10272,9 +10210,6 @@ MonoBehaviour:
   FireCoolDown: 0.15
   shootEffect: {fileID: 2125436478189442123}
   _aimFOV: 30
-  _aimPos: {x: -0.44, y: 0, z: 0}
-  _aimRot: {x: 0, y: 0, z: 0}
-  _moveDuration: 0.15
   _spreadAngle: 1
   gunSound: {fileID: 4156372565415818502}
   Automatic: 1
@@ -10282,6 +10217,7 @@ MonoBehaviour:
   _torsoDamage: 0.3
   _legDamage: 0.15
   _gunType: 1
+  _aimTransitionDuration: 0.15
 --- !u!114 &169921863895426106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11767,9 +11703,6 @@ MonoBehaviour:
   FireCoolDown: 2
   shootEffect: {fileID: 5275834517874757834}
   _aimFOV: 10
-  _aimPos: {x: 0, y: 0, z: 0}
-  _aimRot: {x: 0, y: 0, z: 0}
-  _moveDuration: 0.15
   _spreadAngle: 0
   gunSound: {fileID: 7604934311450489074}
   Automatic: 0
@@ -11777,6 +11710,7 @@ MonoBehaviour:
   _torsoDamage: 1
   _legDamage: 0.3
   _gunType: 2
+  _aimTransitionDuration: 0.15
 --- !u!114 &4460800013304567988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15152,7 +15086,6 @@ Transform:
   - {fileID: 283775216850250228}
   - {fileID: 1868021078219357230}
   - {fileID: 296655140860633127}
-  - {fileID: 6703658808817951087}
   m_Father: {fileID: 2649416518842290824}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8987502167298849330

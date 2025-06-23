@@ -8,7 +8,11 @@ using UnityEngine;
 public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
-    public WeaponMountPoint WeaponMountPoint;
+
+    [Header("Weapon Pose SO")]
+    [SerializeField] List<WeaponPoseSO> _weaponPose_SOs;
+    public Dictionary<GunType, WeaponPoseSO> WeaponPoseSOs;
+    [Space(10)]
     public Gun Rifle;
     public Gun Sniper;
     public Gun Pistol;
@@ -47,6 +51,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         }
 
         SetOrigin();
+        InitializeDictionary();
 
         Rb = gameObject.AddComponent<Rigidbody>();
         gameObject.AddComponent<NetworkRigidbody>();
@@ -58,6 +63,16 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     public void InitializeOnNetworkSpawn()
     {
         StartCoroutine(SetFirstWeapon());
+    }
+
+    void InitializeDictionary()
+    {
+        WeaponPoseSOs = new();
+
+        foreach (var so in _weaponPose_SOs)
+        {
+            WeaponPoseSOs.Add(so.GunType, so);
+        }
     }
 
     IEnumerator SetFirstWeapon()
@@ -118,13 +133,6 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
             _currentWeaponIndex = 4;
             ChangeWeapon();
         }
-    }
-
-    void LateUpdate()
-    {
-        // Cập nhật vị trí và hướng theo weaponMountPoint
-        transform.position = WeaponMountPoint.transform.position;
-        // transform.SetPositionAndRotation(WeaponMountPoint.transform.position, WeaponMountPoint.transform.rotation);
     }
 
     void ChangeWeapon()

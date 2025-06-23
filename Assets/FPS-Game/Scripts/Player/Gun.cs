@@ -1,35 +1,21 @@
 using UnityEngine;
 using Unity.Netcode;
+using System.Collections;
 
 public class Gun : NetworkBehaviour
 {
     public PlayerRoot PlayerRoot { get; private set; }
 
     SupplyLoad _supplyLoad;
-
     private bool isPressed = false;
-
     public float FireCoolDown;
 
-    // private bool isShoot;
-    bool _isAim;
-    bool _isUnAim;
-    // private bool isReload;
-
-    [SerializeField] private _ShootEffect shootEffect;
-
+    [SerializeField] _ShootEffect shootEffect;
     [SerializeField] float _aimFOV;
 
-    [SerializeField] Vector3 _aimPos;
-    [SerializeField] Vector3 _aimRot;
-    [SerializeField] float _moveDuration;
     [SerializeField] float _spreadAngle;
 
     [SerializeField] AudioSource gunSound;
-
-    Vector3 _normalPos;
-    Quaternion _normalRot;
-    float _elapsedTime;
 
     // public Image crossHair;
 
@@ -57,6 +43,7 @@ public class Gun : NetworkBehaviour
 
     [Header("Gun type")]
     [SerializeField] GunType _gunType;
+    [SerializeField] float _aimTransitionDuration;
 
     public float HeadDamage { get; private set; }
     public float TorsoDamage { get; private set; }
@@ -82,9 +69,6 @@ public class Gun : NetworkBehaviour
     {
         CurrentCoolDown = FireCoolDown;
 
-        _normalPos = transform.localPosition;
-        _normalRot = transform.localRotation;
-
         // if (OnGunShoot == null)
         //     OnGunShoot = new UnityEvent();
     }
@@ -93,9 +77,6 @@ public class Gun : NetworkBehaviour
     {
         PlayerRoot.PlayerAim.OnAim += OnAim;
         PlayerRoot.PlayerAim.OnUnAim += OnUnAim;
-        _isAim = false;
-        _isUnAim = false;
-        _elapsedTime = 0;
 
         gunSound.spatialBlend = 1f;
         gunSound.maxDistance = 100f;
@@ -105,18 +86,22 @@ public class Gun : NetworkBehaviour
     {
         PlayerRoot.PlayerAim.OnAim -= OnAim;
         PlayerRoot.PlayerAim.OnUnAim -= OnUnAim;
-
-        transform.SetLocalPositionAndRotation(_normalPos, _normalRot);
     }
 
     void OnAim()
     {
-        _isAim = true;
+        if (PlayerRoot.WeaponHolder.WeaponPoseSOs[_gunType].TryGetPose(PlayerWeaponPose.Aim, out var data))
+        {
+            StartCoroutine(TransitionAimState(data.Position));
+        }
     }
 
     void OnUnAim()
     {
-        _isUnAim = true;
+        if (PlayerRoot.WeaponHolder.WeaponPoseSOs[_gunType].TryGetPose(PlayerWeaponPose.Idle, out var data))
+        {
+            StartCoroutine(TransitionAimState(data.Position));
+        }
     }
 
     private void Shoot()
@@ -196,37 +181,53 @@ public class Gun : NetworkBehaviour
         CurrentCoolDown -= Time.deltaTime;
     }
 
+    public IEnumerator TransitionAimState(Vector3 targetPos)
+    {
+        Vector3 originPos = transform.localPosition;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < _aimTransitionDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / _aimTransitionDuration);
+            transform.localPosition = Vector3.Lerp(originPos, targetPos, t);
+            yield return null;
+        }
+
+        transform.localPosition = targetPos;
+    }
+
     void Aim()
     {
-        if (_isAim == true)
-        {
-            _elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(_elapsedTime / _moveDuration);
+        // if (_isAim == true)
+        // {
+        //     _elapsedTime += Time.deltaTime;
+        //     float t = Mathf.Clamp01(_elapsedTime / _moveDuration);
 
-            transform.localPosition = Vector3.Lerp(_normalPos, _aimPos, t);
-            transform.localRotation = Quaternion.Slerp(_normalRot, Quaternion.Euler(_aimRot), t);
+        //     transform.localPosition = Vector3.Lerp(_normalPos, _aimPos, t);
+        //     transform.localRotation = Quaternion.Slerp(_normalRot, Quaternion.Euler(_aimRot), t);
 
-            if (t >= 1f)
-            {
-                _isAim = false;
-                _elapsedTime = 0;
-            }
-        }
+        //     if (t >= 1f)
+        //     {
+        //         _isAim = false;
+        //         _elapsedTime = 0;
+        //     }
+        // }
 
-        else if (_isUnAim == true)
-        {
-            _elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(_elapsedTime / _moveDuration);
+        // else if (_isUnAim == true)
+        // {
+        //     _elapsedTime += Time.deltaTime;
+        //     float t = Mathf.Clamp01(_elapsedTime / _moveDuration);
 
-            transform.localPosition = Vector3.Lerp(_aimPos, _normalPos, t);
-            transform.localRotation = Quaternion.Slerp(Quaternion.Euler(_aimRot), _normalRot, t);
+        //     transform.localPosition = Vector3.Lerp(_aimPos, _normalPos, t);
+        //     transform.localRotation = Quaternion.Slerp(Quaternion.Euler(_aimRot), _normalRot, t);
 
-            if (t >= 1f)
-            {
-                _isUnAim = false;
-                _elapsedTime = 0;
-            }
-        }
+        //     if (t >= 1f)
+        //     {
+        //         _isUnAim = false;
+        //         _elapsedTime = 0;
+        //     }
+        // }
     }
 
     public void PlayGunAudio(Vector3 position)

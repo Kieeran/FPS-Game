@@ -5,24 +5,24 @@ using UnityEngine;
 public class PlayerModel : NetworkBehaviour
 {
     public PlayerAnimation PlayerAni { get; private set; }
-    public List<Renderer> headParts;
+    public List<Renderer> modelParts;
 
     void Awake()
     {
         PlayerAni = GetComponent<PlayerAnimation>();
     }
 
-    public void DisableHead()
+    public void DisableModel()
     {
-        foreach (var part in headParts)
+        foreach (var part in modelParts)
         {
             part.enabled = false;
         }
     }
 
-    public void EnableHead()
+    public void EnableModel()
     {
-        foreach (var part in headParts)
+        foreach (var part in modelParts)
         {
             part.enabled = true;
         }
@@ -54,7 +54,7 @@ public class PlayerModel : NetworkBehaviour
         PlayerAni.Animator.applyRootMotion = true;
         PlayerAni.Animator.Play("FallingForwardDeath", 0, 0f);
 
-        EnableHead();
+        EnableModel();
     }
 
     public void OnPlayerRespawn()
@@ -66,6 +66,6 @@ public class PlayerModel : NetworkBehaviour
         transform.localPosition = Vector3.zero;
         PlayerAni.Animator.applyRootMotion = false;
 
-        DisableHead();
+        DisableModel();
     }
 }

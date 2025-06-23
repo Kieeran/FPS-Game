@@ -7,10 +7,6 @@ public class PlayerAim : NetworkBehaviour, IInitAwake, IInitNetwork
     public PlayerRoot PlayerRoot { get; private set; }
     public Action OnAim;
     public Action OnUnAim;
-
-    [SerializeField] GameObject _knife;
-    [SerializeField] GameObject _grenade;
-
     public bool ToggleAim { get; private set; }
 
     // Awake
@@ -40,22 +36,16 @@ public class PlayerAim : NetworkBehaviour, IInitAwake, IInitNetwork
         if (PlayerRoot.PlayerAssetsInputs.aim == true)
         {
             PlayerRoot.PlayerAssetsInputs.aim = false;
-
-            if (_knife.activeSelf) return;
-            if (_grenade.activeSelf) return;
-
             ToggleAim = !ToggleAim;
 
             if (ToggleAim == true)
             {
                 OnAim?.Invoke();
-                // Debug.Log("Aim!");
             }
 
             else
             {
                 OnUnAim?.Invoke();
-                // Debug.Log("Un Aim!");
             }
         }
     }
