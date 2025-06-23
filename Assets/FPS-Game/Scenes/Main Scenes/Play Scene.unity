@@ -12424,11 +12424,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1980443451614447504, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2782243707476674553, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: combatPhaseDuration
-      value: 1210
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2782243707476674553, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: resultPhaseDuration
@@ -12500,15 +12500,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796035979851491149, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6071508119599028766, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6735611736034191129, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
