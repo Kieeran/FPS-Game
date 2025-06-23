@@ -12422,6 +12422,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1980443451614447504, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2782243707476674553, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: combatPhaseDuration
       value: 1210
@@ -12437,6 +12441,10 @@ PrefabInstance:
     - target: {fileID: 3247283659202228985, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4054774198
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450107883746793375, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4450866534557819797, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: _spawnPositions
@@ -12490,6 +12498,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: InGameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5796035979851491149, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071508119599028766, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735611736034191129, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12497,7 +12517,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
 --- !u!4 &6236966428813075214 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1408114438560642136, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5858090778935246851, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
   m_PrefabInstance: {fileID: 6236966428813075213}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &6320490701126885425

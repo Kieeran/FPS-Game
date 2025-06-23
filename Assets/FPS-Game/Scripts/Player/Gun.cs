@@ -90,18 +90,18 @@ public class Gun : NetworkBehaviour
 
     void OnAim()
     {
-        if (PlayerRoot.WeaponHolder.WeaponPoseSOs[_gunType].TryGetPose(PlayerWeaponPose.Aim, out var data))
-        {
-            StartCoroutine(TransitionAimState(data.Position));
-        }
+        // if (PlayerRoot.WeaponHolder.WeaponPoseNetworkSOs[_gunType].TryGetPose(PlayerWeaponPose.Aim, out var data))
+        // {
+        //     StartCoroutine(TransitionAimState(data.Position));
+        // }
     }
 
     void OnUnAim()
     {
-        if (PlayerRoot.WeaponHolder.WeaponPoseSOs[_gunType].TryGetPose(PlayerWeaponPose.Idle, out var data))
-        {
-            StartCoroutine(TransitionAimState(data.Position));
-        }
+        // if (PlayerRoot.WeaponHolder.WeaponPoseNetworkSOs[_gunType].TryGetPose(PlayerWeaponPose.Idle, out var data))
+        // {
+        //     StartCoroutine(TransitionAimState(data.Position));
+        // }
     }
 
     private void Shoot()
@@ -184,8 +184,9 @@ public class Gun : NetworkBehaviour
     public IEnumerator TransitionAimState(Vector3 targetPos)
     {
         Vector3 originPos = transform.localPosition;
-        float elapsedTime = 0f;
+        if (originPos == targetPos) yield break;
 
+        float elapsedTime = 0f;
         while (elapsedTime < _aimTransitionDuration)
         {
             elapsedTime += Time.deltaTime;

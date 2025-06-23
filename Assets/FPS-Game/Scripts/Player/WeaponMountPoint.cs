@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class WeaponMountPoint : MonoBehaviour
+public class WeaponMountPoint : NetworkBehaviour
 {
     public WeaponHolder WeaponHolder;
-    public List<WeaponPoseSO> weaponPoseSOs;
+    [SerializeField] List<WeaponPoseSO> _weaponPoseNetworkSO;
 
     GunType _currentGuntype;
 
-    void Awake()
+    public override void OnNetworkSpawn()
     {
         _currentGuntype = GunType.Rifle;
         WeaponHolder.OnChangeGun += (GunType) =>
@@ -17,32 +18,18 @@ public class WeaponMountPoint : MonoBehaviour
             ApplyPose(_currentGuntype, PlayerWeaponPose.Idle);
         };
 
-        WeaponHolder.PlayerRoot.PlayerAim.OnAim += () =>
-        {
-            ApplyPose(_currentGuntype, PlayerWeaponPose.Aim);
-        };
-
-        WeaponHolder.PlayerRoot.PlayerAim.OnUnAim += () =>
-        {
-            ApplyPose(_currentGuntype, PlayerWeaponPose.Idle);
-        };
-    }
-
-    void Start()
-    {
         ApplyPose(_currentGuntype, PlayerWeaponPose.Idle);
     }
 
     public void ApplyPose(GunType gunType, PlayerWeaponPose pose)
     {
-        foreach (var poseSO in weaponPoseSOs)
+        foreach (var poseSO in _weaponPoseNetworkSO)
         {
             if (poseSO.GunType == gunType)
             {
                 if (poseSO.TryGetPose(pose, out var data))
                 {
-                    // transform.SetLocalPositionAndRotation(data.Position, Quaternion.Euler(data.EulerRotation));
-                    transform.localPosition = data.Position;
+                    transform.SetLocalPositionAndRotation(data.Position, Quaternion.Euler(data.EulerRotation));
                     return;
                 }
                 else

@@ -10,9 +10,10 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     public PlayerRoot PlayerRoot { get; private set; }
 
     [Header("Weapon Pose SO")]
-    [SerializeField] List<WeaponPoseSO> _weaponPose_SOs;
-    public Dictionary<GunType, WeaponPoseSO> WeaponPoseSOs;
+    [SerializeField] List<WeaponPoseSO> _weaponPoseLocalSO;
+    public Dictionary<GunType, WeaponPoseSO> WeaponPoseLocalSOs;
     [Space(10)]
+    public Transform WeaponMountPoint;
     public Gun Rifle;
     public Gun Sniper;
     public Gun Pistol;
@@ -67,11 +68,11 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 
     void InitializeDictionary()
     {
-        WeaponPoseSOs = new();
+        WeaponPoseLocalSOs = new();
 
-        foreach (var so in _weaponPose_SOs)
+        foreach (var so in _weaponPoseLocalSO)
         {
-            WeaponPoseSOs.Add(so.GunType, so);
+            WeaponPoseLocalSOs.Add(so.GunType, so);
         }
     }
 
@@ -133,6 +134,12 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
             _currentWeaponIndex = 4;
             ChangeWeapon();
         }
+    }
+
+    void LateUpdate()
+    {
+        // Cập nhật vị trí và hướng theo weaponMountPoint
+        transform.SetPositionAndRotation(WeaponMountPoint.position, WeaponMountPoint.rotation);
     }
 
     void ChangeWeapon()

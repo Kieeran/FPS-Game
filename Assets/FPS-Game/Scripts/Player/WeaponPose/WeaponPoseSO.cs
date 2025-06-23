@@ -24,6 +24,13 @@ public class WeaponPoseSO : ScriptableObject
     public bool TryGetPose(PlayerWeaponPose poseType, out WeaponTransformData result)
     {
         if (_lookup == null) BuildLookup();
+
+        if (!_lookup.ContainsKey(poseType))
+        {
+            result = default;
+            return false;
+        }
+
         return _lookup.TryGetValue(poseType, out result);
     }
 }
