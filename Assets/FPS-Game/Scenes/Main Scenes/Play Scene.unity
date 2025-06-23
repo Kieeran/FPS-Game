@@ -12428,7 +12428,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2782243707476674553, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: combatPhaseDuration
-      value: 60
+      value: 121
       objectReference: {fileID: 0}
     - target: {fileID: 2782243707476674553, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: resultPhaseDuration
