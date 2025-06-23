@@ -52,6 +52,7 @@ public class SwayAndBob : NetworkBehaviour
     void Update()
     {
         if (IsOwner == false) return;
+        if (PlayerRoot.PlayerUI.IsEscapeUIOn()) return;
 
         _moveInput = PlayerRoot.PlayerAssetsInputs.move;
         _lookInput = PlayerRoot.PlayerAssetsInputs.look;

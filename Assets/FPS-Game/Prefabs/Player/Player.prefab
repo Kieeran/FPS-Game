@@ -4325,6 +4325,13 @@ MonoBehaviour:
   MaxStepDistance: 0.5
   RotationStep: 4
   MaxRotationStep: 5
+  SpeedCurve: 0
+  TravelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  BobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  Multiplier: {x: 0, y: 0, z: 0}
+  MaxVelocityMagnitude: 10
+  AimPositionOffset: {x: 0, y: 0, z: 0}
+  AimRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &3327655574649894840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10283,6 +10290,13 @@ MonoBehaviour:
   MaxStepDistance: 0.5
   RotationStep: 4
   MaxRotationStep: 5
+  SpeedCurve: 0
+  TravelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  BobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  Multiplier: {x: 0, y: 0, z: 0}
+  MaxVelocityMagnitude: 10
+  AimPositionOffset: {x: 0, y: 0, z: 0}
+  AimRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &2125436478189442123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11808,6 +11822,13 @@ MonoBehaviour:
   MaxStepDistance: 0.5
   RotationStep: 4
   MaxRotationStep: 5
+  SpeedCurve: 0
+  TravelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  BobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  Multiplier: {x: 0, y: 0, z: 0}
+  MaxVelocityMagnitude: 10
+  AimPositionOffset: {x: 0, y: 0, z: 0}
+  AimRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &5275834517874757834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12258,16 +12279,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6981481206373577465}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 0}
+  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
   MaxRotationStep: 5
+  SpeedCurve: 0
+  TravelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  BobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  Multiplier: {x: 0, y: 0, z: 0}
+  MaxVelocityMagnitude: 10
+  AimPositionOffset: {x: 0, y: 0, z: 0}
+  AimRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &2144477545034913600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12626,16 +12654,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7193671196599232154}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 0}
+  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
   MaxRotationStep: 5
+  SpeedCurve: 0
+  TravelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  BobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  Multiplier: {x: 0, y: 0, z: 0}
+  MaxVelocityMagnitude: 10
+  AimPositionOffset: {x: 0, y: 0, z: 0}
+  AimRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &4933977361876597016
 MonoBehaviour:
   m_ObjectHideFlags: 0

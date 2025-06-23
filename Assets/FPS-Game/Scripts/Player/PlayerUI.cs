@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,12 +11,17 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
     [SerializeField] PlayerCanvas _playerCanvas;
 
     public Action ToggleEscapeUI;
-
+    bool _toggleEscapeUI = false;
     // Awake
     public int PriorityAwake => 1000;
     public void InitializeAwake()
     {
         PlayerRoot = GetComponent<PlayerRoot>();
+    }
+
+    public bool IsEscapeUIOn()
+    {
+        return _toggleEscapeUI;
     }
 
     // OnNetworkSpawn
@@ -37,7 +41,11 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
 
         PlayerRoot.PlayerAim.OnUnAim += () =>
         {
-            CurrentPlayerCanvas.ToggleCrossHair(true);
+            GameObject weapon = PlayerRoot.WeaponHolder.GetCurrentWeapon();
+            if (weapon.TryGetComponent<Gun>(out var currentGun))
+            {
+                CurrentPlayerCanvas.ToggleCrossHair(true);
+            }
         };
 
         InGameManager.Instance.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
@@ -74,6 +82,19 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
         PlayerRoot.PlayerCollision.OnCollectedHealthPickup += () =>
         {
             CurrentPlayerCanvas.HealRefillAmmoEffect.StartEffect();
+        };
+
+        PlayerRoot.WeaponHolder.OnChangeWeapon += (sender, e) =>
+        {
+            if (e.CurrentWeapon.TryGetComponent<Gun>(out var currentGun))
+            {
+                CurrentPlayerCanvas.ToggleCrossHair(true);
+            }
+
+            else
+            {
+                CurrentPlayerCanvas.ToggleCrossHair(false);
+            }
         };
     }
 
@@ -147,6 +168,7 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
 
         if (PlayerRoot.PlayerAssetsInputs.escapeUI == true)
         {
+            _toggleEscapeUI = !_toggleEscapeUI;
             ToggleEscapeUI?.Invoke();
 
             CurrentPlayerCanvas.ToggleEscapeUI();

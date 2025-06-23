@@ -32,6 +32,7 @@ public class PlayerAim : NetworkBehaviour, IInitAwake, IInitNetwork
     void Update()
     {
         if (!IsOwner) return;
+        if (PlayerRoot.PlayerUI.IsEscapeUIOn()) return;
 
         if (PlayerRoot.PlayerAssetsInputs.aim == true)
         {
