@@ -63,6 +63,15 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     public int PriorityNetwork => 20;
     public void InitializeOnNetworkSpawn()
     {
+        if (IsOwner & IsLocalPlayer)
+        {
+            Vector3 localScale = new(1.6f, 1.6f, 1.6f);
+
+            Rifle.transform.localScale = localScale;
+            Sniper.transform.localScale = localScale;
+            Pistol.transform.localScale = localScale;
+        }
+
         StartCoroutine(SetFirstWeapon());
     }
 
@@ -138,6 +147,8 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 
     void LateUpdate()
     {
+        if (IsOwner & IsLocalPlayer) return;
+
         // Cập nhật vị trí và hướng theo weaponMountPoint
         transform.SetPositionAndRotation(WeaponMountPoint.position, WeaponMountPoint.rotation);
     }

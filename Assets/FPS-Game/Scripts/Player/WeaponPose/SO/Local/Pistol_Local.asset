@@ -16,5 +16,7 @@ MonoBehaviour:
   Poses:
   - PoseType: 0
     Position: {x: 0, y: 0, z: 0}
+    EulerRotation: {x: 0, y: 0, z: 0}
   - PoseType: 1
-    Position: {x: -0.283, y: 0.241, z: 0.135}
+    Position: {x: -0.865, y: 0.38, z: -0.81}
+    EulerRotation: {x: 358.34998, y: 359.99, z: 0}

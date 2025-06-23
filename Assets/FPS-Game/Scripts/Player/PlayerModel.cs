@@ -14,18 +14,18 @@ public class PlayerModel : NetworkBehaviour
 
     public void DisableModel()
     {
-        // foreach (var part in modelParts)
-        // {
-        //     part.enabled = false;
-        // }
+        foreach (var part in modelParts)
+        {
+            part.enabled = false;
+        }
     }
 
     public void EnableModel()
     {
-        // foreach (var part in modelParts)
-        // {
-        //     part.enabled = true;
-        // }
+        foreach (var part in modelParts)
+        {
+            part.enabled = true;
+        }
     }
 
     void Update()

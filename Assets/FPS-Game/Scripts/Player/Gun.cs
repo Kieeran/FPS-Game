@@ -90,18 +90,18 @@ public class Gun : NetworkBehaviour
 
     void OnAim()
     {
-        // if (PlayerRoot.WeaponHolder.WeaponPoseNetworkSOs[_gunType].TryGetPose(PlayerWeaponPose.Aim, out var data))
-        // {
-        //     StartCoroutine(TransitionAimState(data.Position));
-        // }
+        if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Aim, out var data))
+        {
+            StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+        }
     }
 
     void OnUnAim()
     {
-        // if (PlayerRoot.WeaponHolder.WeaponPoseNetworkSOs[_gunType].TryGetPose(PlayerWeaponPose.Idle, out var data))
-        // {
-        //     StartCoroutine(TransitionAimState(data.Position));
-        // }
+        if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Idle, out var data))
+        {
+            StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+        }
     }
 
     private void Shoot()
@@ -181,22 +181,36 @@ public class Gun : NetworkBehaviour
         CurrentCoolDown -= Time.deltaTime;
     }
 
-    public IEnumerator TransitionAimState(Vector3 targetPos)
+    public IEnumerator TransitionAimState(Vector3 targetPos, Vector3 targetEulerRot)
     {
         Vector3 originPos = transform.localPosition;
-        if (originPos == targetPos) yield break;
+        Vector3 originEulerRot = transform.localEulerAngles;
+
+        if (originPos == targetPos && originEulerRot == targetEulerRot)
+            yield break;
+
+        Quaternion originRot = Quaternion.Euler(originEulerRot);
+        Quaternion targetRot = Quaternion.Euler(targetEulerRot);
 
         float elapsedTime = 0f;
+
         while (elapsedTime < _aimTransitionDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / _aimTransitionDuration);
-            transform.localPosition = Vector3.Lerp(originPos, targetPos, t);
+
+            Vector3 newPos = Vector3.Lerp(originPos, targetPos, t);
+            Quaternion newRot = Quaternion.Slerp(originRot, targetRot, t);
+
+            transform.SetLocalPositionAndRotation(newPos, newRot);
+
             yield return null;
         }
 
         transform.localPosition = targetPos;
+        transform.localEulerAngles = targetEulerRot;
     }
+
 
     void Aim()
     {
