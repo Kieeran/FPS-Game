@@ -12422,10 +12422,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2782243707476674553, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
-      propertyPath: combatPhaseDuration
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 3247283659202228985, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4054774198
