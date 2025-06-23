@@ -46,6 +46,7 @@ public class PlayerRoot : NetworkBehaviour
     public PlayerAim PlayerAim { get; private set; }
     public PlayerCamera PlayerCamera { get; private set; }
     public PlayerCollision PlayerCollision { get; private set; }
+    public PlayerLook PlayerLook { get; private set; }
     public PlayerModel PlayerModel { get; private set; }
     public WeaponHolder WeaponHolder { get; private set; }
 
@@ -69,6 +70,7 @@ public class PlayerRoot : NetworkBehaviour
         PlayerAim = GetComponent<PlayerAim>();
         PlayerCamera = GetComponent<PlayerCamera>();
         PlayerCollision = GetComponent<PlayerCollision>();
+        PlayerLook = GetComponent<PlayerLook>();
 
         WeaponHolder = _weaponHolder;
         PlayerModel = _playerModel;

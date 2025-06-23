@@ -418,9 +418,9 @@ namespace PlayerAssets
             Move();
             Shoot();
 
-            _playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
-
+            // _playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
             // transform.SetLocalPositionAndRotation(_currentPos, transform.localRotation);
+            _playerModel.transform.rotation = Quaternion.Euler(0, CinemachineCameraTarget.transform.eulerAngles.y, 0);
         }
 
         private void LateUpdate()

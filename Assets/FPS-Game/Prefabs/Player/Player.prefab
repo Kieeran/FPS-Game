@@ -6119,7 +6119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca04d9e38244ac4bb87a708b4a34916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetLook: {fileID: 7178153110970771820}
+  TargetLook: {fileID: 7178153110970771820}
   distance: 4
 --- !u!114 &7620230814923784887
 MonoBehaviour:
@@ -9905,6 +9905,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerRoot: {fileID: 5786631840013576090}
   RigBuilder: {fileID: 1604434602729957443}
+  HeadLook: {fileID: 0}
+  BodyLook: {fileID: 0}
 --- !u!114 &140835691155244661
 MonoBehaviour:
   m_ObjectHideFlags: 0

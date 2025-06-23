@@ -63,7 +63,7 @@ public class PlayerModel : NetworkBehaviour
         Debug.Log("Restart animation");
 
         PlayerAni.Animator.Play("Idle and Run", 0, 0f);
-        transform.localPosition = Vector3.zero;
+        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         PlayerAni.Animator.applyRootMotion = false;
 
         DisableModel();
