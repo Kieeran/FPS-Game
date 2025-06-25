@@ -67,7 +67,7 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 
 ![Capture2](https://github.com/user-attachments/assets/9d250f5b-9df3-42fa-8dfe-6662c9f49135)
 
-- Create lobby with info:
+#### Create lobby with info:
 
 ![Capture5](https://github.com/user-attachments/assets/08b2822d-a152-4423-a9a3-d12f35c0be3c)
 
@@ -80,7 +80,6 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 ![Capture4](https://github.com/user-attachments/assets/7a03938e-69b4-4b23-bdec-6d78d944d6aa)
 
 ### Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
-
 ### Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
 
 # Todo
