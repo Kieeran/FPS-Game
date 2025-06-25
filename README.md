@@ -1,6 +1,8 @@
 # FPS Game
 ![IntroGameFPS](https://github.com/user-attachments/assets/a4015f2c-a13e-4d2c-b6ff-c8f0f4c08a54)
 
+
+## Description
 This project is a course assignment focused on building a multiplayer game using Unity 3D and Unity's official services. The game leverages Relay to establish serverless communication between players, Netcode for GameObject to handle real-time networking for game objects, and Lobby for player matchmaking and room creation. The entire project is developed in C# and showcases the implementation of multiplayer functionalities in a seamless and engaging gaming experience.
 
 ## Built with
@@ -26,6 +28,23 @@ This project is a course assignment focused on building a multiplayer game using
   
 ## Status
 This project has been completed up to Phase 2 (Project 2). The next step will be the final phase: the Graduation Thesis.
+
+## Features
+- FPS shooting system with hit detection
+- Weapon switching synced over network
+- Grenade throwing with explosion effects
+- Character selection system
+- Unity Relay integration for online play
+
+## How to Run
+- Open the project in Unity
+- Install all dependencies via Unity Package Manager
+- Play the `MainMenu` scene to start
+- Set up Relay if testing with remote players
+
+## Acknowledgements
+- Based on Unity's Boss Room sample
+- Uses Unity Netcode for GameObjects and Relay SDK
 
 ## Sample results
 Scene 1:
