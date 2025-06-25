@@ -42,37 +42,39 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 
 ## How to Run
 ### In Unity Editor
-- Open the project in Unity (version 2022.3+ recommended)
-- Install all dependencies via Unity Package Manager
-- Install dependencies via Unity Package Manager
-- Press `Play` to start
+1. Open the project in Unity (version 2022.3+ recommended)
+2. Install all dependencies via Unity Package Manager
+3. Install dependencies via Unity Package Manager
+4. Press `Play` to start
 
 ### From Build (Standalone)
-- Ensure the project is linked to Unity Services (Relay + Authentication enabled)
-- Build the project via `File > Build Settings`
-- Launch the game executable
+1. Ensure the project is linked to Unity Services (Relay + Authentication enabled)
+2. Build the project via `File > Build Settings`
+3. Launch the game executable
 
 **Note:** Internet connection is required for Unity Relay to work properly.
 
+## How to Create or Join a Room
+1. Launch the game (Editor or Build)
 ## Acknowledgements
 - Based on Unity's Boss Room sample
 - Uses Unity Netcode for GameObjects and Relay SDK
 
 ## Sample results
-Scene 1:
-![Scene 1](https://github.com/user-attachments/assets/66cb1a18-83ca-4015-ac5a-7134d6c2704b)
+Scene 1: Sign in
+![Capture](https://github.com/user-attachments/assets/6e5ddd10-bec2-48b8-b628-9fed57acc3fa)
 
-Scene 2:
-![Scene 2](https://github.com/user-attachments/assets/4d248274-8e35-410b-835f-303913d639d5)
+Scene 2: Lobby List
+![Capture2](https://github.com/user-attachments/assets/9d250f5b-9df3-42fa-8dfe-6662c9f49135)
 
 Create lobby with info:
 ![image](https://github.com/user-attachments/assets/99bb063a-5b30-4841-8be5-73b362495f84)
 
-Scene 3: 
-![image](https://github.com/user-attachments/assets/586c66cb-3c32-4cf9-8899-f3f9f6ad6c42)
+Scene 3: Lobby Room
+![Capture3](https://github.com/user-attachments/assets/4519d947-df7a-45c1-97d4-e530de97eaed)
 
-Scene 4:
-![image](https://github.com/user-attachments/assets/745ed64a-4d97-4e91-a5ef-9c83fef7c036)
+Scene 4: Play Scene
+![Capture4](https://github.com/user-attachments/assets/7a03938e-69b4-4b23-bdec-6d78d944d6aa)
 
 Video demo: [Link video youtube](https://www.youtube.com/watch?v=3TDs-37pTak)
 
