@@ -61,24 +61,29 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 - Uses Unity Netcode for GameObjects and Relay SDK
 
 ## Sample results
-Scene 1: Sign in
+### Scene 1: Sign in
+
 ![Capture](https://github.com/user-attachments/assets/6e5ddd10-bec2-48b8-b628-9fed57acc3fa)
 
-Scene 2: Lobby List
+### Scene 2: Lobby List
+
 ![Capture2](https://github.com/user-attachments/assets/9d250f5b-9df3-42fa-8dfe-6662c9f49135)
 
-Create lobby with info:
-![image](https://github.com/user-attachments/assets/99bb063a-5b30-4841-8be5-73b362495f84)
+- Create lobby with info:
 
-Scene 3: Lobby Room
+![Capture5](https://github.com/user-attachments/assets/08b2822d-a152-4423-a9a3-d12f35c0be3c)
+
+### Scene 3: Lobby Room
+
 ![Capture3](https://github.com/user-attachments/assets/4519d947-df7a-45c1-97d4-e530de97eaed)
 
-Scene 4: Play Scene
+### Scene 4: Play Scene
+
 ![Capture4](https://github.com/user-attachments/assets/7a03938e-69b4-4b23-bdec-6d78d944d6aa)
 
-Video demo: [Link video youtube](https://www.youtube.com/watch?v=3TDs-37pTak)
+### Video demo: [Link video youtube](https://www.youtube.com/watch?v=3TDs-37pTak)
 
-Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
+### Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
 
 # Todo
 As I mention above, this project is on going there is a lot more left that needs to be worked on.
