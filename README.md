@@ -41,10 +41,18 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
     + Win/Loss (Victory / Defeat) conditions
 
 ## How to Run
-- Open the project in Unity
+### In Unity Editor
+- Open the project in Unity (version 2022.3+ recommended)
 - Install all dependencies via Unity Package Manager
-- Play the `MainMenu` scene to start
-- Set up Relay if testing with remote players
+- Install dependencies via Unity Package Manager
+- Press `Play` to start
+
+### From Build (Standalone)
+- Ensure the project is linked to Unity Services (Relay + Authentication enabled)
+- Build the project via `File > Build Settings`
+- Launch the game executable
+
+**Note:** Internet connection is required for Unity Relay to work properly.
 
 ## Acknowledgements
 - Based on Unity's Boss Room sample
