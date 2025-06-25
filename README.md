@@ -30,11 +30,15 @@ This project is a course assignment focused on building a multiplayer game using
 This project has been completed up to Phase 2 (Project 2). The next step will be the final phase: the Graduation Thesis.
 
 ## Features
-- FPS shooting system with hit detection
-- Weapon switching synced over network
-- Grenade throwing with explosion effects
-- Character selection system
-- Unity Relay integration for online play
+- Full basic movement sync (idle, walk, run, jump)
+- Complete weapon system including:
+    + Rifle, Sniper, Pistol, Melee, and Grenade
+    + Shooting, aiming, reloading mechanics
+    + Damage system with hit effects and death effects
+- Character model: players now use a full humanoid model instead of capsule (from Phase 1)
+- Fully playable match loop:
+    + Scoreboard system
+    + Win/Loss (Victory / Defeat) conditions
 
 ## How to Run
 - Open the project in Unity
