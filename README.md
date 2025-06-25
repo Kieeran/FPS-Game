@@ -54,8 +54,6 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 
 **Note:** Internet connection is required for Unity Relay to work properly.
 
-## How to Create or Join a Room
-1. Launch the game (Editor or Build)
 ## Acknowledgements
 - Based on Unity's Boss Room sample
 - Uses Unity Netcode for GameObjects and Relay SDK
@@ -81,7 +79,7 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 
 ![Capture4](https://github.com/user-attachments/assets/7a03938e-69b4-4b23-bdec-6d78d944d6aa)
 
-### Video demo: [Link video youtube](https://www.youtube.com/watch?v=3TDs-37pTak)
+### Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
 
 ### Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
 
