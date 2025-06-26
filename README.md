@@ -79,17 +79,22 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 
 ![Capture4](https://github.com/user-attachments/assets/7a03938e-69b4-4b23-bdec-6d78d944d6aa)
 
-### Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
-### Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
+## Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
+## Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
 
-# Todo
-As I mention above, this project is on going there is a lot more left that needs to be worked on.
-Some of the things left to do:
-- Add more UI
-- Add more types of guns
-- Add model for the character
-- Add game modes
-- ...
+## Current Limitations and Future Development
+### Current Limitations
+- UI/UX is still basic and under development
+- Player character animations are not natural; movement lacks polish and proper animation logic
+- The game still experiences noticeable lag
+- High latency difference between host and clients causes gameplay imbalance
+
+### Future Development (Graduation Thesis Phase)
+- Add AI bots for training or offline play
+- Improve UI/UX (main menu, HUD, scoreboard, lobby navigation)
+- Add game modes (Team Deathmatch, Bomb Defusal)
+- Polish character animation, effects, and network optimization
+- Add save/load, progression, or stats system (optional for polish)
 
 # Credits
 Specials thanks to: 
