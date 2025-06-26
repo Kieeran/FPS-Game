@@ -92,10 +92,6 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 - Polish character animation, effects, and network optimization
 - Add save/load, progression, or stats system (optional for polish)
 
-## Acknowledgements
-- Based on Unity's Boss Room sample
-- Uses Unity Netcode for GameObjects and Relay SDK
-
 ## Credits
 Specials thanks to: 
 - [Haiseus](https://github.com/Haiseus) - for your help with this project
