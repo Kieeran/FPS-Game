@@ -94,6 +94,7 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 
 ## Credits
 Developed by [Kieeran](https://github.com/Kieeran) and [Haiseus](https://github.com/Haiseus) as part of the graduation project<br>
-Special thanks to: 
-- [Haiseus](https://github.com/Haiseus) - for your help with this project<br>
+Special thanks to:<br>
+- [Haiseus](https://github.com/Haiseus) - for your help with this projec
+
 And thanks to everyone who have helped with suggestions and feedback! 
