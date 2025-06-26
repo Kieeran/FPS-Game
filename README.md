@@ -80,7 +80,7 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 ![Capture4](https://github.com/user-attachments/assets/7a03938e-69b4-4b23-bdec-6d78d944d6aa)
 
 ### Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
-### Flow chart: [Link draw.io](https://drive.google.com/file/d/1Zq5wgNkQZYfWW6dwb4oZ4zuFnjIHRl_J/view?usp=sharing)
+### Flow chart: [Link draw.io](https://drive.google.com/drive/folders/1c_pX-qTm8ZRlN7nA1UGgZJI9bphgnB3Q?usp=sharing)
 
 # Todo
 As I mention above, this project is on going there is a lot more left that needs to be worked on.
