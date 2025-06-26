@@ -93,8 +93,7 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 - Add save/load, progression, or stats system (optional for polish)
 
 ## Credits
-Developed by [Kieeran](https://github.com/Kieeran) and [Haiseus](https://github.com/Haiseus) as part of the graduation project
-
+Developed by [Kieeran](https://github.com/Kieeran) and [Haiseus](https://github.com/Haiseus) as part of the graduation project<br>
 Special thanks to: 
-- [Haiseus](https://github.com/Haiseus) - for your help with this project
+- [Haiseus](https://github.com/Haiseus) - for your help with this project<br>
 And thanks to everyone who have helped with suggestions and feedback! 
