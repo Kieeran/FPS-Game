@@ -54,10 +54,6 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 
 **Note:** Internet connection is required for Unity Relay to work properly.
 
-## Acknowledgements
-- Based on Unity's Boss Room sample
-- Uses Unity Netcode for GameObjects and Relay SDK
-
 ## Sample results
 ### Scene 1: Sign in
 
@@ -79,8 +75,8 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 
 ![Capture4](https://github.com/user-attachments/assets/7a03938e-69b4-4b23-bdec-6d78d944d6aa)
 
-## Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
-## Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
+### Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
+### Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
 
 ## Current Limitations and Future Development
 ### Current Limitations
@@ -96,7 +92,11 @@ This project has been completed up to Phase 2 (Project 2). The next step will be
 - Polish character animation, effects, and network optimization
 - Add save/load, progression, or stats system (optional for polish)
 
-# Credits
+## Acknowledgements
+- Based on Unity's Boss Room sample
+- Uses Unity Netcode for GameObjects and Relay SDK
+
+## Credits
 Specials thanks to: 
 - [Haiseus](https://github.com/Haiseus) - for your help with this project
 And thanks to many more who have helped with suggestions and feedback! 
