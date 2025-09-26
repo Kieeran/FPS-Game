@@ -246,8 +246,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddc5f1dfb01fa4eb9afb30f5c28058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 51952829}
-  _playerAssetsInputs: {fileID: 7795738832772971033}
+  MeleeAnimation: {fileID: 0}
+  EnableLeftSlashBBVisual: 0
+  _leftSlashBoundsSize: {x: 1, y: 0.15, z: 0.5}
+  _leftSlashOffset: {x: -0.56, y: 0.24, z: 0}
+  EnableRightSlashBBVisual: 0
+  _rightSlashBoundsSize: {x: 0.15, y: 0.15, z: 1}
+  _rightSlashOffset: {x: -0.56, y: 0.24, z: 0.25}
+  _rightSlashDelay: 0.3
+  _meleeLeftSlashDamage: 0.1
+  _meleeRightSlashDamage: 0.3
 --- !u!95 &51952829
 Animator:
   serializedVersion: 5
@@ -848,7 +856,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd9e89b6314f8d748b21b365ce866c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cinemachineVirtualCamera: {fileID: 3706169303750536331}
+  _cinemachineVirtualCamera: {fileID: 0}
+  _spawnPositions: {fileID: 0}
+  IsGameEnd: 0
+  IsTimeOut:
+    m_InternalValue: 0
 --- !u!114 &489493370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1764,8 +1776,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fa16d510cf36f449f31c296070c289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832772971033}
-  _playerUI: {fileID: 610120242670880736}
+  _weaponPoseLocalSO: []
+  WeaponMountPoint: {fileID: 0}
+  Rifle: {fileID: 0}
+  Sniper: {fileID: 0}
+  Pistol: {fileID: 0}
 --- !u!1 &1015050218
 GameObject:
   m_ObjectHideFlags: 0
@@ -1814,8 +1829,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 20
   Capacity: 10
+  InitSupplies: 20
   CurrentMagazineAmmo: 10
   TotalSupplies: 20
 --- !u!114 &1015050221
@@ -1832,7 +1847,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRifle: 1
   IsPistol: 0
-  canvas: {fileID: 84363966}
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
@@ -1848,11 +1862,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832772971033}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
+  PlayerRoot: {fileID: 0}
+  Step: 0.1
+  MaxStepDistance: 0.5
+  RotationStep: 4
+  MaxRotationStep: 5
+  SpeedCurve: 0
+  TravelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  BobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  Multiplier: {x: 0, y: 0, z: 0}
+  MaxVelocityMagnitude: 10
+  AimPositionOffset: {x: 0, y: 0, z: 0}
+  AimRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &1015050223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1865,13 +1886,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832772971033}
-  _playerInventory: {fileID: 5572411657389081349}
-  _playerReload: {fileID: 4334006862081807351}
-  _playerShoot: {fileID: 6360967478827061401}
   FireCoolDown: 0.15
   shootEffect: {fileID: 1015050221}
+  _aimFOV: 0
+  _spreadAngle: 0
+  gunSound: {fileID: 0}
   Automatic: 1
+  _headDamage: 0
+  _torsoDamage: 0
+  _legDamage: 0
+  _gunType: 0
+  _aimTransitionDuration: 0
 --- !u!1 &1051558840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2327,8 +2352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 10
   Capacity: 5
+  InitSupplies: 10
   CurrentMagazineAmmo: 5
   TotalSupplies: 10
 --- !u!114 &1429097109
@@ -2345,7 +2370,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRifle: 0
   IsPistol: 1
-  canvas: {fileID: 125616666}
   enableRecoil: 0
   randomizeRecoil: 0
   randomRecoilConstraints: {x: 0, y: 0}
@@ -2361,11 +2385,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832772971033}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
+  PlayerRoot: {fileID: 0}
+  Step: 0.1
+  MaxStepDistance: 0.5
+  RotationStep: 4
+  MaxRotationStep: 5
+  SpeedCurve: 0
+  TravelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  BobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  Multiplier: {x: 0, y: 0, z: 0}
+  MaxVelocityMagnitude: 10
+  AimPositionOffset: {x: 0, y: 0, z: 0}
+  AimRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &1429097111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2378,13 +2409,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832772971033}
-  _playerInventory: {fileID: 5572411657389081349}
-  _playerReload: {fileID: 4334006862081807351}
-  _playerShoot: {fileID: 6360967478827061401}
   FireCoolDown: 0.15
   shootEffect: {fileID: 1429097109}
+  _aimFOV: 0
+  _spreadAngle: 0
+  gunSound: {fileID: 0}
   Automatic: 0
+  _headDamage: 0
+  _torsoDamage: 0
+  _legDamage: 0
+  _gunType: 0
+  _aimTransitionDuration: 0
 --- !u!1 &1443412357
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,8 +2467,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSupplies: 4
   Capacity: 1
+  InitSupplies: 4
   CurrentMagazineAmmo: 1
   TotalSupplies: 3
 --- !u!114 &1443412360
@@ -2448,11 +2483,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a8d5348f4085c40bd2527f891e8eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832772971033}
-  _playerInventory: {fileID: 5572411657389081349}
-  _playerReload: {fileID: 4334006862081807351}
   _explosiveEffectPrefab: {fileID: 2170453588742590260, guid: 4062139cedb203c4d801ab80f4f8082b, type: 3}
   _currentGrenade: {fileID: 195946334}
+  grenadeAudio: {fileID: 0}
+  EnableRadiusVisual: 0
+  _throwForce: 0
+  _explosionRadius: 0
+  _outerRadius: 0
+  _middleRadius: 0
+  _innerRadius: 0
+  _outerDamage: 0
+  _middleDamage: 0
+  _innerDamage: 0
 --- !u!114 &1443412361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2465,11 +2507,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832772971033}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
+  PlayerRoot: {fileID: 0}
+  Step: 0.1
+  MaxStepDistance: 0.5
+  RotationStep: 4
+  MaxRotationStep: 5
+  SpeedCurve: 0
+  TravelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  BobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  Multiplier: {x: 0, y: 0, z: 0}
+  MaxVelocityMagnitude: 10
+  AimPositionOffset: {x: 0, y: 0, z: 0}
+  AimRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1489111608
 GameObject:
   m_ObjectHideFlags: 0
@@ -3205,11 +3254,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAssetsInputs: {fileID: 7795738832772971033}
-  step: 0.1
-  maxStepDistance: 0.5
-  rotationStep: 4
-  maxRotationStep: 5
+  PlayerRoot: {fileID: 0}
+  Step: 0.1
+  MaxStepDistance: 0.5
+  RotationStep: 4
+  MaxRotationStep: 5
+  SpeedCurve: 0
+  TravelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  BobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  Multiplier: {x: 0, y: 0, z: 0}
+  MaxVelocityMagnitude: 10
+  AimPositionOffset: {x: 0, y: 0, z: 0}
+  AimRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2098075168
 GameObject:
   m_ObjectHideFlags: 0
@@ -3883,6 +3939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3648ccbf1124c9541a57883cc58e53fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthUI: {fileID: 0}
 --- !u!222 &406873353924033835
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4014,12 +4071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46154c6a57c5194cb8179ee92e860e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832772971033}
-  _escapeUI: {fileID: 0}
-  _quitGameButton: {fileID: 0}
-  _scoreBoard: {fileID: 2149139603627672557}
-  _bulletHud: {fileID: 1559660988425263143}
-  _weaponHud: {fileID: 5782654837435058853}
+  _playerCanvas: {fileID: 0}
 --- !u!224 &613340462488355600
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5541,19 +5593,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: Playername
-  killCount:
+  KillCount:
     m_InternalValue: 0
-  deathCount:
+  DeathCount:
     m_InternalValue: 0
-  playerList: []
-  playerInput: {fileID: 5948730103516523485}
-  characterController: {fileID: 6827196641715661630}
-  playerController: {fileID: 3776603354503756990}
-  playerShoot: {fileID: 6360967478827061401}
-  playerTakeDamage: {fileID: 4530824154573637054}
-  _playerUI: {fileID: 610120242670880736}
-  health: {fileID: 3001421045212387430}
-  playerUI: {fileID: 3467197556672888544}
+  RespawnDelay: 0
 --- !u!114 &2481766694835378772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6507,7 +6551,9 @@ MonoBehaviour:
   LandingAudioClip: {fileID: 0}
   FootstepAudioClips: []
   FootstepAudioVolume: 0.5
-  playerModel: {fileID: 1090737637}
+  _playerModel: {fileID: 0}
+  _animator: {fileID: 0}
+  _controller: {fileID: 0}
 --- !u!1 &3784631268726861898
 GameObject:
   m_ObjectHideFlags: 0
@@ -6902,7 +6948,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce37de0135b180f4ca8f361e51be1785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAssetsInputs: {fileID: 7795738832772971033}
+  _rifle: {fileID: 0}
+  _sniper: {fileID: 0}
+  _pistol: {fileID: 0}
+  _knife: {fileID: 0}
+  _rifleReloadAudio: {fileID: 0}
+  _sniperReloadAudio: {fileID: 0}
+  _pistolReloadAudio: {fileID: 0}
 --- !u!1 &4373647326013068780
 GameObject:
   m_ObjectHideFlags: 0
@@ -6998,10 +7050,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103e755e890646e4e96e108f2f143d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 3001421045212387430}
-  hitEffect: {fileID: 9147513431440423260}
-  hitBodyAlpha: 43
-  hitHeadAlpha: 143
+  HP:
+    m_InternalValue: 1
+  IsPlayerDead: 0
 --- !u!4 &4559959800200618818
 Transform:
   m_ObjectHideFlags: 0
@@ -7573,9 +7624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbb7ae00c97e8c478333cfe2f454c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerUI: {fileID: 610120242670880736}
-  _playerReload: {fileID: 4334006862081807351}
-  _weaponHolder: {fileID: 971060648}
 --- !u!1 &5599959249481095957
 GameObject:
   m_ObjectHideFlags: 0
@@ -8138,10 +8186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1c5fa5e4222824a983a28184e6c46a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletSpawnPoint: {fileID: 1972134986762482842}
-  hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
-  playerAssetsInputs: {fileID: 7795738832772971033}
-  FireCoolDown: 0.2
+  _hitEffect: {fileID: 0}
 --- !u!1 &6378094500735942435
 GameObject:
   m_ObjectHideFlags: 0
@@ -9021,6 +9066,7 @@ MonoBehaviour:
   sprint: 0
   aim: 0
   shoot: 0
+  rightSlash: 0
   reload: 0
   openInventory: 0
   openScoreboard: 0
@@ -9029,10 +9075,12 @@ MonoBehaviour:
   hotkey2: 0
   hotkey3: 0
   hotkey4: 0
+  hotkey5: 0
   escapeUI: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
+  IsInputEnabled: 1
 --- !u!114 &7795738832772971034
 MonoBehaviour:
   m_ObjectHideFlags: 0
