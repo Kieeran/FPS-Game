@@ -37,11 +37,16 @@ public class SlotPlayer : MonoBehaviour
         this.player = player;
 
         // gán tên
-        playerNameText.text = player.Data[LobbyManager.KEY_PLAYER_NAME].Value;
+        UpdatePlayerName(player.Data[LobbyManager.KEY_PLAYER_NAME].Value);
 
         // LobbyManager.PlayerCharacter playerCharacter =
         //     System.Enum.Parse<LobbyManager.PlayerCharacter>(player.Data[LobbyManager.KEY_PLAYER_CHARACTER].Value);
         // characterImage.sprite = LobbyAssets.Instance.GetSprite(playerCharacter);
+    }
+
+    public void UpdatePlayerName(string name)
+    {
+        playerNameText.text = name;
     }
 
     private void KickPlayer()
