@@ -54,7 +54,8 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         SetOrigin();
         InitializeDictionary();
 
-        Rb = gameObject.AddComponent<Rigidbody>();
+        if (gameObject.TryGetComponent<Rigidbody>(out var rb)) Rb = rb;
+        else Rb = gameObject.AddComponent<Rigidbody>();
         gameObject.AddComponent<NetworkRigidbody>();
         StartCoroutine(SetKinematicNextFrame());
     }

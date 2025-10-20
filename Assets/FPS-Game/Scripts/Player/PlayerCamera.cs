@@ -97,7 +97,7 @@ public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
                 Time.deltaTime * fovSpeed
             );
 
-            if (PlayerRoot.PlayerUI.CurrentPlayerCanvas.ScopeAim.gameObject.activeSelf == true)
+            if (PlayerRoot.PlayerUI?.CurrentPlayerCanvas?.ScopeAim.gameObject.activeSelf == true)
             {
                 UpdateScopeAimUI(false);
             }

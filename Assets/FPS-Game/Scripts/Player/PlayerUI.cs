@@ -8,7 +8,7 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
     public PlayerRoot PlayerRoot { get; private set; }
     public PlayerCanvas CurrentPlayerCanvas { get; private set; }
 
-    [SerializeField] PlayerCanvas _playerCanvas;
+    public PlayerCanvas PlayerCanvas;
 
     public Action ToggleEscapeUI;
     bool _toggleEscapeUI = false;
@@ -30,7 +30,8 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
     {
         base.OnNetworkSpawn();
         if (!IsOwner) return;
-        CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
+        if (PlayerRoot.IsBot) return;
+        CurrentPlayerCanvas = Instantiate(PlayerCanvas, transform);
 
         CurrentPlayerCanvas.EscapeUI.OnQuitGame += QuitGame;
 

@@ -118,9 +118,9 @@ public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
 
     void SetAmmoInfoUI()
     {
-        PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.SetAmmoInfoUI(
-            _currentWeaponSupplyLoad.CurrentMagazineAmmo,
-            _currentWeaponSupplyLoad.TotalSupplies
-        );
+        PlayerRoot.PlayerUI?.CurrentPlayerCanvas?.BulletHud.SetAmmoInfoUI(
+                        _currentWeaponSupplyLoad.CurrentMagazineAmmo,
+                        _currentWeaponSupplyLoad.TotalSupplies
+                    );
     }
 }

@@ -31,6 +31,7 @@ public interface IInitNetwork
 
 public class PlayerRoot : NetworkBehaviour
 {
+    public bool IsBot = false;
     public ClientNetworkTransform ClientNetworkTransform { get; private set; }
     public PlayerInput PlayerInput { get; private set; }
     public CharacterController CharacterController { get; private set; }
@@ -75,12 +76,27 @@ public class PlayerRoot : NetworkBehaviour
         WeaponHolder = _weaponHolder;
         PlayerModel = _playerModel;
 
+        if (IsBot)
+        {
+            DestroyImmediate(PlayerCamera, true);
+            DestroyImmediate(PlayerUI, true);
+        }
+
         InitAwake(gameObject);
     }
 
     void Start()
     {
         InitStart(gameObject);
+        if (IsBot)
+        {
+            // Destroy(PlayerLook);
+            // Destroy(PlayerReload);
+            // Destroy(PlayerAim);
+            // Destroy(PlayerLook);
+            // Destroy(PlayerInteract);
+            PlayerModel.ChangeRigBuilderState(false);
+        }
     }
 
     public override void OnNetworkSpawn()

@@ -10,13 +10,16 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 {
     [HideInInspector]
     public string playerName = "Playername";
+    [HideInInspector]
     public NetworkVariable<int> KillCount = new(0);
+    [HideInInspector]
     public NetworkVariable<int> DeathCount = new(0);
 
     public PlayerRoot PlayerRoot { get; private set; }
 
     public float RespawnDelay;
     public Action OnPlayerRespawn;
+    public PlayerNetwork BotObj;
 
     // Awake
     public int PriorityAwake => 1000;
@@ -37,26 +40,31 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
     public void InitializeOnNetworkSpawn()
     {
         if (IsOwner == false) return;
-
-        SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
-
-        Debug.Log($"Spawn at {randomPos.gameObject.name}: {randomPos.SpawnPos} {randomPos.SpawnRot.eulerAngles}");
-        transform.position = randomPos.SpawnPos;
-        transform.GetChild(0).rotation = randomPos.SpawnRot;
-
         KillCount = new();
         DeathCount = new();
 
-        EnableScripts();
-        MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
-
         // SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
-
-        SetCinemachineVirtualCamera();
-
+        EnableScripts();
         PlayerRoot.PlayerTakeDamage.OnPlayerDead += OnPlayerDead;
+        if (!PlayerRoot.IsBot)
+        {
+            if (IsServer)
+            {
+                PlayerNetwork botObj = Instantiate(BotObj);
+                botObj.PlayerRoot.IsBot = true;
+                botObj.gameObject.name = "Bot";
+                botObj.GetComponent<NetworkObject>().Spawn(false);
+                botObj.PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
+            }
 
-        PlayerRoot.PlayerModel.DisableModel();
+            SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
+            Debug.Log($"Spawn at {randomPos.gameObject.name}: {randomPos.SpawnPos} {randomPos.SpawnRot.eulerAngles}");
+            transform.position = randomPos.SpawnPos;
+            transform.GetChild(0).rotation = randomPos.SpawnRot;
+            SetCinemachineVirtualCamera();
+            PlayerRoot.PlayerModel.ChangeModelVisibility(false);
+            MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
+        }
     }
 
     void OnDisable()
@@ -238,11 +246,14 @@ public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetw
 
     void EnableScripts()
     {
-        PlayerRoot.PlayerInput.enabled = true;
         PlayerRoot.CharacterController.enabled = true;
-        PlayerRoot.PlayerController.enabled = true;
-        PlayerRoot.PlayerShoot.enabled = true;
-        PlayerRoot.PlayerUI.enabled = true;
+        if (!PlayerRoot.IsBot)
+        {
+            PlayerRoot.PlayerInput.enabled = true;
+            PlayerRoot.PlayerController.enabled = true;
+            PlayerRoot.PlayerShoot.enabled = true;
+            PlayerRoot.PlayerUI.enabled = true;
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
