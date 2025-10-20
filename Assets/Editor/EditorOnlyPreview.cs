@@ -14,7 +14,7 @@ public static class EditorOnlyPreview
 
     static EditorOnlyPreview()
     {
-        // EditorApplication.playModeStateChanged += OnPlayModeChanged;
+        EditorApplication.playModeStateChanged += OnPlayModeChanged;
     }
 
     static void OnPlayModeChanged(PlayModeStateChange state)

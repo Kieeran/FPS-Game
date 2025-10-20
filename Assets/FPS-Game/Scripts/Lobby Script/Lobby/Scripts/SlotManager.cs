@@ -9,6 +9,10 @@ public class SlotManager : MonoBehaviour
     [SerializeField] private SlotPlayer prefabSlotPlayer;
     [SerializeField] private Camera mainCamera;
 
+    [SerializeField] CreateDeleteBotButtons _createDeleteBotButtons;
+
+    int _botNum = 0;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,6 +30,27 @@ public class SlotManager : MonoBehaviour
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnOutLobby;
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnOutLobby;
+
+        _createDeleteBotButtons.OnCreateBot += () =>
+        {
+            Lobby lobby = LobbyManager.Instance.GetJoinedLobby();
+            if (5 - (lobby.Players.Count + _botNum) <= 0)
+            {
+                Debug.Log("The lobby is full");
+                return;
+            }
+            _botNum++;
+        };
+
+        _createDeleteBotButtons.OnDeleteBot += () =>
+        {
+            if (_botNum == 0)
+            {
+                Debug.Log("There are no more bots in the lobby");
+                return;
+            }
+            _botNum--;
+        };
     }
 
     private void OnDestroy()
@@ -65,18 +90,14 @@ public class SlotManager : MonoBehaviour
 
         Lobby lobby = LobbyManager.Instance.GetJoinedLobby();
 
+        // Lobby luôn cập nhật sau mỗi ns nên cần phải clear các player trước để thêm các player mới vào
         ClearSlotPlayers();
 
-        for (int i = 0; i < lobby.Players.Count; i++)
+        // Thêm mới các player trong lobby
+        int i;
+        for (i = 0; i < lobby.Players.Count; i++)
         {
-            SlotPlayer slotPlayer = Instantiate(prefabSlotPlayer);
-
-            Transform slot = gameObject.transform.GetChild(i);
-
-            slotPlayer.transform.SetParent(slot.transform);
-            slotPlayer.transform.localPosition = prefabSlotPlayer.transform.localPosition;
-            slotPlayer.transform.localRotation = prefabSlotPlayer.transform.localRotation;
-            slotPlayer.transform.localScale = prefabSlotPlayer.transform.localScale;
+            SlotPlayer slotPlayer = CreateSlotPlayerAt(i);
 
             // Don't allow kick self
             slotPlayer.SetKickPlayerButtonDisable(
@@ -88,6 +109,16 @@ public class SlotManager : MonoBehaviour
 
             slotPlayer.GetSlotCanvas().worldCamera = mainCamera;
         }
+
+        // Thêm các bot vào lobby, kiểm tra điều kiện đảm bảo không thêm bot quá 5 hoặc khi lobby đã đầy
+        if (i < 5)
+        {
+            for (int j = i; j < _botNum + i; j++)
+            {
+                SlotPlayer slotPlayer = CreateSlotPlayerAt(j);
+                slotPlayer.UpdatePlayerName("Bot");
+            }
+        }
     }
 
     private void ClearSlotPlayers()
@@ -97,6 +128,23 @@ public class SlotManager : MonoBehaviour
             if (child.childCount > 0)
                 Destroy(child.transform.GetChild(0).gameObject);
         }
+    }
+
+    // Tạo một slot player mới (về mặt hiển thị) ở index (vị trí của player trên các đĩa)
+    SlotPlayer CreateSlotPlayerAt(int index)
+    {
+        SlotPlayer slotPlayer = Instantiate(prefabSlotPlayer);
+
+        Transform slot = gameObject.transform.GetChild(index);
+
+        slotPlayer.transform.SetParent(slot.transform);
+        slotPlayer.transform.SetLocalPositionAndRotation(
+            prefabSlotPlayer.transform.localPosition,
+            prefabSlotPlayer.transform.localRotation
+        );
+        slotPlayer.transform.localScale = prefabSlotPlayer.transform.localScale;
+
+        return slotPlayer;
     }
 
     // private void LobbyManager_OnKickedFromLobby(object sender, LobbyManager.LobbyEventArgs e)
