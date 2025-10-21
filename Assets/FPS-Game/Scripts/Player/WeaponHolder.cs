@@ -24,12 +24,6 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 
     int _currentWeaponIndex;
 
-    public event EventHandler<WeaponEventArgs> OnChangeWeapon;
-    public class WeaponEventArgs : EventArgs
-    {
-        public GameObject CurrentWeapon;
-    }
-
     public List<GameObject> GetWeaponList() { return _weaponList; }
 
     public Rigidbody Rb { get; private set; }
@@ -90,7 +84,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         yield return null;
 
         _currentWeaponIndex = 0;
-        OnChangeWeapon?.Invoke(this, new WeaponEventArgs { CurrentWeapon = GetCurrentWeapon() });
+        PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon());
         EquipWeapon(_currentWeaponIndex);
     }
 
@@ -155,8 +149,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
 
     void ChangeWeapon()
     {
-        OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = GetCurrentWeapon() });
-
+        PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon());
         RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
         PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
     }

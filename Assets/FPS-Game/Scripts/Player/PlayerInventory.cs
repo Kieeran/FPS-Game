@@ -26,14 +26,14 @@ public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
     public int PriorityNetwork => 15;
     public void InitializeOnNetworkSpawn()
     {
-        PlayerRoot.WeaponHolder.OnChangeWeapon += SetCurrentWeapon;
+        PlayerRoot.Events.OnWeaponChanged += SetCurrentWeapon;
         PlayerRoot.PlayerReload.OnReload += Reload;
         PlayerRoot.PlayerCollision.OnCollectedHealthPickup += RefillAmmos;
     }
 
     void OnDisable()
     {
-        PlayerRoot.WeaponHolder.OnChangeWeapon -= SetCurrentWeapon;
+        PlayerRoot.Events.OnWeaponChanged -= SetCurrentWeapon;
         PlayerRoot.PlayerReload.OnReload -= Reload;
     }
 
@@ -91,7 +91,7 @@ public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
         }
     }
 
-    void SetCurrentWeapon(object sender, WeaponHolder.WeaponEventArgs e)
+    void SetCurrentWeapon(object sender, PlayerEvents.WeaponEventArgs e)
     {
         _currentWeapon = e.CurrentWeapon;
 

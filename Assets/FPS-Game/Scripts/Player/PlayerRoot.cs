@@ -32,6 +32,11 @@ public interface IInitNetwork
 public class PlayerEvents
 {
     public event Action<bool> OnAimStateChanged;
+    public event EventHandler<WeaponEventArgs> OnWeaponChanged;
+    public class WeaponEventArgs : EventArgs
+    {
+        public GameObject CurrentWeapon;
+    }
 
     /// <summary>
     /// true = đang ngắm, false = thôi ngắm
@@ -40,6 +45,11 @@ public class PlayerEvents
     public void InvokeAimStateChanged(bool isAiming)
     {
         OnAimStateChanged?.Invoke(isAiming);
+    }
+
+    public void InvokeWeaponChanged(GameObject currentWeapon)
+    {
+        OnWeaponChanged?.Invoke(this, new WeaponEventArgs { CurrentWeapon = currentWeapon });
     }
 }
 

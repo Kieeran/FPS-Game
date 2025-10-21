@@ -19,10 +19,10 @@ public class PlayerAim : NetworkBehaviour, IInitAwake, IInitNetwork
     public int PriorityNetwork => 15;
     public void InitializeOnNetworkSpawn()
     {
-        PlayerRoot.WeaponHolder.OnChangeWeapon += OnChangeWeapon;
+        PlayerRoot.Events.OnWeaponChanged += OnWeaponChanged;
     }
 
-    private void OnChangeWeapon(object sender, WeaponHolder.WeaponEventArgs e)
+    private void OnWeaponChanged(object sender, PlayerEvents.WeaponEventArgs e)
     {
         ToggleAim = false;
     }

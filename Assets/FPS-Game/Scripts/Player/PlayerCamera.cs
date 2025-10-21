@@ -35,7 +35,7 @@ public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
             _isUnAim = !isAim;
         };
 
-        PlayerRoot.WeaponHolder.OnChangeWeapon += OnChangeWeapon;
+        PlayerRoot.Events.OnWeaponChanged += OnWeaponChanged;
     }
 
     public void SetFOV(float fov)
@@ -43,7 +43,7 @@ public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
         _playerCamera.m_Lens.FieldOfView = fov;
     }
 
-    void OnChangeWeapon(object sender, WeaponHolder.WeaponEventArgs e)
+    void OnWeaponChanged(object sender, PlayerEvents.WeaponEventArgs e)
     {
         if (e.CurrentWeapon.TryGetComponent<Gun>(out var currentGun))
         {

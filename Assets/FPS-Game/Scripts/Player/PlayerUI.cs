@@ -87,7 +87,7 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
             CurrentPlayerCanvas.HealRefillAmmoEffect.StartEffect();
         };
 
-        PlayerRoot.WeaponHolder.OnChangeWeapon += (sender, e) =>
+        PlayerRoot.Events.OnWeaponChanged += (sender, e) =>
         {
             if (e.CurrentWeapon.TryGetComponent<Gun>(out var currentGun))
             {
