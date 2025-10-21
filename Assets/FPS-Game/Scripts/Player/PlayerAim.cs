@@ -5,8 +5,6 @@ using UnityEngine;
 public class PlayerAim : NetworkBehaviour, IInitAwake, IInitNetwork
 {
     public PlayerRoot PlayerRoot { get; private set; }
-    public Action OnAim;
-    public Action OnUnAim;
     public bool ToggleAim { get; private set; }
 
     // Awake
@@ -39,15 +37,7 @@ public class PlayerAim : NetworkBehaviour, IInitAwake, IInitNetwork
             PlayerRoot.PlayerAssetsInputs.aim = false;
             ToggleAim = !ToggleAim;
 
-            if (ToggleAim == true)
-            {
-                OnAim?.Invoke();
-            }
-
-            else
-            {
-                OnUnAim?.Invoke();
-            }
+            PlayerRoot.Events.InvokeAimStateChanged(ToggleAim);
         }
     }
 }

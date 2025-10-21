@@ -77,8 +77,7 @@ public class Gun : NetworkBehaviour
 
     void OnEnable()
     {
-        PlayerRoot.PlayerAim.OnAim += OnAim;
-        PlayerRoot.PlayerAim.OnUnAim += OnUnAim;
+        PlayerRoot.Events.OnAimStateChanged += HandleAimStateChanged;
 
         gunSound.spatialBlend = 1f;
         gunSound.maxDistance = 100f;
@@ -86,23 +85,24 @@ public class Gun : NetworkBehaviour
 
     void OnDisable()
     {
-        PlayerRoot.PlayerAim.OnAim -= OnAim;
-        PlayerRoot.PlayerAim.OnUnAim -= OnUnAim;
+        PlayerRoot.Events.OnAimStateChanged -= HandleAimStateChanged;
     }
 
-    void OnAim()
+    void HandleAimStateChanged(bool isAim)
     {
-        if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Aim, out var data))
+        if (isAim)
         {
-            StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+            if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Aim, out var data))
+            {
+                StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+            }
         }
-    }
-
-    void OnUnAim()
-    {
-        if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Idle, out var data))
+        else
         {
-            StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+            if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Idle, out var data))
+            {
+                StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+            }
         }
     }
 

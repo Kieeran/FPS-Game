@@ -29,16 +29,10 @@ public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
         _isAim = false;
         _isUnAim = false;
 
-        PlayerRoot.PlayerAim.OnAim += () =>
+        PlayerRoot.Events.OnAimStateChanged += (isAim) =>
         {
-            _isAim = true;
-            _isUnAim = false;
-        };
-
-        PlayerRoot.PlayerAim.OnUnAim += () =>
-        {
-            _isAim = false;
-            _isUnAim = true;
+            _isAim = isAim;
+            _isUnAim = !isAim;
         };
 
         PlayerRoot.WeaponHolder.OnChangeWeapon += OnChangeWeapon;

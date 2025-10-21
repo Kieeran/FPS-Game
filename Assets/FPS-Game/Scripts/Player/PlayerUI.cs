@@ -34,17 +34,20 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
 
         CurrentPlayerCanvas.EscapeUI.OnQuitGame += QuitGame;
 
-        PlayerRoot.PlayerAim.OnAim += () =>
+        PlayerRoot.Events.OnAimStateChanged += (isAim) =>
         {
-            CurrentPlayerCanvas.ToggleCrossHair(false);
-        };
-
-        PlayerRoot.PlayerAim.OnUnAim += () =>
-        {
-            GameObject weapon = PlayerRoot.WeaponHolder.GetCurrentWeapon();
-            if (weapon.TryGetComponent<Gun>(out var currentGun))
+            if (isAim)
             {
-                CurrentPlayerCanvas.ToggleCrossHair(true);
+                CurrentPlayerCanvas.ToggleCrossHair(false);
+            }
+
+            else
+            {
+                GameObject weapon = PlayerRoot.WeaponHolder.GetCurrentWeapon();
+                if (weapon.TryGetComponent<Gun>(out var currentGun))
+                {
+                    CurrentPlayerCanvas.ToggleCrossHair(true);
+                }
             }
         };
 
