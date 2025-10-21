@@ -36,6 +36,7 @@ public class PlayerEvents
     public class WeaponEventArgs : EventArgs
     {
         public GameObject CurrentWeapon;
+        public GunType GunType;
     }
 
     /// <summary>
@@ -47,9 +48,13 @@ public class PlayerEvents
         OnAimStateChanged?.Invoke(isAiming);
     }
 
-    public void InvokeWeaponChanged(GameObject currentWeapon)
+    public void InvokeWeaponChanged(GameObject currentWeapon, GunType gunType)
     {
-        OnWeaponChanged?.Invoke(this, new WeaponEventArgs { CurrentWeapon = currentWeapon });
+        OnWeaponChanged?.Invoke(this, new WeaponEventArgs
+        {
+            CurrentWeapon = currentWeapon,
+            GunType = gunType
+        });
     }
 }
 

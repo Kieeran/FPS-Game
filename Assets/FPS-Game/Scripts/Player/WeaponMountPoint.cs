@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class WeaponMountPoint : NetworkBehaviour
 {
+    public PlayerRoot PlayerRoot { get; private set; }
     public WeaponHolder WeaponHolder;
     [SerializeField] List<WeaponPoseSO> _weaponPoseNetworkSO;
 
     GunType _currentGuntype;
 
+    void Awake()
+    {
+        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+    }
+
     public override void OnNetworkSpawn()
     {
         _currentGuntype = GunType.Rifle;
-        WeaponHolder.OnChangeGun += (GunType) =>
+        PlayerRoot.Events.OnWeaponChanged += (sender, e) =>
         {
-            _currentGuntype = GunType;
+            _currentGuntype = e.GunType;
             ApplyPose(_currentGuntype, PlayerWeaponPose.Idle);
         };
 

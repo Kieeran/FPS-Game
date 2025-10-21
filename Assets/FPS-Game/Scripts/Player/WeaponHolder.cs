@@ -18,8 +18,6 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     public Gun Sniper;
     public Gun Pistol;
 
-    public Action<GunType> OnChangeGun;
-
     List<GameObject> _weaponList;
 
     int _currentWeaponIndex;
@@ -84,7 +82,7 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         yield return null;
 
         _currentWeaponIndex = 0;
-        PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon());
+        PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon(), GunType.Rifle);
         EquipWeapon(_currentWeaponIndex);
     }
 
@@ -97,27 +95,24 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         {
             PlayerRoot.PlayerAssetsInputs.hotkey1 = false;
             if (_currentWeaponIndex == 0) return;
-            OnChangeGun?.Invoke(GunType.Rifle);
             _currentWeaponIndex = 0;
-            ChangeWeapon();
+            ChangeWeapon(GunType.Rifle);
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.hotkey2)
         {
             PlayerRoot.PlayerAssetsInputs.hotkey2 = false;
             if (_currentWeaponIndex == 1) return;
-            OnChangeGun?.Invoke(GunType.Sniper);
             _currentWeaponIndex = 1;
-            ChangeWeapon();
+            ChangeWeapon(GunType.Sniper);
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.hotkey3)
         {
             PlayerRoot.PlayerAssetsInputs.hotkey3 = false;
             if (_currentWeaponIndex == 2) return;
-            OnChangeGun?.Invoke(GunType.Pistol);
             _currentWeaponIndex = 2;
-            ChangeWeapon();
+            ChangeWeapon(GunType.Pistol);
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.hotkey4)
@@ -147,9 +142,9 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         transform.SetPositionAndRotation(WeaponMountPoint.position, WeaponMountPoint.rotation);
     }
 
-    void ChangeWeapon()
+    void ChangeWeapon(GunType gunType = GunType.None)
     {
-        PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon());
+        PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon(), gunType);
         RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
         PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
     }
