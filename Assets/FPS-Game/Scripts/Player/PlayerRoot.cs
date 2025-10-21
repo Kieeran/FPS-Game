@@ -7,10 +7,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Priority = 1000 => không ảnh hưởng bởi thứ tự ưu tiên
-/// </summary>
-
 public interface IInitAwake
 {
     int PriorityAwake { get; }
@@ -195,6 +191,11 @@ public class PlayerRoot : NetworkBehaviour
             x => x.InitializeOnNetworkSpawn()
         );
     }
+
+
+    /// <summary>
+    /// Priority = 1000 => không ảnh hưởng bởi thứ tự ưu tiên
+    /// </summary>
 
     // // Awake
     // public int PriorityAwake => -1;

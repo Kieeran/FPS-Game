@@ -6,36 +6,21 @@ using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
 
-public class PlayerNetwork : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
+public class PlayerNetwork : PlayerBehaviour
 {
     [HideInInspector]
     public string playerName = "Playername";
     public NetworkVariable<int> KillCount = new(0);
     public NetworkVariable<int> DeathCount = new(0);
 
-    public PlayerRoot PlayerRoot { get; private set; }
-
     public float RespawnDelay;
     public Action OnPlayerRespawn;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
-
-    // Start
-    public int PriorityStart => 1000;
-    public void InitializeStart()
-    {
-
-    }
-
     // OnNetworkSpawn
-    public int PriorityNetwork => 5;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 5;
+    public override void InitializeOnNetworkSpawn()
     {
+        base.InitializeOnNetworkSpawn();
         if (IsOwner == false) return;
 
         SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
