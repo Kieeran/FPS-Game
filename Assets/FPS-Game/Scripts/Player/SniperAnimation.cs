@@ -9,7 +9,7 @@ public class SniperAnimation : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
-        PlayerRoot.PlayerReload.reload += () =>
+        PlayerRoot.Events.Reload += () =>
         {
             if (animator.GetBool("Reload_Mag") == false)
             {

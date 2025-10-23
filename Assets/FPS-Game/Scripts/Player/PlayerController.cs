@@ -375,7 +375,7 @@ namespace PlayerAssets
             }
 
             PlayerRoot = GetComponent<PlayerRoot>();
-            PlayerRoot.PlayerUI.ToggleEscapeUI += () =>
+            PlayerRoot.Events.ToggleEscapeUI += () =>
             {
                 _toggleCameraRotation = !_toggleCameraRotation;
             };

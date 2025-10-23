@@ -9,7 +9,6 @@ public class PlayerUI : PlayerBehaviour
 
     [SerializeField] PlayerCanvas _playerCanvas;
 
-    public Action ToggleEscapeUI;
     bool _toggleEscapeUI = false;
 
     public bool IsEscapeUIOn()
@@ -23,9 +22,9 @@ public class PlayerUI : PlayerBehaviour
     {
         base.InitializeOnNetworkSpawn();
         if (!IsOwner) return;
-        CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
+        CurrentPlayerCanvas = Instantiate(_playerCanvas);
 
-        CurrentPlayerCanvas.EscapeUI.OnQuitGame += QuitGame;
+        PlayerRoot.Events.OnQuitGame += QuitGame;
 
         PlayerRoot.Events.OnAimStateChanged += (isAim) =>
         {
@@ -75,7 +74,7 @@ public class PlayerUI : PlayerBehaviour
             });
         };
 
-        PlayerRoot.PlayerCollision.OnCollectedHealthPickup += () =>
+        PlayerRoot.Events.OnCollectedHealthPickup += () =>
         {
             CurrentPlayerCanvas.HealRefillAmmoEffect.StartEffect();
         };
@@ -165,7 +164,7 @@ public class PlayerUI : PlayerBehaviour
         if (PlayerRoot.PlayerAssetsInputs.escapeUI == true)
         {
             _toggleEscapeUI = !_toggleEscapeUI;
-            ToggleEscapeUI?.Invoke();
+            PlayerRoot.Events.InvokeToggleEscapeUI();
 
             CurrentPlayerCanvas.ToggleEscapeUI();
             PlayerRoot.PlayerAssetsInputs.escapeUI = false;

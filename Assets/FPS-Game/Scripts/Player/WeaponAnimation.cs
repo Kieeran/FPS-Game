@@ -26,7 +26,7 @@ public class WeaponAnimation : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
-        PlayerRoot.PlayerReload.reload += () =>
+        PlayerRoot.Events.Reload += () =>
         {
             if (!IsShooting && !IsReloading)
             {
@@ -82,10 +82,5 @@ public class WeaponAnimation : PlayerBehaviour
 
         animator.SetBool("Reload", false);
         IsReloading = false;
-    }
-
-    public void ABC()
-    {
-        Debug.Log("IDK");
     }
 }

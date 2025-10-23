@@ -6,8 +6,6 @@ public class PlayerTakeDamage : PlayerBehaviour
 {
     [HideInInspector]
     public NetworkVariable<float> HP = new(1);
-
-    public Action OnPlayerDead;
     public bool IsPlayerDead = false;
 
     // OnNetworkSpawn
@@ -30,7 +28,7 @@ public class PlayerTakeDamage : PlayerBehaviour
         if (current == 0)
         {
             IsPlayerDead = true;
-            OnPlayerDead?.Invoke();
+            PlayerRoot.Events.InvokeOnPlayerDead();
             InGameManager.Instance.GenerateHealthPickup.DropHealthPickup(transform.position);
         }
     }

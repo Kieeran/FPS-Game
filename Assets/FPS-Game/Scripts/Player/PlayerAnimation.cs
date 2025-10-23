@@ -10,16 +10,16 @@ public class PlayerAnimation : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
-        
+
         if (!IsOwner) return;
         Animator = GetComponent<Animator>();
 
-        PlayerRoot.PlayerTakeDamage.OnPlayerDead += () =>
+        PlayerRoot.Events.OnPlayerDead += () =>
         {
             UpdateRigBuilder_ServerRPC(false);
         };
 
-        PlayerRoot.PlayerNetwork.OnPlayerRespawn += () =>
+        PlayerRoot.Events.OnPlayerRespawn += () =>
         {
             UpdateRigBuilder_ServerRPC(true);
         };

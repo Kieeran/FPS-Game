@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class Scoreboard : MonoBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] GameObject playerScoreboardItem;
     [SerializeField] Transform playerScoreboardList;
 
     void Awake()
     {
         InGameManager.Instance.OnReceivedPlayerInfo += DisplayPlayerScoreboard;
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
         gameObject.SetActive(false);
     }
 

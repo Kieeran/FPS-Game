@@ -5,25 +5,21 @@ using UnityEngine;
 public class MeleeAnimation : PlayerBehaviour
 {
     public Animator Animator;
-    public Melees Melees;
-
-    public Action OnDoneSlash;
-    public Action OnCheckSlashHit;
 
     public override void InitializeAwake()
     {
         base.InitializeAwake();
-        Melees.OnLeftSlash_1 += () =>
+        PlayerRoot.Events.OnLeftSlash_1 += () =>
         {
             Animator.SetTrigger("LeftSlash_1");
         };
 
-        Melees.OnLeftSlash_2 += () =>
+        PlayerRoot.Events.OnLeftSlash_2 += () =>
         {
             Animator.SetTrigger("LeftSlash_2");
         };
 
-        Melees.OnRightSlash += () =>
+        PlayerRoot.Events.OnRightSlash += () =>
         {
             Animator.SetTrigger("RightSlash");
         };
@@ -37,11 +33,11 @@ public class MeleeAnimation : PlayerBehaviour
 
     public void DoneSlash()
     {
-        OnDoneSlash?.Invoke();
+        PlayerRoot.Events.InvokeOnDoneSlash();
     }
 
     public void CheckSlashHit()
     {
-        OnCheckSlashHit?.Invoke();
+        PlayerRoot.Events.InvokeOnCheckSlashHit();
     }
 }

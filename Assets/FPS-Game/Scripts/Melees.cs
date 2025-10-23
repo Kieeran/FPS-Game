@@ -18,10 +18,6 @@ public class Melees : PlayerBehaviour
     [SerializeField] Vector3 _rightSlashBoundsSize = new(0.15f, 0.15f, 1f);
     [SerializeField] Vector3 _rightSlashOffset = new(-0.56f, 0.24f, 0.25f);
 
-    public Action OnLeftSlash_1;
-    public Action OnLeftSlash_2;
-    public Action OnRightSlash;
-
     [SerializeField] float _rightSlashDelay = 0.3f;
     [SerializeField] float _meleeLeftSlashDamage = 0.1f;
     [SerializeField] float _meleeRightSlashDamage = 0.3f;
@@ -32,7 +28,7 @@ public class Melees : PlayerBehaviour
     public override void InitializeAwake()
     {
         base.InitializeAwake();
-        MeleeAnimation.OnDoneSlash += () =>
+        PlayerRoot.Events.OnDoneSlash += () =>
         {
             if (_currentSlashType == "Right")
                 Invoke(nameof(CheckComboChain), _rightSlashDelay);
@@ -40,7 +36,7 @@ public class Melees : PlayerBehaviour
                 CheckComboChain();
         };
 
-        MeleeAnimation.OnCheckSlashHit += () =>
+        PlayerRoot.Events.OnCheckSlashHit += () =>
         {
             CheckSlashHit_ServerRPC(_currentSlashType, OwnerClientId);
         };
@@ -56,14 +52,14 @@ public class Melees : PlayerBehaviour
         {
             _isAttacking = true;
             _currentSlashType = "Left 1";
-            OnLeftSlash_1?.Invoke();
+            PlayerRoot.Events.InvokeOnLeftSlash_1();
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.rightSlash)
         {
             _isAttacking = true;
             _currentSlashType = "Right";
-            OnRightSlash?.Invoke();
+            PlayerRoot.Events.InvokeOnRightSlash();
         }
     }
 
@@ -74,21 +70,21 @@ public class Melees : PlayerBehaviour
         _currentSlashType == "Right"))
         {
             _currentSlashType = "Left 1";
-            OnLeftSlash_1?.Invoke();
+            PlayerRoot.Events.InvokeOnLeftSlash_1();
             return;
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.shoot && _currentSlashType == "Left 1")
         {
             _currentSlashType = "Left 2";
-            OnLeftSlash_2?.Invoke();
+            PlayerRoot.Events.InvokeOnLeftSlash_2();
             return;
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.rightSlash)
         {
             _currentSlashType = "Right";
-            OnRightSlash?.Invoke();
+            PlayerRoot.Events.InvokeOnRightSlash();
             return;
         }
 

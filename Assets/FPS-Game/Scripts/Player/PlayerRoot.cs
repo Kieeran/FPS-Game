@@ -27,14 +27,32 @@ public interface IInitNetwork
 
 public class PlayerEvents
 {
-    public event Action<bool> OnAimStateChanged;
-    public event EventHandler<WeaponEventArgs> OnWeaponChanged;
     public class WeaponEventArgs : EventArgs
     {
         public GameObject CurrentWeapon;
         public GunType GunType;
     }
 
+    #region Events
+    public event Action<bool> OnAimStateChanged;
+    public event EventHandler<WeaponEventArgs> OnWeaponChanged;
+    public event Action OnPlayerRespawn;
+    public event Action OnPlayerDead;
+    public event Action ToggleEscapeUI;
+    public event EventHandler OnReload;
+    public event Action Reload;
+    public event Action OnCollectedHealthPickup;
+
+    public event Action OnLeftSlash_1;
+    public event Action OnLeftSlash_2;
+    public event Action OnRightSlash;
+    public event Action OnDoneSlash;
+    public event Action OnCheckSlashHit;
+
+    public event Action OnQuitGame;
+    #endregion
+
+    #region Invoke Events
     /// <summary>
     /// true = đang ngắm, false = thôi ngắm
     /// </summary>
@@ -52,6 +70,67 @@ public class PlayerEvents
             GunType = gunType
         });
     }
+
+    public void InvokeOnPlayerRespawn()
+    {
+        OnPlayerRespawn?.Invoke();
+    }
+
+    public void InvokeOnPlayerDead()
+    {
+        OnPlayerDead?.Invoke();
+    }
+
+    public void InvokeToggleEscapeUI()
+    {
+        ToggleEscapeUI?.Invoke();
+    }
+
+    public void InvokeOnReload()
+    {
+        OnReload?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void InvokeReload()
+    {
+        Reload?.Invoke();
+    }
+
+    public void InvokeOnCollectedHealthPickup()
+    {
+        OnCollectedHealthPickup?.Invoke();
+    }
+
+    public void InvokeOnLeftSlash_1()
+    {
+        OnLeftSlash_1?.Invoke();
+    }
+
+    public void InvokeOnLeftSlash_2()
+    {
+        OnLeftSlash_2?.Invoke();
+    }
+
+    public void InvokeOnRightSlash()
+    {
+        OnRightSlash?.Invoke();
+    }
+
+    public void InvokeOnDoneSlash()
+    {
+        OnDoneSlash?.Invoke();
+    }
+
+    public void InvokeOnCheckSlashHit()
+    {
+        OnCheckSlashHit?.Invoke();
+    }
+
+    public void InvokeOnQuitGame()
+    {
+        OnQuitGame?.Invoke();
+    }
+    #endregion
 }
 
 public class PlayerRoot : NetworkBehaviour

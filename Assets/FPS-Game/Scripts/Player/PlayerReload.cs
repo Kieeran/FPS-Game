@@ -20,9 +20,6 @@ public class PlayerReload : PlayerBehaviour
     public bool GetIsReloading() { return _isReloading; }
     public void ResetIsReloading() { _isReloading = false; }
 
-    public event EventHandler OnReload;
-    public Action reload;
-
     void Update()
     {
         if (!IsOwner) return;
@@ -35,13 +32,13 @@ public class PlayerReload : PlayerBehaviour
 
             if (_knife.activeSelf) return;
 
-            reload?.Invoke();
+            PlayerRoot.Events.InvokeReload();
             PlayerRoot.PlayerAssetsInputs.reload = false;
 
             if (_isReloading != true)
             {
                 _isReloading = true;
-                OnReload.Invoke(this, EventArgs.Empty);
+                PlayerRoot.Events.InvokeOnReload();
             }
         }
     }

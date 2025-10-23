@@ -8,17 +8,17 @@ public class PlayerCameraLook : PlayerBehaviour
     public override void InitializeAwake()
     {
         base.InitializeAwake();
-        PlayerRoot.PlayerUI.ToggleEscapeUI += () =>
+        PlayerRoot.Events.ToggleEscapeUI += () =>
         {
             _toggleCameraRotation = !_toggleCameraRotation;
         };
 
-        PlayerRoot.PlayerTakeDamage.OnPlayerDead += () =>
+        PlayerRoot.Events.OnPlayerDead += () =>
         {
             _toggleCameraRotation = false;
         };
 
-        PlayerRoot.PlayerNetwork.OnPlayerRespawn += () =>
+        PlayerRoot.Events.OnPlayerRespawn += () =>
         {
             _toggleCameraRotation = true;
         };

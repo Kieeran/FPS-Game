@@ -10,11 +10,12 @@ public class PlayerNetwork : PlayerBehaviour
 {
     [HideInInspector]
     public string playerName = "Playername";
+    [HideInInspector]
     public NetworkVariable<int> KillCount = new(0);
+    [HideInInspector]
     public NetworkVariable<int> DeathCount = new(0);
 
     public float RespawnDelay;
-    public Action OnPlayerRespawn;
 
     // OnNetworkSpawn
     public override int PriorityNetwork => 5;
@@ -39,14 +40,14 @@ public class PlayerNetwork : PlayerBehaviour
 
         SetCinemachineVirtualCamera();
 
-        PlayerRoot.PlayerTakeDamage.OnPlayerDead += OnPlayerDead;
+        PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
 
         PlayerRoot.PlayerModel.DisableModel();
     }
 
     void OnDisable()
     {
-        PlayerRoot.PlayerTakeDamage.OnPlayerDead -= OnPlayerDead;
+        PlayerRoot.Events.OnPlayerDead -= OnPlayerDead;
     }
 
     void SetCinemachineVirtualCamera()
@@ -218,7 +219,7 @@ public class PlayerNetwork : PlayerBehaviour
     {
         PlayerRoot.WeaponHolder.ResetWeaponHolder();
         SetCinemachineVirtualCamera();
-        OnPlayerRespawn?.Invoke();
+        PlayerRoot.Events.InvokeOnPlayerRespawn();
     }
 
     void EnableScripts()

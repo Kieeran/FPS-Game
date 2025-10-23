@@ -18,14 +18,14 @@ public class PlayerInventory : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         PlayerRoot.Events.OnWeaponChanged += SetCurrentWeapon;
-        PlayerRoot.PlayerReload.OnReload += Reload;
-        PlayerRoot.PlayerCollision.OnCollectedHealthPickup += RefillAmmos;
+        PlayerRoot.Events.OnReload += Reload;
+        PlayerRoot.Events.OnCollectedHealthPickup += RefillAmmos;
     }
 
     void OnDisable()
     {
         PlayerRoot.Events.OnWeaponChanged -= SetCurrentWeapon;
-        PlayerRoot.PlayerReload.OnReload -= Reload;
+        PlayerRoot.Events.OnReload -= Reload;
     }
 
     public void RefillAmmos()
