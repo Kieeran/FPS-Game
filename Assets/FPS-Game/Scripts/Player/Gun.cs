@@ -2,9 +2,8 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Collections;
 
-public class Gun : NetworkBehaviour
+public class Gun : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     public SwayAndBob SwayAndBob { get; private set; }
 
     SupplyLoad _supplyLoad;
@@ -52,9 +51,9 @@ public class Gun : NetworkBehaviour
 
     public float GetAimFOV() { return _aimFOV; }
 
-    void Awake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+        base.InitializeAwake();
         SwayAndBob = GetComponent<SwayAndBob>();
 
         HeadDamage = _headDamage;
@@ -62,8 +61,9 @@ public class Gun : NetworkBehaviour
         LegDamage = _legDamage;
     }
 
-    void Start()
+    public override void InitializeStart()
     {
+        base.InitializeStart();
         _supplyLoad = GetComponent<SupplyLoad>();
     }
 

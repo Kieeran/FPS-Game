@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class PlayerCameraLook : MonoBehaviour
+public class PlayerCameraLook : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot;
     [SerializeField] Transform _cameraPivot;
     bool _toggleCameraRotation = true;
 
-    void Awake()
+    public override void InitializeAwake()
     {
+        base.InitializeAwake();
         PlayerRoot.PlayerUI.ToggleEscapeUI += () =>
         {
             _toggleCameraRotation = !_toggleCameraRotation;

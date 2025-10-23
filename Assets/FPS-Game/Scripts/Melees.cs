@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Melees : NetworkBehaviour
+public class Melees : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     public MeleeAnimation MeleeAnimation;
 
     [Header("Left Slash")]
@@ -30,10 +29,9 @@ public class Melees : NetworkBehaviour
     bool _isAttacking = false;
     string _currentSlashType = "";
 
-    void Awake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-
+        base.InitializeAwake();
         MeleeAnimation.OnDoneSlash += () =>
         {
             if (_currentSlashType == "Right")

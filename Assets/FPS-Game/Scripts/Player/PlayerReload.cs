@@ -3,10 +3,8 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerReload : NetworkBehaviour, IInitAwake
+public class PlayerReload : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-
     [Header("Weapon")]
     [SerializeField] GameObject _rifle;
     [SerializeField] GameObject _sniper;
@@ -24,13 +22,6 @@ public class PlayerReload : NetworkBehaviour, IInitAwake
 
     public event EventHandler OnReload;
     public Action reload;
-
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
 
     void Update()
     {

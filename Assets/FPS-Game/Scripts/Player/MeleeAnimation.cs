@@ -2,19 +2,17 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class MeleeAnimation : NetworkBehaviour
+public class MeleeAnimation : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     public Animator Animator;
     public Melees Melees;
 
     public Action OnDoneSlash;
     public Action OnCheckSlashHit;
 
-    void Awake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-
+        base.InitializeAwake();
         Melees.OnLeftSlash_1 += () =>
         {
             Animator.SetTrigger("LeftSlash_1");

@@ -2,9 +2,8 @@ using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
+public class PlayerCamera : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     CinemachineVirtualCamera _playerCamera;
     public float normalFOV;
     float _currentAimFOV;
@@ -13,16 +12,9 @@ public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
     bool _isAim;
     bool _isUnAim;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
-
-    // OnNetworkSpawn
-    public int PriorityNetwork => 15;
-    public void InitializeOnNetworkSpawn()
+// OnNetworkSpawn
+    public override int PriorityNetwork => 15;
+    public override void InitializeOnNetworkSpawn()
     {
         _playerCamera = InGameManager.Instance.GetCinemachineVirtualCamera();
 

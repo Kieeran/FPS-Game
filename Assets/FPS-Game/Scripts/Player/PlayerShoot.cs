@@ -17,17 +17,14 @@ public enum GunType
     Pistol,
 }
 
-public class PlayerShoot : NetworkBehaviour, IInitAwake
+public class PlayerShoot : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] GameObject _hitEffect;
     Gun _rifle, _sniper, _pistol;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = GetComponent<PlayerRoot>();
+        base.InitializeAwake();
 
         _rifle = PlayerRoot.WeaponHolder.Rifle;
         _sniper = PlayerRoot.WeaponHolder.Sniper;

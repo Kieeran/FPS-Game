@@ -2,27 +2,19 @@ using Unity.Netcode;
 using UnityEngine;
 using System;
 
-public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
+public class PlayerTakeDamage : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-
     [HideInInspector]
     public NetworkVariable<float> HP = new(1);
 
     public Action OnPlayerDead;
     public bool IsPlayerDead = false;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
-
     // OnNetworkSpawn
-    public int PriorityNetwork => 15;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 15;
+    public override void InitializeOnNetworkSpawn()
     {
+        base.InitializeOnNetworkSpawn();
         HP.OnValueChanged += OnHPChanged;
     }
 

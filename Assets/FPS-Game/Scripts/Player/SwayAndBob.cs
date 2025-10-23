@@ -1,10 +1,8 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class SwayAndBob : NetworkBehaviour
+public class SwayAndBob : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot;
-
     Vector2 _moveInput;
     Vector2 _lookInput;
 

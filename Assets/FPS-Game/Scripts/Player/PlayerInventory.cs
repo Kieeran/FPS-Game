@@ -1,30 +1,21 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
+public class PlayerInventory : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-
     GameObject _currentWeapon;
     SupplyLoad _currentWeaponSupplyLoad;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
-
     // Start
-    public int PriorityStart => 1000;
-    public void InitializeStart()
+    public override void InitializeStart()
     {
+        base.InitializeStart();
         _currentWeapon = null;
     }
 
     // OnNetworkSpawn
-    public int PriorityNetwork => 15;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 15;
+    public override void InitializeOnNetworkSpawn()
     {
         PlayerRoot.Events.OnWeaponChanged += SetCurrentWeapon;
         PlayerRoot.PlayerReload.OnReload += Reload;

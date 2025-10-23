@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerModel : NetworkBehaviour
+public class PlayerModel : PlayerBehaviour
 {
     public PlayerAnimation PlayerAni { get; private set; }
     public List<Renderer> modelParts;
 
-    void Awake()
+    public override void InitializeAwake()
     {
+        base.InitializeAwake();
         PlayerAni = GetComponent<PlayerAnimation>();
     }
 

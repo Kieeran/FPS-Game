@@ -5,10 +5,8 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 
-public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
+public class WeaponHolder : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-
     [Header("Weapon Pose SO")]
     [SerializeField] List<WeaponPoseSO> _weaponPoseLocalSO;
     public Dictionary<GunType, WeaponPoseSO> WeaponPoseLocalSOs;
@@ -29,12 +27,9 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     Vector3 originWeaponHolderPos;
     Quaternion originWeaponHolderRot;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-
+        base.InitializeAwake();
         _weaponList = new List<GameObject>();
 
         foreach (Transform child in transform)
@@ -52,9 +47,10 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     }
 
     // OnNetworkSpawn
-    public int PriorityNetwork => 20;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 20;
+    public override void InitializeOnNetworkSpawn()
     {
+        base.InitializeOnNetworkSpawn();
         if (IsOwner & IsLocalPlayer)
         {
             Vector3 localScale = new(1.6f, 1.6f, 1.6f);

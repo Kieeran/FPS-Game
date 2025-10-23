@@ -4,9 +4,8 @@ using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Explosives : NetworkBehaviour
+public class Explosives : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] GameObject _explosiveEffectPrefab;
     [SerializeField] GameObject _currentGrenade;
 
@@ -34,13 +33,9 @@ public class Explosives : NetworkBehaviour
     Quaternion originRotGrenade;
     Vector3 originScaGrenade;
 
-    void Awake()
+    public override void InitializeStart()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-    }
-
-    private void Start()
-    {
+        base.InitializeStart();
         _supplyLoad = GetComponent<SupplyLoad>();
 
         if (_currentGrenade != null)
@@ -65,9 +60,9 @@ public class Explosives : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkSpawn()
+    public override void InitializeOnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
+        base.InitializeOnNetworkSpawn();
         StartCoroutine(WaitOneFrame());
 
         grenadeAudio.spatialBlend = 1f;

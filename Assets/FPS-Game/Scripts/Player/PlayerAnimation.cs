@@ -2,16 +2,15 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerAnimation : NetworkBehaviour
+public class PlayerAnimation : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot;
     public Animator Animator { get; private set; }
     public RigBuilder RigBuilder;
 
-    public override void OnNetworkSpawn()
+    public override void InitializeOnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
-
+        base.InitializeOnNetworkSpawn();
+        
         if (!IsOwner) return;
         Animator = GetComponent<Animator>();
 

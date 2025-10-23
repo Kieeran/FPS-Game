@@ -3,21 +3,14 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
+public class PlayerUI : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     public PlayerCanvas CurrentPlayerCanvas { get; private set; }
 
     [SerializeField] PlayerCanvas _playerCanvas;
 
     public Action ToggleEscapeUI;
     bool _toggleEscapeUI = false;
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
 
     public bool IsEscapeUIOn()
     {
@@ -25,10 +18,10 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
     }
 
     // OnNetworkSpawn
-    public int PriorityNetwork => 10;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 10;
+    public override void InitializeOnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
+        base.InitializeOnNetworkSpawn();
         if (!IsOwner) return;
         CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
 

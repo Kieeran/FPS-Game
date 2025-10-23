@@ -2,19 +2,13 @@ using PlayerAssets;
 using Unity.Netcode;
 using UnityEngine;
 
-public class SniperAnimation : NetworkBehaviour
+public class SniperAnimation : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-
     public Animator animator;
-
-    void Awake()
+    
+    public override void InitializeOnNetworkSpawn()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-    }
-
-    public override void OnNetworkSpawn()
-    {
+        base.InitializeOnNetworkSpawn();
         PlayerRoot.PlayerReload.reload += () =>
         {
             if (animator.GetBool("Reload_Mag") == false)

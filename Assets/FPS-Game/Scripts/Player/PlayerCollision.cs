@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerCollision : MonoBehaviour
+public class PlayerCollision : PlayerBehaviour
 {
     public Action OnCollectedHealthPickup;
 
@@ -9,7 +9,7 @@ public class PlayerCollision : MonoBehaviour
     {
         if (other.CompareTag("HealthPickup"))
         {
-            Debug.Log("AAAAACCC");
+            Debug.Log("Pick up health");
             OnCollectedHealthPickup?.Invoke();
             Destroy(other.gameObject);
         }
