@@ -52,7 +52,7 @@ public class PlayerNetwork : PlayerBehaviour
 
     void SetCinemachineVirtualCamera()
     {
-        CinemachineVirtualCamera _camera = InGameManager.Instance.GetCinemachineVirtualCamera();
+        CinemachineVirtualCamera _camera = InGameManager.Instance.PlayerFollowCamera;
         if (_camera != null)
         {
             Transform playerCamera = null;
@@ -73,7 +73,7 @@ public class PlayerNetwork : PlayerBehaviour
 
     void RemoveCinemachineVirtualCamera()
     {
-        CinemachineVirtualCamera _camera = InGameManager.Instance.GetCinemachineVirtualCamera();
+        CinemachineVirtualCamera _camera = InGameManager.Instance.PlayerFollowCamera;
         if (_camera != null)
         {
             Transform playerCameraRoot = transform.Find("PlayerCameraRoot");

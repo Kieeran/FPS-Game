@@ -21,11 +21,14 @@ public struct PlayerInfo
 
 public class InGameManager : NetworkBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera _cinemachineVirtualCamera;
+    [SerializeField] GameObject _playerFollowCamera;
+    [SerializeField] GameObject _playerCamera;
+    public CinemachineVirtualCamera PlayerFollowCamera { get; private set; }
+    public GameObject PlayerCamera { get; private set; }
+
     [SerializeField] Transform _spawnPositions;
 
     public static InGameManager Instance { get; private set; }
-    public CinemachineVirtualCamera GetCinemachineVirtualCamera() { return _cinemachineVirtualCamera; }
     public List<SpawnPosition> SpawnPositionsList { get; private set; }
     public TimePhaseCounter TimePhaseCounter { get; private set; }
     public KillCountChecker KillCountChecker { get; private set; }
@@ -34,6 +37,7 @@ public class InGameManager : NetworkBehaviour
     public System.Action OnGameEnd;
 
     public bool IsGameEnd = false;
+    [HideInInspector]
     public NetworkVariable<bool> IsTimeOut = new();
 
     public System.Action<List<PlayerInfo>> OnReceivedPlayerInfo;
@@ -46,6 +50,10 @@ public class InGameManager : NetworkBehaviour
             return;
         }
         Instance = this;
+
+        PlayerCamera = Instantiate(_playerCamera);
+        GameObject obj = Instantiate(_playerFollowCamera);
+        PlayerFollowCamera = obj.GetComponent<CinemachineVirtualCamera>();
 
         InitSpawnPositions();
         TimePhaseCounter = GetComponent<TimePhaseCounter>();

@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4054774198
+  GlobalObjectIdHash: 1900463573
   InScenePlacedSourceGlobalObjectIdHash: 2642733906
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -532,7 +532,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd9e89b6314f8d748b21b365ce866c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cinemachineVirtualCamera: {fileID: 0}
+  _playerFollowCamera: {fileID: 3876705488695511720, guid: 5ff7e4d18d4b0094abb9de1accc09511, type: 3}
+  _playerCamera: {fileID: 8729013873948765236, guid: e97b0184ae278874db686b0ea9b0fb84, type: 3}
   _spawnPositions: {fileID: 5858090778935246851}
   IsGameEnd: 0
   IsTimeOut:

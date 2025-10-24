@@ -12,11 +12,11 @@ public class PlayerCamera : PlayerBehaviour
     bool _isAim;
     bool _isUnAim;
 
-// OnNetworkSpawn
+    // OnNetworkSpawn
     public override int PriorityNetwork => 15;
     public override void InitializeOnNetworkSpawn()
     {
-        _playerCamera = InGameManager.Instance.GetCinemachineVirtualCamera();
+        _playerCamera = InGameManager.Instance.PlayerFollowCamera;
 
         _isAim = false;
         _isUnAim = false;
