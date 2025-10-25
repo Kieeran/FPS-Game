@@ -39,8 +39,7 @@ public class PlayerEvents
     public event Action OnPlayerRespawn;
     public event Action OnPlayerDead;
     public event Action ToggleEscapeUI;
-    public event EventHandler OnReload;
-    public event Action Reload;
+    public event Action OnReload;
     public event Action OnCollectedHealthPickup;
 
     public event Action OnLeftSlash_1;
@@ -88,12 +87,7 @@ public class PlayerEvents
 
     public void InvokeOnReload()
     {
-        OnReload?.Invoke(this, EventArgs.Empty);
-    }
-
-    public void InvokeReload()
-    {
-        Reload?.Invoke();
+        OnReload?.Invoke();
     }
 
     public void InvokeOnCollectedHealthPickup()

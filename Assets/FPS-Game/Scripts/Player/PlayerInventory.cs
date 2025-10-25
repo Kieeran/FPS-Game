@@ -41,7 +41,7 @@ public class PlayerInventory : PlayerBehaviour
         SetAmmoInfoUI();
     }
 
-    void Reload(object sender, System.EventArgs e)
+    void Reload()
     {
         if (_currentWeaponSupplyLoad == null || _currentWeaponSupplyLoad.IsTotalSuppliesEmpty())
         {

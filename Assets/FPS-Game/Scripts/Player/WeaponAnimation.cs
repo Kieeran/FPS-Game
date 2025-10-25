@@ -26,7 +26,7 @@ public class WeaponAnimation : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
-        PlayerRoot.Events.Reload += () =>
+        PlayerRoot.Events.OnReload += () =>
         {
             if (!IsShooting && !IsReloading)
             {

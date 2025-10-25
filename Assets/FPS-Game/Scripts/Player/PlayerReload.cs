@@ -32,7 +32,6 @@ public class PlayerReload : PlayerBehaviour
 
             if (_knife.activeSelf) return;
 
-            PlayerRoot.Events.InvokeReload();
             PlayerRoot.PlayerAssetsInputs.reload = false;
 
             if (_isReloading != true)
