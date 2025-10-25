@@ -440,7 +440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5858090778935246851
 Transform:
   m_ObjectHideFlags: 0
@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1900463573
+  GlobalObjectIdHash: 328081098
   InScenePlacedSourceGlobalObjectIdHash: 2642733906
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -552,8 +552,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitingPhaseDuration: 26
   preparationPhaseDuration: 0
-  combatPhaseDuration: 60
-  resultPhaseDuration: 6
+  combatPhaseDuration: 121
+  resultPhaseDuration: 0
   _lobbyRelayChecker: {fileID: 6509468171419657047}
 --- !u!114 &6509468171419657047
 MonoBehaviour:
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0fbf9a0c81aba4493285f9522d6f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxKillCount: 15
+  MaxKillCount: 5
   EndGameSlowFactor: 0.1
 --- !u!114 &7704118952696633411
 MonoBehaviour:

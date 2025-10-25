@@ -167,7 +167,7 @@ public class LobbyManager : MonoBehaviour
 
                         // GameSceneManager.Instance.LoadNextScene();
                         GameSceneManager.Instance.LoadScene("Play Scene");
-
+                        // NetworkManager.Singleton.SceneManager.LoadScene("Play Scene", LoadSceneMode.Single);
                         Relay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                     }
 
