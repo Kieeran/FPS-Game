@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mono.CSharp;
 using PlayerAssets;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
@@ -151,12 +152,7 @@ public class PlayerRoot : NetworkBehaviour
     #endregion
 
     public PlayerEvents Events { get; private set; }
-    public bool IsBot { get; private set; }
-    public void SetIsBot(bool val)
-    {
-        IsBot = val;
-    }
-    
+    public NetworkVariable<bool> IsBot = new();
     void Awake()
     {
         ReferenceAssignment();

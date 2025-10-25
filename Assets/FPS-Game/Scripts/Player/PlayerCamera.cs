@@ -17,7 +17,7 @@ public class PlayerCamera : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
-        if (PlayerRoot.IsBot) return;
+        if (PlayerRoot.IsBot.Value) return;
         _playerCamera = InGameManager.Instance.PlayerFollowCamera;
 
         _isAim = false;

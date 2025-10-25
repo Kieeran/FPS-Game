@@ -6,6 +6,7 @@ using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
 using System.Collections;
+using Unity.Collections;
 
 public class PlayerNetwork : PlayerBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerNetwork : PlayerBehaviour
     public NetworkVariable<int> DeathCount = new(0);
 
     public float RespawnDelay;
+    public PlayerNetwork BotPrefab;
     public PlayerNetwork BotObj;
 
     // OnNetworkSpawn
@@ -24,26 +26,34 @@ public class PlayerNetwork : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
-        if (IsOwner == false) return;
-
-        if (!PlayerRoot.IsBot && IsServer)
+        if (IsOwner)
         {
-            PlayerNetwork botObj = Instantiate(BotObj);
-            botObj.PlayerRoot.SetIsBot(true);
-            botObj.gameObject.name = "Bot";
-            botObj.PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
-            botObj.GetComponent<NetworkObject>().Spawn();
-        }
+            if (!PlayerRoot.IsBot.Value && IsServer)
+            {
+                BotObj = Instantiate(BotPrefab);
+                BotObj.PlayerRoot.IsBot.Value = true;
+                BotObj.gameObject.name = "Bot";
+                BotObj.PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
+                BotObj.GetComponent<NetworkObject>().Spawn();
+            }
 
-        StartCoroutine(SpawnRandom());
-        EnableScripts();
-        if (!PlayerRoot.IsBot)
-        {
-            MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
-            SetCinemachineVirtualCamera();
-            PlayerRoot.PlayerModel.ChangeModelVisibility(false);
+            StartCoroutine(SpawnRandom());
+            EnableScripts();
+            if (!PlayerRoot.IsBot.Value)
+            {
+                MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
+                SetCinemachineVirtualCamera();
+                PlayerRoot.PlayerModel.ChangeModelVisibility(false);
+            }
+            PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
         }
-        PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
+        else
+        {
+            if (PlayerRoot.IsBot.Value)
+            {
+                SyncBotNetwork();
+            }
+        }
     }
 
     void OnDisable()
@@ -81,6 +91,16 @@ public class PlayerNetwork : PlayerBehaviour
 
             if (playerCameraRoot != null) _camera.Follow = null;
         }
+    }
+
+    void SyncBotNetwork()
+    {
+        SyncBotNetwork_InspectorName();
+    }
+
+    void SyncBotNetwork_InspectorName()
+    {
+        gameObject.name = "Bot";
     }
 
     #region =========================================At Spawn=========================================
@@ -239,7 +259,7 @@ public class PlayerNetwork : PlayerBehaviour
         PlayerRoot.PlayerController.enabled = true;
         PlayerRoot.PlayerShoot.enabled = true;
 
-        if (!PlayerRoot.IsBot)
+        if (!PlayerRoot.IsBot.Value)
         {
             PlayerRoot.PlayerInput.enabled = true;
             PlayerRoot.PlayerUI.enabled = true;

@@ -22,7 +22,7 @@ public class PlayerUI : PlayerBehaviour
     {
         base.InitializeOnNetworkSpawn();
         if (!IsOwner) return;
-        if (PlayerRoot.IsBot) return;
+        if (PlayerRoot.IsBot.Value) return;
         CurrentPlayerCanvas = Instantiate(_playerCanvas);
 
         PlayerRoot.Events.OnQuitGame += QuitGame;
