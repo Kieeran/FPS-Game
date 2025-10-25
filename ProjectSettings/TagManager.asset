@@ -20,6 +20,9 @@ TagManager:
   - Knife
   - Grenade
   - HealthPickup
+  - FxTemporaire
+  - Waypoint
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -32,8 +35,8 @@ TagManager:
   - Dummy
   - PlayerHead
   - PlayerLeg
-  - 
-  - 
+  - PlayerTorso
+  - Waypoint
   - 
   - 
   - 
