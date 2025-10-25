@@ -1,11 +1,13 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerModel : PlayerBehaviour
 {
     public PlayerAnimation PlayerAni { get; private set; }
     public List<Renderer> modelParts;
+    public RigBuilder RigBuilder;
+    public BoneRenderer BoneRenderer;
 
     public override void InitializeAwake()
     {
@@ -13,20 +15,18 @@ public class PlayerModel : PlayerBehaviour
         PlayerAni = GetComponent<PlayerAnimation>();
     }
 
-    public void DisableModel()
+    public void ChangeModelVisibility(bool b)
     {
         foreach (var part in modelParts)
         {
-            part.enabled = false;
+            part.enabled = b;
         }
     }
 
-    public void EnableModel()
+    public void ChangeRigBuilderState(bool b)
     {
-        foreach (var part in modelParts)
-        {
-            part.enabled = true;
-        }
+        RigBuilder.enabled = b;
+        BoneRenderer.enabled = b;
     }
 
     void Update()
@@ -55,7 +55,7 @@ public class PlayerModel : PlayerBehaviour
         PlayerAni.Animator.applyRootMotion = true;
         PlayerAni.Animator.Play("FallingForwardDeath", 0, 0f);
 
-        EnableModel();
+        ChangeModelVisibility(true);
     }
 
     public void OnPlayerRespawn()
@@ -67,6 +67,6 @@ public class PlayerModel : PlayerBehaviour
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         PlayerAni.Animator.applyRootMotion = false;
 
-        DisableModel();
+        ChangeModelVisibility(false);
     }
 }

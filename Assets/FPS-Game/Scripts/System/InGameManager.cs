@@ -33,6 +33,7 @@ public class InGameManager : NetworkBehaviour
     public TimePhaseCounter TimePhaseCounter { get; private set; }
     public KillCountChecker KillCountChecker { get; private set; }
     public GenerateHealthPickup GenerateHealthPickup { get; private set; }
+    public LobbyRelayChecker LobbyRelayChecker { get; private set; }
 
     public System.Action OnGameEnd;
 
@@ -59,6 +60,7 @@ public class InGameManager : NetworkBehaviour
         TimePhaseCounter = GetComponent<TimePhaseCounter>();
         KillCountChecker = GetComponent<KillCountChecker>();
         GenerateHealthPickup = GetComponent<GenerateHealthPickup>();
+        LobbyRelayChecker = GetComponent<LobbyRelayChecker>();
 
         OnGameEnd += () =>
         {

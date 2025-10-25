@@ -151,7 +151,12 @@ public class PlayerRoot : NetworkBehaviour
     #endregion
 
     public PlayerEvents Events { get; private set; }
-
+    public bool IsBot { get; private set; }
+    public void SetIsBot(bool val)
+    {
+        IsBot = val;
+    }
+    
     void Awake()
     {
         ReferenceAssignment();

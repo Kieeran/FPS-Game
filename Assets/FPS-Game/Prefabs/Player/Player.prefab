@@ -1666,7 +1666,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 2849443147055145248}
-  Melees: {fileID: 2144477545034913600}
 --- !u!1 &744962520749373115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4320,7 +4319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
@@ -5417,7 +5415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef062f4470e15c744a599ab8f5385208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponHolder: {fileID: 1571463807456523207}
   _weaponPoseNetworkSO:
   - {fileID: 11400000, guid: 6871f515ae15365449d75e9543228958, type: 2}
   - {fileID: 11400000, guid: acf57636e9d3fe14695495be8f7a790f, type: 2}
@@ -5830,8 +5827,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f933b6324320d1348a3961be600848d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponHolder: {fileID: 1571463807456523207}
-  _playerModel: {fileID: 140835691155244661}
 --- !u!114 &411114129890139701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5937,6 +5932,7 @@ MonoBehaviour:
   DeathCount:
     m_InternalValue: 0
   RespawnDelay: 3
+  BotObj: {fileID: 2453111897199623720}
 --- !u!114 &7795738832339507943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9854,7 +9850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd40b9c3686677b44bfdb78ed2cf3321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   RigBuilder: {fileID: 1604434602729957443}
 --- !u!114 &140835691155244661
 MonoBehaviour:
@@ -9871,6 +9866,8 @@ MonoBehaviour:
   modelParts:
   - {fileID: 9220390883198135289}
   - {fileID: 4875256444284696006}
+  RigBuilder: {fileID: 1604434602729957443}
+  BoneRenderer: {fileID: 5155779462957209349}
 --- !u!114 &5155779462957209349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10229,7 +10226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
@@ -11761,7 +11757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
@@ -12228,7 +12223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
@@ -12603,7 +12597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4

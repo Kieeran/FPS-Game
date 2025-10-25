@@ -41,7 +41,8 @@ public class WeaponHolder : PlayerBehaviour
         SetOrigin();
         InitializeDictionary();
 
-        Rb = gameObject.AddComponent<Rigidbody>();
+        if (gameObject.TryGetComponent<Rigidbody>(out var rb)) Rb = rb;
+        else Rb = gameObject.AddComponent<Rigidbody>();
         gameObject.AddComponent<NetworkRigidbody>();
         StartCoroutine(SetKinematicNextFrame());
     }
@@ -51,7 +52,7 @@ public class WeaponHolder : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
-        if (IsOwner & IsLocalPlayer)
+        if (IsOwner & IsLocalPlayer && !PlayerRoot.IsBot)
         {
             Vector3 localScale = new(1.6f, 1.6f, 1.6f);
 
@@ -142,7 +143,10 @@ public class WeaponHolder : PlayerBehaviour
     {
         PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon(), gunType);
         RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
-        PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
+        if (!PlayerRoot.IsBot && PlayerRoot.PlayerUI != null)
+        {
+            PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]

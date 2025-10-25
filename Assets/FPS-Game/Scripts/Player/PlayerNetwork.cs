@@ -5,6 +5,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 
 public class PlayerNetwork : PlayerBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerNetwork : PlayerBehaviour
     public NetworkVariable<int> DeathCount = new(0);
 
     public float RespawnDelay;
+    public PlayerNetwork BotObj;
 
     // OnNetworkSpawn
     public override int PriorityNetwork => 5;
@@ -24,25 +26,24 @@ public class PlayerNetwork : PlayerBehaviour
         base.InitializeOnNetworkSpawn();
         if (IsOwner == false) return;
 
-        SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
+        if (!PlayerRoot.IsBot && IsServer)
+        {
+            PlayerNetwork botObj = Instantiate(BotObj);
+            botObj.PlayerRoot.SetIsBot(true);
+            botObj.gameObject.name = "Bot";
+            botObj.PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
+            botObj.GetComponent<NetworkObject>().Spawn();
+        }
 
-        Debug.Log($"Spawn at {randomPos.gameObject.name}: {randomPos.SpawnPos} {randomPos.SpawnRot.eulerAngles}");
-        transform.position = randomPos.SpawnPos;
-        transform.GetChild(0).rotation = randomPos.SpawnRot;
-
-        KillCount = new();
-        DeathCount = new();
-
+        StartCoroutine(SpawnRandom());
         EnableScripts();
-        MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
-
-        // SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
-
-        SetCinemachineVirtualCamera();
-
+        if (!PlayerRoot.IsBot)
+        {
+            MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
+            SetCinemachineVirtualCamera();
+            PlayerRoot.PlayerModel.ChangeModelVisibility(false);
+        }
         PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
-
-        PlayerRoot.PlayerModel.DisableModel();
     }
 
     void OnDisable()
@@ -83,6 +84,16 @@ public class PlayerNetwork : PlayerBehaviour
     }
 
     #region =========================================At Spawn=========================================
+    IEnumerator SpawnRandom()
+    {
+        yield return null;
+        SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
+
+        Debug.Log($"Spawn at {randomPos.gameObject.name}: {randomPos.SpawnPos} {randomPos.SpawnRot.eulerAngles}");
+        transform.position = randomPos.SpawnPos;
+        transform.GetChild(0).rotation = randomPos.SpawnRot;
+    }
+
     [ServerRpc(RequireOwnership = false)]
     void SetRandomPosAtSpawn_ServerRpc(ulong clientId)
     {
@@ -224,11 +235,22 @@ public class PlayerNetwork : PlayerBehaviour
 
     void EnableScripts()
     {
-        PlayerRoot.PlayerInput.enabled = true;
         PlayerRoot.CharacterController.enabled = true;
         PlayerRoot.PlayerController.enabled = true;
         PlayerRoot.PlayerShoot.enabled = true;
-        PlayerRoot.PlayerUI.enabled = true;
+
+        if (!PlayerRoot.IsBot)
+        {
+            PlayerRoot.PlayerInput.enabled = true;
+            PlayerRoot.PlayerUI.enabled = true;
+        }
+
+        else
+        {
+            PlayerRoot.PlayerInput.enabled = false;
+            PlayerRoot.PlayerUI.enabled = false;
+            PlayerRoot.PlayerCamera.enabled = false;
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
