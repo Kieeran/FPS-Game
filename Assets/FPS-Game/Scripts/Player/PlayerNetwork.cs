@@ -30,11 +30,7 @@ public class PlayerNetwork : PlayerBehaviour
         {
             if (!PlayerRoot.IsBot.Value && IsServer)
             {
-                BotObj = Instantiate(BotPrefab);
-                BotObj.PlayerRoot.IsBot.Value = true;
-                BotObj.gameObject.name = "Bot";
-                BotObj.PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
-                BotObj.GetComponent<NetworkObject>().Spawn();
+                // SpawnBot();
             }
 
             StartCoroutine(SpawnRandom());
@@ -91,6 +87,15 @@ public class PlayerNetwork : PlayerBehaviour
 
             if (playerCameraRoot != null) _camera.Follow = null;
         }
+    }
+
+    void SpawnBot()
+    {
+        BotObj = Instantiate(BotPrefab);
+        BotObj.PlayerRoot.IsBot.Value = true;
+        BotObj.gameObject.name = "Bot";
+        BotObj.PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
+        BotObj.GetComponent<NetworkObject>().Spawn();
     }
 
     void SyncBotNetwork()
