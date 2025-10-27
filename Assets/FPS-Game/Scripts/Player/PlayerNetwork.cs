@@ -96,11 +96,18 @@ public class PlayerNetwork : PlayerBehaviour
     void SyncBotNetwork()
     {
         SyncBotNetwork_InspectorName();
+        SyncBotNetwork_Component();
     }
 
     void SyncBotNetwork_InspectorName()
     {
         gameObject.name = "Bot";
+    }
+
+    void SyncBotNetwork_Component()
+    {
+        PlayerRoot.PlayerCamera.enabled = false;
+        PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
     }
 
     #region =========================================At Spawn=========================================

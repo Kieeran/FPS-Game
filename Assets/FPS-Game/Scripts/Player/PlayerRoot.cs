@@ -152,6 +152,7 @@ public class PlayerRoot : NetworkBehaviour
     #endregion
 
     public PlayerEvents Events { get; private set; }
+    [HideInInspector]
     public NetworkVariable<bool> IsBot = new();
     void Awake()
     {
