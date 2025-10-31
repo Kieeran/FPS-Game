@@ -23,6 +23,7 @@ TagManager:
   - FxTemporaire
   - Waypoint
   - Obstacle
+  - Bot
   layers:
   - Default
   - TransparentFX
@@ -37,7 +38,7 @@ TagManager:
   - PlayerLeg
   - PlayerTorso
   - Waypoint
-  - 
+  - Bot
   - 
   - 
   - 
