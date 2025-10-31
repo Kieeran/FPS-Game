@@ -81,6 +81,68 @@ namespace AIBot
             }
         }
 
+        // private void Scan()
+        // {
+        //     Objects.Clear();
+        //     if (playerTransform == null)
+        //     {
+        //         SetPlayerLost();
+        //         return;
+        //     }
+        //     GameObject obj = playerTransform.gameObject;
+        //     if (IsInSight(obj))
+        //     {
+        //         SetPlayerSpotted(obj.transform.position);
+        //         Objects.Add(obj);
+        //     }
+        //     else
+        //     {
+        //         SetPlayerLost();
+        //     }
+        // }
+
+        // private void Scan()
+        // {
+        //     count = Physics.OverlapSphereNonAlloc(
+        //         transform.position, viewDistance, colliders, layers, QueryTriggerInteraction.Collide);
+
+        //     Objects.Clear();
+        //     bool foundPlayer = false;
+        //     GameObject playerObj = null;
+        //     Vector3 playerPos = Vector3.zero;
+
+        //     for (int i = 0; i < count; i++)
+        //     {
+        //         GameObject obj = colliders[i].gameObject;
+
+        //         if (obj.CompareTag("Player") && IsInSight(obj))
+        //         {
+        //             playerObj = obj;
+        //             playerPos = obj.transform.position;
+        //             Objects.Add(obj);
+        //             foundPlayer = true;
+        //             // Continue looping – there might be more (defensive)
+        //         }
+        //     }
+
+        //     if (foundPlayer && playerObj != null)
+        //     {
+        //         // Only fire if we haven't already this scan
+        //         if (!isPlayerVisible)
+        //         {
+        //             isPlayerVisible = true;
+        //             LastSeenPos = playerPos;
+        //         }
+        //         OnPlayerSpotted?.Invoke(playerPos, playerObj);
+        //     }
+        //     else if (isPlayerVisible)
+        //     {
+        //         // Only transition to lost if we were previously visible
+        //         isPlayerVisible = false;
+        //         OnPlayerLost?.Invoke();
+        //     }
+        // }
+
         public bool IsInSight(GameObject obj)
         {
             Vector3 origin = transform.position;

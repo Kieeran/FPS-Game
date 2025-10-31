@@ -74,8 +74,7 @@ public class GetListItem : Action
             }
             else
             {
-                result.Value = t.GameObject();
-                Debug.Log("resultt = " + result + " | result.value = " + result.Value + " | result.Value.name" + result.Value.name);
+                result.Value = t.GameObject();                
             }
 
             return TaskStatus.Success;
@@ -96,20 +95,20 @@ public class GetListItem : Action
                 if (idx < 0 || idx >= count) return TaskStatus.Failure;
             }
 
-            GameObject go = gameObjectList.Value[idx];
+            GameObject go = gameObjectList.Value[idx];            
             if (go == null) return TaskStatus.Failure;
 
             if (result == null)
-            {
+            {    
                 var v = Owner.GetVariable("currentWaypoint") as SharedTransform;
-                var vPos = Owner.GetVariable("currentWaypointPos") as SharedVector2;
+                var vPos = Owner.GetVariable("currentWaypointPos") as SharedVector3;
                 var t = Owner.GetVariable("targetPlayer") as SharedGameObject;
                 if (v != null) v.Value = go.transform;
                 if (vPos != null) vPos.Value = go.transform.position;
                 if (t != null) t.Value = go;
             }
             else
-            {
+            {    
                 result.Value = go;
             }
 
