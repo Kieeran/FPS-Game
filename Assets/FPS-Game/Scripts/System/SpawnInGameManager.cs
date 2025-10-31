@@ -1,61 +1,58 @@
 using Unity.Netcode;
 using UnityEngine;
-using System.Collections;
 
 public class SpawnInGameManager : MonoBehaviour
 {
     [SerializeField] private GameObject inGameManagerPrefab;
 
-    void Start()
+    void Awake()
     {
-        StartCoroutine(TrySpawnInGameManager());
+        // Nếu NetworkManager đã có sẵn và đang lắng nghe thì gọi ngay
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+        {
+            TrySpawn();
+        }
+        else
+        {
+            // Nếu chưa, gắn event để gọi ngay khi server khởi động
+            if (NetworkManager.Singleton != null)
+            {
+                NetworkManager.Singleton.OnServerStarted += TrySpawn;
+            }
+            else
+            {
+                Debug.LogWarning("[SpawnInGameManager] NetworkManager.Singleton is null; cannot subscribe to OnServerStarted.");
+            }
+        }
     }
 
-    private IEnumerator TrySpawnInGameManager()
+    private void TrySpawn()
     {
-        // Chờ NetworkManager được khởi tạo và Netcode sẵn sàng
-        yield return new WaitUntil(() => NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening);
-
-        // Chờ thêm 1 frame để chắc chắn player objects đã spawn
-        yield return null;
-
         if (!NetworkManager.Singleton.IsServer)
-            yield break; // Chỉ server mới spawn
+            return;
 
-        // Nếu đã có sẵn instance (do Netcode SceneObject hay ai đó spawn rồi) thì bỏ qua
         if (InGameManager.Instance != null)
         {
-            Debug.Log("[GameSceneLoader] InGameManager đã tồn tại, bỏ qua spawn.");
-            yield break;
+            Debug.Log("[SpawnInGameManager] Instance đã tồn tại, bỏ qua spawn.");
+            return;
         }
 
-        // Kiểm tra prefab
         if (inGameManagerPrefab == null)
         {
-            Debug.LogError("[GameSceneLoader] Prefab InGameManager chưa được gán!");
-            yield break;
+            Debug.LogError("[SpawnInGameManager] Prefab chưa gán!");
+            return;
         }
 
-        // Tiến hành spawn
-        GameObject obj = Instantiate(inGameManagerPrefab);
-        NetworkObject netObj = obj.GetComponent<NetworkObject>();
-
+        var obj = Instantiate(inGameManagerPrefab);
+        var netObj = obj.GetComponent<NetworkObject>();
         if (netObj == null)
         {
-            Debug.LogError("[GameSceneLoader] Prefab InGameManager thiếu NetworkObject!");
+            Debug.LogError("[SpawnInGameManager] Prefab thiếu NetworkObject!");
             Destroy(obj);
-            yield break;
+            return;
         }
 
-        try
-        {
-            netObj.Spawn();
-            Debug.Log("[GameSceneLoader] Spawned InGameManager thành công!");
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError($"[GameSceneLoader] Spawn thất bại: {ex.Message}");
-            Destroy(obj);
-        }
+        netObj.Spawn();
+        Debug.Log("[SpawnInGameManager] Spawned InGameManager sớm bằng OnServerStarted.");
     }
 }
