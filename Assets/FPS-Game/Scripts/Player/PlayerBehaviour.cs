@@ -4,6 +4,7 @@ using Unity.Netcode;
 public class PlayerBehaviour : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork, IWaitForInGameManager
 {
     protected PlayerRoot PlayerRoot { get; private set; }
+    public PlayerRoot GetPlayerRoot() { return PlayerRoot; }
 
     public virtual int PriorityAwake => 1000;
     public virtual void InitializeAwake()
@@ -19,19 +20,12 @@ public class PlayerBehaviour : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
         }
     }
     public virtual int PriorityStart => 1000;
-    public virtual void InitializeStart()
-    {
-
-    }
+    public virtual void InitializeStart() { }
     public virtual int PriorityNetwork => 1000;
     public virtual void InitializeOnNetworkSpawn()
     {
         if (gameObject.activeInHierarchy)
             StartCoroutine(InGameManagerWaiter.WaitForInGameManager(this));
     }
-
-    public virtual void OnInGameManagerReady(InGameManager manager)
-    {
-        
-    }
+    public virtual void OnInGameManagerReady(InGameManager manager) { }
 }

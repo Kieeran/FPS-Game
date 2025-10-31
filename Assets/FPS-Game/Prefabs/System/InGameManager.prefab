@@ -475,6 +475,7 @@ GameObject:
   - component: {fileID: 6509468171419657047}
   - component: {fileID: 5040054155949608307}
   - component: {fileID: 7704118952696633411}
+  - component: {fileID: 1740776021170264635}
   m_Layer: 0
   m_Name: InGameManager
   m_TagString: Untagged
@@ -511,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1002010398
+  GlobalObjectIdHash: 1900463573
   InScenePlacedSourceGlobalObjectIdHash: 2642733906
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -595,6 +596,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthPickupPrefab: {fileID: 442882122778481016, guid: b00c8e40b864b6f46a556f270a628b26, type: 3}
+--- !u!114 &1740776021170264635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4920083990778913584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1b60ca92fac244a91317af755cc740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotPrefab: {fileID: 2453111897199623720, guid: ebed6eff438c14944bf2178fe506028d, type: 3}
+  BotObj: {fileID: 0}
 --- !u!1 &5202762981308986384
 GameObject:
   m_ObjectHideFlags: 0

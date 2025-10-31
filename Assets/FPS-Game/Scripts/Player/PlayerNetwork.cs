@@ -18,8 +18,6 @@ public class PlayerNetwork : PlayerBehaviour
     public NetworkVariable<int> DeathCount = new(0);
 
     public float RespawnDelay;
-    public PlayerNetwork BotPrefab;
-    public PlayerNetwork BotObj;
 
     // OnNetworkSpawn
     public override int PriorityNetwork => 5;
@@ -101,15 +99,6 @@ public class PlayerNetwork : PlayerBehaviour
 
             if (playerCameraRoot != null) _camera.Follow = null;
         }
-    }
-
-    void SpawnBot()
-    {
-        BotObj = Instantiate(BotPrefab);
-        BotObj.gameObject.name = "Bot";
-        BotObj.PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
-        Debug.Log($"SpawnBot(): NetworkManager={NetworkManager.Singleton != null}, Parent={BotObj.transform.parent}, HasNetworkTransform={BotObj.GetComponent<NetworkObject>() != null}");
-        BotObj.GetComponent<NetworkObject>().Spawn();
     }
 
     void SyncBotNetwork()
@@ -317,16 +306,15 @@ public class PlayerNetwork : PlayerBehaviour
         }
     }
 
-    void Update()
-    {
-        if (IsOwner == false) return;
+    // void Update()
+    // {
+    //     if (IsOwner == false) return;
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            // SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
-            // OnPlayerDead();
-            // GetAllPlayerInfos_ServerRPC(OwnerClientId);
-            if (!PlayerRoot.IsBot.Value && IsServer) SpawnBot();
-        }
-    }
+    //     if (Input.GetKeyDown(KeyCode.T))
+    //     {
+    //         SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
+    //         OnPlayerDead();
+    //         GetAllPlayerInfos_ServerRPC(OwnerClientId);
+    //     }
+    // }
 }
