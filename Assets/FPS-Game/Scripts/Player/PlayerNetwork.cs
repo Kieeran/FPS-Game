@@ -28,9 +28,14 @@ public class PlayerNetwork : PlayerBehaviour
         base.InitializeOnNetworkSpawn();
         if (IsOwner)
         {
+            if (IsServer && gameObject.name == "Bot")
+            {
+                PlayerRoot.IsBot.Value = true;
+            }
+
             if (!PlayerRoot.IsBot.Value && IsServer)
             {
-                // SpawnBot();
+                SpawnBot();
             }
             EnableScripts();
             if (!PlayerRoot.IsBot.Value)
@@ -99,7 +104,6 @@ public class PlayerNetwork : PlayerBehaviour
     void SpawnBot()
     {
         BotObj = Instantiate(BotPrefab);
-        BotObj.PlayerRoot.IsBot.Value = true;
         BotObj.gameObject.name = "Bot";
         BotObj.PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
         BotObj.GetComponent<NetworkObject>().Spawn();

@@ -67,7 +67,7 @@ public class PlayerUI : PlayerBehaviour
     {
         base.OnInGameManagerReady(manager);
 
-        if (IsOwner) manager.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
+        if (IsOwner && !PlayerRoot.IsBot.Value) manager.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
 
         manager.OnReceivedPlayerInfo += (playerInfos) =>
         {
