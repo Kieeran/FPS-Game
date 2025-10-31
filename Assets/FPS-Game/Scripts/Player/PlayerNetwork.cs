@@ -32,13 +32,15 @@ public class PlayerNetwork : PlayerBehaviour
             {
                 PlayerRoot.IsBot.Value = true;
             }
+            Debug.Log(PlayerRoot.IsBot.Value);
+            Debug.Log(gameObject.name);
 
             if (!PlayerRoot.IsBot.Value && IsServer)
             {
-                SpawnBot();
+                // SpawnBot();
             }
             EnableScripts();
-            if (!PlayerRoot.IsBot.Value)
+            if (gameObject.name != "Bot" || !PlayerRoot.IsBot.Value)
             {
                 MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
                 PlayerRoot.PlayerModel.ChangeModelVisibility(false);
@@ -65,7 +67,7 @@ public class PlayerNetwork : PlayerBehaviour
         if (IsOwner)
         {
             StartCoroutine(SpawnRandom());
-            if (!PlayerRoot.IsBot.Value) SetCinemachineVirtualCamera();
+            if (gameObject.name != "Bot") SetCinemachineVirtualCamera();
         }
     }
 
@@ -106,6 +108,7 @@ public class PlayerNetwork : PlayerBehaviour
         BotObj = Instantiate(BotPrefab);
         BotObj.gameObject.name = "Bot";
         BotObj.PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
+        Debug.Log($"SpawnBot(): NetworkManager={NetworkManager.Singleton != null}, Parent={BotObj.transform.parent}, HasNetworkTransform={BotObj.GetComponent<NetworkObject>() != null}");
         BotObj.GetComponent<NetworkObject>().Spawn();
     }
 
@@ -320,9 +323,10 @@ public class PlayerNetwork : PlayerBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
+            // SetRandomPosAtSpawn_ServerRpc(OwnerClientId);
             // OnPlayerDead();
             // GetAllPlayerInfos_ServerRPC(OwnerClientId);
+            if (!PlayerRoot.IsBot.Value && IsServer) SpawnBot();
         }
     }
 }

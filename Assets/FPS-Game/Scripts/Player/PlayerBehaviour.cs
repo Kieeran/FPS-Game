@@ -26,7 +26,8 @@ public class PlayerBehaviour : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
     public virtual int PriorityNetwork => 1000;
     public virtual void InitializeOnNetworkSpawn()
     {
-        StartCoroutine(InGameManagerWaiter.WaitForInGameManager(this));
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(InGameManagerWaiter.WaitForInGameManager(this));
     }
 
     public virtual void OnInGameManagerReady(InGameManager manager)

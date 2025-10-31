@@ -59,20 +59,14 @@ public class Gun : PlayerBehaviour
         HeadDamage = _headDamage;
         TorsoDamage = _torsoDamage;
         LegDamage = _legDamage;
+
+        CurrentCoolDown = FireCoolDown;
     }
 
     public override void InitializeStart()
     {
         base.InitializeStart();
         _supplyLoad = GetComponent<SupplyLoad>();
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        CurrentCoolDown = FireCoolDown;
-
-        // if (OnGunShoot == null)
-        //     OnGunShoot = new UnityEvent();
     }
 
     void OnEnable()

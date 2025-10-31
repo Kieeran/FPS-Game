@@ -41,7 +41,7 @@ public class SwayAndBob : PlayerBehaviour
     public Vector3 AimPositionOffset;
     public Quaternion AimRotationOffset;
 
-    void Start()
+    public override void InitializeStart()
     {
         AimPositionOffset = Vector3.zero;
         AimRotationOffset = Quaternion.identity;
