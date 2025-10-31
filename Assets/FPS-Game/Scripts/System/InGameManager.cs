@@ -2,6 +2,7 @@ using UnityEngine;
 using Cinemachine;
 using System.Collections.Generic;
 using Unity.Netcode;
+using System.Collections;
 
 public struct PlayerInfo
 {
@@ -19,6 +20,46 @@ public struct PlayerInfo
     }
 }
 
+public interface IWaitForInGameManager
+{
+    /// <summary>
+    /// Được gọi khi InGameManager.Instance đã sẵn sàng.
+    /// </summary>
+    /// <param name="manager">Instance của InGameManager.</param>
+    void OnInGameManagerReady(InGameManager manager);
+}
+
+public static class InGameManagerWaiter
+{
+    /// <summary>
+    /// Gọi hàm callback khi InGameManager.Instance đã sẵn sàng.
+    /// </summary>
+    public static IEnumerator WaitForInGameManager(IWaitForInGameManager listener)
+    {
+        // Nếu đã có sẵn instance, gọi ngay.
+        if (InGameManager.Instance != null)
+        {
+            listener.OnInGameManagerReady(InGameManager.Instance);
+            yield break;
+        }
+
+        // Nếu chưa có, thì chờ sự kiện hoặc coroutine đợi.
+        bool done = false;
+
+        void Handler()
+        {
+            listener.OnInGameManagerReady(InGameManager.Instance);
+            done = true;
+            InGameManager.OnManagerReady -= Handler;
+        }
+
+        InGameManager.OnManagerReady += Handler;
+
+        // Chờ đến khi handler được gọi (hoặc Instance có sẵn)
+        yield return new WaitUntil(() => done == true || InGameManager.Instance != null);
+    }
+}
+
 public class InGameManager : NetworkBehaviour
 {
     [SerializeField] GameObject _playerFollowCamera;
@@ -29,6 +70,8 @@ public class InGameManager : NetworkBehaviour
     [SerializeField] Transform _spawnPositions;
 
     public static InGameManager Instance { get; private set; }
+    public static event System.Action OnManagerReady;
+
     public List<SpawnPosition> SpawnPositionsList { get; private set; }
     public TimePhaseCounter TimePhaseCounter { get; private set; }
     public KillCountChecker KillCountChecker { get; private set; }
@@ -66,6 +109,17 @@ public class InGameManager : NetworkBehaviour
         {
             IsGameEnd = true;
         };
+    }
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        OnManagerReady?.Invoke();
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        Instance = null;
     }
 
     void InitSpawnPositions()

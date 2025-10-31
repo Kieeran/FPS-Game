@@ -32,13 +32,10 @@ public class PlayerNetwork : PlayerBehaviour
             {
                 // SpawnBot();
             }
-
-            StartCoroutine(SpawnRandom());
             EnableScripts();
             if (!PlayerRoot.IsBot.Value)
             {
                 MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
-                SetCinemachineVirtualCamera();
                 PlayerRoot.PlayerModel.ChangeModelVisibility(false);
             }
             PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
@@ -55,6 +52,16 @@ public class PlayerNetwork : PlayerBehaviour
     void OnDisable()
     {
         PlayerRoot.Events.OnPlayerDead -= OnPlayerDead;
+    }
+
+    public override void OnInGameManagerReady(InGameManager manager)
+    {
+        base.OnInGameManagerReady(manager);
+        if (IsOwner)
+        {
+            StartCoroutine(SpawnRandom());
+            if (!PlayerRoot.IsBot.Value) SetCinemachineVirtualCamera();
+        }
     }
 
     void SetCinemachineVirtualCamera()

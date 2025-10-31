@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class PlayerBehaviour : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
+public class PlayerBehaviour : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork, IWaitForInGameManager
 {
     protected PlayerRoot PlayerRoot { get; private set; }
 
@@ -26,6 +26,11 @@ public class PlayerBehaviour : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
     public virtual int PriorityNetwork => 1000;
     public virtual void InitializeOnNetworkSpawn()
     {
+        StartCoroutine(InGameManagerWaiter.WaitForInGameManager(this));
+    }
 
+    public virtual void OnInGameManagerReady(InGameManager manager)
+    {
+        
     }
 }

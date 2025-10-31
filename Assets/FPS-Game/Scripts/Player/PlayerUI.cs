@@ -44,37 +44,6 @@ public class PlayerUI : PlayerBehaviour
             }
         };
 
-        InGameManager.Instance.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
-        InGameManager.Instance.OnReceivedPlayerInfo += (playerInfos) =>
-        {
-            int currentMaxKillCountIndex = 0;
-            for (int i = 1; i < playerInfos.Count; i++)
-            {
-                if (playerInfos[i].KillCount > playerInfos[currentMaxKillCountIndex].KillCount)
-                {
-                    currentMaxKillCountIndex = i;
-                }
-            }
-
-            if (!InGameManager.Instance.IsTimeOut.Value &&
-            playerInfos[currentMaxKillCountIndex].KillCount < InGameManager.Instance.KillCountChecker.MaxKillCount)
-                return;
-
-            if (playerInfos[currentMaxKillCountIndex].PlayerId == OwnerClientId)
-                CurrentPlayerCanvas.PopUpVictoryDefeat("VICTORY");
-            else
-                CurrentPlayerCanvas.PopUpVictoryDefeat("DEFEAT");
-        };
-        InGameManager.Instance.OnGameEnd += () =>
-        {
-            InGameManager.Instance.GetAllPlayerInfos();
-            PlayerRoot.PlayerAssetsInputs.IsInputEnabled = false;
-            CurrentPlayerCanvas.PlayEndGameFadeOut(() =>
-            {
-                QuitGame();
-            });
-        };
-
         PlayerRoot.Events.OnCollectedHealthPickup += () =>
         {
             CurrentPlayerCanvas.HealRefillAmmoEffect.StartEffect();
@@ -91,6 +60,43 @@ public class PlayerUI : PlayerBehaviour
             {
                 CurrentPlayerCanvas.ToggleCrossHair(false);
             }
+        };
+    }
+
+    public override void OnInGameManagerReady(InGameManager manager)
+    {
+        base.OnInGameManagerReady(manager);
+
+        if (IsOwner) manager.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
+
+        manager.OnReceivedPlayerInfo += (playerInfos) =>
+        {
+            int currentMaxKillCountIndex = 0;
+            for (int i = 1; i < playerInfos.Count; i++)
+            {
+                if (playerInfos[i].KillCount > playerInfos[currentMaxKillCountIndex].KillCount)
+                {
+                    currentMaxKillCountIndex = i;
+                }
+            }
+
+            if (!manager.IsTimeOut.Value &&
+            playerInfos[currentMaxKillCountIndex].KillCount < manager.KillCountChecker.MaxKillCount)
+                return;
+
+            if (playerInfos[currentMaxKillCountIndex].PlayerId == OwnerClientId)
+                CurrentPlayerCanvas.PopUpVictoryDefeat("VICTORY");
+            else
+                CurrentPlayerCanvas.PopUpVictoryDefeat("DEFEAT");
+        };
+        manager.OnGameEnd += () =>
+        {
+            manager.GetAllPlayerInfos();
+            PlayerRoot.PlayerAssetsInputs.IsInputEnabled = false;
+            CurrentPlayerCanvas.PlayEndGameFadeOut(() =>
+            {
+                QuitGame();
+            });
         };
     }
 

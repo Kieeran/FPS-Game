@@ -18,7 +18,6 @@ public class PlayerCamera : PlayerBehaviour
     {
         base.InitializeOnNetworkSpawn();
         if (PlayerRoot.IsBot.Value) return;
-        _playerCamera = InGameManager.Instance.PlayerFollowCamera;
 
         _isAim = false;
         _isUnAim = false;
@@ -30,6 +29,12 @@ public class PlayerCamera : PlayerBehaviour
         };
 
         PlayerRoot.Events.OnWeaponChanged += OnWeaponChanged;
+    }
+
+    public override void OnInGameManagerReady(InGameManager manager)
+    {
+        base.OnInGameManagerReady(manager);
+        _playerCamera = InGameManager.Instance.PlayerFollowCamera;
     }
 
     public void SetFOV(float fov)
