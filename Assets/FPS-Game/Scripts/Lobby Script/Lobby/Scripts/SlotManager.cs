@@ -2,16 +2,13 @@ using UnityEngine;
 using System;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
+using TMPro;
 
 public class SlotManager : MonoBehaviour
 {
     public static SlotManager Instance { get; private set; }
     [SerializeField] private SlotPlayer prefabSlotPlayer;
     [SerializeField] private Camera mainCamera;
-
-    [SerializeField] CreateDeleteBotButtons _createDeleteBotButtons;
-
-    int _botNum = 0;
 
     private void Awake()
     {
@@ -30,27 +27,6 @@ public class SlotManager : MonoBehaviour
         LobbyManager.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnOutLobby;
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnOutLobby;
-
-        _createDeleteBotButtons.OnCreateBot += () =>
-        {
-            Lobby lobby = LobbyManager.Instance.GetJoinedLobby();
-            if (5 - (lobby.Players.Count + _botNum) <= 0)
-            {
-                Debug.Log("The lobby is full");
-                return;
-            }
-            _botNum++;
-        };
-
-        _createDeleteBotButtons.OnDeleteBot += () =>
-        {
-            if (_botNum == 0)
-            {
-                Debug.Log("There are no more bots in the lobby");
-                return;
-            }
-            _botNum--;
-        };
     }
 
     private void OnDestroy()
@@ -77,7 +53,7 @@ public class SlotManager : MonoBehaviour
 
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
     {
-        if (this == null || !this.gameObject.activeInHierarchy)
+        if (this == null || !gameObject.activeInHierarchy)
         {
             return;
         }
@@ -113,12 +89,14 @@ public class SlotManager : MonoBehaviour
         // Thêm các bot vào lobby, kiểm tra điều kiện đảm bảo không thêm bot quá 5 hoặc khi lobby đã đầy
         if (i < 5)
         {
-            for (int j = i; j < _botNum + i; j++)
+            int botNum = LobbyManager.Instance.GetBotNum();
+            for (int j = i; j < botNum + i; j++)
             {
                 SlotPlayer slotPlayer = CreateSlotPlayerAt(j);
                 slotPlayer.UpdatePlayerName("Bot");
             }
         }
+        // Debug.Log(LobbyManager.Instance.GetBotNum());
     }
 
     private void ClearSlotPlayers()
