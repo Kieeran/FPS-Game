@@ -18,7 +18,7 @@ public class LobbyManager : MonoBehaviour
     public const string KEY_PLAYER_CHARACTER = "Character";
     // public const string KEY_GAME_MODE = "GameMode";
     public const string KEY_START_GAME = "Start";
-    public const string KEY_BOT_NUM = "0";
+    public const string KEY_BOT_NUM = "BotNumber";
 
     public event EventHandler OnLeftLobby;
     public event EventHandler<LobbyEventArgs> OnJoinedLobby;
@@ -272,7 +272,7 @@ public class LobbyManager : MonoBehaviour
             Data = new Dictionary<string, DataObject> {
                 // { KEY_GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString()) },
                 { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0") },
-                { KEY_BOT_NUM, new DataObject(DataObject.VisibilityOptions.Member, botNum.ToString()) }
+                { KEY_BOT_NUM, new DataObject(DataObject.VisibilityOptions.Public, botNum.ToString()) }
             }
         };
 
@@ -393,6 +393,9 @@ public class LobbyManager : MonoBehaviour
 
     public async void UpdateBotNumLobby(int num)
     {
+        // if player not in lobby
+        if (joinedLobby == null) return;
+
         if (botNum + num < 0)
         {
             Debug.Log("Số lượng bot trong Lobby đã bằng 0, không thể giảm thêm");
@@ -406,33 +409,29 @@ public class LobbyManager : MonoBehaviour
         }
 
         botNum += num;
-        // if player in lobby
-        if (joinedLobby != null)
+        try
         {
-            try
+            UpdateLobbyOptions options = new()
             {
-                UpdateLobbyOptions options = new()
-                {
-                    // update bot number in options variable
-                    Data = new Dictionary<string, DataObject>() {
+                // update bot number in options variable
+                Data = new Dictionary<string, DataObject>() {
                         {
                             KEY_BOT_NUM, new DataObject(
-                                visibility: DataObject.VisibilityOptions.Member,
+                                visibility: DataObject.VisibilityOptions.Public,
                                 value: botNum.ToString())
                         }
                     }
-                };
+            };
 
-                // update
-                Lobby lobby = await LobbyService.Instance.UpdateLobbyAsync(joinedLobby.Id, options);
-                joinedLobby = lobby;
+            // update
+            Lobby lobby = await LobbyService.Instance.UpdateLobbyAsync(joinedLobby.Id, options);
+            joinedLobby = lobby;
 
-                OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
-            }
-            catch (LobbyServiceException e)
-            {
-                Debug.Log(e);
-            }
+            OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
         }
     }
 
@@ -489,6 +488,7 @@ public class LobbyManager : MonoBehaviour
         {
             try
             {
+                UpdateBotNumLobby(-botNum);
                 await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, AuthenticationService.Instance.PlayerId);
 
                 joinedLobby = null;
