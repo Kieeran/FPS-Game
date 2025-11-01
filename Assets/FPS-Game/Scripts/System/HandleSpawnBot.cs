@@ -5,24 +5,37 @@ using UnityEngine;
 
 public class HandleSpawnBot : NetworkBehaviour
 {
-    public PlayerNetwork BotPrefab;
-    public PlayerNetwork BotObj;
-    void SpawnBot()
+    [SerializeField] PlayerNetwork botPrefab;
+
+    public override void OnNetworkSpawn()
     {
-        BotObj = Instantiate(BotPrefab);
-        BotObj.gameObject.name = "Bot";
-        BotObj.GetPlayerRoot().PlayerModel.ChangeRigBuilderState(false);
-        Debug.Log($"SpawnBot(): NetworkManager={NetworkManager.Singleton != null}, Parent={BotObj.transform.parent}, HasNetworkTransform={BotObj.GetComponent<NetworkObject>() != null}");
-        BotObj.GetComponent<NetworkObject>().Spawn();
+        SpawnAllBots();
     }
 
-    void Update()
+    void SpawnAllBots()
     {
-        if (IsOwner == false) return;
+        if (!IsServer) return;
+        if (LobbyManager.Instance == null)
+        {
+            Debug.Log("LobbyManager.Instance == null");
+            return;
+        }
 
-        if (Input.GetKeyDown(KeyCode.T))
+        int botCount = LobbyManager.Instance.GetBotNum();
+        Debug.Log(LobbyManager.Instance.GetBotNum());
+        for (int i = 0; i < botCount; i++)
         {
             SpawnBot();
+            Debug.Log("SpawnBot();");
         }
+    }
+
+    void SpawnBot()
+    {
+        PlayerNetwork playerNetwork = Instantiate(botPrefab);
+        playerNetwork.gameObject.name = "Bot";
+        playerNetwork.GetPlayerRoot().PlayerModel.ChangeRigBuilderState(false);
+        Debug.Log($"SpawnBot(): NetworkManager={NetworkManager.Singleton != null}, Parent={playerNetwork.transform.parent}, HasNetworkTransform={playerNetwork.GetComponent<NetworkObject>() != null}");
+        playerNetwork.GetComponent<NetworkObject>().Spawn();
     }
 }

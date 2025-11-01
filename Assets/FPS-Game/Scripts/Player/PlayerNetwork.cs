@@ -30,13 +30,7 @@ public class PlayerNetwork : PlayerBehaviour
             {
                 PlayerRoot.IsBot.Value = true;
             }
-            Debug.Log(PlayerRoot.IsBot.Value);
-            Debug.Log(gameObject.name);
 
-            if (!PlayerRoot.IsBot.Value && IsServer)
-            {
-                // SpawnBot();
-            }
             EnableScripts();
             if (gameObject.name != "Bot" || !PlayerRoot.IsBot.Value)
             {

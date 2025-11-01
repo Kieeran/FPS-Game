@@ -608,8 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1b60ca92fac244a91317af755cc740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BotPrefab: {fileID: 2453111897199623720, guid: ebed6eff438c14944bf2178fe506028d, type: 3}
-  BotObj: {fileID: 0}
+  botPrefab: {fileID: 2453111897199623720, guid: ebed6eff438c14944bf2178fe506028d, type: 3}
 --- !u!1 &5202762981308986384
 GameObject:
   m_ObjectHideFlags: 0
