@@ -63,9 +63,8 @@ public class PlayerModel : PlayerBehaviour
 
     public void OnPlayerDead()
     {
-        if (!IsOwner) return;
         Debug.Log("Die animation");
-        PlayerAni.Animator.applyRootMotion = true;
+        // PlayerAni.Animator.applyRootMotion = true;
         PlayerAni.Animator.Play("FallingForwardDeath", 0, 0f);
 
         ChangeModelVisibility(true);
@@ -73,12 +72,11 @@ public class PlayerModel : PlayerBehaviour
 
     public void OnPlayerRespawn()
     {
-        if (!IsOwner) return;
         Debug.Log("Restart animation");
 
         PlayerAni.Animator.Play("Idle and Run", 0, 0f);
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        PlayerAni.Animator.applyRootMotion = false;
+        // PlayerAni.Animator.applyRootMotion = false;
 
         if (!PlayerRoot.IsCharacterBot())
             ChangeModelVisibility(false);

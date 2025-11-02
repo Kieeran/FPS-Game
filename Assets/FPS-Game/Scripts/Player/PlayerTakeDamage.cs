@@ -27,7 +27,7 @@ public class PlayerTakeDamage : PlayerBehaviour
         if (current == 0)
         {
             PlayerRoot.Events.InvokeOnPlayerDead();
-            InGameManager.Instance.GenerateHealthPickup.DropHealthPickup(transform.position);
+            // InGameManager.Instance.GenerateHealthPickup.DropHealthPickup(transform.position);
         }
     }
 

@@ -112,7 +112,7 @@ public class PlayerNetwork : PlayerBehaviour
 
     void SyncBotNetwork_InspectorName()
     {
-        gameObject.name = "Bot";
+        gameObject.name = "Bot#" + PlayerRoot.BotID.Value.ToString();
     }
 
     void SyncBotNetwork_Component()
@@ -121,6 +121,7 @@ public class PlayerNetwork : PlayerBehaviour
         PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
     }
 
+    // Local
     IEnumerator SpawnRandom(Action onSpawnComplete = null)
     {
         yield return null;
@@ -145,9 +146,10 @@ public class PlayerNetwork : PlayerBehaviour
     // Hàm được gọi khi event OnPlayerDead được kích hoạt ở local (có được từ tín hiệu ở hàm OnHPChanged được cập nhật tự động từ mạng)
     void OnPlayerDead()
     {
-        ToggleCharacterState(false);
         if (!PlayerRoot.IsCharacterBot())
             RemoveCinemachineVirtualCamera();
+
+        ToggleCharacterState(false);
         Invoke(nameof(Respawn), RespawnDelay);
         Invoke(nameof(SetRandomPos), RespawnDelay);
     }
