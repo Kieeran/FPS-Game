@@ -62,6 +62,8 @@ public class WeaponHolder : PlayerBehaviour
         }
 
         StartCoroutine(SetFirstWeapon());
+        PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
+        PlayerRoot.Events.OnPlayerRespawn += OnPlayerRespawn;
     }
 
     void InitializeDictionary()
@@ -182,12 +184,22 @@ public class WeaponHolder : PlayerBehaviour
         originWeaponHolderRot = transform.localRotation;
     }
 
-    public void DropWeapon()
+    void OnPlayerDead()
+    {
+        DropWeapon();
+    }
+
+    void DropWeapon()
     {
         Rb.isKinematic = false;
     }
 
-    public void ResetWeaponHolder()
+    void OnPlayerRespawn()
+    {
+        ResetWeaponHolder();
+    }
+
+    void ResetWeaponHolder()
     {
         Rb.isKinematic = true;
         transform.SetLocalPositionAndRotation(originWeaponHolderPos, originWeaponHolderRot);

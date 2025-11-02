@@ -15,6 +15,19 @@ public class PlayerModel : PlayerBehaviour
         PlayerAni = GetComponent<PlayerAnimation>();
     }
 
+    public override void InitializeOnNetworkSpawn()
+    {
+        base.InitializeOnNetworkSpawn();
+        PlayerRoot.Events.OnPlayerRespawn += OnPlayerRespawn;
+        PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
+    }
+
+    public void OnDisable()
+    {
+        PlayerRoot.Events.OnPlayerRespawn -= OnPlayerRespawn;
+        PlayerRoot.Events.OnPlayerDead -= OnPlayerDead;
+    }
+
     public void ChangeModelVisibility(bool b)
     {
         foreach (var part in modelParts)
@@ -48,7 +61,7 @@ public class PlayerModel : PlayerBehaviour
         // }
     }
 
-    public void OnPlayerDie()
+    public void OnPlayerDead()
     {
         if (!IsOwner) return;
         Debug.Log("Die animation");
