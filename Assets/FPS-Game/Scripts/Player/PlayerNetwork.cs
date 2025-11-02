@@ -121,7 +121,7 @@ public class PlayerNetwork : PlayerBehaviour
     IEnumerator SpawnRandom()
     {
         yield return null;
-        SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
+        SpawnPosition randomPos = InGameManager.Instance.RandomSpawn.GetRandomPos();
 
         Debug.Log($"Spawn at {randomPos.gameObject.name}: {randomPos.SpawnPos} {randomPos.SpawnRot.eulerAngles}");
         transform.position = randomPos.SpawnPos;
@@ -131,7 +131,7 @@ public class PlayerNetwork : PlayerBehaviour
     [ServerRpc(RequireOwnership = false)]
     void SetRandomPosAtSpawn_ServerRpc(ulong clientId)
     {
-        SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
+        SpawnPosition randomPos = InGameManager.Instance.RandomSpawn.GetRandomPos();
         if (randomPos == null)
         {
             Debug.Log("Null");
@@ -184,7 +184,7 @@ public class PlayerNetwork : PlayerBehaviour
     [ServerRpc(RequireOwnership = false)]
     void SetRandomPos_ServerRpc(ulong clientId)
     {
-        SpawnPosition randomPos = InGameManager.Instance.GetRandomPos();
+        SpawnPosition randomPos = InGameManager.Instance.RandomSpawn.GetRandomPos();
         if (randomPos == null)
         {
             Debug.Log("Null");

@@ -62,22 +62,20 @@ public static class InGameManagerWaiter
 
 public class InGameManager : NetworkBehaviour
 {
+    public static InGameManager Instance { get; private set; }
     [SerializeField] GameObject _playerFollowCamera;
     [SerializeField] GameObject _playerCamera;
     public CinemachineVirtualCamera PlayerFollowCamera { get; private set; }
     public GameObject PlayerCamera { get; private set; }
 
-    [SerializeField] Transform _spawnPositions;
-
-    public static InGameManager Instance { get; private set; }
     public static event System.Action OnManagerReady;
 
-    public List<SpawnPosition> SpawnPositionsList { get; private set; }
     public TimePhaseCounter TimePhaseCounter { get; private set; }
     public KillCountChecker KillCountChecker { get; private set; }
     public GenerateHealthPickup GenerateHealthPickup { get; private set; }
     public LobbyRelayChecker LobbyRelayChecker { get; private set; }
     public HandleSpawnBot HandleSpawnBot { get; private set; }
+    public RandomSpawn RandomSpawn { get; private set; }
 
     public System.Action OnGameEnd;
 
@@ -100,12 +98,12 @@ public class InGameManager : NetworkBehaviour
         GameObject obj = Instantiate(_playerFollowCamera);
         PlayerFollowCamera = obj.GetComponent<CinemachineVirtualCamera>();
 
-        InitSpawnPositions();
         TimePhaseCounter = GetComponent<TimePhaseCounter>();
         KillCountChecker = GetComponent<KillCountChecker>();
         GenerateHealthPickup = GetComponent<GenerateHealthPickup>();
         LobbyRelayChecker = GetComponent<LobbyRelayChecker>();
         HandleSpawnBot = GetComponent<HandleSpawnBot>();
+        RandomSpawn = GetComponent<RandomSpawn>();
 
         OnGameEnd += () =>
         {
@@ -122,26 +120,6 @@ public class InGameManager : NetworkBehaviour
     {
         base.OnNetworkDespawn();
         Instance = null;
-    }
-
-    void InitSpawnPositions()
-    {
-        SpawnPositionsList = new List<SpawnPosition>();
-        foreach (Transform child in _spawnPositions)
-        {
-            SpawnPositionsList.Add(child.GetComponent<SpawnPosition>());
-        }
-    }
-
-    public SpawnPosition GetRandomPos()
-    {
-        if (SpawnPositionsList == null || SpawnPositionsList.Count == 0)
-        {
-            Debug.LogError("SpawnPositionsList is empty!");
-            return null;
-        }
-
-        return SpawnPositionsList[Random.Range(0, SpawnPositionsList.Count)];
     }
 
     public void GetAllPlayerInfos()
