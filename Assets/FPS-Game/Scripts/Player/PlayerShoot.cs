@@ -96,11 +96,12 @@ public class PlayerShoot : PlayerBehaviour
 
             if (player != null)
             {
-                if (player.TryGetComponent<NetworkObject>(out var networkObject))
+                if (player.TryGetComponent<PlayerRoot>(out var playerTargetRoot))
                 {
-                    if (networkObject.OwnerClientId == shooterClientId)
+                    if (playerTargetRoot.OwnerClientId == shooterClientId)
                     {
-                        Debug.Log("Self-shoot");
+                        if (playerTargetRoot.IsCharacterBot()) Debug.Log($"Shoot bot#{playerTargetRoot.GetBotID()}");
+                        else Debug.Log("Self-shoot");
                         return;
                     }
 
@@ -123,7 +124,7 @@ public class PlayerShoot : PlayerBehaviour
                     {
                         player.GetComponent<PlayerTakeDamage>().TakeDamage(
                             damage,
-                            networkObject.OwnerClientId,
+                            playerTargetRoot.OwnerClientId,
                             shooterClientId
                         );
 

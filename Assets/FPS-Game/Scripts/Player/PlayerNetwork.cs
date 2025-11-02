@@ -26,13 +26,16 @@ public class PlayerNetwork : PlayerBehaviour
         base.InitializeOnNetworkSpawn();
         if (IsOwner)
         {
-            if (IsServer && gameObject.name == "Bot")
+            if (IsServer && gameObject.name.Contains("Bot"))
             {
+                string botID = gameObject.name.Replace("Bot#", ""); // Xóa tiền tố "Bot#"
                 PlayerRoot.SetIsCharacterBot(true);
+                PlayerRoot.BotID.Value = botID;
+                Debug.Log($"Bot id: {PlayerRoot.GetBotID()}");
             }
 
             EnableScripts();
-            if (gameObject.name != "Bot" || !PlayerRoot.IsCharacterBot())
+            if (!PlayerRoot.IsCharacterBot())
             {
                 MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
                 PlayerRoot.PlayerModel.ChangeModelVisibility(false);
@@ -59,7 +62,7 @@ public class PlayerNetwork : PlayerBehaviour
         if (IsOwner)
         {
             StartCoroutine(SpawnRandom());
-            if (gameObject.name != "Bot") SetCinemachineVirtualCamera();
+            if (!gameObject.name.Contains("Bot")) SetCinemachineVirtualCamera();
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mono.CSharp;
 using PlayerAssets;
+using Unity.Collections;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using UnityEngine;
@@ -153,6 +154,7 @@ public class PlayerRoot : NetworkBehaviour
 
     public PlayerEvents Events { get; private set; }
     public NetworkVariable<bool> IsBot = new();
+    public NetworkVariable<FixedString32Bytes> BotID = new();
     public void SetIsCharacterBot(bool b)
     {
         if (!IsServer)
@@ -163,6 +165,7 @@ public class PlayerRoot : NetworkBehaviour
         IsBot.Value = b;
     }
     public bool IsCharacterBot() { return IsBot.Value; }
+    public string GetBotID() { return BotID.Value.ToString(); }
     void Awake()
     {
         ReferenceAssignment();
