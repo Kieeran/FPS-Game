@@ -227,7 +227,7 @@ public class Explosives : PlayerBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
 
         if (_supplyLoad.IsMagazineEmpty()) return;
         if (PlayerRoot.PlayerReload.GetIsReloading()) return;

@@ -4,9 +4,8 @@ using System;
 
 public class PlayerTakeDamage : PlayerBehaviour
 {
-    [HideInInspector]
     public NetworkVariable<float> HP = new(1);
-    public bool IsPlayerDead = false;
+    public bool IsPlayerDead() { return HP.Value <= 0; }
 
     // OnNetworkSpawn
     public override int PriorityNetwork => 15;
@@ -14,28 +13,38 @@ public class PlayerTakeDamage : PlayerBehaviour
     {
         base.InitializeOnNetworkSpawn();
         HP.OnValueChanged += OnHPChanged;
+        PlayerRoot.Events.OnPlayerRespawn += OnPlayerRespawn;
     }
 
     private void OnHPChanged(float previous, float current)
     {
         if (previous == current) return;
 
-        if (IsOwner)
+        if (IsOwner && !PlayerRoot.IsCharacterBot())
             PlayerRoot.PlayerUI.CurrentPlayerCanvas.HealthBar.UpdatePlayerHealthBar(current);
-
-        if (previous == 0) IsPlayerDead = false;
 
         if (current == 0)
         {
-            IsPlayerDead = true;
             PlayerRoot.Events.InvokeOnPlayerDead();
             InGameManager.Instance.GenerateHealthPickup.DropHealthPickup(transform.position);
         }
     }
 
-    public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID)
+    void OnPlayerRespawn()
     {
-        ChangeHPServerRpc(damage, targetClientId, ownerPlayerID);
+        ResetPlayerHP_ServerRpc(OwnerClientId);
+    }
+
+    public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID, bool forBot = false)
+    {
+        if (forBot)
+        {
+            ChangeHPForBot_ServerRpc(damage, targetClientId, ownerPlayerID);
+        }
+        else
+        {
+            ChangeHPServerRpc(damage, targetClientId, ownerPlayerID);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -63,6 +72,26 @@ public class PlayerTakeDamage : PlayerBehaviour
         }
 
         PlayerRoot.PlayerUI.AddTakeDamageEffect(damage, targetClientId);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeHPForBot_ServerRpc(float damage, ulong targetID, ulong ownerId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetID, out var botObj))
+        {
+            Debug.Log($"Tìm thấy object: {botObj.name}");
+            if (botObj.TryGetComponent<PlayerRoot>(out var botRoot))
+            {
+                if (botRoot.PlayerTakeDamage.HP.Value == 0) return;
+
+                botRoot.PlayerTakeDamage.HP.Value -= damage;
+                if (botRoot.PlayerTakeDamage.HP.Value < 0)
+                {
+                    botRoot.PlayerNetwork.DeathCount.Value += 1;
+                    botRoot.PlayerTakeDamage.HP.Value = 0;
+                }
+            }
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]

@@ -45,7 +45,7 @@ public class Melees : PlayerBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
         if (_isAttacking) return;
 
         if (PlayerRoot.PlayerAssetsInputs.shoot && _currentSlashType == "")

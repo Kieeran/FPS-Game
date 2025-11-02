@@ -86,7 +86,7 @@ public class WeaponHolder : PlayerBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
 
         if (PlayerRoot.PlayerAssetsInputs.hotkey1)
         {

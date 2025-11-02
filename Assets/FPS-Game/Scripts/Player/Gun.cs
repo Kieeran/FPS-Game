@@ -338,7 +338,7 @@ public class Gun : PlayerBehaviour
         //isReload = PlayerInput.Instance.GetIsReloaded();
 
         if (IsOwner == false) return;
-        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
 
         Shoot();
         Aim();

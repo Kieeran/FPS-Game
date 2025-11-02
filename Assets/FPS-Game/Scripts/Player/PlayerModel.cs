@@ -67,6 +67,7 @@ public class PlayerModel : PlayerBehaviour
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         PlayerAni.Animator.applyRootMotion = false;
 
-        ChangeModelVisibility(false);
+        if (!PlayerRoot.IsCharacterBot())
+            ChangeModelVisibility(false);
     }
 }

@@ -39,6 +39,8 @@ public class PlayerNetwork : PlayerBehaviour
             {
                 MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
                 PlayerRoot.PlayerModel.ChangeModelVisibility(false);
+
+                gameObject.name += " Local";
             }
             PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
         }
@@ -220,7 +222,8 @@ public class PlayerNetwork : PlayerBehaviour
         PlayerRoot.CharacterController.enabled = true;
         PlayerRoot.PlayerController.enabled = true;
 
-        PlayerRoot.PlayerUI.CurrentPlayerCanvas.HitEffect.ResetHitEffect();
+        if (!PlayerRoot.IsCharacterBot())
+            PlayerRoot.PlayerUI.CurrentPlayerCanvas.HitEffect.ResetHitEffect();
     }
 
     void EnableInterpolation()
@@ -228,8 +231,6 @@ public class PlayerNetwork : PlayerBehaviour
         if (PlayerRoot.ClientNetworkTransform != null)
         {
             PlayerRoot.ClientNetworkTransform.Interpolate = true;
-
-            PlayerRoot.PlayerTakeDamage.ResetPlayerHP_ServerRpc(OwnerClientId);
         }
     }
 
@@ -250,7 +251,8 @@ public class PlayerNetwork : PlayerBehaviour
 
     void DeadAnimation()
     {
-        RemoveCinemachineVirtualCamera();
+        if (!PlayerRoot.IsCharacterBot())
+            RemoveCinemachineVirtualCamera();
 
         PlayerRoot.PlayerModel.OnPlayerDie();
         PlayerRoot.WeaponHolder.DropWeapon();
@@ -261,7 +263,8 @@ public class PlayerNetwork : PlayerBehaviour
     void Respawn()
     {
         PlayerRoot.WeaponHolder.ResetWeaponHolder();
-        SetCinemachineVirtualCamera();
+        if (!PlayerRoot.IsCharacterBot())
+            SetCinemachineVirtualCamera();
         PlayerRoot.Events.InvokeOnPlayerRespawn();
     }
 

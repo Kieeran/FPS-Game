@@ -13,7 +13,7 @@ public class PlayerAnimation : PlayerBehaviour
 
         if (!IsOwner) return;
         Animator = GetComponent<Animator>();
-
+        if (PlayerRoot.IsCharacterBot()) return;
         PlayerRoot.Events.OnPlayerDead += () =>
         {
             UpdateRigBuilder_ServerRPC(false);
