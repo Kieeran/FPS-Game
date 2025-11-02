@@ -22,7 +22,7 @@ public class PlayerUI : PlayerBehaviour
     {
         base.InitializeOnNetworkSpawn();
         if (!IsOwner) return;
-        if (PlayerRoot.IsBot.Value) return;
+        if (PlayerRoot.IsCharacterBot()) return;
         CurrentPlayerCanvas = Instantiate(_playerCanvas);
 
         PlayerRoot.Events.OnQuitGame += QuitGame;
@@ -67,7 +67,7 @@ public class PlayerUI : PlayerBehaviour
     {
         base.OnInGameManagerReady(manager);
 
-        if (IsOwner && !PlayerRoot.IsBot.Value) manager.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
+        if (IsOwner && !PlayerRoot.IsCharacterBot()) manager.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
 
         manager.OnReceivedPlayerInfo += (playerInfos) =>
         {

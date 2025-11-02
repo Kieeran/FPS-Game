@@ -28,11 +28,11 @@ public class PlayerNetwork : PlayerBehaviour
         {
             if (IsServer && gameObject.name == "Bot")
             {
-                PlayerRoot.IsBot.Value = true;
+                PlayerRoot.SetIsCharacterBot(true);
             }
 
             EnableScripts();
-            if (gameObject.name != "Bot" || !PlayerRoot.IsBot.Value)
+            if (gameObject.name != "Bot" || !PlayerRoot.IsCharacterBot())
             {
                 MappingValues_ServerRpc(AuthenticationService.Instance.PlayerId, OwnerClientId);
                 PlayerRoot.PlayerModel.ChangeModelVisibility(false);
@@ -41,7 +41,7 @@ public class PlayerNetwork : PlayerBehaviour
         }
         else
         {
-            if (PlayerRoot.IsBot.Value)
+            if (PlayerRoot.IsCharacterBot())
             {
                 SyncBotNetwork();
             }
@@ -268,7 +268,7 @@ public class PlayerNetwork : PlayerBehaviour
         PlayerRoot.PlayerController.enabled = true;
         PlayerRoot.PlayerShoot.enabled = true;
 
-        if (!PlayerRoot.IsBot.Value)
+        if (!PlayerRoot.IsCharacterBot())
         {
             PlayerRoot.PlayerInput.enabled = true;
             PlayerRoot.PlayerUI.enabled = true;

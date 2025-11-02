@@ -109,7 +109,7 @@ public class PlayerInventory : PlayerBehaviour
 
     void SetAmmoInfoUI()
     {
-        if (PlayerRoot.IsBot.Value) return;
+        if (PlayerRoot.IsCharacterBot()) return;
         PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.SetAmmoInfoUI(
             _currentWeaponSupplyLoad.CurrentMagazineAmmo,
             _currentWeaponSupplyLoad.TotalSupplies

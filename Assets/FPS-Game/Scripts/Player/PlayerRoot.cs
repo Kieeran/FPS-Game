@@ -153,6 +153,16 @@ public class PlayerRoot : NetworkBehaviour
 
     public PlayerEvents Events { get; private set; }
     public NetworkVariable<bool> IsBot = new();
+    public void SetIsCharacterBot(bool b)
+    {
+        if (!IsServer)
+        {
+            Debug.Log("Không phải server/host, không thể chuyển trạng thái IsBot");
+            return;
+        }
+        IsBot.Value = b;
+    }
+    public bool IsCharacterBot() { return IsBot.Value; }
     void Awake()
     {
         ReferenceAssignment();

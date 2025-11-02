@@ -52,7 +52,7 @@ public class WeaponHolder : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
-        if (IsOwner & IsLocalPlayer && !PlayerRoot.IsBot.Value)
+        if (IsOwner & IsLocalPlayer && !PlayerRoot.IsCharacterBot())
         {
             Vector3 localScale = new(1.6f, 1.6f, 1.6f);
 
@@ -143,7 +143,7 @@ public class WeaponHolder : PlayerBehaviour
     {
         PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon(), gunType);
         RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
-        if (!PlayerRoot.IsBot.Value && PlayerRoot.PlayerUI != null)
+        if (!PlayerRoot.IsCharacterBot() && PlayerRoot.PlayerUI != null)
         {
             PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
         }

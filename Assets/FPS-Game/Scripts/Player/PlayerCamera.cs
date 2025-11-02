@@ -17,7 +17,7 @@ public class PlayerCamera : PlayerBehaviour
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
-        if (PlayerRoot.IsBot.Value) return;
+        if (PlayerRoot.IsCharacterBot()) return;
 
         _isAim = false;
         _isUnAim = false;
