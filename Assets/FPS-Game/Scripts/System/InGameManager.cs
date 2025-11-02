@@ -77,6 +77,7 @@ public class InGameManager : NetworkBehaviour
     public KillCountChecker KillCountChecker { get; private set; }
     public GenerateHealthPickup GenerateHealthPickup { get; private set; }
     public LobbyRelayChecker LobbyRelayChecker { get; private set; }
+    public HandleSpawnBot HandleSpawnBot { get; private set; }
 
     public System.Action OnGameEnd;
 
@@ -104,6 +105,7 @@ public class InGameManager : NetworkBehaviour
         KillCountChecker = GetComponent<KillCountChecker>();
         GenerateHealthPickup = GetComponent<GenerateHealthPickup>();
         LobbyRelayChecker = GetComponent<LobbyRelayChecker>();
+        HandleSpawnBot = GetComponent<HandleSpawnBot>();
 
         OnGameEnd += () =>
         {

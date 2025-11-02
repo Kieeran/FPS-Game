@@ -6,11 +6,20 @@ using UnityEngine;
 public class HandleSpawnBot : NetworkBehaviour
 {
     [SerializeField] PlayerNetwork botPrefab;
-    public Dictionary<PlayerRoot, string> BotLists { get; private set; }
+    public Dictionary<string, NetworkObject> BotList { get; private set; }
+    public NetworkObject GetBotNetworkObjectByID(string id)
+    {
+        if (BotList == null)
+        {
+            Debug.Log("BotList null");
+            return null;
+        }
+        return BotList[id];
+    }
 
     public override void OnNetworkSpawn()
     {
-        BotLists = new();
+        BotList = new();
         SpawnAllBots();
     }
 
@@ -41,7 +50,7 @@ public class HandleSpawnBot : NetworkBehaviour
         Debug.Log($"SpawnBot(): NetworkManager={NetworkManager.Singleton != null}, Parent={playerNetwork.transform.parent}, HasNetworkTransform={playerNetwork.GetComponent<NetworkObject>() != null}");
         playerNetwork.GetComponent<NetworkObject>().Spawn();
 
-        BotLists.Add(playerNetwork.GetPlayerRoot(), id);
+        BotList.Add(id, playerNetwork.GetComponent<NetworkObject>());
     }
 
     List<string> GenerateUnique4DigitIDs(int count)
