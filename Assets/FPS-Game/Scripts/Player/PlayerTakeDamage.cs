@@ -15,7 +15,8 @@ public class PlayerTakeDamage : PlayerBehaviour
         HP.OnValueChanged += OnHPChanged;
         PlayerRoot.Events.OnPlayerRespawn += OnPlayerRespawn;
     }
-
+    
+    // OnHPChanged được chạy ở local, HP được tự động cập nhật
     private void OnHPChanged(float previous, float current)
     {
         if (previous == current) return;
@@ -30,8 +31,14 @@ public class PlayerTakeDamage : PlayerBehaviour
         }
     }
 
+    // Local
     void OnPlayerRespawn()
     {
+        if (PlayerRoot.IsCharacterBot())
+        {
+            ResetPlayerHP_ServerRpc(NetworkObjectId, true);
+            return;
+        }
         ResetPlayerHP_ServerRpc(OwnerClientId);
     }
 
@@ -74,6 +81,7 @@ public class PlayerTakeDamage : PlayerBehaviour
         PlayerRoot.PlayerUI.AddTakeDamageEffect(damage, targetClientId);
     }
 
+    // Cập nhật HP của bot (bot ở đây được xem như một networkObj thay vì playerObj)
     [ServerRpc(RequireOwnership = false)]
     public void ChangeHPForBot_ServerRpc(float damage, ulong targetID, ulong ownerId)
     {
@@ -95,9 +103,18 @@ public class PlayerTakeDamage : PlayerBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ResetPlayerHP_ServerRpc(ulong ownerClientId)
+    public void ResetPlayerHP_ServerRpc(ulong id, bool isBot = false)
     {
-        var ownerPlayer = NetworkManager.Singleton.ConnectedClients[ownerClientId].PlayerObject;
+        if (isBot)
+        {
+            var botPlayer = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id];
+            if (botPlayer.TryGetComponent<PlayerTakeDamage>(out var botHealth))
+            {
+                botHealth.HP.Value = 1;
+                return;
+            }
+        }
+        var ownerPlayer = NetworkManager.Singleton.ConnectedClients[id].PlayerObject;
         if (ownerPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
         {
             targetHealth.HP.Value = 1;

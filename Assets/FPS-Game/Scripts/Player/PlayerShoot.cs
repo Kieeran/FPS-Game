@@ -63,6 +63,7 @@ public class PlayerShoot : PlayerBehaviour
         };
     }
 
+    // Local
     public void Shoot(float spreadAngle, GunType gunType)
     {
         Vector2 screenCenterPoint = new(Screen.width / 2f, Screen.height / 2f);
@@ -71,6 +72,7 @@ public class PlayerShoot : PlayerBehaviour
         HandleServerShoot_ServerRPC(ray.origin, ray.direction, spreadAngle, gunType, OwnerClientId);
     }
 
+    // HandleServerShoot_ServerRPC xử lí tín hiệu bắn và xét xem có bắn trúng mục tiêu nào hay không, nếu có thì gọi tới hàm TakeDamage (server) 
     [ServerRpc(RequireOwnership = false)]
     public void HandleServerShoot_ServerRPC(
         Vector3 point,
@@ -121,6 +123,8 @@ public class PlayerShoot : PlayerBehaviour
 
                     if (damage > 0)
                     {
+                        // Nếu bắn trúng bot thì lấy NetworkObjectId của bot, còn nếu bắn trong player khác thì lấy OwnerClientId
+                        // shooterClientId lấy như bình thường (trong tương lai thêm logic điều khiển bot sẽ có TH bot bắn trúng player khác)
                         player.GetComponent<PlayerTakeDamage>().TakeDamage(
                             damage,
                             playerTargetRoot.IsCharacterBot() ?

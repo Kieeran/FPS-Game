@@ -239,6 +239,7 @@ public class PlayerNetwork : PlayerBehaviour
         SetRandomPos_ServerRpc(OwnerClientId);
     }
 
+    // Hàm được gọi khi event OnPlayerDead được kích hoạt ở local (có được từ tín hiệu ở hàm OnHPChanged được cập nhật tự động từ mạng)
     void OnPlayerDead()
     {
         PlayerRoot.CharacterController.enabled = false;

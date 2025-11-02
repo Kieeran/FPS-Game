@@ -74,11 +74,13 @@ public class PlayerEvents
 
     public void InvokeOnPlayerRespawn()
     {
+        // Event được kích hoạt ở local
         OnPlayerRespawn?.Invoke();
     }
 
     public void InvokeOnPlayerDead()
     {
+        // Event được kích hoạt ở local
         OnPlayerDead?.Invoke();
     }
 
