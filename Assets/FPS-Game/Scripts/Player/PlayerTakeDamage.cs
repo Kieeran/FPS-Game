@@ -93,7 +93,7 @@ public class PlayerTakeDamage : PlayerBehaviour
                 if (botRoot.PlayerTakeDamage.HP.Value == 0) return;
 
                 botRoot.PlayerTakeDamage.HP.Value -= damage;
-                if (botRoot.PlayerTakeDamage.HP.Value < 0)
+                if (botRoot.PlayerTakeDamage.HP.Value <= 0)
                 {
                     botRoot.PlayerNetwork.DeathCount.Value += 1;
                     botRoot.PlayerTakeDamage.HP.Value = 0;

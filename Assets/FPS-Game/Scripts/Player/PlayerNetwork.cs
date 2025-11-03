@@ -10,11 +10,8 @@ using Unity.Collections;
 
 public class PlayerNetwork : PlayerBehaviour
 {
-    [HideInInspector]
     public string playerName = "Playername";
-    [HideInInspector]
     public NetworkVariable<int> KillCount = new(0);
-    [HideInInspector]
     public NetworkVariable<int> DeathCount = new(0);
 
     public float RespawnDelay;
