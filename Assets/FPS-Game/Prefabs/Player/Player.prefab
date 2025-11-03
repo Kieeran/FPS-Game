@@ -1666,7 +1666,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 2849443147055145248}
-  Melees: {fileID: 2144477545034913600}
 --- !u!1 &744962520749373115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4320,7 +4319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
@@ -4410,7 +4408,7 @@ GameObject:
   - component: {fileID: 6928678171669489212}
   m_Layer: 0
   m_Name: WeaponHolder
-  m_TagString: Untagged
+  m_TagString: WeaponHolder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5417,7 +5415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef062f4470e15c744a599ab8f5385208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponHolder: {fileID: 1571463807456523207}
   _weaponPoseNetworkSO:
   - {fileID: 11400000, guid: 6871f515ae15365449d75e9543228958, type: 2}
   - {fileID: 11400000, guid: acf57636e9d3fe14695495be8f7a790f, type: 2}
@@ -5772,7 +5769,6 @@ GameObject:
   - component: {fileID: 1886828829561383244}
   - component: {fileID: 7620230814923784887}
   - component: {fileID: 8825461602749307418}
-  - component: {fileID: 8666745650573169781}
   - component: {fileID: 8364144675361279868}
   m_Layer: 8
   m_Name: Player
@@ -5818,7 +5814,7 @@ MonoBehaviour:
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
+  AutoObjectParentSync: 0
 --- !u!114 &5786631840013576090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5831,8 +5827,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f933b6324320d1348a3961be600848d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponHolder: {fileID: 1571463807456523207}
-  _playerModel: {fileID: 140835691155244661}
+  IsBot:
+    m_InternalValue: 0
+  BotID:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
 --- !u!114 &411114129890139701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5985,7 +6016,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP:
     m_InternalValue: 1
-  IsPlayerDead: 0
 --- !u!114 &6360967479396315239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6154,61 +6184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4b137cafd8a614eb9cbf24d6520152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8666745650573169781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3086927271415625819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cca18b1aff5bb3e498b69d39cea4db5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interpolationBackTime: 0.1
-  extrapolationMode: 1
-  useExtrapolationTimeLimit: 1
-  extrapolationTimeLimit: 5
-  useExtrapolationDistanceLimit: 0
-  extrapolationDistanceLimit: 20
-  sendPositionThreshold: 0
-  sendRotationThreshold: 0
-  sendScaleThreshold: 0
-  sendVelocityThreshold: 0
-  sendAngularVelocityThreshold: 0
-  receivedPositionThreshold: 0
-  receivedRotationThreshold: 0
-  snapPositionThreshold: 0
-  snapRotationThreshold: 0
-  snapScaleThreshold: 0
-  positionLerpSpeed: 0.85
-  rotationLerpSpeed: 0.85
-  scaleLerpSpeed: 0.85
-  timeCorrectionSpeed: 0.1
-  snapTimeThreshold: 3
-  syncPosition: 0
-  syncRotation: 5
-  syncScale: 0
-  syncVelocity: 0
-  syncAngularVelocity: 0
-  isPositionCompressed: 0
-  isRotationCompressed: 0
-  isScaleCompressed: 0
-  isVelocityCompressed: 0
-  isAngularVelocityCompressed: 0
-  automaticallyResetTime: 1
-  isSmoothingAuthorityChanges: 0
-  transformSource: 0
-  whenToUpdateTransform: 0
-  sendRate: 30
-  networkChannel: 
-  childObjectToSync: {fileID: 0}
-  setVelocityInsteadOfPositionOnNonOwners: 0
-  maxPositionDifferenceForVelocitySyncing: 10
-  useLocalTransformOnly: 0
-  ownerChangeIndicator: 1
-  receivedStatesCounter: 0
 --- !u!114 &8364144675361279868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9809,7 +9784,7 @@ GameObject:
   - component: {fileID: 1604434602729957443}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: PlayerModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9845,7 +9820,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 380bc70b52e77c1448fcdbb49ecf8700, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -9910,7 +9885,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd40b9c3686677b44bfdb78ed2cf3321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   RigBuilder: {fileID: 1604434602729957443}
 --- !u!114 &140835691155244661
 MonoBehaviour:
@@ -9927,6 +9901,8 @@ MonoBehaviour:
   modelParts:
   - {fileID: 9220390883198135289}
   - {fileID: 4875256444284696006}
+  RigBuilder: {fileID: 1604434602729957443}
+  BoneRenderer: {fileID: 5155779462957209349}
 --- !u!114 &5155779462957209349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10285,7 +10261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
@@ -11817,7 +11792,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
@@ -12284,7 +12258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4
@@ -12659,7 +12632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e141c5e32f3e469697bcd662fabc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerRoot: {fileID: 5786631840013576090}
   Step: 0.1
   MaxStepDistance: 0.5
   RotationStep: 4

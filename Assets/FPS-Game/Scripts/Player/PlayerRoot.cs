@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mono.CSharp;
 using PlayerAssets;
+using Unity.Collections;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-/// <summary>
-/// Priority = 1000 => không ảnh hưởng bởi thứ tự ưu tiên
-/// </summary>
 
 public interface IInitAwake
 {
@@ -29,8 +27,113 @@ public interface IInitNetwork
     void InitializeOnNetworkSpawn();
 }
 
+public class PlayerEvents
+{
+    public class WeaponEventArgs : EventArgs
+    {
+        public GameObject CurrentWeapon;
+        public GunType GunType;
+    }
+
+    #region Events
+    public event Action<bool> OnAimStateChanged;
+    public event EventHandler<WeaponEventArgs> OnWeaponChanged;
+    public event Action OnPlayerRespawn;
+    public event Action OnPlayerDead;
+    public event Action ToggleEscapeUI;
+    public event Action OnReload;
+    public event Action OnCollectedHealthPickup;
+
+    public event Action OnLeftSlash_1;
+    public event Action OnLeftSlash_2;
+    public event Action OnRightSlash;
+    public event Action OnDoneSlash;
+    public event Action OnCheckSlashHit;
+
+    public event Action OnQuitGame;
+    #endregion
+
+    #region Invoke Events
+    /// <summary>
+    /// true = đang ngắm, false = thôi ngắm
+    /// </summary>
+    /// <param name="isAiming"></param>
+    public void InvokeAimStateChanged(bool isAiming)
+    {
+        OnAimStateChanged?.Invoke(isAiming);
+    }
+
+    public void InvokeWeaponChanged(GameObject currentWeapon, GunType gunType)
+    {
+        OnWeaponChanged?.Invoke(this, new WeaponEventArgs
+        {
+            CurrentWeapon = currentWeapon,
+            GunType = gunType
+        });
+    }
+
+    public void InvokeOnPlayerRespawn()
+    {
+        // Event được kích hoạt ở local
+        OnPlayerRespawn?.Invoke();
+    }
+
+    public void InvokeOnPlayerDead()
+    {
+        // Event được kích hoạt ở local
+        OnPlayerDead?.Invoke();
+    }
+
+    public void InvokeToggleEscapeUI()
+    {
+        ToggleEscapeUI?.Invoke();
+    }
+
+    public void InvokeOnReload()
+    {
+        OnReload?.Invoke();
+    }
+
+    public void InvokeOnCollectedHealthPickup()
+    {
+        OnCollectedHealthPickup?.Invoke();
+    }
+
+    public void InvokeOnLeftSlash_1()
+    {
+        OnLeftSlash_1?.Invoke();
+    }
+
+    public void InvokeOnLeftSlash_2()
+    {
+        OnLeftSlash_2?.Invoke();
+    }
+
+    public void InvokeOnRightSlash()
+    {
+        OnRightSlash?.Invoke();
+    }
+
+    public void InvokeOnDoneSlash()
+    {
+        OnDoneSlash?.Invoke();
+    }
+
+    public void InvokeOnCheckSlashHit()
+    {
+        OnCheckSlashHit?.Invoke();
+    }
+
+    public void InvokeOnQuitGame()
+    {
+        OnQuitGame?.Invoke();
+    }
+    #endregion
+}
+
 public class PlayerRoot : NetworkBehaviour
 {
+    #region References
     public ClientNetworkTransform ClientNetworkTransform { get; private set; }
     public PlayerInput PlayerInput { get; private set; }
     public CharacterController CharacterController { get; private set; }
@@ -49,32 +152,26 @@ public class PlayerRoot : NetworkBehaviour
     public PlayerLook PlayerLook { get; private set; }
     public PlayerModel PlayerModel { get; private set; }
     public WeaponHolder WeaponHolder { get; private set; }
+    #endregion
 
-    [SerializeField] WeaponHolder _weaponHolder;
-    [SerializeField] PlayerModel _playerModel;
-
+    public PlayerEvents Events { get; private set; }
+    public NetworkVariable<bool> IsBot = new();
+    public NetworkVariable<FixedString32Bytes> BotID = new();
+    public void SetIsCharacterBot(bool b)
+    {
+        if (!IsServer)
+        {
+            Debug.Log("Không phải server/host, không thể chuyển trạng thái IsBot");
+            return;
+        }
+        IsBot.Value = b;
+    }
+    public bool IsCharacterBot() { return IsBot.Value; }
+    public string GetBotID() { return BotID.Value.ToString(); }
     void Awake()
     {
-        ClientNetworkTransform = GetComponent<ClientNetworkTransform>();
-        PlayerInput = GetComponent<PlayerInput>();
-        CharacterController = GetComponent<CharacterController>();
-        PlayerNetwork = GetComponent<PlayerNetwork>();
-        PlayerAssetsInputs = GetComponent<PlayerAssetsInputs>();
-        PlayerTakeDamage = GetComponent<PlayerTakeDamage>();
-        PlayerShoot = GetComponent<PlayerShoot>();
-        PlayerController = GetComponent<PlayerController>();
-        PlayerUI = GetComponent<PlayerUI>();
-        PlayerInteract = GetComponent<PlayerInteract>();
-        PlayerInventory = GetComponent<PlayerInventory>();
-        PlayerReload = GetComponent<PlayerReload>();
-        PlayerAim = GetComponent<PlayerAim>();
-        PlayerCamera = GetComponent<PlayerCamera>();
-        PlayerCollision = GetComponent<PlayerCollision>();
-        PlayerLook = GetComponent<PlayerLook>();
-
-        WeaponHolder = _weaponHolder;
-        PlayerModel = _playerModel;
-
+        ReferenceAssignment();
+        Events = new PlayerEvents();
         InitAwake(gameObject);
     }
 
@@ -86,6 +183,59 @@ public class PlayerRoot : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         InitOnNetworkSpawn(gameObject);
+    }
+
+    GameObject FindChildWithTag(Transform parent, string tag)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.CompareTag(tag))
+                return child.gameObject;
+
+            // Nếu không phải, tìm trong con của con
+            var found = FindChildWithTag(child, tag);
+            if (found != null)
+                return found;
+        }
+        return null;
+    }
+
+    void ReferenceAssignment()
+    {
+        if (TryGetComponent<ClientNetworkTransform>(out var clientNetworkTransform)) ClientNetworkTransform = clientNetworkTransform;
+        if (TryGetComponent<PlayerInput>(out var playerInput)) PlayerInput = playerInput;
+        if (TryGetComponent<CharacterController>(out var characterController)) CharacterController = characterController;
+        if (TryGetComponent<PlayerNetwork>(out var playerNetwork)) PlayerNetwork = playerNetwork;
+        if (TryGetComponent<PlayerAssetsInputs>(out var playerAssetsInputs)) PlayerAssetsInputs = playerAssetsInputs;
+        if (TryGetComponent<PlayerTakeDamage>(out var playerTakeDamage)) PlayerTakeDamage = playerTakeDamage;
+        if (TryGetComponent<PlayerShoot>(out var playerShoot)) PlayerShoot = playerShoot;
+        if (TryGetComponent<PlayerController>(out var playerController)) PlayerController = playerController;
+        if (TryGetComponent<PlayerUI>(out var playerUI)) PlayerUI = playerUI;
+        if (TryGetComponent<PlayerInteract>(out var playerInteract)) PlayerInteract = playerInteract;
+        if (TryGetComponent<PlayerInventory>(out var playerInventory)) PlayerInventory = playerInventory;
+        if (TryGetComponent<PlayerReload>(out var playerReload)) PlayerReload = playerReload;
+        if (TryGetComponent<PlayerAim>(out var playerAim)) PlayerAim = playerAim;
+        if (TryGetComponent<PlayerCamera>(out var playerCamera)) PlayerCamera = playerCamera;
+        if (TryGetComponent<PlayerCollision>(out var playerCollision)) PlayerCollision = playerCollision;
+        if (TryGetComponent<PlayerLook>(out var playerLook)) PlayerLook = playerLook;
+
+        if (FindChildWithTag(transform, "WeaponHolder") != null)
+        {
+            if (FindChildWithTag(transform, "WeaponHolder").TryGetComponent<WeaponHolder>(out var weaponHolder)) WeaponHolder = weaponHolder;
+        }
+        else
+        {
+            Debug.Log("Không tìm được WeaponHolder Object");
+        }
+
+        if (FindChildWithTag(transform, "PlayerModel") != null)
+        {
+            if (FindChildWithTag(transform, "PlayerModel").TryGetComponent<PlayerModel>(out var playerModel)) PlayerModel = playerModel;
+        }
+        else
+        {
+            Debug.Log("Không tìm được PlayerModel Object");
+        }
     }
 
     void InitByPriorityInRootInterface<TInterface, TPriority>(
@@ -130,6 +280,11 @@ public class PlayerRoot : NetworkBehaviour
             x => x.InitializeOnNetworkSpawn()
         );
     }
+
+
+    /// <summary>
+    /// Priority = 1000 => không ảnh hưởng bởi thứ tự ưu tiên
+    /// </summary>
 
     // // Awake
     // public int PriorityAwake => -1;

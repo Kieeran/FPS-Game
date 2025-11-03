@@ -1,16 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scoreboard : MonoBehaviour
+public class Scoreboard : MonoBehaviour, IWaitForInGameManager
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] GameObject playerScoreboardItem;
     [SerializeField] Transform playerScoreboardList;
 
     void Awake()
     {
-        InGameManager.Instance.OnReceivedPlayerInfo += DisplayPlayerScoreboard;
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+        StartCoroutine(InGameManagerWaiter.WaitForInGameManager(this));
         gameObject.SetActive(false);
     }
 
@@ -39,5 +37,10 @@ public class Scoreboard : MonoBehaviour
             if (child.gameObject.activeSelf)
                 Destroy(child.gameObject);
         }
+    }
+
+    public void OnInGameManagerReady(InGameManager manager)
+    {
+        manager.OnReceivedPlayerInfo += DisplayPlayerScoreboard;
     }
 }

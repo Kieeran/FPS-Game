@@ -2,6 +2,7 @@ using UnityEngine;
 using Cinemachine;
 using System.Collections.Generic;
 using Unity.Netcode;
+using System.Collections;
 
 public struct PlayerInfo
 {
@@ -19,21 +20,67 @@ public struct PlayerInfo
     }
 }
 
+public interface IWaitForInGameManager
+{
+    /// <summary>
+    /// Được gọi khi InGameManager.Instance đã sẵn sàng.
+    /// </summary>
+    /// <param name="manager">Instance của InGameManager.</param>
+    void OnInGameManagerReady(InGameManager manager);
+}
+
+public static class InGameManagerWaiter
+{
+    /// <summary>
+    /// Gọi hàm callback khi InGameManager.Instance đã sẵn sàng.
+    /// </summary>
+    public static IEnumerator WaitForInGameManager(IWaitForInGameManager listener)
+    {
+        // Nếu đã có sẵn instance, gọi ngay.
+        if (InGameManager.Instance != null)
+        {
+            listener.OnInGameManagerReady(InGameManager.Instance);
+            yield break;
+        }
+
+        // Nếu chưa có, thì chờ sự kiện hoặc coroutine đợi.
+        bool done = false;
+
+        void Handler()
+        {
+            listener.OnInGameManagerReady(InGameManager.Instance);
+            done = true;
+            InGameManager.OnManagerReady -= Handler;
+        }
+
+        InGameManager.OnManagerReady += Handler;
+
+        // Chờ đến khi handler được gọi (hoặc Instance có sẵn)
+        yield return new WaitUntil(() => done == true || InGameManager.Instance != null);
+    }
+}
+
 public class InGameManager : NetworkBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera _cinemachineVirtualCamera;
-    [SerializeField] Transform _spawnPositions;
-
     public static InGameManager Instance { get; private set; }
-    public CinemachineVirtualCamera GetCinemachineVirtualCamera() { return _cinemachineVirtualCamera; }
-    public List<SpawnPosition> SpawnPositionsList { get; private set; }
+    [SerializeField] GameObject _playerFollowCamera;
+    [SerializeField] GameObject _playerCamera;
+    public CinemachineVirtualCamera PlayerFollowCamera { get; private set; }
+    public GameObject PlayerCamera { get; private set; }
+
+    public static event System.Action OnManagerReady;
+
     public TimePhaseCounter TimePhaseCounter { get; private set; }
     public KillCountChecker KillCountChecker { get; private set; }
     public GenerateHealthPickup GenerateHealthPickup { get; private set; }
+    public LobbyRelayChecker LobbyRelayChecker { get; private set; }
+    public HandleSpawnBot HandleSpawnBot { get; private set; }
+    public RandomSpawn RandomSpawn { get; private set; }
 
     public System.Action OnGameEnd;
 
     public bool IsGameEnd = false;
+    [HideInInspector]
     public NetworkVariable<bool> IsTimeOut = new();
 
     public System.Action<List<PlayerInfo>> OnReceivedPlayerInfo;
@@ -47,35 +94,32 @@ public class InGameManager : NetworkBehaviour
         }
         Instance = this;
 
-        InitSpawnPositions();
+        PlayerCamera = Instantiate(_playerCamera);
+        GameObject obj = Instantiate(_playerFollowCamera);
+        PlayerFollowCamera = obj.GetComponent<CinemachineVirtualCamera>();
+
         TimePhaseCounter = GetComponent<TimePhaseCounter>();
         KillCountChecker = GetComponent<KillCountChecker>();
         GenerateHealthPickup = GetComponent<GenerateHealthPickup>();
+        LobbyRelayChecker = GetComponent<LobbyRelayChecker>();
+        HandleSpawnBot = GetComponent<HandleSpawnBot>();
+        RandomSpawn = GetComponent<RandomSpawn>();
 
         OnGameEnd += () =>
         {
             IsGameEnd = true;
         };
     }
-
-    void InitSpawnPositions()
+    public override void OnNetworkSpawn()
     {
-        SpawnPositionsList = new List<SpawnPosition>();
-        foreach (Transform child in _spawnPositions)
-        {
-            SpawnPositionsList.Add(child.GetComponent<SpawnPosition>());
-        }
+        base.OnNetworkSpawn();
+        OnManagerReady?.Invoke();
     }
 
-    public SpawnPosition GetRandomPos()
+    public override void OnNetworkDespawn()
     {
-        if (SpawnPositionsList == null || SpawnPositionsList.Count == 0)
-        {
-            Debug.LogError("SpawnPositionsList is empty!");
-            return null;
-        }
-
-        return SpawnPositionsList[Random.Range(0, SpawnPositionsList.Count)];
+        base.OnNetworkDespawn();
+        Instance = null;
     }
 
     public void GetAllPlayerInfos()

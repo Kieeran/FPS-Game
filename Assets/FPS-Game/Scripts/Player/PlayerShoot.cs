@@ -17,17 +17,14 @@ public enum GunType
     Pistol,
 }
 
-public class PlayerShoot : NetworkBehaviour, IInitAwake
+public class PlayerShoot : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     [SerializeField] GameObject _hitEffect;
     Gun _rifle, _sniper, _pistol;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = GetComponent<PlayerRoot>();
+        base.InitializeAwake();
 
         _rifle = PlayerRoot.WeaponHolder.Rifle;
         _sniper = PlayerRoot.WeaponHolder.Sniper;
@@ -66,6 +63,7 @@ public class PlayerShoot : NetworkBehaviour, IInitAwake
         };
     }
 
+    // Local
     public void Shoot(float spreadAngle, GunType gunType)
     {
         Vector2 screenCenterPoint = new(Screen.width / 2f, Screen.height / 2f);
@@ -74,6 +72,7 @@ public class PlayerShoot : NetworkBehaviour, IInitAwake
         HandleServerShoot_ServerRPC(ray.origin, ray.direction, spreadAngle, gunType, OwnerClientId);
     }
 
+    // HandleServerShoot_ServerRPC xử lí tín hiệu bắn và xét xem có bắn trúng mục tiêu nào hay không, nếu có thì gọi tới hàm TakeDamage (server) 
     [ServerRpc(RequireOwnership = false)]
     public void HandleServerShoot_ServerRPC(
         Vector3 point,
@@ -99,9 +98,9 @@ public class PlayerShoot : NetworkBehaviour, IInitAwake
 
             if (player != null)
             {
-                if (player.TryGetComponent<NetworkObject>(out var networkObject))
+                if (player.TryGetComponent<PlayerRoot>(out var playerTargetRoot))
                 {
-                    if (networkObject.OwnerClientId == shooterClientId)
+                    if (playerTargetRoot.OwnerClientId == shooterClientId && !playerTargetRoot.IsCharacterBot())
                     {
                         Debug.Log("Self-shoot");
                         return;
@@ -124,10 +123,14 @@ public class PlayerShoot : NetworkBehaviour, IInitAwake
 
                     if (damage > 0)
                     {
+                        // Nếu bắn trúng bot thì lấy NetworkObjectId của bot, còn nếu bắn trong player khác thì lấy OwnerClientId
+                        // shooterClientId lấy như bình thường (trong tương lai thêm logic điều khiển bot sẽ có TH bot bắn trúng player khác)
                         player.GetComponent<PlayerTakeDamage>().TakeDamage(
                             damage,
-                            networkObject.OwnerClientId,
-                            shooterClientId
+                            playerTargetRoot.IsCharacterBot() ?
+                                playerTargetRoot.NetworkObjectId : playerTargetRoot.OwnerClientId,
+                            shooterClientId,
+                            playerTargetRoot.IsCharacterBot()
                         );
 
                         Debug.Log($"Gun: {gunType}, damage: {damage}");

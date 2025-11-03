@@ -2,9 +2,8 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Collections;
 
-public class Gun : NetworkBehaviour
+public class Gun : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     public SwayAndBob SwayAndBob { get; private set; }
 
     SupplyLoad _supplyLoad;
@@ -52,33 +51,27 @@ public class Gun : NetworkBehaviour
 
     public float GetAimFOV() { return _aimFOV; }
 
-    void Awake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+        base.InitializeAwake();
         SwayAndBob = GetComponent<SwayAndBob>();
 
         HeadDamage = _headDamage;
         TorsoDamage = _torsoDamage;
         LegDamage = _legDamage;
-    }
 
-    void Start()
-    {
-        _supplyLoad = GetComponent<SupplyLoad>();
-    }
-
-    public override void OnNetworkSpawn()
-    {
         CurrentCoolDown = FireCoolDown;
+    }
 
-        // if (OnGunShoot == null)
-        //     OnGunShoot = new UnityEvent();
+    public override void InitializeStart()
+    {
+        base.InitializeStart();
+        _supplyLoad = GetComponent<SupplyLoad>();
     }
 
     void OnEnable()
     {
-        PlayerRoot.PlayerAim.OnAim += OnAim;
-        PlayerRoot.PlayerAim.OnUnAim += OnUnAim;
+        PlayerRoot.Events.OnAimStateChanged += HandleAimStateChanged;
 
         gunSound.spatialBlend = 1f;
         gunSound.maxDistance = 100f;
@@ -86,23 +79,24 @@ public class Gun : NetworkBehaviour
 
     void OnDisable()
     {
-        PlayerRoot.PlayerAim.OnAim -= OnAim;
-        PlayerRoot.PlayerAim.OnUnAim -= OnUnAim;
+        PlayerRoot.Events.OnAimStateChanged -= HandleAimStateChanged;
     }
 
-    void OnAim()
+    void HandleAimStateChanged(bool isAim)
     {
-        if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Aim, out var data))
+        if (isAim)
         {
-            StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+            if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Aim, out var data))
+            {
+                StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+            }
         }
-    }
-
-    void OnUnAim()
-    {
-        if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Idle, out var data))
+        else
         {
-            StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+            if (PlayerRoot.WeaponHolder.WeaponPoseLocalSOs[_gunType].TryGetPose(PlayerWeaponPose.Idle, out var data))
+            {
+                StartCoroutine(TransitionAimState(data.Position, data.EulerRotation));
+            }
         }
     }
 
@@ -344,7 +338,7 @@ public class Gun : NetworkBehaviour
         //isReload = PlayerInput.Instance.GetIsReloaded();
 
         if (IsOwner == false) return;
-        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
 
         Shoot();
         Aim();

@@ -1,8 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
-public class WeaponAnimation : NetworkBehaviour
+public class WeaponAnimation : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     public Animator animator;
     public bool Automatic;
 
@@ -10,11 +9,6 @@ public class WeaponAnimation : NetworkBehaviour
     public bool IsShooting = false;
     [HideInInspector]
     public bool IsReloading = false;
-
-    void Awake()
-    {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-    }
 
     void OnEnable()
     {
@@ -29,9 +23,10 @@ public class WeaponAnimation : NetworkBehaviour
         IsReloading = false;
     }
 
-    public override void OnNetworkSpawn()
+    public override void InitializeOnNetworkSpawn()
     {
-        PlayerRoot.PlayerReload.reload += () =>
+        base.InitializeOnNetworkSpawn();
+        PlayerRoot.Events.OnReload += () =>
         {
             if (!IsShooting && !IsReloading)
             {
@@ -47,7 +42,7 @@ public class WeaponAnimation : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
 
         if (Automatic)
         {
@@ -87,10 +82,5 @@ public class WeaponAnimation : NetworkBehaviour
 
         animator.SetBool("Reload", false);
         IsReloading = false;
-    }
-
-    public void ABC()
-    {
-        Debug.Log("IDK");
     }
 }

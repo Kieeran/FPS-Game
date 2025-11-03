@@ -280,7 +280,7 @@ namespace PlayerAssets
 #if ENABLE_INPUT_SYSTEM
     [RequireComponent(typeof(PlayerInput))]
 #endif
-    public class PlayerController : NetworkBehaviour
+    public class PlayerController : PlayerBehaviour
     {
         [Header("Player Movement")]
         public float MoveSpeed = 2.0f;
@@ -326,7 +326,6 @@ namespace PlayerAssets
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
-        public PlayerRoot PlayerRoot { get; private set; }
         [SerializeField] GameObject _playerModel;
         [SerializeField] Animator _animator;
         [SerializeField] CharacterController _controller;
@@ -367,27 +366,28 @@ namespace PlayerAssets
             }
         }
 
-        private void Awake()
+        public override void InitializeAwake()
         {
-            if (_mainCamera == null)
-            {
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            }
-
-            PlayerRoot = GetComponent<PlayerRoot>();
-            PlayerRoot.PlayerUI.ToggleEscapeUI += () =>
+            base.InitializeAwake();
+            PlayerRoot.Events.ToggleEscapeUI += () =>
             {
                 _toggleCameraRotation = !_toggleCameraRotation;
             };
+        }
 
-            InGameManager.Instance.OnGameEnd += () =>
+        public override void OnInGameManagerReady(InGameManager manager)
+        {
+            base.OnInGameManagerReady(manager);
+            manager.OnGameEnd += () =>
             {
                 _toggleCameraRotation = false;
             };
+            _mainCamera = InGameManager.Instance.PlayerCamera;
         }
 
-        private void Start()
+        public override void InitializeStart()
         {
+            base.InitializeStart();
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
             // _hasAnimator = TryGetComponent(out _animator);

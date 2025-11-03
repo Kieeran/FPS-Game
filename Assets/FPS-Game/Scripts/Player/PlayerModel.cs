@@ -1,31 +1,45 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
-public class PlayerModel : NetworkBehaviour
+public class PlayerModel : PlayerBehaviour
 {
     public PlayerAnimation PlayerAni { get; private set; }
     public List<Renderer> modelParts;
+    public RigBuilder RigBuilder;
+    public BoneRenderer BoneRenderer;
 
-    void Awake()
+    public override void InitializeAwake()
     {
+        base.InitializeAwake();
         PlayerAni = GetComponent<PlayerAnimation>();
     }
 
-    public void DisableModel()
+    public override void InitializeOnNetworkSpawn()
+    {
+        base.InitializeOnNetworkSpawn();
+        PlayerRoot.Events.OnPlayerRespawn += OnPlayerRespawn;
+        PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
+    }
+
+    public void OnDisable()
+    {
+        PlayerRoot.Events.OnPlayerRespawn -= OnPlayerRespawn;
+        PlayerRoot.Events.OnPlayerDead -= OnPlayerDead;
+    }
+
+    public void ChangeModelVisibility(bool b)
     {
         foreach (var part in modelParts)
         {
-            part.enabled = false;
+            part.enabled = b;
         }
     }
 
-    public void EnableModel()
+    public void ChangeRigBuilderState(bool b)
     {
-        foreach (var part in modelParts)
-        {
-            part.enabled = true;
-        }
+        RigBuilder.enabled = b;
+        BoneRenderer.enabled = b;
     }
 
     void Update()
@@ -47,25 +61,24 @@ public class PlayerModel : NetworkBehaviour
         // }
     }
 
-    public void OnPlayerDie()
+    public void OnPlayerDead()
     {
-        if (!IsOwner) return;
         Debug.Log("Die animation");
-        PlayerAni.Animator.applyRootMotion = true;
+        // PlayerAni.Animator.applyRootMotion = true;
         PlayerAni.Animator.Play("FallingForwardDeath", 0, 0f);
 
-        EnableModel();
+        ChangeModelVisibility(true);
     }
 
     public void OnPlayerRespawn()
     {
-        if (!IsOwner) return;
         Debug.Log("Restart animation");
 
         PlayerAni.Animator.Play("Idle and Run", 0, 0f);
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        PlayerAni.Animator.applyRootMotion = false;
+        // PlayerAni.Animator.applyRootMotion = false;
 
-        DisableModel();
+        if (!PlayerRoot.IsCharacterBot())
+            ChangeModelVisibility(false);
     }
 }

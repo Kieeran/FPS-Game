@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerLook : MonoBehaviour
+public class PlayerLook : PlayerBehaviour
 {
     public Transform TargetLook;
     [SerializeField] float distance = 2f;

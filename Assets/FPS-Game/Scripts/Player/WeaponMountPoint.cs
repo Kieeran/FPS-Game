@@ -2,19 +2,19 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class WeaponMountPoint : NetworkBehaviour
+public class WeaponMountPoint : PlayerBehaviour
 {
-    public WeaponHolder WeaponHolder;
     [SerializeField] List<WeaponPoseSO> _weaponPoseNetworkSO;
 
     GunType _currentGuntype;
 
-    public override void OnNetworkSpawn()
+    public override void InitializeOnNetworkSpawn()
     {
+        base.InitializeOnNetworkSpawn();
         _currentGuntype = GunType.Rifle;
-        WeaponHolder.OnChangeGun += (GunType) =>
+        PlayerRoot.Events.OnWeaponChanged += (sender, e) =>
         {
-            _currentGuntype = GunType;
+            _currentGuntype = e.GunType;
             ApplyPose(_currentGuntype, PlayerWeaponPose.Idle);
         };
 

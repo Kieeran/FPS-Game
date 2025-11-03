@@ -17,20 +17,10 @@ public class GameSceneManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void LoadNextScene()
-    {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
     public void LoadScene(string sceneName)
     {
         if (SceneManager.GetActiveScene().name == sceneName) return;
-        
-        SceneManager.LoadSceneAsync(sceneName);
-    }
 
-    public void LoadPreviousScene()
-    {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadSceneAsync(sceneName);
     }
 }

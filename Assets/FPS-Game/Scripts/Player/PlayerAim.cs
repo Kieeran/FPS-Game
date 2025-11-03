@@ -2,29 +2,26 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerAim : NetworkBehaviour, IInitAwake, IInitNetwork
+public class PlayerAim : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-    public Action OnAim;
-    public Action OnUnAim;
     public bool ToggleAim { get; private set; }
-
+    
     // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = GetComponent<PlayerRoot>();
+        base.InitializeAwake();
         ToggleAim = false;
     }
 
     // OnNetworkSpawn
-    public int PriorityNetwork => 15;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 15;
+    public override void InitializeOnNetworkSpawn()
     {
-        PlayerRoot.WeaponHolder.OnChangeWeapon += OnChangeWeapon;
+        base.InitializeOnNetworkSpawn();
+        PlayerRoot.Events.OnWeaponChanged += OnWeaponChanged;
     }
 
-    private void OnChangeWeapon(object sender, WeaponHolder.WeaponEventArgs e)
+    private void OnWeaponChanged(object sender, PlayerEvents.WeaponEventArgs e)
     {
         ToggleAim = false;
     }
@@ -39,15 +36,7 @@ public class PlayerAim : NetworkBehaviour, IInitAwake, IInitNetwork
             PlayerRoot.PlayerAssetsInputs.aim = false;
             ToggleAim = !ToggleAim;
 
-            if (ToggleAim == true)
-            {
-                OnAim?.Invoke();
-            }
-
-            else
-            {
-                OnUnAim?.Invoke();
-            }
+            PlayerRoot.Events.InvokeAimStateChanged(ToggleAim);
         }
     }
 }

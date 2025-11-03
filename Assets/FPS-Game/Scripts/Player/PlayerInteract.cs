@@ -2,19 +2,15 @@ using PlayerAssets;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerInteract : NetworkBehaviour, IInitStart
+public class PlayerInteract : PlayerBehaviour
 {
-    PlayerAssetsInputs _playerAssetsInputs;
-    PlayerInventory _playerInventory;
     Interactable _currentInteractableObj;
     float _playerReach;
 
     // Start
-    public int PriorityStart => 1000;
-    public void InitializeStart()
+    public override void InitializeStart()
     {
-        _playerAssetsInputs = GetComponent<PlayerAssetsInputs>();
-        _playerInventory = GetComponent<PlayerInventory>();
+        base.InitializeStart();
 
         _playerReach = 3f;
     }
@@ -25,14 +21,14 @@ public class PlayerInteract : NetworkBehaviour, IInitStart
 
         CheckInteraction();
 
-        if (_playerAssetsInputs.interact == true)
+        if (PlayerRoot.PlayerAssetsInputs.interact == true)
         {
-            _playerAssetsInputs.interact = false;
+            PlayerRoot.PlayerAssetsInputs.interact = false;
 
             if (_currentInteractableObj != null)
             {
                 Debug.Log("Interact with " + _currentInteractableObj.name);
-                _playerInventory.RefillAmmos();
+                PlayerRoot.PlayerInventory.RefillAmmos();
             }
 
         }

@@ -1,16 +1,14 @@
 using System;
 using UnityEngine;
 
-public class PlayerCollision : MonoBehaviour
+public class PlayerCollision : PlayerBehaviour
 {
-    public Action OnCollectedHealthPickup;
-
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("HealthPickup"))
         {
-            Debug.Log("AAAAACCC");
-            OnCollectedHealthPickup?.Invoke();
+            Debug.Log("Pick up health");
+            PlayerRoot.Events.InvokeOnCollectedHealthPickup();
             Destroy(other.gameObject);
         }
     }

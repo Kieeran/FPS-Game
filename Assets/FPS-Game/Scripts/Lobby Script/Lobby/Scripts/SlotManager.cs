@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
+using TMPro;
 
 public class SlotManager : MonoBehaviour
 {
@@ -52,7 +53,7 @@ public class SlotManager : MonoBehaviour
 
     private void UpdateLobby_Event(object sender, LobbyManager.LobbyEventArgs e)
     {
-        if (this == null || !this.gameObject.activeInHierarchy)
+        if (this == null || !gameObject.activeInHierarchy)
         {
             return;
         }
@@ -65,18 +66,14 @@ public class SlotManager : MonoBehaviour
 
         Lobby lobby = LobbyManager.Instance.GetJoinedLobby();
 
+        // Lobby luôn cập nhật sau mỗi ns nên cần phải clear các player trước để thêm các player mới vào
         ClearSlotPlayers();
 
-        for (int i = 0; i < lobby.Players.Count; i++)
+        // Thêm mới các player trong lobby
+        int i;
+        for (i = 0; i < lobby.Players.Count; i++)
         {
-            SlotPlayer slotPlayer = Instantiate(prefabSlotPlayer);
-
-            Transform slot = gameObject.transform.GetChild(i);
-
-            slotPlayer.transform.SetParent(slot.transform);
-            slotPlayer.transform.localPosition = prefabSlotPlayer.transform.localPosition;
-            slotPlayer.transform.localRotation = prefabSlotPlayer.transform.localRotation;
-            slotPlayer.transform.localScale = prefabSlotPlayer.transform.localScale;
+            SlotPlayer slotPlayer = CreateSlotPlayerAt(i);
 
             // Don't allow kick self
             slotPlayer.SetKickPlayerButtonDisable(
@@ -88,6 +85,18 @@ public class SlotManager : MonoBehaviour
 
             slotPlayer.GetSlotCanvas().worldCamera = mainCamera;
         }
+
+        // Thêm các bot vào lobby, kiểm tra điều kiện đảm bảo không thêm bot quá 5 hoặc khi lobby đã đầy
+        if (i < 5)
+        {
+            int botNum = LobbyManager.Instance.GetBotNum();
+            for (int j = i; j < botNum + i; j++)
+            {
+                SlotPlayer slotPlayer = CreateSlotPlayerAt(j);
+                slotPlayer.UpdatePlayerName("Bot");
+            }
+        }
+        // Debug.Log(LobbyManager.Instance.GetBotNum());
     }
 
     private void ClearSlotPlayers()
@@ -97,6 +106,23 @@ public class SlotManager : MonoBehaviour
             if (child.childCount > 0)
                 Destroy(child.transform.GetChild(0).gameObject);
         }
+    }
+
+    // Tạo một slot player mới (về mặt hiển thị) ở index (vị trí của player trên các đĩa)
+    SlotPlayer CreateSlotPlayerAt(int index)
+    {
+        SlotPlayer slotPlayer = Instantiate(prefabSlotPlayer);
+
+        Transform slot = gameObject.transform.GetChild(index);
+
+        slotPlayer.transform.SetParent(slot.transform);
+        slotPlayer.transform.SetLocalPositionAndRotation(
+            prefabSlotPlayer.transform.localPosition,
+            prefabSlotPlayer.transform.localRotation
+        );
+        slotPlayer.transform.localScale = prefabSlotPlayer.transform.localScale;
+
+        return slotPlayer;
     }
 
     // private void LobbyManager_OnKickedFromLobby(object sender, LobbyManager.LobbyEventArgs e)

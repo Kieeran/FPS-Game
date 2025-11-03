@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Melees : NetworkBehaviour
+public class Melees : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     public MeleeAnimation MeleeAnimation;
 
     [Header("Left Slash")]
@@ -19,10 +18,6 @@ public class Melees : NetworkBehaviour
     [SerializeField] Vector3 _rightSlashBoundsSize = new(0.15f, 0.15f, 1f);
     [SerializeField] Vector3 _rightSlashOffset = new(-0.56f, 0.24f, 0.25f);
 
-    public Action OnLeftSlash_1;
-    public Action OnLeftSlash_2;
-    public Action OnRightSlash;
-
     [SerializeField] float _rightSlashDelay = 0.3f;
     [SerializeField] float _meleeLeftSlashDamage = 0.1f;
     [SerializeField] float _meleeRightSlashDamage = 0.3f;
@@ -30,11 +25,10 @@ public class Melees : NetworkBehaviour
     bool _isAttacking = false;
     string _currentSlashType = "";
 
-    void Awake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-
-        MeleeAnimation.OnDoneSlash += () =>
+        base.InitializeAwake();
+        PlayerRoot.Events.OnDoneSlash += () =>
         {
             if (_currentSlashType == "Right")
                 Invoke(nameof(CheckComboChain), _rightSlashDelay);
@@ -42,7 +36,7 @@ public class Melees : NetworkBehaviour
                 CheckComboChain();
         };
 
-        MeleeAnimation.OnCheckSlashHit += () =>
+        PlayerRoot.Events.OnCheckSlashHit += () =>
         {
             CheckSlashHit_ServerRPC(_currentSlashType, OwnerClientId);
         };
@@ -51,21 +45,21 @@ public class Melees : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
         if (_isAttacking) return;
 
         if (PlayerRoot.PlayerAssetsInputs.shoot && _currentSlashType == "")
         {
             _isAttacking = true;
             _currentSlashType = "Left 1";
-            OnLeftSlash_1?.Invoke();
+            PlayerRoot.Events.InvokeOnLeftSlash_1();
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.rightSlash)
         {
             _isAttacking = true;
             _currentSlashType = "Right";
-            OnRightSlash?.Invoke();
+            PlayerRoot.Events.InvokeOnRightSlash();
         }
     }
 
@@ -76,21 +70,21 @@ public class Melees : NetworkBehaviour
         _currentSlashType == "Right"))
         {
             _currentSlashType = "Left 1";
-            OnLeftSlash_1?.Invoke();
+            PlayerRoot.Events.InvokeOnLeftSlash_1();
             return;
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.shoot && _currentSlashType == "Left 1")
         {
             _currentSlashType = "Left 2";
-            OnLeftSlash_2?.Invoke();
+            PlayerRoot.Events.InvokeOnLeftSlash_2();
             return;
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.rightSlash)
         {
             _currentSlashType = "Right";
-            OnRightSlash?.Invoke();
+            PlayerRoot.Events.InvokeOnRightSlash();
             return;
         }
 

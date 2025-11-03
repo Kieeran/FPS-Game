@@ -5,10 +5,8 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 
-public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
+public class WeaponHolder : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-
     [Header("Weapon Pose SO")]
     [SerializeField] List<WeaponPoseSO> _weaponPoseLocalSO;
     public Dictionary<GunType, WeaponPoseSO> WeaponPoseLocalSOs;
@@ -18,17 +16,9 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     public Gun Sniper;
     public Gun Pistol;
 
-    public Action<GunType> OnChangeGun;
-
     List<GameObject> _weaponList;
 
     int _currentWeaponIndex;
-
-    public event EventHandler<WeaponEventArgs> OnChangeWeapon;
-    public class WeaponEventArgs : EventArgs
-    {
-        public GameObject CurrentWeapon;
-    }
 
     public List<GameObject> GetWeaponList() { return _weaponList; }
 
@@ -37,12 +27,9 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
     Vector3 originWeaponHolderPos;
     Quaternion originWeaponHolderRot;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
+    public override void InitializeAwake()
     {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-
+        base.InitializeAwake();
         _weaponList = new List<GameObject>();
 
         foreach (Transform child in transform)
@@ -54,16 +41,18 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         SetOrigin();
         InitializeDictionary();
 
-        Rb = gameObject.AddComponent<Rigidbody>();
+        if (gameObject.TryGetComponent<Rigidbody>(out var rb)) Rb = rb;
+        else Rb = gameObject.AddComponent<Rigidbody>();
         gameObject.AddComponent<NetworkRigidbody>();
         StartCoroutine(SetKinematicNextFrame());
     }
 
     // OnNetworkSpawn
-    public int PriorityNetwork => 20;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 20;
+    public override void InitializeOnNetworkSpawn()
     {
-        if (IsOwner & IsLocalPlayer)
+        base.InitializeOnNetworkSpawn();
+        if (IsOwner & IsLocalPlayer && !PlayerRoot.IsCharacterBot())
         {
             Vector3 localScale = new(1.6f, 1.6f, 1.6f);
 
@@ -73,6 +62,8 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         }
 
         StartCoroutine(SetFirstWeapon());
+        PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
+        PlayerRoot.Events.OnPlayerRespawn += OnPlayerRespawn;
     }
 
     void InitializeDictionary()
@@ -90,40 +81,37 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         yield return null;
 
         _currentWeaponIndex = 0;
-        OnChangeWeapon?.Invoke(this, new WeaponEventArgs { CurrentWeapon = GetCurrentWeapon() });
+        PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon(), GunType.Rifle);
         EquipWeapon(_currentWeaponIndex);
     }
 
     void Update()
     {
         if (!IsOwner) return;
-        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead) return;
+        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
 
         if (PlayerRoot.PlayerAssetsInputs.hotkey1)
         {
             PlayerRoot.PlayerAssetsInputs.hotkey1 = false;
             if (_currentWeaponIndex == 0) return;
-            OnChangeGun?.Invoke(GunType.Rifle);
             _currentWeaponIndex = 0;
-            ChangeWeapon();
+            ChangeWeapon(GunType.Rifle);
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.hotkey2)
         {
             PlayerRoot.PlayerAssetsInputs.hotkey2 = false;
             if (_currentWeaponIndex == 1) return;
-            OnChangeGun?.Invoke(GunType.Sniper);
             _currentWeaponIndex = 1;
-            ChangeWeapon();
+            ChangeWeapon(GunType.Sniper);
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.hotkey3)
         {
             PlayerRoot.PlayerAssetsInputs.hotkey3 = false;
             if (_currentWeaponIndex == 2) return;
-            OnChangeGun?.Invoke(GunType.Pistol);
             _currentWeaponIndex = 2;
-            ChangeWeapon();
+            ChangeWeapon(GunType.Pistol);
         }
 
         else if (PlayerRoot.PlayerAssetsInputs.hotkey4)
@@ -153,12 +141,14 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         transform.SetPositionAndRotation(WeaponMountPoint.position, WeaponMountPoint.rotation);
     }
 
-    void ChangeWeapon()
+    void ChangeWeapon(GunType gunType = GunType.None)
     {
-        OnChangeWeapon.Invoke(this, new WeaponEventArgs { CurrentWeapon = GetCurrentWeapon() });
-
+        PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon(), gunType);
         RequestEquipWeapon_ServerRpc(_currentWeaponIndex);
-        PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
+        if (!PlayerRoot.IsCharacterBot() && PlayerRoot.PlayerUI != null)
+        {
+            PlayerRoot.PlayerUI.CurrentPlayerCanvas.WeaponHud.EquipWeaponUI(_currentWeaponIndex);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -194,12 +184,22 @@ public class WeaponHolder : NetworkBehaviour, IInitAwake, IInitNetwork
         originWeaponHolderRot = transform.localRotation;
     }
 
-    public void DropWeapon()
+    void OnPlayerDead()
+    {
+        DropWeapon();
+    }
+
+    void DropWeapon()
     {
         Rb.isKinematic = false;
     }
 
-    public void ResetWeaponHolder()
+    void OnPlayerRespawn()
+    {
+        ResetWeaponHolder();
+    }
+
+    void ResetWeaponHolder()
     {
         Rb.isKinematic = true;
         transform.SetLocalPositionAndRotation(originWeaponHolderPos, originWeaponHolderRot);

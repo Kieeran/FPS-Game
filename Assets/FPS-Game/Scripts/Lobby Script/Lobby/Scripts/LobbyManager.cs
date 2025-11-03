@@ -18,6 +18,7 @@ public class LobbyManager : MonoBehaviour
     public const string KEY_PLAYER_CHARACTER = "Character";
     // public const string KEY_GAME_MODE = "GameMode";
     public const string KEY_START_GAME = "Start";
+    public const string KEY_BOT_NUM = "BotNumber";
 
     public event EventHandler OnLeftLobby;
     public event EventHandler<LobbyEventArgs> OnJoinedLobby;
@@ -54,6 +55,7 @@ public class LobbyManager : MonoBehaviour
     private float refreshLobbyListTimer = 5f;
     public static Lobby joinedLobby;
     public static string playerName;
+    public static int botNum = 0;
     private string joinedLobbyCode;
 
     private void Awake()
@@ -69,6 +71,10 @@ public class LobbyManager : MonoBehaviour
     }
 
     public string GetPlayerName() { return playerName; }
+    public int GetBotNum()
+    {
+        return int.Parse(joinedLobby.Data[KEY_BOT_NUM].Value);
+    }
 
     private void Update()
     {
@@ -167,7 +173,6 @@ public class LobbyManager : MonoBehaviour
 
                         // GameSceneManager.Instance.LoadNextScene();
                         GameSceneManager.Instance.LoadScene("Play Scene");
-
                         Relay.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                     }
 
@@ -266,7 +271,8 @@ public class LobbyManager : MonoBehaviour
             IsPrivate = isPrivate,
             Data = new Dictionary<string, DataObject> {
                 // { KEY_GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString()) },
-                { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0") }
+                { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0") },
+                { KEY_BOT_NUM, new DataObject(DataObject.VisibilityOptions.Public, botNum.ToString()) }
             }
         };
 
@@ -275,7 +281,6 @@ public class LobbyManager : MonoBehaviour
         joinedLobby = lobby;
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-        // GameSceneManager.Instance.LoadNextScene();
         GameSceneManager.Instance.LoadScene("Lobby Room");
         // Debug.Log("Created Lobby " + lobby.Name);
     }
@@ -386,6 +391,50 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    public async void UpdateBotNumLobby(int num)
+    {
+        // if player not in lobby
+        if (joinedLobby == null) return;
+
+        if (botNum + num < 0)
+        {
+            Debug.Log("Số lượng bot trong Lobby đã bằng 0, không thể giảm thêm");
+            return;
+        }
+
+        if (joinedLobby.Players.Count + botNum + num > joinedLobby.MaxPlayers)
+        {
+            Debug.Log($"Lobby đã đầy ({joinedLobby.Players.Count + botNum}), không thể thêm bot");
+            return;
+        }
+
+        botNum += num;
+        try
+        {
+            UpdateLobbyOptions options = new()
+            {
+                // update bot number in options variable
+                Data = new Dictionary<string, DataObject>() {
+                        {
+                            KEY_BOT_NUM, new DataObject(
+                                visibility: DataObject.VisibilityOptions.Public,
+                                value: botNum.ToString())
+                        }
+                    }
+            };
+
+            // update
+            Lobby lobby = await LobbyService.Instance.UpdateLobbyAsync(joinedLobby.Id, options);
+            joinedLobby = lobby;
+
+            OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedLobby });
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
     // public async void UpdatePlayerCharacter(PlayerCharacter playerCharacter)
     // {
     //     if (joinedLobby != null)
@@ -439,6 +488,7 @@ public class LobbyManager : MonoBehaviour
         {
             try
             {
+                UpdateBotNumLobby(-botNum);
                 await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, AuthenticationService.Instance.PlayerId);
 
                 joinedLobby = null;

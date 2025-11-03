@@ -1,10 +1,8 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class SwayAndBob : NetworkBehaviour
+public class SwayAndBob : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot;
-
     Vector2 _moveInput;
     Vector2 _lookInput;
 
@@ -43,7 +41,7 @@ public class SwayAndBob : NetworkBehaviour
     public Vector3 AimPositionOffset;
     public Quaternion AimRotationOffset;
 
-    void Start()
+    public override void InitializeStart()
     {
         AimPositionOffset = Vector3.zero;
         AimRotationOffset = Quaternion.identity;

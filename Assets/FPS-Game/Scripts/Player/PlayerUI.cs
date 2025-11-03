@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
+public class PlayerUI : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     public PlayerCanvas CurrentPlayerCanvas { get; private set; }
 
     [SerializeField] PlayerCanvas _playerCanvas;
 
-    public Action ToggleEscapeUI;
     bool _toggleEscapeUI = false;
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
 
     public bool IsEscapeUIOn()
     {
@@ -25,66 +17,39 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
     }
 
     // OnNetworkSpawn
-    public int PriorityNetwork => 10;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 10;
+    public override void InitializeOnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
+        base.InitializeOnNetworkSpawn();
         if (!IsOwner) return;
-        CurrentPlayerCanvas = Instantiate(_playerCanvas, transform);
+        if (PlayerRoot.IsCharacterBot()) return;
+        CurrentPlayerCanvas = Instantiate(_playerCanvas);
 
-        CurrentPlayerCanvas.EscapeUI.OnQuitGame += QuitGame;
+        PlayerRoot.Events.OnQuitGame += QuitGame;
 
-        PlayerRoot.PlayerAim.OnAim += () =>
+        PlayerRoot.Events.OnAimStateChanged += (isAim) =>
         {
-            CurrentPlayerCanvas.ToggleCrossHair(false);
-        };
-
-        PlayerRoot.PlayerAim.OnUnAim += () =>
-        {
-            GameObject weapon = PlayerRoot.WeaponHolder.GetCurrentWeapon();
-            if (weapon.TryGetComponent<Gun>(out var currentGun))
+            if (isAim)
             {
-                CurrentPlayerCanvas.ToggleCrossHair(true);
+                CurrentPlayerCanvas.ToggleCrossHair(false);
             }
-        };
 
-        InGameManager.Instance.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
-        InGameManager.Instance.OnReceivedPlayerInfo += (playerInfos) =>
-        {
-            int currentMaxKillCountIndex = 0;
-            for (int i = 1; i < playerInfos.Count; i++)
+            else
             {
-                if (playerInfos[i].KillCount > playerInfos[currentMaxKillCountIndex].KillCount)
+                GameObject weapon = PlayerRoot.WeaponHolder.GetCurrentWeapon();
+                if (weapon.TryGetComponent<Gun>(out var currentGun))
                 {
-                    currentMaxKillCountIndex = i;
+                    CurrentPlayerCanvas.ToggleCrossHair(true);
                 }
             }
-
-            if (!InGameManager.Instance.IsTimeOut.Value &&
-            playerInfos[currentMaxKillCountIndex].KillCount < InGameManager.Instance.KillCountChecker.MaxKillCount)
-                return;
-
-            if (playerInfos[currentMaxKillCountIndex].PlayerId == OwnerClientId)
-                CurrentPlayerCanvas.PopUpVictoryDefeat("VICTORY");
-            else
-                CurrentPlayerCanvas.PopUpVictoryDefeat("DEFEAT");
-        };
-        InGameManager.Instance.OnGameEnd += () =>
-        {
-            InGameManager.Instance.GetAllPlayerInfos();
-            PlayerRoot.PlayerAssetsInputs.IsInputEnabled = false;
-            CurrentPlayerCanvas.PlayEndGameFadeOut(() =>
-            {
-                QuitGame();
-            });
         };
 
-        PlayerRoot.PlayerCollision.OnCollectedHealthPickup += () =>
+        PlayerRoot.Events.OnCollectedHealthPickup += () =>
         {
             CurrentPlayerCanvas.HealRefillAmmoEffect.StartEffect();
         };
 
-        PlayerRoot.WeaponHolder.OnChangeWeapon += (sender, e) =>
+        PlayerRoot.Events.OnWeaponChanged += (sender, e) =>
         {
             if (e.CurrentWeapon.TryGetComponent<Gun>(out var currentGun))
             {
@@ -95,6 +60,43 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
             {
                 CurrentPlayerCanvas.ToggleCrossHair(false);
             }
+        };
+    }
+
+    public override void OnInGameManagerReady(InGameManager manager)
+    {
+        base.OnInGameManagerReady(manager);
+
+        if (IsOwner && !PlayerRoot.IsCharacterBot()) manager.TimePhaseCounter.OnTimeChanged += UpdateTimerUI;
+
+        manager.OnReceivedPlayerInfo += (playerInfos) =>
+        {
+            int currentMaxKillCountIndex = 0;
+            for (int i = 1; i < playerInfos.Count; i++)
+            {
+                if (playerInfos[i].KillCount > playerInfos[currentMaxKillCountIndex].KillCount)
+                {
+                    currentMaxKillCountIndex = i;
+                }
+            }
+
+            if (!manager.IsTimeOut.Value &&
+            playerInfos[currentMaxKillCountIndex].KillCount < manager.KillCountChecker.MaxKillCount)
+                return;
+
+            if (playerInfos[currentMaxKillCountIndex].PlayerId == OwnerClientId)
+                CurrentPlayerCanvas.PopUpVictoryDefeat("VICTORY");
+            else
+                CurrentPlayerCanvas.PopUpVictoryDefeat("DEFEAT");
+        };
+        manager.OnGameEnd += () =>
+        {
+            manager.GetAllPlayerInfos();
+            PlayerRoot.PlayerAssetsInputs.IsInputEnabled = false;
+            CurrentPlayerCanvas.PlayEndGameFadeOut(() =>
+            {
+                QuitGame();
+            });
         };
     }
 
@@ -169,7 +171,7 @@ public class PlayerUI : NetworkBehaviour, IInitAwake, IInitNetwork
         if (PlayerRoot.PlayerAssetsInputs.escapeUI == true)
         {
             _toggleEscapeUI = !_toggleEscapeUI;
-            ToggleEscapeUI?.Invoke();
+            PlayerRoot.Events.InvokeToggleEscapeUI();
 
             CurrentPlayerCanvas.ToggleEscapeUI();
             PlayerRoot.PlayerAssetsInputs.escapeUI = false;

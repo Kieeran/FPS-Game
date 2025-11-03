@@ -2,9 +2,8 @@ using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
+public class PlayerCamera : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
     CinemachineVirtualCamera _playerCamera;
     public float normalFOV;
     float _currentAimFOV;
@@ -13,35 +12,29 @@ public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
     bool _isAim;
     bool _isUnAim;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
-
     // OnNetworkSpawn
-    public int PriorityNetwork => 15;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 15;
+    public override void InitializeOnNetworkSpawn()
     {
-        _playerCamera = InGameManager.Instance.GetCinemachineVirtualCamera();
+        base.InitializeOnNetworkSpawn();
+        if (PlayerRoot.IsCharacterBot()) return;
 
         _isAim = false;
         _isUnAim = false;
 
-        PlayerRoot.PlayerAim.OnAim += () =>
+        PlayerRoot.Events.OnAimStateChanged += (isAim) =>
         {
-            _isAim = true;
-            _isUnAim = false;
+            _isAim = isAim;
+            _isUnAim = !isAim;
         };
 
-        PlayerRoot.PlayerAim.OnUnAim += () =>
-        {
-            _isAim = false;
-            _isUnAim = true;
-        };
+        PlayerRoot.Events.OnWeaponChanged += OnWeaponChanged;
+    }
 
-        PlayerRoot.WeaponHolder.OnChangeWeapon += OnChangeWeapon;
+    public override void OnInGameManagerReady(InGameManager manager)
+    {
+        base.OnInGameManagerReady(manager);
+        _playerCamera = InGameManager.Instance.PlayerFollowCamera;
     }
 
     public void SetFOV(float fov)
@@ -49,7 +42,7 @@ public class PlayerCamera : NetworkBehaviour, IInitAwake, IInitNetwork
         _playerCamera.m_Lens.FieldOfView = fov;
     }
 
-    void OnChangeWeapon(object sender, WeaponHolder.WeaponEventArgs e)
+    void OnWeaponChanged(object sender, PlayerEvents.WeaponEventArgs e)
     {
         if (e.CurrentWeapon.TryGetComponent<Gun>(out var currentGun))
         {

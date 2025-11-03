@@ -2,50 +2,56 @@ using Unity.Netcode;
 using UnityEngine;
 using System;
 
-public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
+public class PlayerTakeDamage : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-
-    [HideInInspector]
     public NetworkVariable<float> HP = new(1);
-
-    public Action OnPlayerDead;
-    public bool IsPlayerDead = false;
-
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
+    public bool IsPlayerDead() { return HP.Value <= 0; }
 
     // OnNetworkSpawn
-    public int PriorityNetwork => 15;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 15;
+    public override void InitializeOnNetworkSpawn()
     {
+        base.InitializeOnNetworkSpawn();
         HP.OnValueChanged += OnHPChanged;
+        PlayerRoot.Events.OnPlayerRespawn += OnPlayerRespawn;
     }
-
+    
+    // OnHPChanged được chạy ở local, HP được tự động cập nhật
     private void OnHPChanged(float previous, float current)
     {
         if (previous == current) return;
 
-        if (IsOwner)
+        if (IsOwner && !PlayerRoot.IsCharacterBot())
             PlayerRoot.PlayerUI.CurrentPlayerCanvas.HealthBar.UpdatePlayerHealthBar(current);
-
-        if (previous == 0) IsPlayerDead = false;
 
         if (current == 0)
         {
-            IsPlayerDead = true;
-            OnPlayerDead?.Invoke();
-            InGameManager.Instance.GenerateHealthPickup.DropHealthPickup(transform.position);
+            PlayerRoot.Events.InvokeOnPlayerDead();
+            // InGameManager.Instance.GenerateHealthPickup.DropHealthPickup(transform.position);
         }
     }
 
-    public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID)
+    // Local
+    void OnPlayerRespawn()
     {
-        ChangeHPServerRpc(damage, targetClientId, ownerPlayerID);
+        if (PlayerRoot.IsCharacterBot())
+        {
+            ResetPlayerHP_ServerRpc(NetworkObjectId, true);
+            return;
+        }
+        ResetPlayerHP_ServerRpc(OwnerClientId);
+    }
+
+    public void TakeDamage(float damage, ulong targetClientId, ulong ownerPlayerID, bool forBot = false)
+    {
+        if (forBot)
+        {
+            ChangeHPForBot_ServerRpc(damage, targetClientId, ownerPlayerID);
+        }
+        else
+        {
+            ChangeHPServerRpc(damage, targetClientId, ownerPlayerID);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -75,10 +81,40 @@ public class PlayerTakeDamage : NetworkBehaviour, IInitAwake, IInitNetwork
         PlayerRoot.PlayerUI.AddTakeDamageEffect(damage, targetClientId);
     }
 
+    // Cập nhật HP của bot (bot ở đây được xem như một networkObj thay vì playerObj)
     [ServerRpc(RequireOwnership = false)]
-    public void ResetPlayerHP_ServerRpc(ulong ownerClientId)
+    public void ChangeHPForBot_ServerRpc(float damage, ulong targetID, ulong ownerId)
     {
-        var ownerPlayer = NetworkManager.Singleton.ConnectedClients[ownerClientId].PlayerObject;
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetID, out var botObj))
+        {
+            Debug.Log($"Tìm thấy object: {botObj.name}");
+            if (botObj.TryGetComponent<PlayerRoot>(out var botRoot))
+            {
+                if (botRoot.PlayerTakeDamage.HP.Value == 0) return;
+
+                botRoot.PlayerTakeDamage.HP.Value -= damage;
+                if (botRoot.PlayerTakeDamage.HP.Value <= 0)
+                {
+                    botRoot.PlayerNetwork.DeathCount.Value += 1;
+                    botRoot.PlayerTakeDamage.HP.Value = 0;
+                }
+            }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ResetPlayerHP_ServerRpc(ulong id, bool isBot = false)
+    {
+        if (isBot)
+        {
+            var botPlayer = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id];
+            if (botPlayer.TryGetComponent<PlayerTakeDamage>(out var botHealth))
+            {
+                botHealth.HP.Value = 1;
+                return;
+            }
+        }
+        var ownerPlayer = NetworkManager.Singleton.ConnectedClients[id].PlayerObject;
         if (ownerPlayer.TryGetComponent<PlayerTakeDamage>(out var targetHealth))
         {
             targetHealth.HP.Value = 1;

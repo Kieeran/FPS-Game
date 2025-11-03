@@ -22,6 +22,9 @@ public class LobbyUI : MonoBehaviour
     // [SerializeField] private Button changeGameModeButton;
     [SerializeField] private Button startGameButton;
     [SerializeField] private TextMeshProUGUI lobbyCode;
+    [SerializeField] Button createBotButton;
+    [SerializeField] Button deleteBotButton;
+    [SerializeField] GameObject createDeleteBotButtons;
 
     private void Awake()
     {
@@ -68,6 +71,15 @@ public class LobbyUI : MonoBehaviour
             //SceneManager.LoadScene("Playground");
             // GameSceneManager.Instance.LoadNextScene();
             LobbyManager.Instance.StartGame();
+        });
+        createBotButton.onClick.AddListener(() =>
+        {
+            LobbyManager.Instance.UpdateBotNumLobby(1);
+        });
+
+        deleteBotButton.onClick.AddListener(() =>
+        {
+            LobbyManager.Instance.UpdateBotNumLobby(-1);
         });
 
         startGameButton.gameObject.SetActive(false);
@@ -137,15 +149,16 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateLobby(Lobby lobby)
     {
-        if (this == null || !this.gameObject.activeInHierarchy)
+        if (this == null || !gameObject.activeInHierarchy)
         {
             return;
         }
 
         ShowLobbyCode();
         startGameButton.gameObject.SetActive(LobbyManager.Instance.IsLobbyHost());
+        createDeleteBotButtons.SetActive(LobbyManager.Instance.IsLobbyHost());
         lobbyNameText.text = lobby.Name;
-        playerCountText.text = lobby.Players.Count + "/" + lobby.MaxPlayers;
+        playerCountText.text = lobby.Players.Count + LobbyManager.Instance.GetBotNum() + "/" + lobby.MaxPlayers;
         // gameModeText.text = lobby.Data[LobbyManager.KEY_GAME_MODE].Value;
     }
 

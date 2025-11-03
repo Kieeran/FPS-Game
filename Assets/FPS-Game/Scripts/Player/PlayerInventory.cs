@@ -1,40 +1,31 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNetwork
+public class PlayerInventory : PlayerBehaviour
 {
-    public PlayerRoot PlayerRoot { get; private set; }
-
     GameObject _currentWeapon;
     SupplyLoad _currentWeaponSupplyLoad;
 
-    // Awake
-    public int PriorityAwake => 1000;
-    public void InitializeAwake()
-    {
-        PlayerRoot = GetComponent<PlayerRoot>();
-    }
-
     // Start
-    public int PriorityStart => 1000;
-    public void InitializeStart()
+    public override void InitializeStart()
     {
+        base.InitializeStart();
         _currentWeapon = null;
     }
 
     // OnNetworkSpawn
-    public int PriorityNetwork => 15;
-    public void InitializeOnNetworkSpawn()
+    public override int PriorityNetwork => 15;
+    public override void InitializeOnNetworkSpawn()
     {
-        PlayerRoot.WeaponHolder.OnChangeWeapon += SetCurrentWeapon;
-        PlayerRoot.PlayerReload.OnReload += Reload;
-        PlayerRoot.PlayerCollision.OnCollectedHealthPickup += RefillAmmos;
+        PlayerRoot.Events.OnWeaponChanged += SetCurrentWeapon;
+        PlayerRoot.Events.OnReload += Reload;
+        PlayerRoot.Events.OnCollectedHealthPickup += RefillAmmos;
     }
 
     void OnDisable()
     {
-        PlayerRoot.WeaponHolder.OnChangeWeapon -= SetCurrentWeapon;
-        PlayerRoot.PlayerReload.OnReload -= Reload;
+        PlayerRoot.Events.OnWeaponChanged -= SetCurrentWeapon;
+        PlayerRoot.Events.OnReload -= Reload;
     }
 
     public void RefillAmmos()
@@ -50,7 +41,7 @@ public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
         SetAmmoInfoUI();
     }
 
-    void Reload(object sender, System.EventArgs e)
+    void Reload()
     {
         if (_currentWeaponSupplyLoad == null || _currentWeaponSupplyLoad.IsTotalSuppliesEmpty())
         {
@@ -91,7 +82,7 @@ public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
         }
     }
 
-    void SetCurrentWeapon(object sender, WeaponHolder.WeaponEventArgs e)
+    void SetCurrentWeapon(object sender, PlayerEvents.WeaponEventArgs e)
     {
         _currentWeapon = e.CurrentWeapon;
 
@@ -118,6 +109,7 @@ public class PlayerInventory : NetworkBehaviour, IInitAwake, IInitStart, IInitNe
 
     void SetAmmoInfoUI()
     {
+        if (PlayerRoot.IsCharacterBot()) return;
         PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.SetAmmoInfoUI(
             _currentWeaponSupplyLoad.CurrentMagazineAmmo,
             _currentWeaponSupplyLoad.TotalSupplies

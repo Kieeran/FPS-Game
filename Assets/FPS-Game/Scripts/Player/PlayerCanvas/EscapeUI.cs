@@ -2,10 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EscapeUI : MonoBehaviour
+public class EscapeUI : PlayerBehaviour
 {
     public Button QuitGameButton;
-    public Action OnQuitGame;
 
     void Awake()
     {
@@ -13,7 +12,7 @@ public class EscapeUI : MonoBehaviour
 
         QuitGameButton.onClick.AddListener(() =>
         {
-            OnQuitGame?.Invoke();
+            PlayerRoot.Events.InvokeOnQuitGame();
         });
     }
 }
