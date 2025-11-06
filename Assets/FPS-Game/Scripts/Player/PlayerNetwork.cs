@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections;
 using Unity.Collections;
+using UnityEngine.AI;
 
 public class PlayerNetwork : PlayerBehaviour
 {
@@ -38,6 +39,7 @@ public class PlayerNetwork : PlayerBehaviour
                 PlayerRoot.PlayerModel.ChangeModelVisibility(false);
 
                 gameObject.name += " Local";
+                GetComponent<NavMeshAgent>().enabled = false;
             }
             PlayerRoot.Events.OnPlayerDead += OnPlayerDead;
             PlayerRoot.Events.OnPlayerRespawn += OnPlayerRespawn;

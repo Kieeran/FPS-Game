@@ -6,6 +6,7 @@ using UnityEngine;
 public class HandleSpawnBot : NetworkBehaviour
 {
     [SerializeField] PlayerNetwork botPrefab;
+    [SerializeField] GameObject botController;
     public Dictionary<string, NetworkObject> BotList { get; private set; }
     public NetworkObject GetBotNetworkObjectByID(string id)
     {
@@ -48,6 +49,8 @@ public class HandleSpawnBot : NetworkBehaviour
         playerNetwork.gameObject.name = "Bot#" + id;
         playerNetwork.GetPlayerRoot().PlayerModel.ChangeRigBuilderState(false);
         Debug.Log($"SpawnBot(): NetworkManager={NetworkManager.Singleton != null}, Parent={playerNetwork.transform.parent}, HasNetworkTransform={playerNetwork.GetComponent<NetworkObject>() != null}");
+        Instantiate(botController, playerNetwork.transform);
+
         playerNetwork.GetComponent<NetworkObject>().Spawn();
 
         BotList.Add(id, playerNetwork.GetComponent<NetworkObject>());

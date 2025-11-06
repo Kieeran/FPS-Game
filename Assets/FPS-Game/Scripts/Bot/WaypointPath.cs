@@ -10,7 +10,7 @@ namespace AIBot
     public class WaypointPath : MonoBehaviour
     {
         [Tooltip("Assign ordered waypoint transforms as children or references.")]
-        public List<Transform> waypoints = new List<Transform>();
+        public List<Transform> waypoints;
 
         [Tooltip("Start index when patrol begins.")]
         public int startIndex = 0;
@@ -32,6 +32,7 @@ namespace AIBot
 
         private void Awake()
         {
+            waypoints = InGameManager.Instance.Waypoints.WaypointsList;
             // clamp startIndex
             if (waypoints == null || waypoints.Count == 0) CurrentIndex = 0;
             else CurrentIndex = Mathf.Clamp(startIndex, 0, waypoints.Count - 1);
