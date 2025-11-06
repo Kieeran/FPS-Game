@@ -57,9 +57,11 @@ namespace AIBot
 
         // explicit currently active Behavior component (null when none)
         private Behavior _activeBehavior;
+        public PlayerRoot PlayerRoot { get; private set; }
 
         void Awake()
         {
+            PlayerRoot = transform.root.GetComponent<PlayerRoot>();
             navMeshAgent = transform.root.GetComponent<NavMeshAgent>();
             if (navMeshAgent == null)
                 Debug.LogError("No NavMeshAgent on root!");
@@ -75,6 +77,7 @@ namespace AIBot
 
         private void Start()
         {
+            PlayerRoot.AIInputFeeder.enabled = true;
             // Basic validation
             if (blackboardLinker == null) Debug.LogWarning("[BotController] BlackboardLinker not assigned.");
             if (perception == null) Debug.LogWarning("[BotController] PerceptionSensor not assigned.");

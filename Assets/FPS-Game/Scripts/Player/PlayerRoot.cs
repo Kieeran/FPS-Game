@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AIBot;
 using Mono.CSharp;
 using PlayerAssets;
 using Unity.Collections;
@@ -149,10 +150,11 @@ public class PlayerRoot : NetworkBehaviour
     public PlayerAim PlayerAim { get; private set; }
     public PlayerCamera PlayerCamera { get; private set; }
     public PlayerCollision PlayerCollision { get; private set; }
+    public AIInputFeeder AIInputFeeder { get; private set; }
     public PlayerLook PlayerLook { get; private set; }
     public PlayerModel PlayerModel { get; private set; }
     public WeaponHolder WeaponHolder { get; private set; }
-    public AIInputFeeder AIInputFeeder { get; private set; }
+    public BotController BotController { get; private set; }
     #endregion
 
     public PlayerEvents Events { get; private set; }
@@ -199,6 +201,18 @@ public class PlayerRoot : NetworkBehaviour
                 return found;
         }
         return null;
+    }
+
+    public void SetBotController()
+    {
+        if (FindChildWithTag(transform, "BotController") != null)
+        {
+            if (FindChildWithTag(transform, "BotController").TryGetComponent<BotController>(out var botController)) BotController = botController;
+        }
+        else
+        {
+            Debug.Log("Không tìm được BotController Object");
+        }
     }
 
     void ReferenceAssignment()

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mVariableData:
     variableStartIndex: 
-    JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"intentRequest","IsShared":true,"IsGlobal":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"intentTimestamp","IsShared":true,"IsGlobal":true,"SinglemValue":0}]}'
+    JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"intentRequest","IsShared":true,"IsGlobal":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"intentTimestamp","IsShared":true,"IsGlobal":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"MoveDirection","IsShared":true,"IsGlobal":true,"Vector2mValue":"(0,0)"}]}'
     fieldSerializationData:
       typeName: []
       fieldNameHash: 

@@ -50,7 +50,7 @@ public class HandleSpawnBot : NetworkBehaviour
         playerNetwork.GetPlayerRoot().PlayerModel.ChangeRigBuilderState(false);
         Debug.Log($"SpawnBot(): NetworkManager={NetworkManager.Singleton != null}, Parent={playerNetwork.transform.parent}, HasNetworkTransform={playerNetwork.GetComponent<NetworkObject>() != null}");
         Instantiate(botController, playerNetwork.transform);
-
+        playerNetwork.GetPlayerRoot().SetBotController();
         playerNetwork.GetComponent<NetworkObject>().Spawn();
 
         BotList.Add(id, playerNetwork.GetComponent<NetworkObject>());

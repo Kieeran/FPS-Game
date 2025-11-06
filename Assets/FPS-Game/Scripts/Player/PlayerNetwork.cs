@@ -117,7 +117,6 @@ public class PlayerNetwork : PlayerBehaviour
     void SyncBotNetwork_Component()
     {
         PlayerRoot.PlayerCamera.enabled = false;
-        PlayerRoot.AIInputFeeder.enabled = true;
         PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
     }
 
@@ -182,7 +181,6 @@ public class PlayerNetwork : PlayerBehaviour
             PlayerRoot.PlayerInput.enabled = false;
             PlayerRoot.PlayerUI.enabled = false;
             PlayerRoot.PlayerCamera.enabled = false;
-            PlayerRoot.AIInputFeeder.enabled = true;
         }
     }
 
