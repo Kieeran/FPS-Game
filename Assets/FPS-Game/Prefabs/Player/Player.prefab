@@ -5757,6 +5757,7 @@ GameObject:
   - component: {fileID: 5948730102944647971}
   - component: {fileID: 6827196641280625600}
   - component: {fileID: 2453111897199623720}
+  - component: {fileID: 8994810550530533544}
   - component: {fileID: 7795738832339507943}
   - component: {fileID: 4530824154142287168}
   - component: {fileID: 6360967479396315239}
@@ -5971,6 +5972,18 @@ MonoBehaviour:
   DeathCount:
     m_InternalValue: 0
   RespawnDelay: 3
+--- !u!114 &8994810550530533544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086927271415625819}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 823e589db5b30cf4795b803ced3a4343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7795738832339507943
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -152,6 +152,7 @@ public class PlayerRoot : NetworkBehaviour
     public PlayerLook PlayerLook { get; private set; }
     public PlayerModel PlayerModel { get; private set; }
     public WeaponHolder WeaponHolder { get; private set; }
+    public AIInputFeeder AIInputFeeder { get; private set; }
     #endregion
 
     public PlayerEvents Events { get; private set; }
@@ -218,6 +219,7 @@ public class PlayerRoot : NetworkBehaviour
         if (TryGetComponent<PlayerCamera>(out var playerCamera)) PlayerCamera = playerCamera;
         if (TryGetComponent<PlayerCollision>(out var playerCollision)) PlayerCollision = playerCollision;
         if (TryGetComponent<PlayerLook>(out var playerLook)) PlayerLook = playerLook;
+        if (TryGetComponent<AIInputFeeder>(out var aIInputFeeder)) AIInputFeeder = aIInputFeeder;
 
         if (FindChildWithTag(transform, "WeaponHolder") != null)
         {
