@@ -10816,17 +10816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77453d2eb49e2354d957ffe24ab832a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exitGamePopUp: {fileID: 687998542}
-  graphicsButton: {fileID: 910580797}
-  graphicsSettings: {fileID: 471532143}
-  audioButton: {fileID: 1489385934}
-  audioSettings: {fileID: 1212892399}
-  qualityLevels:
-  - {fileID: 11400000, guid: 69480fc1192f04488be5781c2ec080a9, type: 2}
-  - {fileID: 11400000, guid: d6898ced4e4514f55ab4909252c72153, type: 2}
-  - {fileID: 11400000, guid: e00893132ee3140498fd2709faa1a711, type: 2}
-  - {fileID: 11400000, guid: 85f61ec9fa7114d5f88c736532abeeef, type: 2}
-  dropdown: {fileID: 1123010169}
+  settingsPopUp: {fileID: 0}
 --- !u!4 &1836743334
 Transform:
   m_ObjectHideFlags: 0
