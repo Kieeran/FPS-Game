@@ -3,6 +3,7 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using TooltipAttribute = BehaviorDesigner.Runtime.Tasks.TooltipAttribute;
 using BehaviorDesigner.Runtime.Tasks.Movement;
+using UnityEngine.AI;
 
 namespace CustomTask
 {
@@ -13,12 +14,31 @@ namespace CustomTask
 		[Tooltip("If target is null then use the target position")]
 		public SharedVector3 targetPosition;
 
+		// protected NavMeshAgent navMeshAgent;
+
+		// public override void OnAwake()
+		// {
+		// 	navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+		// }
+
+		public SharedGameObject controlledObject;
+
 		public override void OnStart()
 		{
+			if (controlledObject.Value != null)
+				navMeshAgent = controlledObject.Value.GetComponent<NavMeshAgent>();
+
 			base.OnStart();
 
 			SetDestination(Target());
 		}
+
+		// public override void OnStart()
+		// {
+		// 	base.OnStart();
+
+		// 	SetDestination(Target());
+		// }
 
 		// Seek the destination. Return success once the agent has reached the destination.
 		// Return running if the agent hasn't reached the destination yet
