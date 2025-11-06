@@ -60,7 +60,6 @@ namespace AIBot
             {
                 _nextCheck = Time.time + checkInterval;
                 Scan();
-                // EvaluatePerception();
             }
         }
 
@@ -172,38 +171,6 @@ namespace AIBot
 
             return true;
         }
-
-        // private void EvaluatePerception()
-        // {
-        //     Vector3 dir = playerTransform.position - transform.position;
-        //     float dist = dir.magnitude;
-        //     if (dist > viewDistance)
-        //     {
-        //         if (isPlayerVisible) SetPlayerLost();
-        //         return;
-        //     }
-
-        //     float angle = Vector3.Angle(transform.forward, dir);
-        //     if (angle > viewHalfAngle) { if (isPlayerVisible) SetPlayerLost(); return; }
-
-        //     // occlusion test
-        //     if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir.normalized, out RaycastHit hit, viewDistance, occlusionMask))
-        //     {
-        //         if (hit.transform == playerTransform)
-        //         {
-        //             SetPlayerSpotted(playerTransform.position);
-        //         }
-        //         else
-        //         {
-        //             if (isPlayerVisible) SetPlayerLost();
-        //         }
-        //     }
-        //     else
-        //     {
-        //         // no hit -> assume visible
-        //         SetPlayerSpotted(playerTransform.position);
-        //     }
-        // }
 
         private void SetPlayerSpotted(Vector3 pos)
         {

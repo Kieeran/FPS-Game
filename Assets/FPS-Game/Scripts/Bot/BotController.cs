@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
-using Unity.AI;
-using UnityEngine.AI;
 
 namespace AIBot
 {
