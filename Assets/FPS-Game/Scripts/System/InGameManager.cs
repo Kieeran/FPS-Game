@@ -76,6 +76,7 @@ public class InGameManager : NetworkBehaviour
     public LobbyRelayChecker LobbyRelayChecker { get; private set; }
     public HandleSpawnBot HandleSpawnBot { get; private set; }
     public RandomSpawn RandomSpawn { get; private set; }
+    public Waypoints Waypoints { get; private set; }
 
     public System.Action OnGameEnd;
 
@@ -104,6 +105,7 @@ public class InGameManager : NetworkBehaviour
         LobbyRelayChecker = GetComponent<LobbyRelayChecker>();
         HandleSpawnBot = GetComponent<HandleSpawnBot>();
         RandomSpawn = GetComponent<RandomSpawn>();
+        Waypoints = GetComponent<Waypoints>();
 
         OnGameEnd += () =>
         {

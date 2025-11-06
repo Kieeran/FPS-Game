@@ -47,8 +47,6 @@ namespace AIBot
         [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         public float lostSightTimeout = 2f;
 
-        public GameObject spawnPosition;
-
         // runtime state
         private FSMState.CurrentState _state = FSMState.CurrentState.None;
         private float _stateEnterTime;
