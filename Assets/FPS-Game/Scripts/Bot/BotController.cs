@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
+using UnityEngine.AI;
 
 namespace AIBot
 {
@@ -47,6 +48,8 @@ namespace AIBot
         [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         public float lostSightTimeout = 2f;
 
+        public NavMeshAgent navMeshAgent;
+
         // runtime state
         private FSMState.CurrentState _state = FSMState.CurrentState.None;
         private float _stateEnterTime;
@@ -54,6 +57,13 @@ namespace AIBot
 
         // explicit currently active Behavior component (null when none)
         private Behavior _activeBehavior;
+
+        void Awake()
+        {
+            navMeshAgent = transform.root.GetComponent<NavMeshAgent>();
+            if (navMeshAgent == null)
+                Debug.LogError("No NavMeshAgent on root!");
+        }
 
         private void Reset()
         {
@@ -69,6 +79,8 @@ namespace AIBot
             if (blackboardLinker == null) Debug.LogWarning("[BotController] BlackboardLinker not assigned.");
             if (perception == null) Debug.LogWarning("[BotController] PerceptionSensor not assigned.");
             if (waypointPath == null) Debug.LogWarning("[BotController] WaypointPath not assigned.");
+
+            navMeshAgent = gameObject.transform.root.GetComponent<NavMeshAgent>();
 
             // Subscribe perception events (safe if perception is null)
             if (perception != null)
