@@ -3,6 +3,7 @@ using Cinemachine;
 using System.Collections.Generic;
 using Unity.Netcode;
 using System.Collections;
+using UnityEngine.AI;
 
 public struct PlayerInfo
 {
@@ -177,5 +178,42 @@ public class InGameManager : NetworkBehaviour
             }
         }
         OnReceivedPlayerInfo?.Invoke(playerInfos);
+    }
+
+    /// <summary>
+    /// Tính hướng di chuyển từ owner đến target dựa vào NavMesh pathfinding
+    /// </summary>
+    /// <param name="owner">Transform của bot (đang điều khiển)</param>
+    /// <param name="target">Transform của mục tiêu cần di chuyển đến</param>
+    /// <returns>Vector2 hướng di chuyển (x,z) đã được normalize</returns>
+    public Vector2 PathFinding(Transform owner, Transform target)
+    {
+        if (owner == null || target == null)
+            return Vector2.zero;
+
+        NavMeshPath path = new();
+
+        // Tính đường đi trên NavMesh
+        if (!NavMesh.CalculatePath(owner.position, target.position, NavMesh.AllAreas, path))
+        {
+            Debug.LogWarning($"[PathFinding] Cannot find path from {owner.name} to {target.name}");
+            return Vector2.zero;
+        }
+
+        // Nếu không có điểm nào trong path hoặc path lỗi
+        if (path.corners.Length < 2)
+        {
+            return Vector2.zero;
+        }
+
+        // Điểm kế tiếp để di chuyển tới
+        Vector3 nextCorner = path.corners[1];
+        Vector3 dir = nextCorner - owner.position;
+        dir.y = 0f; // Bỏ qua độ cao để tránh nghiêng hướng
+
+        // Chuyển sang Vector2 move input
+        Vector2 moveDir = new Vector2(dir.x, dir.z).normalized;
+
+        return moveDir;
     }
 }
