@@ -1,23 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
 public class RandomSpawn : NetworkBehaviour
 {
-    [SerializeField] Transform _spawnPositions;
     public List<SpawnPosition> SpawnPositionsList { get; private set; }
+    Transform spawnPositions;
 
-    void Awake()
+    public override void OnNetworkSpawn()
     {
         InitSpawnPositions();
     }
+
     void InitSpawnPositions()
     {
         SpawnPositionsList = new List<SpawnPosition>();
-        foreach (Transform child in _spawnPositions)
+        spawnPositions = GameObject.FindGameObjectsWithTag("NavigationPoint").FirstOrDefault().GetComponent<SpawnInGameManager>().GetSpawnPositions();
+        if (spawnPositions != null)
         {
-            SpawnPositionsList.Add(child.GetComponent<SpawnPosition>());
+            foreach (Transform child in spawnPositions)
+            {
+                SpawnPositionsList.Add(child.GetComponent<SpawnPosition>());
+            }
         }
     }
 

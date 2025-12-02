@@ -4,6 +4,11 @@ using UnityEngine;
 public class SpawnInGameManager : MonoBehaviour
 {
     [SerializeField] private GameObject inGameManagerPrefab;
+    [SerializeField] Transform spawnPositions;
+    [SerializeField] Transform waypoints;
+
+    public Transform GetSpawnPositions() { return spawnPositions; }
+    public Transform GetWaypoints() { return waypoints; }
 
     void Awake()
     {
