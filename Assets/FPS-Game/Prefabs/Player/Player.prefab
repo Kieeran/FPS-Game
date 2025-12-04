@@ -5772,7 +5772,7 @@ GameObject:
   - component: {fileID: 8825461602749307418}
   - component: {fileID: 8364144675361279868}
   - component: {fileID: 3033614115806668757}
-  - component: {fileID: 7187154641598769881}
+  - component: {fileID: 8033202559610952918}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -5809,7 +5809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2919836325
+  GlobalObjectIdHash: 114879615
   InScenePlacedSourceGlobalObjectIdHash: 114879615
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -6310,7 +6310,7 @@ MonoBehaviour:
   useLocalTransformOnly: 0
   ownerChangeIndicator: 1
   receivedStatesCounter: 0
---- !u!195 &7187154641598769881
+--- !u!195 &8033202559610952918
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6318,7 +6318,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3086927271415625819}
   m_Enabled: 1
-  m_AgentTypeID: -1372625422
+  m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8

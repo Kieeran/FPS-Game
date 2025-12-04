@@ -21,15 +21,15 @@ namespace AIBot
         public Behavior activeBehavior;
 
         // internal cached values to avoid setting BD vars every frame
-        private bool _isPlayerVisible = false;
-        private Vector3 _playerLastSeenPos = Vector3.zero;
+        // private bool _isPlayerVisible = false;
+        // private Vector3 _playerLastSeenPos = Vector3.zero;
         private int _currentWaypointIndex = 0;
 
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
-        public Vector3 PlayerLastSeenPos => _playerLastSeenPos;
+        // public Vector3 PlayerLastSeenPos => _playerLastSeenPos;
 
         /// <summary>Quick accessor for visibility.</summary>
-        public bool isPlayerVisible => _isPlayerVisible;
+        // public bool isPlayerVisible => _isPlayerVisible;
 
         /// <summary>
         /// Bind the linker to a Behavior Designer Behavior (called when FSM switches states).
@@ -41,36 +41,36 @@ namespace AIBot
             activeBehavior = behavior;
             if (activeBehavior == null) return;
             // seed values right away
-            SafeSet("isPlayerVisible", _isPlayerVisible);
-            SafeSet("playerLastSeenPos", _playerLastSeenPos);
+            // SafeSet("isPlayerVisible", _isPlayerVisible);
+            // SafeSet("playerLastSeenPos", _playerLastSeenPos);
             SafeSet("currentWaypointIndex", _currentWaypointIndex);
         }
 
         /// <summary>
         /// Set player visibility and last seen pos. Called by PerceptionSensor (via BotController).
         /// </summary>
-        public void SetPlayerVisible(bool visible, Vector3 lastSeenPos, GameObject playerGameObject)
-        {
-            _isPlayerVisible = visible;
-            _playerLastSeenPos = lastSeenPos;
+        // public void SetPlayerVisible(bool visible, Vector3 lastSeenPos, GameObject playerGameObject)
+        // {
+        //     _isPlayerVisible = visible;
+        //     _playerLastSeenPos = lastSeenPos;
 
-            // update BD Variables on active behavior
-            SafeSet("isPlayerVisible", _isPlayerVisible);
-            SafeSet("playerLastSeenPos", _playerLastSeenPos);
+        //     // update BD Variables on active behavior
+        //     SafeSet("isPlayerVisible", _isPlayerVisible);
+        //     SafeSet("playerLastSeenPos", _playerLastSeenPos);
 
-            // also expose the player transform if tasks expect it (SharedTransform named "targetPlayer")
-            if (playerGameObject != null)
-            {
-                Debug.Log("playerGameObject is not null");
-                SafeSet("targetPlayer", playerGameObject);
-            }
-            else
-            {
-                Debug.Log("playerGameObject is null");
-                // clear targetPlayer if not visible (optional)
-                SafeSet("targetPlayer", null);
-            }
-        }
+        //     // also expose the player transform if tasks expect it (SharedTransform named "targetPlayer")
+        //     if (playerGameObject != null)
+        //     {
+        //         Debug.Log("playerGameObject is not null");
+        //         SafeSet("targetPlayer", playerGameObject);
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("playerGameObject is null");
+        //         // clear targetPlayer if not visible (optional)
+        //         SafeSet("targetPlayer", null);
+        //     }
+        // }
 
         /// <summary>
         /// Update current waypoint index - called by local BD or by WaypointPath helper via BotController if needed.
@@ -79,6 +79,7 @@ namespace AIBot
         {
             _currentWaypointIndex = idx;
             SafeSet("currentWaypointIndex", _currentWaypointIndex);
+            SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.WaypointsList[_currentWaypointIndex].gameObject);
         }
 
         /// <summary>
@@ -154,6 +155,5 @@ namespace AIBot
                 Debug.LogWarning($"BlackboardLinker.SafeSet: failed to set '{variableName}' - {ex.Message}");
             }
         }
-
     }
 }
