@@ -23,7 +23,6 @@ namespace AIBot
         // internal cached values to avoid setting BD vars every frame
         // private bool _isPlayerVisible = false;
         // private Vector3 _playerLastSeenPos = Vector3.zero;
-        private int _currentWaypointIndex = 0;
         public Vector2 moveDir;
 
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
@@ -44,17 +43,25 @@ namespace AIBot
             // seed values right away
             // SafeSet("isPlayerVisible", _isPlayerVisible);
             // SafeSet("playerLastSeenPos", _playerLastSeenPos);
-            SafeSet("currentWaypointIndex", _currentWaypointIndex);
-            SafeSet("moveDir", moveDir);
+            SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
         }
 
         void Update()
         {
-            if (activeBehavior.BehaviorName == "PatrolTree")
-            {
-                moveDir = (Vector2)activeBehavior.GetVariable("moveDir").GetValue();
-            }
+            GetValuesSharedVariables();
+        }
 
+        void GetValuesSharedVariables()
+        {
+            string behaviorName = activeBehavior.BehaviorName;
+            switch (behaviorName)
+            {
+                case "PatrolTree":
+                    moveDir = (Vector2)activeBehavior.GetVariable("moveDir").GetValue();
+                    return;
+                default:
+                    return;
+            }
         }
 
         /// <summary>
@@ -82,16 +89,6 @@ namespace AIBot
         //         SafeSet("targetPlayer", null);
         //     }
         // }
-
-        /// <summary>
-        /// Update current waypoint index - called by local BD or by WaypointPath helper via BotController if needed.
-        /// </summary>
-        public void SetCurrentWaypointIndex(int idx)
-        {
-            _currentWaypointIndex = idx;
-            SafeSet("currentWaypointIndex", _currentWaypointIndex);
-            SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.WaypointsList[_currentWaypointIndex].gameObject);
-        }
 
         /// <summary>
         /// Helper: set a variable on the active Behavior safely (if active and variable exists).

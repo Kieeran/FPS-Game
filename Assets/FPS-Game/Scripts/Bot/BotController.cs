@@ -186,13 +186,6 @@ namespace AIBot
                 case FSMState.CurrentState.Patrol:
                     Debug.Log("Entering Patrol State");
                     StartBehavior(patrolBehavior);
-                    // if patrol tree expects a waypoint index or list, seed it now
-                    if (waypointPath != null && blackboardLinker != null)
-                    {
-                        // seed the current waypoint index into BD
-                        blackboardLinker.SetCurrentWaypointIndex(waypointPath.CurrentIndex);
-                        // if BD expects a waypoints list, author the tree to read the scene list or use a BD initializer
-                    }
                     break;
                     // case FSMState.CurrentState.Combat:
                     //     Debug.Log("Entering Combat State");
