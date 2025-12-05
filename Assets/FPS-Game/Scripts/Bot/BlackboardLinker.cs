@@ -24,6 +24,7 @@ namespace AIBot
         // private bool _isPlayerVisible = false;
         // private Vector3 _playerLastSeenPos = Vector3.zero;
         private int _currentWaypointIndex = 0;
+        public Vector2 moveDir;
 
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
         // public Vector3 PlayerLastSeenPos => _playerLastSeenPos;
@@ -44,6 +45,16 @@ namespace AIBot
             // SafeSet("isPlayerVisible", _isPlayerVisible);
             // SafeSet("playerLastSeenPos", _playerLastSeenPos);
             SafeSet("currentWaypointIndex", _currentWaypointIndex);
+            SafeSet("moveDir", moveDir);
+        }
+
+        void Update()
+        {
+            if (activeBehavior.BehaviorName == "PatrolTree")
+            {
+                moveDir = (Vector2)activeBehavior.GetVariable("moveDir").GetValue();
+            }
+
         }
 
         /// <summary>
@@ -124,6 +135,14 @@ namespace AIBot
             {
                 if (sv3.Value == v3) return;
                 sv3.Value = v3;
+                return;
+            }
+
+            // Vector2
+            if (value is Vector2 v2 && sharedVar is SharedVector2 sv2)
+            {
+                if (sv2.Value == v2) return;
+                sv2.Value = v2;
                 return;
             }
 

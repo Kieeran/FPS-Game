@@ -1,48 +1,17 @@
-using AIBot;
-using BehaviorDesigner.Runtime;
+using System;
 using UnityEngine;
 
-public class AIInputFeeder : MonoBehaviour
+public class AIInputFeeder : PlayerBehaviour
 {
-    private SharedVector2 moveDir;
-    public PlayerRoot PlayerRoot;
-
-    void Awake()
-    {
-        PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-    }
+    public Action<Vector2> OnMove;
 
     void Start()
     {
-        if (PlayerRoot == null || PlayerRoot.BotController == null)
+        OnMove += (val) =>
         {
-            Debug.LogError("PlayerRoot hoặc BotController chưa được tìm thấy.");
-            return;
-        }
-        SharedVariable sharedVar = GlobalVariables.Instance.GetVariable("MoveDirection");
-        if (sharedVar != null)
-        {
-            moveDir = sharedVar as SharedVector2;
-        }
-        if (moveDir == null)
-        {
-            return;
-        }
-        Debug.Log("================ Global Variable Setup ================");
-        Debug.Log($"SharedVariable Found: {moveDir.Name}");
-        Debug.Log($"Initial MoveDirection Value: {moveDir.Value}");
-        Debug.Log("=======================================================");
-    }
-
-    void Update()
-    {
-        if (PlayerRoot.PlayerAssetsInputs == null || moveDir == null)
-            return;
-
-        Vector2 currentMoveInput = moveDir.Value;
-        if (currentMoveInput != Vector2.zero)
-        {
-            PlayerRoot.PlayerAssetsInputs.MoveInput(currentMoveInput);
-        }
+            if (PlayerRoot.PlayerAssetsInputs == null || val == null)
+                return;
+            PlayerRoot.PlayerAssetsInputs.MoveInput(val);
+        };
     }
 }

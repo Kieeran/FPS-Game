@@ -113,6 +113,7 @@ namespace AIBot
                     break;
 
                 case FSMState.CurrentState.Patrol:
+                    PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.moveDir);
                     // Patrol behavior is executed by the BD Patrol tree.
                     break;
 

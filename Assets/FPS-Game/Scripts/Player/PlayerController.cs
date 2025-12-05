@@ -59,6 +59,7 @@ namespace PlayerAssets
         [SerializeField] GameObject _playerModel;
         [SerializeField] Animator _animator;
         [SerializeField] CharacterController _controller;
+        public bool IsBot = false;
 
         bool _toggleCameraRotation = true;
 
@@ -145,7 +146,8 @@ namespace PlayerAssets
 
             GroundedCheck();
             JumpAndGravity();
-            Move();
+            if (!IsBot) Move();
+            else BotMove();
             Shoot();
 
             // _playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
@@ -283,6 +285,58 @@ namespace PlayerAssets
             //     Vector3.Lerp(_currentPos, _currentPos, 0),
             //     _playerModel.transform.rotation
             // );
+        }
+
+        private void BotMove()
+        {
+            Vector2 move = _input.move;
+
+            float targetSpeed = move != Vector2.zero ? MoveSpeed : 0;
+            float inputMagnitude = move.magnitude;
+
+            Vector3 moveVector = Vector3.zero;
+
+            if (inputMagnitude >= 0.1f)
+            {
+                Vector3 desiredDir = new Vector3(move.x, 0f, move.y).normalized;
+
+                float targetRot = Mathf.Atan2(desiredDir.x, desiredDir.z) * Mathf.Rad2Deg;
+                float rotation = Mathf.SmoothDampAngle(
+                    transform.eulerAngles.y,
+                    targetRot,
+                    ref _rotationVelocity,
+                    0.1f
+                );
+                transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+
+                moveVector = targetSpeed * Time.deltaTime * transform.forward;
+            }
+
+            _controller.Move(moveVector + new Vector3(0f, _verticalVelocity, 0f) * Time.deltaTime);
+
+            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+            if (_animationBlend < 0.01f) _animationBlend = 0f;
+
+            if (move.y > 0)
+            {
+                _animator.SetFloat(_animIDVelocityY, 10);
+                _animator.SetFloat(_animIDVelocityX, 0);
+            }
+
+            if (move.x < 0 && move.y == 0)
+            {
+                _animator.SetFloat(_animIDVelocityY, 0);
+                _animator.SetFloat(_animIDVelocityX, -10);
+            }
+
+            if (move.x > 0 && move.y == 0)
+            {
+                _animator.SetFloat(_animIDVelocityY, 0);
+                _animator.SetFloat(_animIDVelocityX, 10);
+            }
+
+            _animator.SetFloat(_animIDSpeed, _animationBlend);
+            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
 
         private void Shoot()
