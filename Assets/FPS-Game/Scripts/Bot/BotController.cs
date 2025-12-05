@@ -43,7 +43,7 @@ namespace AIBot
 
         [Header("Parameters")]
         [Tooltip("Seconds to remain idle before starting patrol")]
-        public float idleDuration = 2f;
+        public float idleDuration = 4f;
 
         // [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         // public float lostSightTimeout = 2f;

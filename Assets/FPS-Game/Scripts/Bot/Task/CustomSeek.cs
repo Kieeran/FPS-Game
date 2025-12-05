@@ -20,6 +20,7 @@ namespace CustomTask
 		public override void OnAwake()
 		{
 			navMeshAgent = transform.root.GetComponent<NavMeshAgent>();
+			navMeshAgent.enabled = true;
 			navMeshAgent.updatePosition = false;
 			navMeshAgent.updateRotation = false;
 		}
@@ -38,6 +39,7 @@ namespace CustomTask
 			if (HasArrived())
 			{
 				moveDir.Value = Vector2.zero;
+				navMeshAgent.enabled = false;
 				return TaskStatus.Success;
 			}
 
