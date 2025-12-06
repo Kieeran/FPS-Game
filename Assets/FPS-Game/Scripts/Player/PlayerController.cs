@@ -289,54 +289,48 @@ namespace PlayerAssets
 
         private void BotMove()
         {
-            Vector2 move = _input.move;
+            AIInputFeeder feeder = PlayerRoot.AIInputFeeder;
 
-            float targetSpeed = move != Vector2.zero ? MoveSpeed : 0;
-            float inputMagnitude = move.magnitude;
+            // Lấy vector hướng di chuyển từ NavMesh/AI (World Space)
+            Vector3 rawMoveDir = feeder.moveDir;
 
-            Vector3 moveVector = Vector3.zero;
-
-            if (inputMagnitude >= 0.1f)
+            // Nếu không có input hoặc đã đến đích
+            if (rawMoveDir.sqrMagnitude < 0.01f)
             {
-                Vector3 desiredDir = new Vector3(move.x, 0f, move.y).normalized;
-
-                float targetRot = Mathf.Atan2(desiredDir.x, desiredDir.z) * Mathf.Rad2Deg;
-                float rotation = Mathf.SmoothDampAngle(
-                    transform.eulerAngles.y,
-                    targetRot,
-                    ref _rotationVelocity,
-                    0.1f
-                );
-                transform.rotation = Quaternion.Euler(0f, rotation, 0f);
-
-                moveVector = targetSpeed * Time.deltaTime * transform.forward;
+                _animator.SetFloat(_animIDSpeed, 0);
+                _animator.SetFloat(_animIDMotionSpeed, 0);
+                _animator.SetFloat(_animIDVelocityX, 0);
+                _animator.SetFloat(_animIDVelocityY, 0);
+                _controller.Move(new Vector3(0, _verticalVelocity, 0) * Time.deltaTime);
+                return;
             }
 
-            _controller.Move(moveVector + new Vector3(0f, _verticalVelocity, 0f) * Time.deltaTime);
+            Vector3 moveDir = rawMoveDir.normalized;
+            float targetSpeed = MoveSpeed;
 
+            // -------- ROTATION --------
+            float targetYRot = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
+            float newYRot = Mathf.SmoothDampAngle(
+                transform.eulerAngles.y,
+                targetYRot,
+                ref _rotationVelocity,
+                RotationSmoothTime
+            );
+            transform.rotation = Quaternion.Euler(0f, newYRot, 0f);
+
+            // -------- MOVE --------
+            Vector3 moveVector = transform.forward * targetSpeed * Time.deltaTime;
+            _controller.Move(moveVector + new Vector3(0, _verticalVelocity, 0) * Time.deltaTime);
+
+            // -------- ANIMATION --------
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
 
-            if (move.y > 0)
-            {
-                _animator.SetFloat(_animIDVelocityY, 10);
-                _animator.SetFloat(_animIDVelocityX, 0);
-            }
-
-            if (move.x < 0 && move.y == 0)
-            {
-                _animator.SetFloat(_animIDVelocityY, 0);
-                _animator.SetFloat(_animIDVelocityX, -10);
-            }
-
-            if (move.x > 0 && move.y == 0)
-            {
-                _animator.SetFloat(_animIDVelocityY, 0);
-                _animator.SetFloat(_animIDVelocityX, 10);
-            }
+            _animator.SetFloat(_animIDVelocityX, 0f);
+            _animator.SetFloat(_animIDVelocityY, 10f);
 
             _animator.SetFloat(_animIDSpeed, _animationBlend);
-            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+            _animator.SetFloat(_animIDMotionSpeed, rawMoveDir.magnitude);
         }
 
         private void Shoot()

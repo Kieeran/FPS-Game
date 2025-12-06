@@ -23,7 +23,7 @@ namespace AIBot
         // internal cached values to avoid setting BD vars every frame
         // private bool _isPlayerVisible = false;
         // private Vector3 _playerLastSeenPos = Vector3.zero;
-        public Vector2 moveDir;
+        public Vector3 moveDir;
         bool isDonePatrol;
 
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
@@ -70,7 +70,7 @@ namespace AIBot
             switch (behaviorName)
             {
                 case "PatrolTree":
-                    moveDir = (Vector2)activeBehavior.GetVariable("moveDir").GetValue();
+                    moveDir = (Vector3)activeBehavior.GetVariable("moveDir").GetValue();
                     isDonePatrol = (bool)activeBehavior.GetVariable("isDonePatrol").GetValue();
                     return;
                 default:

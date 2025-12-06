@@ -5950,7 +5950,7 @@ CharacterController:
   m_Height: 1.88
   m_Radius: 0.23
   m_SlopeLimit: 45
-  m_StepOffset: 0.5
+  m_StepOffset: 0.6
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.93, z: 0}
@@ -6310,6 +6310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823e589db5b30cf4795b803ced3a4343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveDir: {x: 0, y: 0, z: 0}
 --- !u!195 &8033202559610952918
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6319,7 +6320,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3086927271415625819}
   m_Enabled: 0
   m_AgentTypeID: 0
-  m_Radius: 1.5
+  m_Radius: 0.7
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -6328,7 +6329,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 3
+  m_Height: 2.8
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
