@@ -173,7 +173,11 @@ namespace PlayerAssets
 
         private void GroundedCheck()
         {
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
+            float offset = transform.position.y - GroundedOffset;
+
+            if (IsBot && PlayerRoot.AIInputFeeder.moveDir != Vector3.zero) offset -= 0.2f;
+
+            Vector3 spherePosition = new Vector3(transform.position.x, offset, transform.position.z);
             Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 
             // if (_hasAnimator)
@@ -298,7 +302,7 @@ namespace PlayerAssets
             if (rawMoveDir.sqrMagnitude < 0.01f)
             {
                 _animator.SetFloat(_animIDSpeed, 0);
-                _animator.SetFloat(_animIDMotionSpeed, 0);
+                _animator.SetFloat(_animIDMotionSpeed, 1);
                 _animator.SetFloat(_animIDVelocityX, 0);
                 _animator.SetFloat(_animIDVelocityY, 0);
                 _controller.Move(new Vector3(0, _verticalVelocity, 0) * Time.deltaTime);
@@ -330,7 +334,7 @@ namespace PlayerAssets
             _animator.SetFloat(_animIDVelocityY, 10f);
 
             _animator.SetFloat(_animIDSpeed, _animationBlend);
-            _animator.SetFloat(_animIDMotionSpeed, rawMoveDir.magnitude);
+            _animator.SetFloat(_animIDMotionSpeed, rawMoveDir.normalized.magnitude);
         }
 
         private void Shoot()

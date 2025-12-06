@@ -64,7 +64,7 @@ namespace CustomTask
 			// Di chuyển theo corner hiện tại
 			Vector3 nextPoint = path.corners[currentCorner];
 			Vector3 dir = nextPoint - transform.position;
-			// dir.y = 0;
+			dir.y = 0;
 
 			moveDir.Value = dir;
 
