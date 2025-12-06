@@ -48,8 +48,6 @@ namespace AIBot
         // [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         // public float lostSightTimeout = 2f;
 
-        public NavMeshAgent navMeshAgent;
-
         // runtime state
         private FSMState.CurrentState _state = FSMState.CurrentState.None;
         private float _stateEnterTime;
@@ -62,9 +60,6 @@ namespace AIBot
         void Awake()
         {
             PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-            navMeshAgent = transform.root.GetComponent<NavMeshAgent>();
-            if (navMeshAgent == null)
-                Debug.LogError("No NavMeshAgent on root!");
         }
 
         // private void Reset()
@@ -82,8 +77,6 @@ namespace AIBot
             if (blackboardLinker == null) Debug.LogWarning("[BotController] BlackboardLinker not assigned.");
             // if (perception == null) Debug.LogWarning("[BotController] PerceptionSensor not assigned.");
             if (waypointPath == null) Debug.LogWarning("[BotController] WaypointPath not assigned.");
-
-            navMeshAgent = gameObject.transform.root.GetComponent<NavMeshAgent>();
 
             // Subscribe perception events (safe if perception is null)
             // if (perception != null)
@@ -114,7 +107,10 @@ namespace AIBot
 
                 case FSMState.CurrentState.Patrol:
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.moveDir);
-                    // Patrol behavior is executed by the BD Patrol tree.
+                    if (blackboardLinker.IsDonePatrol())
+                    {
+                        SwitchToState(FSMState.CurrentState.Idle);
+                    }
                     break;
 
                     // case FSMState.CurrentState.Combat:
