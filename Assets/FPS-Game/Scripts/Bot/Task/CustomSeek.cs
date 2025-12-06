@@ -27,7 +27,6 @@ namespace CustomTask
 		{
 			base.OnAwake();
 			navMeshAgent = transform.root.GetComponent<NavMeshAgent>();
-			navMeshAgent.enabled = true;
 
 			path = new NavMeshPath();
 		}
@@ -35,6 +34,7 @@ namespace CustomTask
 		public override void OnStart()
 		{
 			base.OnStart();
+			// navMeshAgent.enabled = true;
 		}
 
 		public override TaskStatus OnUpdate()
@@ -43,7 +43,7 @@ namespace CustomTask
 			if (HasArrived())
 			{
 				moveDir.Value = Vector3.zero;
-				navMeshAgent.enabled = false;
+				// navMeshAgent.enabled = false;
 				return TaskStatus.Success;
 			}
 			CalculatePath();
