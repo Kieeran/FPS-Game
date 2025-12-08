@@ -72,25 +72,7 @@ namespace AIBot
 
         private void Start()
         {
-            PlayerRoot.AIInputFeeder.enabled = true;
-            // Basic validation
-            if (blackboardLinker == null) Debug.LogWarning("[BotController] BlackboardLinker not assigned.");
-            // if (perception == null) Debug.LogWarning("[BotController] PerceptionSensor not assigned.");
-            if (waypointPath == null) Debug.LogWarning("[BotController] WaypointPath not assigned.");
-
-            // Subscribe perception events (safe if perception is null)
-            // if (perception != null)
-            // {
-            //     perception.OnPlayerSpotted += HandlePlayerSpotted;
-            //     perception.OnPlayerLost += HandlePlayerLost;
-            // }
-
-            // initialize FSM to configured start state
-            var initial = startState == FSMState.InitialState.Idle ? FSMState.CurrentState.Idle
-                        : (startState == FSMState.InitialState.Patrol ? FSMState.CurrentState.Patrol
-                        : FSMState.CurrentState.Combat);
-
-            SwitchToState(initial);
+            InitController();
         }
 
         private void Update()
@@ -130,6 +112,29 @@ namespace AIBot
                     //     }
                     //     break;
             }
+        }
+
+        void InitController()
+        {
+            PlayerRoot.AIInputFeeder.enabled = true;
+            // Basic validation
+            if (blackboardLinker == null) Debug.LogWarning("[BotController] BlackboardLinker not assigned.");
+            // if (perception == null) Debug.LogWarning("[BotController] PerceptionSensor not assigned.");
+            if (waypointPath == null) Debug.LogWarning("[BotController] WaypointPath not assigned.");
+
+            // Subscribe perception events (safe if perception is null)
+            // if (perception != null)
+            // {
+            //     perception.OnPlayerSpotted += HandlePlayerSpotted;
+            //     perception.OnPlayerLost += HandlePlayerLost;
+            // }
+
+            // initialize FSM to configured start state
+            var initial = startState == FSMState.InitialState.Idle ? FSMState.CurrentState.Idle
+                        : (startState == FSMState.InitialState.Patrol ? FSMState.CurrentState.Patrol
+                        : FSMState.CurrentState.Combat);
+
+            SwitchToState(initial);
         }
 
         bool IsIdleTimeout()

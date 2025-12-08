@@ -12,8 +12,8 @@ public class PlayerLook : PlayerBehaviour
 
     void UpdateTargetLook()
     {
-        if (TargetLook == null || Camera.main == null)
-            return;
+        if (TargetLook == null || Camera.main == null) return;
+        if (PlayerRoot.IsBot.Value) return;
 
         Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * distance;
         TargetLook.position = targetPosition;

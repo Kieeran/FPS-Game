@@ -269,7 +269,7 @@ namespace PlayerAssets
                     _animator.SetFloat(_animIDVelocityX, 0);
                 }
 
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                // transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;

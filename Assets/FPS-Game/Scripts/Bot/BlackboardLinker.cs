@@ -67,6 +67,8 @@ namespace AIBot
 
         void GetValuesSharedVariables()
         {
+            if (!activeBehavior) return;
+
             string behaviorName = activeBehavior.BehaviorName;
             switch (behaviorName)
             {
