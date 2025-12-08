@@ -27,14 +27,17 @@ namespace CustomTask
 		{
 			base.OnAwake();
 			navMeshAgent = transform.root.GetComponent<NavMeshAgent>();
-
-			path = new NavMeshPath();
 		}
 
 		public override void OnStart()
 		{
 			base.OnStart();
+			if (path == null) path = new NavMeshPath();
 			// navMeshAgent.enabled = true;
+			
+			hasArrived = false;
+			currentCorner = 0;
+			repathTimer = 0f;
 		}
 
 		public override TaskStatus OnUpdate()

@@ -51,6 +51,7 @@ namespace AIBot
                     return;
                 case "PatrolTree":
                     SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
+                    SafeSet("isDonePatrol", false);
                     return;
                 default:
                     return;
