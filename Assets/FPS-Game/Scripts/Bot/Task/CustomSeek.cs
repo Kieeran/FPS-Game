@@ -96,6 +96,17 @@ namespace CustomTask
 			}
 		}
 
+		public override void OnDrawGizmos()
+		{
+			base.OnDrawGizmos();
+			if (path != null && path.corners.Length > 1)
+			{
+				Gizmos.color = Color.cyan;
+				for (int i = 0; i < path.corners.Length - 1; i++)
+					Gizmos.DrawLine(path.corners[i], path.corners[i + 1]);
+			}
+		}
+
 		public override void OnReset()
 		{
 			base.OnReset();
