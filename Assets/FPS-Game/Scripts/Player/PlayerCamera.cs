@@ -5,12 +5,26 @@ using UnityEngine;
 public class PlayerCamera : PlayerBehaviour
 {
     CinemachineVirtualCamera _playerCamera;
+    Transform playerCameraTarget;
     public float normalFOV;
     float _currentAimFOV;
     public float fovSpeed;
 
     bool _isAim;
     bool _isUnAim;
+
+    public override void InitializeAwake()
+    {
+        base.InitializeAwake();
+        foreach (Transform child in transform)
+        {
+            if (child.CompareTag("CinemachineTarget"))
+            {
+                playerCameraTarget = child;
+                return;
+            }
+        }
+    }
 
     // OnNetworkSpawn
     public override int PriorityNetwork => 15;
@@ -41,6 +55,8 @@ public class PlayerCamera : PlayerBehaviour
     {
         _playerCamera.m_Lens.FieldOfView = fov;
     }
+
+    public Transform GetPlayerCameraTarget() { return playerCameraTarget; }
 
     void OnWeaponChanged(object sender, PlayerEvents.WeaponEventArgs e)
     {

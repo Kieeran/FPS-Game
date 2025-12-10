@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 namespace CustomTask
 {
-	[TaskCategory("Custom/Movement")]
+	[TaskCategory("Custom")]
 	public class CustomSeek : Action
 	{
 		[Tooltip("The GameObject that the agent is seeking")]

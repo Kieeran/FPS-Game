@@ -76,16 +76,7 @@ public class PlayerNetwork : PlayerBehaviour
         CinemachineVirtualCamera _camera = InGameManager.Instance.PlayerFollowCamera;
         if (_camera != null)
         {
-            Transform playerCamera = null;
-
-            foreach (Transform child in transform)
-            {
-                if (child.CompareTag("CinemachineTarget"))
-                {
-                    playerCamera = child;
-                    break;
-                }
-            }
+            Transform playerCamera = PlayerRoot.PlayerCamera.GetPlayerCameraTarget();
 
             if (playerCamera != null) _camera.Follow = playerCamera;
             if (_camera.Follow == null) Debug.Log("_camera.Follow = null");
@@ -117,7 +108,7 @@ public class PlayerNetwork : PlayerBehaviour
     void SyncBotNetwork_Component()
     {
         PlayerRoot.PlayerCamera.enabled = false;
-        PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
+        // PlayerRoot.PlayerModel.ChangeRigBuilderState(false);
     }
 
     // Local
