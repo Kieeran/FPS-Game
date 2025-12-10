@@ -43,7 +43,7 @@ namespace AIBot
 
         [Header("Parameters")]
         [Tooltip("Seconds to remain idle before starting patrol")]
-        public float idleDuration = 14f;
+        public float idleDuration;
 
         // [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         // public float lostSightTimeout = 2f;
@@ -83,6 +83,7 @@ namespace AIBot
                 case FSMState.CurrentState.Idle:
                     PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetTargetPitch());
 
+                    // Debug.Log(Time.time - _stateEnterTime);
                     if (IsIdleTimeout())
                     {
                         SwitchToState(FSMState.CurrentState.Patrol);

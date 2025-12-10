@@ -9,10 +9,9 @@ namespace CustomTask
     [TaskCategory("Custom")]
     public class LookAround : Action
     {
-        private static WaitForSeconds _waitForSeconds1 = new WaitForSeconds(1);
-        float topPitch = -25f;
-        float bottomPitch = 25f;
-        float speed = 20f;
+        [SerializeField] float topPitch;
+        [SerializeField] float bottomPitch;
+        [SerializeField] float speed;
         [SerializeField] SharedFloat targetPitch;
 
         string mode = "Up";
@@ -80,7 +79,7 @@ namespace CustomTask
 
         IEnumerator WaitThenChangeToMode(string mode)
         {
-            yield return _waitForSeconds1;
+            yield return new WaitForSeconds(0.5f);
             this.mode = mode;
         }
 
