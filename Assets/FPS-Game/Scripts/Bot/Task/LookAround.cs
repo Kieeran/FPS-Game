@@ -1,0 +1,120 @@
+using System.Collections;
+using BehaviorDesigner.Runtime;
+using BehaviorDesigner.Runtime.Tasks;
+using Unity.Mathematics;
+using UnityEngine;
+
+namespace CustomTask
+{
+    [TaskCategory("Custom")]
+    public class LookAround : Action
+    {
+        private static WaitForSeconds _waitForSeconds1 = new WaitForSeconds(1);
+        float topPitch = -25f;
+        float bottomPitch = 25f;
+        float speed = 20f;
+        [SerializeField] SharedFloat targetPitch;
+
+        string mode = "Up";
+        bool endTask = false;
+
+        public override void OnStart()
+        {
+            base.OnStart();
+            mode = "Up";
+            endTask = false;
+            targetPitch.Value = 0f;
+        }
+
+        public override TaskStatus OnUpdate()
+        {
+            float pitch = targetPitch.Value;
+
+            if (mode == "Up")
+            {
+                pitch = LookUp(pitch);
+
+                if (HasReachedValue(pitch, topPitch))
+                {
+                    Debug.Log("Has reach topPitch");
+                    pitch = topPitch;
+
+                    StartCoroutine(WaitThenChangeToMode("Normal"));
+                }
+            }
+            else if (mode == "Normal")
+            {
+                pitch = BackToNormal(pitch);
+
+                if (HasReachedValue(pitch, 0f))
+                {
+                    Debug.Log("Back to normal");
+                    pitch = 0f;
+
+                    if (endTask)
+                    {
+                        targetPitch.Value = pitch;
+                        return TaskStatus.Success;
+                    }
+
+                    StartCoroutine(WaitThenChangeToMode("Down"));
+                }
+            }
+            else if (mode == "Down")
+            {
+                pitch = LookDown(pitch);
+
+                if (HasReachedValue(pitch, bottomPitch))
+                {
+                    Debug.Log("Has reach bottomPitch");
+                    pitch = bottomPitch;
+
+                    endTask = true;
+                    StartCoroutine(WaitThenChangeToMode("Normal"));
+                }
+            }
+            targetPitch.Value = pitch;
+
+            return TaskStatus.Running;
+        }
+
+        IEnumerator WaitThenChangeToMode(string mode)
+        {
+            yield return _waitForSeconds1;
+            this.mode = mode;
+        }
+
+        bool HasReachedValue(float val, float targetVal)
+        {
+            return Mathf.Abs(val - targetVal) <= 0.1f;
+        }
+
+        float LookUp(float pitch)
+        {
+            pitch -= speed * Time.deltaTime;
+            return Mathf.Max(pitch, topPitch);
+        }
+
+        float LookDown(float pitch)
+        {
+            pitch += speed * Time.deltaTime;
+            return Mathf.Min(pitch, bottomPitch);
+        }
+
+        float BackToNormal(float pitch)
+        {
+            if (pitch == 0) return pitch;
+            return pitch > 0 ?
+            pitch - speed * Time.deltaTime :
+            pitch + speed * Time.deltaTime;
+        }
+
+        public override void OnReset()
+        {
+            base.OnReset();
+            mode = "Up";
+            endTask = false;
+            targetPitch.Value = 0f;
+        }
+    }
+}

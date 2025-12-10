@@ -38,12 +38,12 @@ namespace AIBot
         [Tooltip("Adapter that synchronizes C# blackboard values to BD SharedVariables")]
         public BlackboardLinker blackboardLinker;
 
-        [Tooltip("Waypoint holder for Patrol")]
-        public WaypointPath waypointPath;
+        // [Tooltip("Waypoint holder for Patrol")]
+        // public WaypointPath waypointPath;
 
         [Header("Parameters")]
         [Tooltip("Seconds to remain idle before starting patrol")]
-        public float idleDuration = 4f;
+        public float idleDuration = 14f;
 
         // [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         // public float lostSightTimeout = 2f;
@@ -81,6 +81,8 @@ namespace AIBot
             switch (_state)
             {
                 case FSMState.CurrentState.Idle:
+                    PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetTargetPitch());
+
                     if (IsIdleTimeout())
                     {
                         SwitchToState(FSMState.CurrentState.Patrol);
@@ -88,7 +90,7 @@ namespace AIBot
                     break;
 
                 case FSMState.CurrentState.Patrol:
-                    PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.moveDir);
+                    PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
                     if (blackboardLinker.IsDonePatrol())
                     {
                         SwitchToState(FSMState.CurrentState.Idle);
@@ -120,7 +122,7 @@ namespace AIBot
             // Basic validation
             if (blackboardLinker == null) Debug.LogWarning("[BotController] BlackboardLinker not assigned.");
             // if (perception == null) Debug.LogWarning("[BotController] PerceptionSensor not assigned.");
-            if (waypointPath == null) Debug.LogWarning("[BotController] WaypointPath not assigned.");
+            // if (waypointPath == null) Debug.LogWarning("[BotController] WaypointPath not assigned.");
 
             // Subscribe perception events (safe if perception is null)
             // if (perception != null)
