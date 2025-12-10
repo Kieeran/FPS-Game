@@ -42,7 +42,7 @@ public class Waypoints : NetworkBehaviour
             if (currentWaypoint != null)
             {
                 waypoint = WaypointsList[Random.Range(0, WaypointsList.Count)];
-                if (waypoint != currentWaypoint)
+                if (waypoint.position != currentWaypoint.position)
                 {
                     currentWaypoint = waypoint;
                     break;

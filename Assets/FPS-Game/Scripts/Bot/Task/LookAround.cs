@@ -44,7 +44,7 @@ namespace CustomTask
             else if (mode == "Normal")
             {
                 pitch = BackToNormal(pitch);
-
+                // Debug.Log(pitch);
                 if (HasReachedValue(pitch, 0f))
                 {
                     Debug.Log("Back to normal");
@@ -102,10 +102,18 @@ namespace CustomTask
 
         float BackToNormal(float pitch)
         {
-            if (pitch == 0) return pitch;
-            return pitch > 0 ?
-            pitch - speed * Time.deltaTime :
-            pitch + speed * Time.deltaTime;
+            if (pitch < 0f)
+                pitch += speed * Time.deltaTime;
+            else if (pitch > 0f)
+                pitch -= speed * Time.deltaTime;
+
+            // Avoid jitter around 0
+            if (pitch <= 0.6f && pitch >= -0.6f)
+            {
+                pitch = 0;
+            }
+
+            return pitch;
         }
 
         public override void OnReset()
