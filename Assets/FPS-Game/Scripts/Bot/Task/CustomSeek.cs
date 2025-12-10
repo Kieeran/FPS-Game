@@ -71,7 +71,7 @@ namespace CustomTask
 
 			moveDir.Value = dir;
 
-			if (dir.magnitude < 0.2f)
+			if (dir.magnitude < 0.25f)
 			{
 				// Đến corner -> sang corner tiếp theo
 				if (currentCorner < path.corners.Length - 1)

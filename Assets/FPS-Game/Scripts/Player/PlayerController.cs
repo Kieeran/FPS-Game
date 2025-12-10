@@ -150,9 +150,8 @@ namespace PlayerAssets
             else BotMove();
             Shoot();
 
-            // _playerModel.transform.rotation = Quaternion.Euler(0f, _cinemachineTargetYaw, 0f);
             // transform.SetLocalPositionAndRotation(_currentPos, transform.localRotation);
-            if (!IsBot) _playerModel.transform.rotation = Quaternion.Euler(0, CinemachineCameraTarget.transform.eulerAngles.y, 0);
+            _playerModel.transform.rotation = Quaternion.Euler(0, CinemachineCameraTarget.transform.eulerAngles.y, 0);
         }
 
         private void LateUpdate()
@@ -315,15 +314,15 @@ namespace PlayerAssets
             // -------- ROTATION --------
             float targetYRot = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
             float newYRot = Mathf.SmoothDampAngle(
-                transform.eulerAngles.y,
+                CinemachineCameraTarget.transform.eulerAngles.y,
                 targetYRot,
                 ref _rotationVelocity,
                 RotationSmoothTime
             );
-            transform.rotation = Quaternion.Euler(0f, newYRot, 0f);
+            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(0f, newYRot, 0f);
 
             // -------- MOVE --------
-            Vector3 moveVector = transform.forward * targetSpeed * Time.deltaTime;
+            Vector3 moveVector = CinemachineCameraTarget.transform.forward * targetSpeed * Time.deltaTime;
             _controller.Move(moveVector + new Vector3(0, _verticalVelocity, 0) * Time.deltaTime);
 
             // -------- ANIMATION --------
