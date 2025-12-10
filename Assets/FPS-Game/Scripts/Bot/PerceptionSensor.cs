@@ -50,17 +50,24 @@ namespace AIBot
         /// <summary>Last seen world position (updated when spotted).</summary>
         public Vector3 LastSeenPos { get; private set; } = Vector3.zero;
 
-        private float _nextCheck = 0f;
+        // private float _nextCheck = 0f;
+        public Vector3 posOffset;
+        public PlayerRoot PlayerRoot { get; private set; }
+        void Awake()
+        {
+            PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+            if (mesh == null) mesh = CreateWedgeMesh();
+        }
 
         private void Update()
         {
-            if (playerTransform == null) return;
+            // if (playerTransform == null) return;
 
-            if (Time.time >= _nextCheck)
-            {
-                _nextCheck = Time.time + checkInterval;
-                Scan();
-            }
+            // if (Time.time >= _nextCheck)
+            // {
+            //     _nextCheck = Time.time + checkInterval;
+            //     Scan();
+            // }
         }
 
         private void Scan()
@@ -232,7 +239,7 @@ namespace AIBot
             vertices[vert++] = bottomCenter;
 
             float currentAngle = -viewHalfAngle;
-            float deltaAngle = (viewHalfAngle * 2) / segments;
+            float deltaAngle = viewHalfAngle * 2 / segments;
             for (int i = 0; i < segments; ++i)
             {
                 bottomLeft = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward * viewDistance;
@@ -286,23 +293,35 @@ namespace AIBot
 
         private void OnDrawGizmos()
         {
+            Transform target;
+            if (!Application.isPlaying)
+            {
+                target = transform;
+                posOffset = Vector3.zero;
+            }
+            else
+            {
+                if (PlayerRoot == null) return;
+                target = PlayerRoot.PlayerCamera.GetPlayerCameraTarget();
+            }
+
             if (mesh)
             {
                 Gizmos.color = meshColor;
-                Gizmos.DrawMesh(mesh, transform.position, transform.rotation);
+                Gizmos.DrawMesh(mesh, target.position + posOffset, target.rotation);
             }
 
-            Gizmos.DrawWireSphere(transform.position, viewDistance);
-            for (int i = 0; i < count; i++)
-            {
-                Gizmos.DrawSphere(colliders[i].transform.position, 0.2f);
-            }
+            // Gizmos.DrawWireSphere(playerCameraTarget.position, viewDistance);
+            // for (int i = 0; i < count; i++)
+            // {
+            //     Gizmos.DrawSphere(colliders[i].transform.position, 0.2f);
+            // }
 
-            Gizmos.color = Color.green;
-            foreach (var obj in Objects)
-            {
-                Gizmos.DrawSphere(obj.transform.position, 0.2f);
-            }
+            // Gizmos.color = Color.green;
+            // foreach (var obj in Objects)
+            // {
+            //     Gizmos.DrawSphere(obj.transform.position, 0.2f);
+            // }
         }
     }
 }
