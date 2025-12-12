@@ -297,7 +297,6 @@ namespace AIBot
             if (!Application.isPlaying)
             {
                 target = transform;
-                posOffset = Vector3.zero;
             }
             else
             {

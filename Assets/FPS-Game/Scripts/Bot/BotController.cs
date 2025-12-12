@@ -3,6 +3,14 @@ using UnityEngine;
 using BehaviorDesigner.Runtime;
 using UnityEngine.AI;
 
+public enum State
+{
+    None,
+    Idle,
+    Patrol,
+    Combat
+}
+
 namespace AIBot
 {
     /// <summary>
@@ -17,19 +25,10 @@ namespace AIBot
     [DisallowMultipleComponent]
     public class BotController : MonoBehaviour
     {
-        [Header("Startup")]
-        [Tooltip("Initial runtime state.")]
-        public FSMState.InitialState startState = FSMState.InitialState.Idle;
-
-        [Header("Behavior Designer Behaviors (assign one Behavior component per tree)")]
-        [Tooltip("Behavior component with Idle tree")]
-        public Behavior idleBehavior;
-
-        [Tooltip("Behavior component with Patrol tree")]
-        public Behavior patrolBehavior;
-
-        [Tooltip("Behavior component with Combat tree")]
-        public Behavior combatBehavior;
+        [Header("Behavior Designer Behaviors")]
+        [SerializeField] Behavior idleBehavior;
+        [SerializeField] Behavior patrolBehavior;
+        [SerializeField] Behavior combatBehavior;
 
         // [Header("References")]
         // [Tooltip("Sensor that raises OnPlayerSpotted / OnPlayerLost")]
@@ -49,7 +48,7 @@ namespace AIBot
         // public float lostSightTimeout = 2f;
 
         // runtime state
-        private FSMState.CurrentState _state = FSMState.CurrentState.None;
+        State currentState = State.None;
         private float _stateEnterTime;
         // private float _lostSightStart = -1f;
 
@@ -78,27 +77,27 @@ namespace AIBot
         private void Update()
         {
             // handle per-state timing logic
-            switch (_state)
+            switch (currentState)
             {
-                case FSMState.CurrentState.Idle:
+                case State.Idle:
                     PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetTargetPitch());
 
                     // Debug.Log(Time.time - _stateEnterTime);
                     if (IsIdleTimeout())
                     {
-                        SwitchToState(FSMState.CurrentState.Patrol);
+                        SwitchToState(State.Patrol);
                     }
                     break;
 
-                case FSMState.CurrentState.Patrol:
+                case State.Patrol:
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
                     if (blackboardLinker.IsDonePatrol())
                     {
-                        SwitchToState(FSMState.CurrentState.Idle);
+                        SwitchToState(State.Idle);
                     }
                     break;
 
-                case FSMState.CurrentState.Combat:
+                case State.Combat:
                     // // If player currently not visible, start lost sight timer; otherwise reset
                     // if (!blackboardLinker?.isPlayerVisible ?? true)
                     // {
@@ -132,12 +131,7 @@ namespace AIBot
             //     perception.OnPlayerLost += HandlePlayerLost;
             // }
 
-            // initialize FSM to configured start state
-            var initial = startState == FSMState.InitialState.Idle ? FSMState.CurrentState.Idle
-                        : (startState == FSMState.InitialState.Patrol ? FSMState.CurrentState.Patrol
-                        : FSMState.CurrentState.Combat);
-
-            SwitchToState(initial);
+            SwitchToState(State.Idle);
         }
 
         bool IsIdleTimeout()
@@ -165,9 +159,9 @@ namespace AIBot
         /// Switches the FSM to a new state and activates the corresponding Behavior Designer Behavior.
         /// </summary>
         /// <param name="newState">Target state</param>
-        public void SwitchToState(FSMState.CurrentState newState)
+        public void SwitchToState(State newState)
         {
-            if (_state == newState) return;
+            if (currentState == newState) return;
 
             // stop any previously active Behavior
             if (_activeBehavior != null)
@@ -176,22 +170,22 @@ namespace AIBot
                 _activeBehavior = null;
             }
 
-            _state = newState;
+            currentState = newState;
             _stateEnterTime = Time.time;
             // _lostSightStart = -1f;
 
             // choose and start the matching Behavior
             switch (newState)
             {
-                case FSMState.CurrentState.Idle:
+                case State.Idle:
                     Debug.Log("Entering Idle State");
                     StartBehavior(idleBehavior);
                     break;
-                case FSMState.CurrentState.Patrol:
+                case State.Patrol:
                     Debug.Log("Entering Patrol State");
                     StartBehavior(patrolBehavior);
                     break;
-                    // case FSMState.CurrentState.Combat:
+                    // case State.Combat:
                     //     Debug.Log("Entering Combat State");
                     //     StartBehavior(combatBehavior);
                     //     break;

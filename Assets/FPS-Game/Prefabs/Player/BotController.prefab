@@ -248,9 +248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51934ac196cb86a4696d9dc77c59fec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startState: 0
   idleBehavior: {fileID: 4608786502910457818}
   patrolBehavior: {fileID: 8781971133257752288}
+  combatBehavior: {fileID: 3065118947464049570}
   blackboardLinker: {fileID: 2264964879111128093}
   idleDuration: 6
 --- !u!114 &2264964879111128093
