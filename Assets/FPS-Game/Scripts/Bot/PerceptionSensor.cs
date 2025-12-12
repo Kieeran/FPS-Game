@@ -56,6 +56,8 @@ namespace AIBot
 
         float botHorizontalFOV;
 
+        Dictionary<Transform, Color> targetsDebug = new();
+
         void Awake()
         {
             playerRoot = transform.root.GetComponent<PlayerRoot>();
@@ -76,6 +78,8 @@ namespace AIBot
             //     _nextCheck = Time.time + checkInterval;
             //     Scan();
             // }
+
+            targetsDebug.Clear();
 
             if (InGameManager.Instance != null)
             {
@@ -105,11 +109,17 @@ namespace AIBot
 
                 // outside range
                 if (dist > detectRange)
+                {
+                    targetsDebug.Add(t, Color.red);
                     continue;
+                }
 
                 // outside FOV
                 if (Vector3.Dot(target.forward, dir) < Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad))
+                {
+                    targetsDebug.Add(t, Color.yellow);
                     continue;
+                }
 
                 if (dist < nearestDist)
                 {
@@ -117,7 +127,8 @@ namespace AIBot
                     nearest = root;
                 }
             }
-
+            if (nearest != null)
+                targetsDebug.Add(nearest.PlayerCamera.GetPlayerCameraTarget(), Color.green);
             return nearest;
         }
 
@@ -443,18 +454,18 @@ namespace AIBot
 
         void DrawLinesToUsers()
         {
-            if (InGameManager.Instance == null || InGameManager.Instance.AllCharacters.Count == 0) return;
+            if (targetsDebug == null) return;
 
-            List<PlayerRoot> targets = InGameManager.Instance.AllCharacters;
-            Gizmos.color = Color.green;
+            Dictionary<Transform, Color> targets = targetsDebug;
             foreach (var t in targets)
             {
-                if (t == null)
+                if (t.Key == null)
                     continue;
 
+                Gizmos.color = t.Value;
                 Gizmos.DrawLine(
                     playerRoot.PlayerCamera.GetPlayerCameraTarget().position,
-                    t.PlayerCamera.GetPlayerCameraTarget().position
+                    t.Key.position
                 );
             }
         }
