@@ -26,17 +26,17 @@ namespace AIBot
         [Tooltip("Layer mask used for occlusion (what can block sight).")]
         public LayerMask occlusionMask = ~0;
 
-        [Tooltip("How often (seconds) to check perception.")]
-        public float checkInterval = 0.1f;
+        // [Tooltip("How often (seconds) to check perception.")]
+        // public float checkInterval = 0.1f;
 
         public float height = 1f;
-        public Color meshColor = Color.yellow;
+        // public Color meshColor = Color.yellow;
         int count;
         Collider[] colliders = new Collider[50];
         public LayerMask layers;
         public List<GameObject> Objects = new List<GameObject>();
 
-        Mesh mesh;
+        // Mesh mesh;
 
         /// <summary>Raised when player becomes visible. Args: worldPos, playerTransform</summary>
         public event Action<Vector3, GameObject> OnPlayerSpotted;
@@ -51,12 +51,20 @@ namespace AIBot
         public Vector3 LastSeenPos { get; private set; } = Vector3.zero;
 
         // private float _nextCheck = 0f;
-        public Vector3 posOffset;
-        public PlayerRoot PlayerRoot { get; private set; }
+        // public Vector3 posOffset;
+        PlayerRoot playerRoot;
+
+        float botHorizontalFOV;
+
         void Awake()
         {
-            PlayerRoot = transform.root.GetComponent<PlayerRoot>();
-            if (mesh == null) mesh = CreateWedgeMesh();
+            playerRoot = transform.root.GetComponent<PlayerRoot>();
+            // if (mesh == null) mesh = CreateWedgeMesh();
+        }
+
+        void Start()
+        {
+            CalculateBotFOV();
         }
 
         private void Update()
@@ -199,97 +207,148 @@ namespace AIBot
             OnPlayerLost?.Invoke();
         }
 
-        Mesh CreateWedgeMesh()
+        // Mesh CreateWedgeMesh()
+        // {
+        //     Mesh mesh = new Mesh();
+
+        //     int segments = 10;
+        //     int numTriangles = (segments * 4) + 2 + 2; // segment * 4: Top, bottom, the tip and the far end of the mesh
+        //     int numVertices = numTriangles * 3;
+
+        //     Vector3[] vertices = new Vector3[numVertices];
+        //     int[] triangles = new int[numVertices];
+
+        //     Vector3 bottomCenter = Vector3.zero;
+        //     Vector3 bottomLeft = Quaternion.Euler(0, -viewHalfAngle, 0) * Vector3.forward * viewDistance;
+        //     Vector3 bottomRight = Quaternion.Euler(0, viewHalfAngle, 0) * Vector3.forward * viewDistance;
+
+        //     Vector3 topCenter = bottomCenter + Vector3.up * height;
+        //     Vector3 topRight = bottomRight + Vector3.up * height;
+        //     Vector3 topLeft = bottomLeft + Vector3.up * height;
+
+        //     int vert = 0;
+
+        //     // Left side
+        //     vertices[vert++] = bottomCenter;
+        //     vertices[vert++] = bottomLeft;
+        //     vertices[vert++] = topLeft;
+
+        //     vertices[vert++] = topLeft;
+        //     vertices[vert++] = topCenter;
+        //     vertices[vert++] = bottomCenter;
+
+        //     // Right side
+        //     vertices[vert++] = bottomCenter;
+        //     vertices[vert++] = bottomRight;
+        //     vertices[vert++] = topRight;
+
+        //     vertices[vert++] = topRight;
+        //     vertices[vert++] = topCenter;
+        //     vertices[vert++] = bottomCenter;
+
+        //     float currentAngle = -viewHalfAngle;
+        //     float deltaAngle = viewHalfAngle * 2 / segments;
+        //     for (int i = 0; i < segments; ++i)
+        //     {
+        //         bottomLeft = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward * viewDistance;
+
+        //         bottomRight = Quaternion.Euler(0, currentAngle + deltaAngle, 0) * Vector3.forward * viewDistance;
+
+
+        //         topRight = bottomRight + Vector3.up * height;
+
+        //         topLeft = bottomLeft + Vector3.up * height;
+
+
+        //         // Far side
+        //         vertices[vert++] = bottomRight;
+        //         vertices[vert++] = bottomLeft;
+        //         vertices[vert++] = topRight;
+
+        //         vertices[vert++] = topLeft;
+        //         vertices[vert++] = topRight;
+        //         vertices[vert++] = bottomLeft;
+
+        //         // Top side
+        //         vertices[vert++] = topCenter;
+        //         vertices[vert++] = topLeft;
+        //         vertices[vert++] = topRight;
+
+        //         // Bottom side
+        //         vertices[vert++] = bottomCenter;
+        //         vertices[vert++] = bottomLeft;
+        //         vertices[vert++] = bottomRight;
+
+        //         currentAngle += deltaAngle;
+        //     }
+
+        //     for (int i = 0; i < numVertices; ++i)
+        //     {
+        //         triangles[i] = i;
+        //     }
+
+        //     mesh.vertices = vertices;
+        //     mesh.triangles = triangles;
+        //     mesh.RecalculateNormals();
+
+        //     return mesh;
+        // }
+
+        // private void OnValidate()
+        // {
+        //     mesh = CreateWedgeMesh();
+        // }
+
+        // private void OnDrawGizmos()
+        // {
+        //     Transform target;
+        //     if (!Application.isPlaying)
+        //     {
+        //         target = transform;
+        //     }
+        //     else
+        //     {
+        //         if (PlayerRoot == null) return;
+        //         target = PlayerRoot.PlayerCamera.GetPlayerCameraTarget();
+        //     }
+
+        //     if (mesh)
+        //     {
+        //         Gizmos.color = meshColor;
+        //         Gizmos.DrawMesh(mesh, target.position + posOffset, target.rotation);
+        //     }
+
+        //     if (Application.isPlaying)
+        //     {
+        //         DrawLinesToUsers();
+        //     }
+
+        //     // Gizmos.DrawWireSphere(playerCameraTarget.position, viewDistance);
+        //     // for (int i = 0; i < count; i++)
+        //     // {
+        //     //     Gizmos.DrawSphere(colliders[i].transform.position, 0.2f);
+        //     // }
+
+        //     // Gizmos.color = Color.green;
+        //     // foreach (var obj in Objects)
+        //     // {
+        //     //     Gizmos.DrawSphere(obj.transform.position, 0.2f);
+        //     // }
+        // }
+
+        float GetHorizontalFOV(float verticalFov, float aspect)
         {
-            Mesh mesh = new Mesh();
-
-            int segments = 10;
-            int numTriangles = (segments * 4) + 2 + 2; // segment * 4: Top, bottom, the tip and the far end of the mesh
-            int numVertices = numTriangles * 3;
-
-            Vector3[] vertices = new Vector3[numVertices];
-            int[] triangles = new int[numVertices];
-
-            Vector3 bottomCenter = Vector3.zero;
-            Vector3 bottomLeft = Quaternion.Euler(0, -viewHalfAngle, 0) * Vector3.forward * viewDistance;
-            Vector3 bottomRight = Quaternion.Euler(0, viewHalfAngle, 0) * Vector3.forward * viewDistance;
-
-            Vector3 topCenter = bottomCenter + Vector3.up * height;
-            Vector3 topRight = bottomRight + Vector3.up * height;
-            Vector3 topLeft = bottomLeft + Vector3.up * height;
-
-            int vert = 0;
-
-            // Left side
-            vertices[vert++] = bottomCenter;
-            vertices[vert++] = bottomLeft;
-            vertices[vert++] = topLeft;
-
-            vertices[vert++] = topLeft;
-            vertices[vert++] = topCenter;
-            vertices[vert++] = bottomCenter;
-
-            // Right side
-            vertices[vert++] = bottomCenter;
-            vertices[vert++] = bottomRight;
-            vertices[vert++] = topRight;
-
-            vertices[vert++] = topRight;
-            vertices[vert++] = topCenter;
-            vertices[vert++] = bottomCenter;
-
-            float currentAngle = -viewHalfAngle;
-            float deltaAngle = viewHalfAngle * 2 / segments;
-            for (int i = 0; i < segments; ++i)
-            {
-                bottomLeft = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward * viewDistance;
-
-                bottomRight = Quaternion.Euler(0, currentAngle + deltaAngle, 0) * Vector3.forward * viewDistance;
-
-
-                topRight = bottomRight + Vector3.up * height;
-
-                topLeft = bottomLeft + Vector3.up * height;
-
-
-                // Far side
-                vertices[vert++] = bottomRight;
-                vertices[vert++] = bottomLeft;
-                vertices[vert++] = topRight;
-
-                vertices[vert++] = topLeft;
-                vertices[vert++] = topRight;
-                vertices[vert++] = bottomLeft;
-
-                // Top side
-                vertices[vert++] = topCenter;
-                vertices[vert++] = topLeft;
-                vertices[vert++] = topRight;
-
-                // Bottom side
-                vertices[vert++] = bottomCenter;
-                vertices[vert++] = bottomLeft;
-                vertices[vert++] = bottomRight;
-
-                currentAngle += deltaAngle;
-            }
-
-            for (int i = 0; i < numVertices; ++i)
-            {
-                triangles[i] = i;
-            }
-
-            mesh.vertices = vertices;
-            mesh.triangles = triangles;
-            mesh.RecalculateNormals();
-
-            return mesh;
+            float vFovRad = verticalFov * Mathf.Deg2Rad;
+            float hFovRad = 2f * Mathf.Atan(Mathf.Tan(vFovRad / 2f) * aspect);
+            return hFovRad * Mathf.Rad2Deg;
         }
 
-        private void OnValidate()
+        void CalculateBotFOV()
         {
-            mesh = CreateWedgeMesh();
+            Camera playerCam = Camera.main;
+            botHorizontalFOV = GetHorizontalFOV(playerCam.fieldOfView, playerCam.aspect);
         }
+
 
         private void OnDrawGizmos()
         {
@@ -297,35 +356,46 @@ namespace AIBot
             if (!Application.isPlaying)
             {
                 target = transform;
+                CalculateBotFOV();
             }
             else
             {
-                if (PlayerRoot == null) return;
-                target = PlayerRoot.PlayerCamera.GetPlayerCameraTarget();
+                if (playerRoot == null) return;
+                target = playerRoot.PlayerCamera.GetPlayerCameraTarget();
             }
 
-            if (mesh)
+            // Vẽ bán kính detect
+            Gizmos.color = new Color(0f, 1f, 1f, 0.12f);
+            Gizmos.DrawWireSphere(target.position, viewDistance);
+
+            // Vẽ nón FOV
+            Gizmos.color = new Color(0.2f, 0.6f, 1f, 0.15f);
+            DrawFOVGizmo(target, viewDistance, botHorizontalFOV);
+
+            // Vẽ đường tới các user
+            DrawLinesToUsers();
+        }
+
+        void DrawFOVGizmo(Transform eye, float range, float fov)
+        {
+            Gizmos.color = new Color(0f, 1f, 1f, 0.25f);
+
+            Vector3 left = Quaternion.Euler(0, -fov * 0.5f, 0) * eye.forward;
+            Vector3 right = Quaternion.Euler(0, fov * 0.5f, 0) * eye.forward;
+
+            Gizmos.DrawLine(eye.position, eye.position + left * range);
+            Gizmos.DrawLine(eye.position, eye.position + right * range);
+
+            int segments = 32;
+            Vector3 prevPoint = eye.position + right * range;
+            for (int i = 1; i <= segments; i++)
             {
-                Gizmos.color = meshColor;
-                Gizmos.DrawMesh(mesh, target.position + posOffset, target.rotation);
+                float angle = Mathf.Lerp(fov * 0.5f, -fov * 0.5f, i / (float)segments);
+                Vector3 point = eye.position + Quaternion.Euler(0, angle, 0) * eye.forward * range;
+
+                Gizmos.DrawLine(prevPoint, point);
+                prevPoint = point;
             }
-
-            if (Application.isPlaying)
-            {
-                DrawLinesToUsers();
-            }
-
-            // Gizmos.DrawWireSphere(playerCameraTarget.position, viewDistance);
-            // for (int i = 0; i < count; i++)
-            // {
-            //     Gizmos.DrawSphere(colliders[i].transform.position, 0.2f);
-            // }
-
-            // Gizmos.color = Color.green;
-            // foreach (var obj in Objects)
-            // {
-            //     Gizmos.DrawSphere(obj.transform.position, 0.2f);
-            // }
         }
 
         void DrawLinesToUsers()
@@ -340,7 +410,7 @@ namespace AIBot
                     continue;
 
                 Gizmos.DrawLine(
-                    PlayerRoot.PlayerCamera.GetPlayerCameraTarget().position,
+                    playerRoot.PlayerCamera.GetPlayerCameraTarget().position,
                     t.PlayerCamera.GetPlayerCameraTarget().position
                 );
             }

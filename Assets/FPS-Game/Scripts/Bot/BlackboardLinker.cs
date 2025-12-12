@@ -18,13 +18,13 @@ namespace AIBot
     {
         [Header("Runtime cache")]
         [Tooltip("Current active Behavior Designer Behavior component (set by BotController.BindToBehavior)")]
-        public Behavior activeBehavior;
+        [SerializeField] Behavior activeBehavior;
 
         // internal cached values to avoid setting BD vars every frame
         // private bool _isPlayerVisible = false;
         // private Vector3 _playerLastSeenPos = Vector3.zero;
-        Vector3 moveDir;
-        public float targetPitch;
+        [SerializeField] Vector3 moveDir;
+        [SerializeField] float targetPitch;
 
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
         // public Vector3 PlayerLastSeenPos => _playerLastSeenPos;
