@@ -15,19 +15,12 @@ namespace CustomTask
 		public SharedVector3 moveDir;
 		public float repathInterval = 0.5f;
 
-		NavMeshAgent navMeshAgent;
 		NavMeshPath path;
 		int currentCorner = 0;
 		float repathTimer = 0f;
 		bool hasArrived = false;
 
 		bool HasArrived() { return hasArrived; }
-
-		public override void OnAwake()
-		{
-			base.OnAwake();
-			navMeshAgent = transform.root.GetComponent<NavMeshAgent>();
-		}
 
 		public override void OnStart()
 		{

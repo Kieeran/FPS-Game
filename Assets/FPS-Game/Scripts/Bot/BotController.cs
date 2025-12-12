@@ -37,19 +37,11 @@ namespace AIBot
         [Tooltip("Adapter that synchronizes C# blackboard values to BD SharedVariables")]
         public BlackboardLinker blackboardLinker;
 
-        // [Tooltip("Waypoint holder for Patrol")]
-        // public WaypointPath waypointPath;
-
-        [Header("Parameters")]
-        [Tooltip("Seconds to remain idle before starting patrol")]
-        public float idleDuration;
-
         // [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         // public float lostSightTimeout = 2f;
 
         // runtime state
         State currentState = State.None;
-        private float _stateEnterTime;
         // private float _lostSightStart = -1f;
 
         // explicit currently active Behavior component (null when none)
@@ -61,40 +53,26 @@ namespace AIBot
             PlayerRoot = transform.root.GetComponent<PlayerRoot>();
         }
 
-        // private void Reset()
-        // {
-        //     // Try to auto-wire common components if left unassigned in inspector
-        //     perception ??= GetComponent<PerceptionSensor>();
-        //     blackboardLinker ??= GetComponent<BlackboardLinker>();
-        //     waypointPath ??= GetComponent<WaypointPath>();
-        // }
-
-        private void Start()
+        void Start()
         {
             InitController();
         }
 
         private void Update()
         {
-            // handle per-state timing logic
+            UpdateValues();
+        }
+
+        void UpdateValues()
+        {
             switch (currentState)
             {
                 case State.Idle:
                     PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetTargetPitch());
-
-                    // Debug.Log(Time.time - _stateEnterTime);
-                    if (IsIdleTimeout())
-                    {
-                        SwitchToState(State.Patrol);
-                    }
                     break;
 
                 case State.Patrol:
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
-                    if (blackboardLinker.IsDonePatrol())
-                    {
-                        SwitchToState(State.Idle);
-                    }
                     break;
 
                 case State.Combat:
@@ -134,11 +112,6 @@ namespace AIBot
             SwitchToState(State.Idle);
         }
 
-        bool IsIdleTimeout()
-        {
-            return Time.time - _stateEnterTime >= idleDuration;
-        }
-
         // private void OnDestroy()
         // {
         //     if (perception != null)
@@ -154,6 +127,25 @@ namespace AIBot
         //         _activeBehavior = null;
         //     }
         // }
+
+        public void OnSwitchState(string state)
+        {
+            switch (state)
+            {
+                case "Idle":
+                    SwitchToState(State.Idle);
+                    break;
+                case "Patrol":
+                    SwitchToState(State.Patrol);
+                    break;
+                case "Combat":
+                    SwitchToState(State.Combat);
+                    break;
+            }
+
+            PlayerRoot.AIInputFeeder.OnMove?.Invoke(Vector3.zero);
+            PlayerRoot.AIInputFeeder.OnLook?.Invoke(0f);
+        }
 
         /// <summary>
         /// Switches the FSM to a new state and activates the corresponding Behavior Designer Behavior.
@@ -171,7 +163,6 @@ namespace AIBot
             }
 
             currentState = newState;
-            _stateEnterTime = Time.time;
             // _lostSightStart = -1f;
 
             // choose and start the matching Behavior
@@ -185,14 +176,13 @@ namespace AIBot
                     Debug.Log("Entering Patrol State");
                     StartBehavior(patrolBehavior);
                     break;
-                    // case State.Combat:
-                    //     Debug.Log("Entering Combat State");
-                    //     StartBehavior(combatBehavior);
-                    //     break;
+                case State.Combat:
+                    Debug.Log("Entering Combat State");
+                    StartBehavior(combatBehavior);
+                    break;
             }
 
-            // Debug log for developer convenience
-            // Debug.Log($"[BotController] Switched to {_state}");
+            Debug.Log($"[BotController] Switched to {currentState}");
         }
 
         /// <summary>

@@ -24,7 +24,6 @@ namespace AIBot
         // private bool _isPlayerVisible = false;
         // private Vector3 _playerLastSeenPos = Vector3.zero;
         Vector3 moveDir;
-        bool isDonePatrol;
         public float targetPitch;
 
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
@@ -54,7 +53,6 @@ namespace AIBot
 
                 case "PatrolTree":
                     SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
-                    SafeSet("isDonePatrol", false);
                     return;
 
                 default:
@@ -62,7 +60,6 @@ namespace AIBot
             }
         }
 
-        public bool IsDonePatrol() { return isDonePatrol; }
         public Vector3 GetMovDir() { return moveDir; }
         public float GetTargetPitch() { return targetPitch; }
 
@@ -84,7 +81,6 @@ namespace AIBot
 
                 case "PatrolTree":
                     moveDir = (Vector3)activeBehavior.GetVariable("moveDir").GetValue();
-                    isDonePatrol = (bool)activeBehavior.GetVariable("isDonePatrol").GetValue();
                     return;
 
                 default:
