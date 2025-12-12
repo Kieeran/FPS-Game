@@ -14,41 +14,41 @@ namespace AIBot
     public class PerceptionSensor : MonoBehaviour
     {
         [Header("Perception")]
-        [Tooltip("Player transform to detect.")]
-        public Transform playerTransform;
+        // [Tooltip("Player transform to detect.")]
+        // public Transform playerTransform;
 
         [Tooltip("Maximum sight distance.")]
         public float viewDistance = 10f;
 
-        [Tooltip("Angle of vision cone in degrees.")]
-        public float viewHalfAngle = 30f;
+        // [Tooltip("Angle of vision cone in degrees.")]
+        // public float viewHalfAngle = 30f;
 
-        [Tooltip("Layer mask used for occlusion (what can block sight).")]
-        public LayerMask occlusionMask = ~0;
+        // [Tooltip("Layer mask used for occlusion (what can block sight).")]
+        // public LayerMask occlusionMask = ~0;
 
-        // [Tooltip("How often (seconds) to check perception.")]
-        // public float checkInterval = 0.1f;
+        // // [Tooltip("How often (seconds) to check perception.")]
+        // // public float checkInterval = 0.1f;
 
-        public float height = 1f;
-        // public Color meshColor = Color.yellow;
-        int count;
-        Collider[] colliders = new Collider[50];
-        public LayerMask layers;
-        public List<GameObject> Objects = new List<GameObject>();
+        // public float height = 1f;
+        // // public Color meshColor = Color.yellow;
+        // int count;
+        // Collider[] colliders = new Collider[50];
+        // public LayerMask layers;
+        // public List<GameObject> Objects = new List<GameObject>();
 
         // Mesh mesh;
 
-        /// <summary>Raised when player becomes visible. Args: worldPos, playerTransform</summary>
-        public event Action<Vector3, GameObject> OnPlayerSpotted;
+        // /// <summary>Raised when player becomes visible. Args: worldPos, playerTransform</summary>
+        // public event Action<Vector3, GameObject> OnPlayerSpotted;
 
-        /// <summary>Raised when player becomes not visible (lost).</summary>
-        public event Action OnPlayerLost;
+        // /// <summary>Raised when player becomes not visible (lost).</summary>
+        // public event Action OnPlayerLost;
 
-        /// <summary>Current visibility state (cached)</summary>
-        public bool isPlayerVisible { get; private set; } = false;
+        // /// <summary>Current visibility state (cached)</summary>
+        // public bool isPlayerVisible { get; private set; } = false;
 
-        /// <summary>Last seen world position (updated when spotted).</summary>
-        public Vector3 LastSeenPos { get; private set; } = Vector3.zero;
+        // /// <summary>Last seen world position (updated when spotted).</summary>
+        // public Vector3 LastSeenPos { get; private set; } = Vector3.zero;
 
         // private float _nextCheck = 0f;
         // public Vector3 posOffset;
@@ -76,24 +76,67 @@ namespace AIBot
             //     _nextCheck = Time.time + checkInterval;
             //     Scan();
             // }
-        }
 
-        private void Scan()
-        {
-            count = Physics.OverlapSphereNonAlloc(transform.position, viewDistance, colliders, layers, QueryTriggerInteraction.Collide);
-
-            Objects.Clear();
-            for (int i = 0; i < count; i++)
+            if (InGameManager.Instance != null)
             {
-                GameObject obj = colliders[i].GameObject();
-                if (IsInSight(obj))
+                PlayerRoot root = CheckSurroundingFOV(InGameManager.Instance.AllCharacters, viewDistance, botHorizontalFOV);
+                if (root != null)
                 {
-                    SetPlayerSpotted(obj.transform.position);
-                    Objects.Add(obj);
+                    Debug.Log($"Nearest player: {root}");
                 }
-                else SetPlayerLost();
             }
         }
+
+        PlayerRoot CheckSurroundingFOV(List<PlayerRoot> targets, float detectRange, float fov)
+        {
+            PlayerRoot nearest = null;
+            float nearestDist = Mathf.Infinity;
+            Transform target = playerRoot.PlayerCamera.GetPlayerCameraTarget();
+
+            foreach (PlayerRoot root in targets)
+            {
+                if (root == null || root == transform)
+                    continue;
+
+                Transform t = root.PlayerCamera.GetPlayerCameraTarget();
+
+                Vector3 dir = (t.position - target.position).normalized;
+                float dist = Vector3.Distance(target.position, t.position);
+
+                // outside range
+                if (dist > detectRange)
+                    continue;
+
+                // outside FOV
+                if (Vector3.Dot(target.forward, dir) < Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad))
+                    continue;
+
+                if (dist < nearestDist)
+                {
+                    nearestDist = dist;
+                    nearest = root;
+                }
+            }
+
+            return nearest;
+        }
+
+        // private void Scan()
+        // {
+        //     count = Physics.OverlapSphereNonAlloc(transform.position, viewDistance, colliders, layers, QueryTriggerInteraction.Collide);
+
+        //     Objects.Clear();
+        //     for (int i = 0; i < count; i++)
+        //     {
+        //         GameObject obj = colliders[i].GameObject();
+        //         if (IsInSight(obj))
+        //         {
+        //             SetPlayerSpotted(obj.transform.position);
+        //             Objects.Add(obj);
+        //         }
+        //         else SetPlayerLost();
+        //     }
+        // }
 
         // private void Scan()
         // {
@@ -157,55 +200,55 @@ namespace AIBot
         //     }
         // }
 
-        public bool IsInSight(GameObject obj)
-        {
-            Vector3 origin = transform.position;
-            Vector3 dest = obj.transform.position;
-            Vector3 direction = dest - origin;
-            if (direction.y < 0 || direction.y > height)
-            {
-                Debug.Log("direction.y");
-                return false;
-            }
+        // public bool IsInSight(GameObject obj)
+        // {
+        //     Vector3 origin = transform.position;
+        //     Vector3 dest = obj.transform.position;
+        //     Vector3 direction = dest - origin;
+        //     if (direction.y < 0 || direction.y > height)
+        //     {
+        //         Debug.Log("direction.y");
+        //         return false;
+        //     }
 
-            direction.y = 0;
-            float deltaAngle = Vector3.Angle(direction, transform.forward);
-            if (deltaAngle > viewHalfAngle)
-            {
-                Debug.Log("deltaAngle");
-                return false;
-            }
+        //     direction.y = 0;
+        //     float deltaAngle = Vector3.Angle(direction, transform.forward);
+        //     if (deltaAngle > viewHalfAngle)
+        //     {
+        //         Debug.Log("deltaAngle");
+        //         return false;
+        //     }
 
-            origin.y += height / 2;
-            dest.y = origin.y;
-            if (Physics.Linecast(origin, dest, occlusionMask))
-            {
-                Debug.Log("occlusionMask");
-                return false;
-            }
+        //     origin.y += height / 2;
+        //     dest.y = origin.y;
+        //     if (Physics.Linecast(origin, dest, occlusionMask))
+        //     {
+        //         Debug.Log("occlusionMask");
+        //         return false;
+        //     }
 
-            return true;
-        }
+        //     return true;
+        // }
 
-        private void SetPlayerSpotted(Vector3 pos)
-        {
-            bool already = isPlayerVisible;
-            isPlayerVisible = true;
-            LastSeenPos = pos;
-            if (!already) OnPlayerSpotted?.Invoke(pos, playerTransform.GameObject());
-            else
-            {
-                // still visible, but update last-seen position so BT can chase live
-                OnPlayerSpotted?.Invoke(pos, playerTransform.GameObject());
-            }
-        }
+        // private void SetPlayerSpotted(Vector3 pos)
+        // {
+        //     bool already = isPlayerVisible;
+        //     isPlayerVisible = true;
+        //     LastSeenPos = pos;
+        //     if (!already) OnPlayerSpotted?.Invoke(pos, playerTransform.GameObject());
+        //     else
+        //     {
+        //         // still visible, but update last-seen position so BT can chase live
+        //         OnPlayerSpotted?.Invoke(pos, playerTransform.GameObject());
+        //     }
+        // }
 
-        private void SetPlayerLost()
-        {
-            if (!isPlayerVisible) return;
-            isPlayerVisible = false;
-            OnPlayerLost?.Invoke();
-        }
+        // private void SetPlayerLost()
+        // {
+        //     if (!isPlayerVisible) return;
+        //     isPlayerVisible = false;
+        //     OnPlayerLost?.Invoke();
+        // }
 
         // Mesh CreateWedgeMesh()
         // {

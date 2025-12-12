@@ -44,20 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19f37c5f01bfec64794fcb3deceb7dd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
   viewDistance: 15
-  viewHalfAngle: 35
-  occlusionMask:
-    serializedVersion: 2
-    m_Bits: 251
-  checkInterval: 0.1
-  height: 1
-  meshColor: {r: 1, g: 0.015686274, b: 0.015686274, a: 1}
-  layers:
-    serializedVersion: 2
-    m_Bits: 3840
-  Objects: []
-  posOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &6247042719265355539
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,4 +253,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeBehavior: {fileID: 0}
+  moveDir: {x: 0, y: 0, z: 0}
   targetPitch: 0
