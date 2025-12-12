@@ -87,6 +87,8 @@ public class InGameManager : NetworkBehaviour
 
     public System.Action<List<PlayerInfo>> OnReceivedPlayerInfo;
 
+    public List<PlayerRoot> AllCharacters = new();
+
     void Awake()
     {
         if (Instance != null && Instance != this)

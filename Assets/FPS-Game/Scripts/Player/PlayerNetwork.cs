@@ -69,6 +69,11 @@ public class PlayerNetwork : PlayerBehaviour
                 if (!gameObject.name.Contains("Bot")) SetCinemachineVirtualCamera();
             }));
         }
+
+        if (!gameObject.name.Contains("Bot"))
+        {
+            InGameManager.Instance.AllCharacters.Add(gameObject.GetComponent<PlayerRoot>());
+        }
     }
 
     void SetCinemachineVirtualCamera()

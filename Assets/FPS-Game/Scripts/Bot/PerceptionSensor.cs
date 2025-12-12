@@ -311,6 +311,11 @@ namespace AIBot
                 Gizmos.DrawMesh(mesh, target.position + posOffset, target.rotation);
             }
 
+            if (Application.isPlaying)
+            {
+                DrawLinesToUsers();
+            }
+
             // Gizmos.DrawWireSphere(playerCameraTarget.position, viewDistance);
             // for (int i = 0; i < count; i++)
             // {
@@ -322,6 +327,24 @@ namespace AIBot
             // {
             //     Gizmos.DrawSphere(obj.transform.position, 0.2f);
             // }
+        }
+
+        void DrawLinesToUsers()
+        {
+            if (InGameManager.Instance == null || InGameManager.Instance.AllCharacters.Count == 0) return;
+
+            List<PlayerRoot> targets = InGameManager.Instance.AllCharacters;
+            Gizmos.color = Color.green;
+            foreach (var t in targets)
+            {
+                if (t == null)
+                    continue;
+
+                Gizmos.DrawLine(
+                    PlayerRoot.PlayerCamera.GetPlayerCameraTarget().position,
+                    t.PlayerCamera.GetPlayerCameraTarget().position
+                );
+            }
         }
     }
 }
