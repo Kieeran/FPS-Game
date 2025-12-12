@@ -28,8 +28,8 @@ namespace AIBot
         [Tooltip("Behavior component with Patrol tree")]
         public Behavior patrolBehavior;
 
-        // [Tooltip("Behavior component with Combat tree")]
-        // public Behavior combatBehavior;
+        [Tooltip("Behavior component with Combat tree")]
+        public Behavior combatBehavior;
 
         // [Header("References")]
         // [Tooltip("Sensor that raises OnPlayerSpotted / OnPlayerLost")]
@@ -98,22 +98,22 @@ namespace AIBot
                     }
                     break;
 
-                    // case FSMState.CurrentState.Combat:
-                    //     // If player currently not visible, start lost sight timer; otherwise reset
-                    //     if (!blackboardLinker?.isPlayerVisible ?? true)
+                case FSMState.CurrentState.Combat:
+                    // // If player currently not visible, start lost sight timer; otherwise reset
+                    // if (!blackboardLinker?.isPlayerVisible ?? true)
+                    // {
+                    //     if (_lostSightStart < 0f) _lostSightStart = Time.time;
+                    //     else if (Time.time - _lostSightStart >= lostSightTimeout)
                     //     {
-                    //         if (_lostSightStart < 0f) _lostSightStart = Time.time;
-                    //         else if (Time.time - _lostSightStart >= lostSightTimeout)
-                    //         {
-                    //             // Timed out -> go back to patrol
-                    //             SwitchToState(FSMState.CurrentState.Patrol);
-                    //         }
+                    //         // Timed out -> go back to patrol
+                    //         SwitchToState(FSMState.CurrentState.Patrol);
                     //     }
-                    //     else
-                    //     {
-                    //         _lostSightStart = -1f;
-                    //     }
-                    //     break;
+                    // }
+                    // else
+                    // {
+                    //     _lostSightStart = -1f;
+                    // }
+                    break;
             }
         }
 
