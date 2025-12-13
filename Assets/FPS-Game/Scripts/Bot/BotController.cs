@@ -51,6 +51,11 @@ namespace AIBot
         void Awake()
         {
             PlayerRoot = transform.root.GetComponent<PlayerRoot>();
+
+            GlobalVariables.Instance.SetVariable("targetCamera", new SharedTransform()
+            {
+                Value = PlayerRoot.PlayerCamera.GetPlayerCameraTarget()
+            });
         }
 
         void Start()
@@ -70,7 +75,7 @@ namespace AIBot
             switch (currentState)
             {
                 case State.Idle:
-                    PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetTargetPitch());
+                    PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetLookEuler());
                     break;
 
                 case State.Patrol:
@@ -146,7 +151,7 @@ namespace AIBot
             }
 
             PlayerRoot.AIInputFeeder.OnMove?.Invoke(Vector3.zero);
-            PlayerRoot.AIInputFeeder.OnLook?.Invoke(0f);
+            PlayerRoot.AIInputFeeder.OnLook?.Invoke(Vector3.zero);
         }
 
         /// <summary>

@@ -297,32 +297,23 @@ namespace PlayerAssets
             // Lấy vector hướng di chuyển từ NavMesh/AI (World Space)
             Vector3 rawMoveDir = feeder.moveDir;
 
-            // Nếu không có input hoặc đã đến đích
-            if (rawMoveDir.sqrMagnitude < 0.01f)
-            {
-                _animator.SetFloat(_animIDSpeed, 0);
-                _animator.SetFloat(_animIDMotionSpeed, 1);
-                _animator.SetFloat(_animIDVelocityX, 0);
-                _animator.SetFloat(_animIDVelocityY, 0);
-                _controller.Move(new Vector3(0, _verticalVelocity, 0) * Time.deltaTime);
-
-                var euler = CinemachineCameraTarget.transform.rotation.eulerAngles;
-                CinemachineCameraTarget.transform.rotation = Quaternion.Euler(feeder.targetPitch, euler.y, euler.z);
-                return;
-            }
-
             Vector3 moveDir = rawMoveDir.normalized;
-            float targetSpeed = MoveSpeed;
+            float targetSpeed = moveDir != Vector3.zero ? MoveSpeed : 0f;
 
             // -------- ROTATION --------
-            float targetYRot = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
+            float targetYRot = CinemachineCameraTarget.transform.eulerAngles.y;
+            if (rawMoveDir.sqrMagnitude > 0.0001f)
+            {
+                targetYRot = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
+            }
+
             float newYRot = Mathf.SmoothDampAngle(
                 CinemachineCameraTarget.transform.eulerAngles.y,
                 targetYRot,
                 ref _rotationVelocity,
                 RotationSmoothTime
             );
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(0f, newYRot, 0f);
+            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(feeder.lookEuler.x, newYRot, 0f);
 
             // -------- MOVE --------
             Vector3 moveVector = CinemachineCameraTarget.transform.forward * targetSpeed * Time.deltaTime;
@@ -336,7 +327,7 @@ namespace PlayerAssets
             _animator.SetFloat(_animIDVelocityY, 10f);
 
             _animator.SetFloat(_animIDSpeed, _animationBlend);
-            _animator.SetFloat(_animIDMotionSpeed, rawMoveDir.normalized.magnitude);
+            _animator.SetFloat(_animIDMotionSpeed, moveDir.magnitude);
         }
 
         private void Shoot()

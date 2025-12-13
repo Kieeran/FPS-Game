@@ -24,7 +24,7 @@ namespace AIBot
         // private bool _isPlayerVisible = false;
         // private Vector3 _playerLastSeenPos = Vector3.zero;
         [SerializeField] Vector3 moveDir;
-        [SerializeField] float targetPitch;
+        [SerializeField] Vector3 lookEuler;
 
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
         // public Vector3 PlayerLastSeenPos => _playerLastSeenPos;
@@ -66,7 +66,7 @@ namespace AIBot
         }
 
         public Vector3 GetMovDir() { return moveDir; }
-        public float GetTargetPitch() { return targetPitch; }
+        public Vector3 GetLookEuler() { return lookEuler; }
 
         public void SetTargetPlayer(Transform value)
         {
@@ -90,7 +90,7 @@ namespace AIBot
             switch (behaviorName)
             {
                 case "IdleTree":
-                    targetPitch = (float)activeBehavior.GetVariable("targetPitch").GetValue();
+                    lookEuler = (Vector3)GlobalVariables.Instance.GetVariable("lookEuler").GetValue();
                     return;
 
                 case "PatrolTree":

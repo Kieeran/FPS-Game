@@ -4,9 +4,9 @@ using UnityEngine;
 public class AIInputFeeder : PlayerBehaviour
 {
     public Vector3 moveDir;
-    public float targetPitch;
+    public Vector3 lookEuler;
     public Action<Vector3> OnMove;
-    public Action<float> OnLook;
+    public Action<Vector3> OnLook;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class AIInputFeeder : PlayerBehaviour
 
         OnLook += (val) =>
         {
-            targetPitch = val;
+            lookEuler = val;
         };
     }
 }

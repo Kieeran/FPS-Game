@@ -12,7 +12,7 @@ namespace CustomTask
         [SerializeField] float topPitch;
         [SerializeField] float bottomPitch;
         [SerializeField] float speed;
-        [SerializeField] SharedFloat targetPitch;
+        [SerializeField] SharedVector3 lookEuler;
 
         string mode = "Up";
         bool endTask = false;
@@ -22,12 +22,12 @@ namespace CustomTask
             base.OnStart();
             mode = "Up";
             endTask = false;
-            targetPitch.Value = 0f;
+            lookEuler.Value = Vector3.zero;
         }
 
         public override TaskStatus OnUpdate()
         {
-            float pitch = targetPitch.Value;
+            float pitch = lookEuler.Value.x;
 
             if (mode == "Up")
             {
@@ -52,7 +52,7 @@ namespace CustomTask
 
                     if (endTask)
                     {
-                        targetPitch.Value = pitch;
+                        SetPitch(pitch);
                         return TaskStatus.Success;
                     }
 
@@ -72,9 +72,15 @@ namespace CustomTask
                     StartCoroutine(WaitThenChangeToMode("Normal"));
                 }
             }
-            targetPitch.Value = pitch;
+            SetPitch(pitch);
 
             return TaskStatus.Running;
+        }
+
+        void SetPitch(float val)
+        {
+            var euler = new Vector3(val, lookEuler.Value.y, lookEuler.Value.z);
+            lookEuler.Value = euler;
         }
 
         IEnumerator WaitThenChangeToMode(string mode)
@@ -121,7 +127,7 @@ namespace CustomTask
             base.OnReset();
             mode = "Up";
             endTask = false;
-            targetPitch.Value = 0f;
+            SetPitch(0f);
         }
     }
 }
