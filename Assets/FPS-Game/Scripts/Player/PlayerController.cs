@@ -49,7 +49,8 @@ namespace PlayerAssets
         private float _speed;
         private float _animationBlend;
         private float _targetRotation = 0.0f;
-        private float _rotationVelocity;
+        private float _rotationXVelocity;
+        private float _rotationYVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
 
@@ -214,7 +215,7 @@ namespace PlayerAssets
             if (_input.move != Vector2.zero)
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationYVelocity, RotationSmoothTime);
 
                 // Move Foward
                 if (_input.move.y > 0 || Input.GetMouseButtonDown(0))
@@ -301,8 +302,8 @@ namespace PlayerAssets
             float targetSpeed = moveDir != Vector3.zero ? MoveSpeed : 0f;
 
             // -------- ROTATION --------
-            float currentYaw = CinemachineCameraTarget.transform.eulerAngles.y;
-            float targetYRot = currentYaw;
+            float targetXRot = CinemachineCameraTarget.transform.eulerAngles.x;
+            float targetYRot = CinemachineCameraTarget.transform.eulerAngles.y;
 
             if (rawMoveDir.sqrMagnitude > 0.0001f)
             {
@@ -310,19 +311,26 @@ namespace PlayerAssets
             }
             else
             {
+                targetXRot += Mathf.DeltaAngle(targetXRot, feeder.lookEuler.x);
                 if (feeder.lookEuler.y != 0)
                 {
-                    targetYRot += Mathf.DeltaAngle(currentYaw, feeder.lookEuler.y);
+                    targetYRot += Mathf.DeltaAngle(targetYRot, feeder.lookEuler.y);
                 }
             }
 
+            float newXRot = Mathf.SmoothDampAngle(
+                CinemachineCameraTarget.transform.eulerAngles.x,
+                targetXRot,
+                ref _rotationXVelocity,
+                RotationSmoothTime
+            );
             float newYRot = Mathf.SmoothDampAngle(
                 CinemachineCameraTarget.transform.eulerAngles.y,
                 targetYRot,
-                ref _rotationVelocity,
+                ref _rotationYVelocity,
                 RotationSmoothTime
             );
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(feeder.lookEuler.x, newYRot, 0f);
+            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(newXRot, newYRot, 0f);
 
             // -------- MOVE --------
             Vector3 moveVector = CinemachineCameraTarget.transform.forward * targetSpeed * Time.deltaTime;
