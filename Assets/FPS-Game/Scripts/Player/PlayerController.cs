@@ -305,7 +305,9 @@ namespace PlayerAssets
                 _animator.SetFloat(_animIDVelocityX, 0);
                 _animator.SetFloat(_animIDVelocityY, 0);
                 _controller.Move(new Vector3(0, _verticalVelocity, 0) * Time.deltaTime);
-                CinemachineCameraTarget.transform.rotation = Quaternion.Euler(feeder.targetPitch, 0f, 0f);
+
+                var euler = CinemachineCameraTarget.transform.rotation.eulerAngles;
+                CinemachineCameraTarget.transform.rotation = Quaternion.Euler(feeder.targetPitch, euler.y, euler.z);
                 return;
             }
 
