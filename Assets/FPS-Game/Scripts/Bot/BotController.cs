@@ -30,12 +30,12 @@ namespace AIBot
         [SerializeField] Behavior patrolBehavior;
         [SerializeField] Behavior combatBehavior;
 
-        // [Header("References")]
-        // [Tooltip("Sensor that raises OnPlayerSpotted / OnPlayerLost")]
-        // public PerceptionSensor perception;
+        [Header("References")]
+        [Tooltip("Sensor used to detect the player.")]
+        [SerializeField] PerceptionSensor sensor;
 
         [Tooltip("Adapter that synchronizes C# blackboard values to BD SharedVariables")]
-        public BlackboardLinker blackboardLinker;
+        [SerializeField] BlackboardLinker blackboardLinker;
 
         // [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         // public float lostSightTimeout = 2f;
@@ -61,6 +61,8 @@ namespace AIBot
         private void Update()
         {
             UpdateValues();
+
+            blackboardLinker.SetTargetPlayer(sensor.GetTargetPlayerTransform());
         }
 
         void UpdateValues()
@@ -99,7 +101,7 @@ namespace AIBot
             PlayerRoot.AIInputFeeder.enabled = true;
             // Basic validation
             if (blackboardLinker == null) Debug.LogWarning("[BotController] BlackboardLinker not assigned.");
-            // if (perception == null) Debug.LogWarning("[BotController] PerceptionSensor not assigned.");
+            if (sensor == null) Debug.LogWarning("[BotController] PerceptionSensor not assigned.");
             // if (waypointPath == null) Debug.LogWarning("[BotController] WaypointPath not assigned.");
 
             // Subscribe perception events (safe if perception is null)

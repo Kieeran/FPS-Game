@@ -55,6 +55,11 @@ namespace AIBot
                     SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
                     return;
 
+                case "CombatTree":
+                    string targetPlayerInfo = GlobalVariables.Instance.GetVariable("targetPlayer").ToString();
+                    SafeSet("logMessage", $"{targetPlayerInfo}");
+                    return;
+
                 default:
                     return;
             }
@@ -62,6 +67,15 @@ namespace AIBot
 
         public Vector3 GetMovDir() { return moveDir; }
         public float GetTargetPitch() { return targetPitch; }
+
+        public void SetTargetPlayer(Transform value)
+        {
+            SharedTransform sharedTransform = new()
+            {
+                Value = value
+            };
+            GlobalVariables.Instance.SetVariable("targetPlayer", sharedTransform);
+        }
 
         void Update()
         {

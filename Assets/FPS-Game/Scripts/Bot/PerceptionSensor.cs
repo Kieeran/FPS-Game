@@ -14,8 +14,8 @@ namespace AIBot
     public class PerceptionSensor : MonoBehaviour
     {
         [Header("Perception")]
-        // [Tooltip("Player transform to detect.")]
-        // public Transform playerTransform;
+        [Tooltip("Transform of the detected player.")]
+        [SerializeField] Transform targetPlayer;
 
         [Tooltip("Maximum sight distance.")]
         public float viewDistance = 10f;
@@ -80,15 +80,25 @@ namespace AIBot
             // }
 
             targetsDebug.Clear();
-
             if (InGameManager.Instance != null)
             {
                 PlayerRoot root = CheckSurroundingFOV(InGameManager.Instance.AllCharacters, viewDistance, botHorizontalFOV);
                 if (root != null)
                 {
-                    Debug.Log($"Nearest player: {root}");
+                    // Debug.Log($"Nearest player: {root}");
+                    targetPlayer = root.PlayerCamera.GetPlayerCameraTarget();
+                }
+                else
+                {
+                    // Debug.Log("There is no nearest player");
+                    targetPlayer = null;
                 }
             }
+        }
+
+        public Transform GetTargetPlayerTransform()
+        {
+            return targetPlayer;
         }
 
         PlayerRoot CheckSurroundingFOV(List<PlayerRoot> targets, float detectRange, float fov)

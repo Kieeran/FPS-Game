@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mVariableData:
     variableStartIndex: 
-    JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"intentTimestamp","IsShared":true,"IsGlobal":true,"SinglemValue":0}]}'
+    JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"targetPlayer","IsShared":true,"IsGlobal":true}]}'
     fieldSerializationData:
       typeName: []
       fieldNameHash: 
