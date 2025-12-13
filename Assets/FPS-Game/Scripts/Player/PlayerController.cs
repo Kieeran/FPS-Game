@@ -302,7 +302,7 @@ namespace PlayerAssets
 
             // -------- ROTATION --------
             float currentYaw = CinemachineCameraTarget.transform.eulerAngles.y;
-            float targetYRot;
+            float targetYRot = currentYaw;
 
             if (rawMoveDir.sqrMagnitude > 0.0001f)
             {
@@ -310,7 +310,10 @@ namespace PlayerAssets
             }
             else
             {
-                targetYRot = currentYaw + Mathf.DeltaAngle(currentYaw, feeder.lookEuler.y);
+                if (feeder.lookEuler.y != 0)
+                {
+                    targetYRot += Mathf.DeltaAngle(currentYaw, feeder.lookEuler.y);
+                }
             }
 
             float newYRot = Mathf.SmoothDampAngle(
