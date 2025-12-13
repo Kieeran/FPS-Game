@@ -97,6 +97,10 @@ namespace AIBot
                     moveDir = (Vector3)activeBehavior.GetVariable("moveDir").GetValue();
                     return;
 
+                case "CombatTree":
+                    lookEuler = (Vector3)GlobalVariables.Instance.GetVariable("lookEuler").GetValue();
+                    return;
+
                 default:
                     return;
             }

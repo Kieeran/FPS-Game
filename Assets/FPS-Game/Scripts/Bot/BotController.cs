@@ -83,6 +83,7 @@ namespace AIBot
                     break;
 
                 case State.Combat:
+                    PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetLookEuler());
                     // // If player currently not visible, start lost sight timer; otherwise reset
                     // if (!blackboardLinker?.isPlayerVisible ?? true)
                     // {

@@ -301,10 +301,16 @@ namespace PlayerAssets
             float targetSpeed = moveDir != Vector3.zero ? MoveSpeed : 0f;
 
             // -------- ROTATION --------
-            float targetYRot = CinemachineCameraTarget.transform.eulerAngles.y;
+            float currentYaw = CinemachineCameraTarget.transform.eulerAngles.y;
+            float targetYRot;
+
             if (rawMoveDir.sqrMagnitude > 0.0001f)
             {
                 targetYRot = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
+            }
+            else
+            {
+                targetYRot = currentYaw + Mathf.DeltaAngle(currentYaw, feeder.lookEuler.y);
             }
 
             float newYRot = Mathf.SmoothDampAngle(
