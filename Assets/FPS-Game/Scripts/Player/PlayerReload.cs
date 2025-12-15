@@ -20,25 +20,35 @@ public class PlayerReload : PlayerBehaviour
     public bool GetIsReloading() { return _isReloading; }
     public void ResetIsReloading() { _isReloading = false; }
 
+    void Start()
+    {
+        PlayerRoot.Events.OnWeaponAmmoDepleted += Reload;
+    }
+
     void Update()
     {
         if (!IsOwner) return;
 
         if (PlayerRoot.PlayerAssetsInputs.reload == true)
         {
-            if (_rifle.activeSelf) StartCoroutine(PlayRifleReloadAudio());
-            if (_sniper.activeSelf) StartCoroutine(PlaySniperReloadAudio());
-            if (_pistol.activeSelf) StartCoroutine(PlayPistolReloadAudio());
-
             if (_knife.activeSelf) return;
 
             PlayerRoot.PlayerAssetsInputs.reload = false;
 
-            if (_isReloading != true)
-            {
-                _isReloading = true;
-                PlayerRoot.Events.InvokeOnReload();
-            }
+            Reload();
+        }
+    }
+
+    void Reload()
+    {
+        if (_isReloading != true)
+        {
+            _isReloading = true;
+            PlayerRoot.Events.InvokeOnReload();
+
+            if (_rifle.activeSelf) StartCoroutine(PlayRifleReloadAudio());
+            if (_sniper.activeSelf) StartCoroutine(PlaySniperReloadAudio());
+            if (_pistol.activeSelf) StartCoroutine(PlayPistolReloadAudio());
         }
     }
 

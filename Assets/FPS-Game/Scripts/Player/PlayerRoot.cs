@@ -44,6 +44,7 @@ public class PlayerEvents
     public event Action ToggleEscapeUI;
     public event Action OnReload;
     public event Action OnCollectedHealthPickup;
+    public event Action OnWeaponAmmoDepleted;
 
     public event Action OnLeftSlash_1;
     public event Action OnLeftSlash_2;
@@ -98,6 +99,11 @@ public class PlayerEvents
     public void InvokeOnCollectedHealthPickup()
     {
         OnCollectedHealthPickup?.Invoke();
+    }
+
+    public void InvokeOnWeaponAmmoDepleted()
+    {
+        OnWeaponAmmoDepleted?.Invoke();
     }
 
     public void InvokeOnLeftSlash_1()

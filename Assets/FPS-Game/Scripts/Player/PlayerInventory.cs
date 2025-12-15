@@ -105,6 +105,11 @@ public class PlayerInventory : PlayerBehaviour
         _currentWeaponSupplyLoad.CurrentMagazineAmmo--;
 
         SetAmmoInfoUI();
+
+        if (_currentWeaponSupplyLoad.CurrentMagazineAmmo == 0)
+        {
+            PlayerRoot.Events.InvokeOnWeaponAmmoDepleted();
+        }
     }
 
     void SetAmmoInfoUI()
