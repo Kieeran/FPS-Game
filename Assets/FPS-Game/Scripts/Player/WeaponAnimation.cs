@@ -7,8 +7,6 @@ public class WeaponAnimation : PlayerBehaviour
 
     [HideInInspector]
     public bool IsShooting = false;
-    [HideInInspector]
-    public bool IsReloading = false;
 
     void OnEnable()
     {
@@ -20,7 +18,6 @@ public class WeaponAnimation : PlayerBehaviour
         animator.Update(0f);
 
         IsShooting = false;
-        IsReloading = false;
     }
 
     public override void InitializeOnNetworkSpawn()
@@ -28,11 +25,9 @@ public class WeaponAnimation : PlayerBehaviour
         base.InitializeOnNetworkSpawn();
         PlayerRoot.Events.OnReload += () =>
         {
-            if (!IsShooting && !IsReloading)
+            if (!IsShooting)
             {
                 animator.SetBool("Reload", true);
-
-                IsReloading = true;
             }
         };
     }
@@ -46,7 +41,7 @@ public class WeaponAnimation : PlayerBehaviour
 
         if (Automatic)
         {
-            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !IsReloading)
+            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !PlayerRoot.PlayerReload.IsReloading)
             {
                 animator.SetTrigger("Shoot");
 
@@ -56,7 +51,7 @@ public class WeaponAnimation : PlayerBehaviour
 
         else
         {
-            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !IsReloading && _isPressed == false)
+            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !PlayerRoot.PlayerReload.IsReloading && _isPressed == false)
             {
                 _isPressed = true;
 
@@ -81,6 +76,5 @@ public class WeaponAnimation : PlayerBehaviour
         if (!IsOwner) return;
 
         animator.SetBool("Reload", false);
-        IsReloading = false;
     }
 }

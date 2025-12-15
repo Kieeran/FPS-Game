@@ -230,7 +230,7 @@ public class Explosives : PlayerBehaviour
         if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
 
         if (_supplyLoad.IsMagazineEmpty()) return;
-        if (PlayerRoot.PlayerReload.GetIsReloading()) return;
+        if (PlayerRoot.PlayerReload.IsReloading) return;
 
         if (_currentGrenade.activeSelf == false && _supplyLoad.CurrentMagazineAmmo != 0)
         {

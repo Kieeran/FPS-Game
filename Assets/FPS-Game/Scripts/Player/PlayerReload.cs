@@ -16,9 +16,8 @@ public class PlayerReload : PlayerBehaviour
     [SerializeField] GameObject _sniperReloadAudio;
     [SerializeField] GameObject _pistolReloadAudio;
 
-    bool _isReloading;
-    public bool GetIsReloading() { return _isReloading; }
-    public void ResetIsReloading() { _isReloading = false; }
+    public bool IsReloading { get; private set; }
+    public void ResetIsReloading() { IsReloading = false; }
 
     void Start()
     {
@@ -41,9 +40,9 @@ public class PlayerReload : PlayerBehaviour
 
     void Reload()
     {
-        if (_isReloading != true)
+        if (IsReloading != true)
         {
-            _isReloading = true;
+            IsReloading = true;
             PlayerRoot.Events.InvokeOnReload();
 
             if (_rifle.activeSelf) StartCoroutine(PlayRifleReloadAudio());

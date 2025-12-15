@@ -103,7 +103,7 @@ public class Gun : PlayerBehaviour
     private void Shoot()
     {
         if (_supplyLoad.IsMagazineEmpty()) return;
-        if (PlayerRoot.PlayerReload.GetIsReloading()) return;
+        if (PlayerRoot.PlayerReload.IsReloading) return;
 
         if (Automatic)
         {
