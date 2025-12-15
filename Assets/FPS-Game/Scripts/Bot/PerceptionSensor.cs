@@ -53,7 +53,7 @@ namespace AIBot
 
         // private float _nextCheck = 0f;
         // public Vector3 posOffset;
-        PlayerRoot playerRoot;
+        PlayerRoot botRoot;
 
         float botHorizontalFOV;
 
@@ -61,7 +61,7 @@ namespace AIBot
 
         void Awake()
         {
-            playerRoot = transform.root.GetComponent<PlayerRoot>();
+            botRoot = transform.root.GetComponent<PlayerRoot>();
             // if (mesh == null) mesh = CreateWedgeMesh();
         }
 
@@ -106,43 +106,43 @@ namespace AIBot
         {
             PlayerRoot nearest = null;
             float nearestDist = Mathf.Infinity;
-            Transform target = playerRoot.PlayerCamera.GetPlayerCameraTarget();
+            Transform botCameraTransform = botRoot.PlayerCamera.GetPlayerCameraTarget();
 
-            foreach (PlayerRoot root in targets)
+            foreach (PlayerRoot targetRoot in targets)
             {
-                if (root == null || root == transform)
+                if (targetRoot == null || targetRoot == botRoot)
                     continue;
 
-                Transform t = root.PlayerCamera.GetPlayerCameraTarget();
+                Transform targetCameraTransform = targetRoot.PlayerCamera.GetPlayerCameraTarget();
 
-                Vector3 dir = (t.position - target.position).normalized;
-                float dist = Vector3.Distance(target.position, t.position);
+                Vector3 dir = (targetCameraTransform.position - botCameraTransform.position).normalized;
+                float dist = Vector3.Distance(botCameraTransform.position, targetCameraTransform.position);
 
                 // outside range
                 if (dist > detectRange)
                 {
-                    targetsDebug.Add(t, Color.red);
+                    targetsDebug.Add(targetCameraTransform, Color.red);
                     continue;
                 }
 
                 // outside FOV
-                if (Vector3.Dot(target.forward, dir) < Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad))
+                if (Vector3.Dot(botCameraTransform.forward, dir) < Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad))
                 {
-                    targetsDebug.Add(t, Color.yellow);
+                    targetsDebug.Add(targetCameraTransform, Color.yellow);
                     continue;
                 }
 
-                if (Physics.Raycast(t.position, dir, out RaycastHit hit, dist, obstacleMask))
+                if (Physics.Raycast(botCameraTransform.position, dir, out RaycastHit hit, dist, obstacleMask))
                 {
                     Debug.Log($"Hit something: {hit.collider.name}");
-                    targetsDebug.Add(t, Color.yellow);
+                    targetsDebug.Add(targetCameraTransform, Color.yellow);
                     continue;
                 }
 
                 if (dist < nearestDist)
                 {
                     nearestDist = dist;
-                    nearest = root;
+                    nearest = targetRoot;
                 }
             }
             if (nearest != null)
@@ -430,8 +430,8 @@ namespace AIBot
             }
             else
             {
-                if (playerRoot == null) return;
-                target = playerRoot.PlayerCamera.GetPlayerCameraTarget();
+                if (botRoot == null) return;
+                target = botRoot.PlayerCamera.GetPlayerCameraTarget();
             }
 
             // Vẽ bán kính detect
@@ -480,7 +480,7 @@ namespace AIBot
 
                 Gizmos.color = t.Value;
                 Gizmos.DrawLine(
-                    playerRoot.PlayerCamera.GetPlayerCameraTarget().position,
+                    botRoot.PlayerCamera.GetPlayerCameraTarget().position,
                     t.Key.position
                 );
             }
