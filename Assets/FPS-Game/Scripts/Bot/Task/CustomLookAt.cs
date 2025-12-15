@@ -46,7 +46,7 @@ namespace CustomTask
             float roll = lookEuler.Value.z;
 
             lookEuler.Value = new Vector3(pitch, yaw, roll);
-            return TaskStatus.Success;
+            return TaskStatus.Running;
         }
     }
 }

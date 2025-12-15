@@ -18,7 +18,8 @@ namespace AIBot
         [SerializeField] Transform targetPlayer;
 
         [Tooltip("Maximum sight distance.")]
-        public float viewDistance = 10f;
+        [SerializeField] float viewDistance;
+        [SerializeField] LayerMask obstacleMask;
 
         // [Tooltip("Angle of vision cone in degrees.")]
         // public float viewHalfAngle = 30f;
@@ -82,7 +83,7 @@ namespace AIBot
             targetsDebug.Clear();
             if (InGameManager.Instance != null)
             {
-                PlayerRoot root = CheckSurroundingFOV(InGameManager.Instance.AllCharacters, viewDistance, botHorizontalFOV);
+                PlayerRoot root = CheckSurroundingFOV(InGameManager.Instance.AllCharacters, viewDistance, botHorizontalFOV, obstacleMask);
                 if (root != null)
                 {
                     // Debug.Log($"Nearest player: {root}");
@@ -101,7 +102,7 @@ namespace AIBot
             return targetPlayer;
         }
 
-        PlayerRoot CheckSurroundingFOV(List<PlayerRoot> targets, float detectRange, float fov)
+        PlayerRoot CheckSurroundingFOV(List<PlayerRoot> targets, float detectRange, float fov, LayerMask obstacleMask)
         {
             PlayerRoot nearest = null;
             float nearestDist = Mathf.Infinity;
@@ -127,6 +128,13 @@ namespace AIBot
                 // outside FOV
                 if (Vector3.Dot(target.forward, dir) < Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad))
                 {
+                    targetsDebug.Add(t, Color.yellow);
+                    continue;
+                }
+
+                if (Physics.Raycast(t.position, dir, out RaycastHit hit, dist, obstacleMask))
+                {
+                    Debug.Log($"Hit something: {hit.collider.name}");
                     targetsDebug.Add(t, Color.yellow);
                     continue;
                 }
@@ -413,14 +421,12 @@ namespace AIBot
             botHorizontalFOV = GetHorizontalFOV(playerCam.fieldOfView, playerCam.aspect);
         }
 
-
         private void OnDrawGizmos()
         {
             Transform target;
             if (!Application.isPlaying)
             {
                 target = transform;
-                CalculateBotFOV();
             }
             else
             {
