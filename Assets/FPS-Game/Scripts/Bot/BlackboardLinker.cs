@@ -56,8 +56,6 @@ namespace AIBot
                     return;
 
                 case "CombatTree":
-                    string targetPlayerInfo = GlobalVariables.Instance.GetVariable("targetPlayer").ToString();
-                    SafeSet("logMessage", $"{targetPlayerInfo}");
                     return;
 
                 default:
