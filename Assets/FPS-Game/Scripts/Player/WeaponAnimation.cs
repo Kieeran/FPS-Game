@@ -2,11 +2,10 @@ using Unity.Netcode;
 using UnityEngine;
 public class WeaponAnimation : PlayerBehaviour
 {
-    public Animator animator;
-    public bool Automatic;
+    [SerializeField] Animator animator;
+    [SerializeField] Gun gun;
 
-    [HideInInspector]
-    public bool IsShooting = false;
+    float shootSpeed;
 
     void OnEnable()
     {
@@ -17,7 +16,20 @@ public class WeaponAnimation : PlayerBehaviour
         animator.Play("Idle", 0, 0f);
         animator.Update(0f);
 
-        IsShooting = false;
+        SetAnimationSpeed();
+    }
+
+    void Start()
+    {
+        foreach (var clip in animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == "Shoot")
+            {
+                shootSpeed = clip.length / gun.FireCoolDown;
+                break;
+            }
+        }
+        SetAnimationSpeed();
     }
 
     public override void InitializeOnNetworkSpawn()
@@ -34,50 +46,16 @@ public class WeaponAnimation : PlayerBehaviour
         };
     }
 
-    // bool _isPressed = false;
-
-    // void Update()
-    // {
-    //     if (!IsOwner) return;
-    //     if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
-
-    //     if (Automatic)
-    //     {
-    //         if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !PlayerRoot.PlayerReload.IsReloading)
-    //         {
-    //             animator.SetTrigger("Shoot");
-
-    //             IsShooting = true;
-    //         }
-    //     }
-
-    //     else
-    //     {
-    //         if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !PlayerRoot.PlayerReload.IsReloading && _isPressed == false)
-    //         {
-    //             _isPressed = true;
-
-    //             animator.SetTrigger("Shoot");
-
-    //             IsShooting = true;
-    //         }
-
-    //         if (PlayerRoot.PlayerAssetsInputs.shoot == false) _isPressed = false;
-    //     }
-    // }
-
-    public void OnDoneShoot()
-    {
-        if (!IsOwner) return;
-
-        IsShooting = false;
-    }
-
     public void OnDoneReload()
     {
         if (!IsOwner) return;
 
         animator.SetBool("Reload", false);
         PlayerRoot.Events.InvokeOnDoneReload();
+    }
+
+    void SetAnimationSpeed()
+    {
+        animator.SetFloat("ShootSpeed", shootSpeed);
     }
 }

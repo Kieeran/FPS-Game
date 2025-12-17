@@ -870,9 +870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8021387592346993996}
-  Automatic: 1
-  IsShooting: 0
-  IsReloading: 0
+  gun: {fileID: 5432729954051960007}
 --- !u!114 &1663965351673787201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4296,7 +4294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireCoolDown: 0.15
+  FireCoolDown: 0.4
   shootEffect: {fileID: 3327655574649894840}
   _aimFOV: 30
   _spreadAngle: 1
@@ -5050,9 +5048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 209696228727527026}
-  Automatic: 0
-  IsShooting: 0
-  IsReloading: 0
+  gun: {fileID: 5226092564806773297}
 --- !u!114 &4755823640859937337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6311,6 +6307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDir: {x: 0, y: 0, z: 0}
+  lookEuler: {x: 0, y: 0, z: 0}
 --- !u!195 &8033202559610952918
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10332,7 +10329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireCoolDown: 0.15
+  FireCoolDown: 0.18
   shootEffect: {fileID: 2125436478189442123}
   _aimFOV: 30
   _spreadAngle: 1
