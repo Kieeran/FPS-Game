@@ -80,8 +80,17 @@ public class WeaponHolder : PlayerBehaviour
     {
         yield return null;
 
-        _currentWeaponIndex = 0;
-        PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon(), GunType.Rifle);
+        if (PlayerRoot.IsBot.Value == true)
+        {
+            _currentWeaponIndex = 2;
+            PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon(), GunType.Pistol);
+        }
+        else
+        {
+            _currentWeaponIndex = 0;
+            PlayerRoot.Events.InvokeWeaponChanged(GetCurrentWeapon(), GunType.Rifle);
+        }
+
         EquipWeapon(_currentWeaponIndex);
     }
 

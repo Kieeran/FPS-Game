@@ -25,6 +25,7 @@ namespace AIBot
         // private Vector3 _playerLastSeenPos = Vector3.zero;
         [SerializeField] Vector3 moveDir;
         [SerializeField] Vector3 lookEuler;
+        [SerializeField] bool attack;
 
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
         // public Vector3 PlayerLastSeenPos => _playerLastSeenPos;
@@ -65,6 +66,7 @@ namespace AIBot
 
         public Vector3 GetMovDir() { return moveDir; }
         public Vector3 GetLookEuler() { return lookEuler; }
+        public bool GetAttack() { return attack; }
 
         public void SetTargetPlayer(Transform value)
         {
@@ -72,7 +74,7 @@ namespace AIBot
             {
                 Value = value
             };
-            GlobalVariables.Instance.SetVariable("targetPlayer", sharedTransform);
+            GlobalVariables.Instance.SetVariable("targetCamera", sharedTransform);
         }
 
         void Update()
@@ -97,6 +99,7 @@ namespace AIBot
 
                 case "CombatTree":
                     lookEuler = (Vector3)GlobalVariables.Instance.GetVariable("lookEuler").GetValue();
+                    attack = (bool)GlobalVariables.Instance.GetVariable("attack").GetValue();
                     return;
 
                 default:

@@ -52,7 +52,7 @@ namespace AIBot
         {
             PlayerRoot = transform.root.GetComponent<PlayerRoot>();
 
-            GlobalVariables.Instance.SetVariable("targetCamera", new SharedTransform()
+            GlobalVariables.Instance.SetVariable("botCamera", new SharedTransform()
             {
                 Value = PlayerRoot.PlayerCamera.GetPlayerCameraTarget()
             });
@@ -84,6 +84,7 @@ namespace AIBot
 
                 case State.Combat:
                     PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetLookEuler());
+                    PlayerRoot.AIInputFeeder.OnAttack?.Invoke(blackboardLinker.GetAttack());
                     // // If player currently not visible, start lost sight timer; otherwise reset
                     // if (!blackboardLinker?.isPlayerVisible ?? true)
                     // {

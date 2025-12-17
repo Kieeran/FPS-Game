@@ -7,11 +7,11 @@ namespace CustomTask
     [TaskCategory("Custom")]
     public class CustomLookAt : Action
     {
-        [Tooltip("Transform of the targetCamera")]
-        [SerializeField] SharedTransform targetCamera;
+        [Tooltip("Transform of the botCamera")]
+        [SerializeField] SharedTransform botCamera;
 
         [Tooltip("Target to look at")]
-        [SerializeField] SharedTransform target;
+        [SerializeField] SharedTransform targetCamera;
 
         [Tooltip("Output desired look euler angles (x=pitch, y=yaw, z=roll)")]
         [SerializeField] SharedVector3 lookEuler;
@@ -21,10 +21,10 @@ namespace CustomTask
 
         public override TaskStatus OnUpdate()
         {
-            if (targetCamera.Value == null || target.Value == null)
+            if (botCamera.Value == null || targetCamera.Value == null)
                 return TaskStatus.Failure;
 
-            Vector3 dir = target.Value.position - targetCamera.Value.position;
+            Vector3 dir = targetCamera.Value.position - botCamera.Value.position;
             if (dir.sqrMagnitude < 0.0001f)
                 return TaskStatus.Failure;
 
