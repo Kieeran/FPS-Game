@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using System.Collections;
+using System;
 
 public class Gun : PlayerBehaviour
 {
@@ -22,6 +23,7 @@ public class Gun : PlayerBehaviour
     public bool Automatic;
 
     private float CurrentCoolDown;
+    bool isReadyToFire = true;
 
     private float nextFireTime;
 
@@ -105,48 +107,43 @@ public class Gun : PlayerBehaviour
         if (_supplyLoad.IsMagazineEmpty()) return;
         if (PlayerRoot.PlayerReload.IsReloading) return;
 
-        if (Automatic)
+        if (PlayerRoot.PlayerAssetsInputs.shoot == false) isPressed = false;
+        if (PlayerRoot.PlayerAssetsInputs.shoot == true)
         {
-            if (PlayerRoot.PlayerAssetsInputs.shoot == true)
+            if (Automatic)
             {
-                if (CurrentCoolDown <= 0f /*&& OnGunShoot != null*/)
+                if (!isReadyToFire) return;
+
+                PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
+                PlayerRoot.PlayerShoot.Shoot(_spreadAngle, _gunType);
+
+                shootEffect.ActiveShootEffect();
+
+                if (gameObject.tag == "AK47")
                 {
-                    //OnGunShoot.Invoke();
-                    CurrentCoolDown = FireCoolDown;
-                    PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
-                    PlayerRoot.PlayerShoot.Shoot(_spreadAngle, _gunType);
-
-                    // shootEffect.ActiveShootEffect();
-                    shootEffect.ActiveShootEffect();
-
-                    if (gameObject.tag == "AK47")
+                    if (Time.time >= nextFireTime)
                     {
-                        if (Time.time >= nextFireTime)
-                        {
-                            // ak47Sound.Stop();
-                            PlayGunAudio_ServerRpc(transform.position);
-                            nextFireTime = Time.time + FireCoolDown;
-                        }
-                        // ak47Sound.Stop();
+                        PlayGunAudio_ServerRpc(transform.position);
+                        nextFireTime = Time.time + FireCoolDown;
                     }
                 }
-            }
-        }
 
-        else
-        {
-            if (PlayerRoot.PlayerAssetsInputs.shoot == true && isPressed == false)
-            {
-                isPressed = true;
-
-                if (CurrentCoolDown <= 0f /*&& OnGunShoot != null*/)
+                isReadyToFire = false;
+                StartTimer(FireCoolDown, () =>
                 {
-                    //OnGunShoot.Invoke();
-                    CurrentCoolDown = FireCoolDown;
+                    isReadyToFire = true;
+                });
+            }
+            else
+            {
+                if (!isReadyToFire) return;
+
+                if (isPressed == false)
+                {
+                    isPressed = true;
                     PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
                     PlayerRoot.PlayerShoot.Shoot(_spreadAngle, _gunType);
 
-                    // shootEffect.ActiveShootEffect();
                     shootEffect.ActiveShootEffect();
 
                     if (gameObject.tag == "Sniper")
@@ -155,7 +152,6 @@ public class Gun : PlayerBehaviour
                         {
                             StopGunAudio_ServerRpc(transform.position);
                             PlayGunAudio_ServerRpc(transform.position);
-                            // nextFireTime = Time.time + FireCoolDown;
                         }
                     }
 
@@ -165,16 +161,88 @@ public class Gun : PlayerBehaviour
                         {
                             StopGunAudio_ServerRpc(transform.position);
                             PlayGunAudio_ServerRpc(transform.position);
-                            // nextFireTime = Time.time + FireCoolDown;
                         }
                     }
+
+                    isReadyToFire = false;
+                    StartTimer(FireCoolDown, () =>
+                    {
+                        isReadyToFire = true;
+                    });
                 }
             }
-
-            if (PlayerRoot.PlayerAssetsInputs.shoot == false) isPressed = false;
         }
 
-        CurrentCoolDown -= Time.deltaTime;
+        // if (Automatic)
+        // {
+        //     if (PlayerRoot.PlayerAssetsInputs.shoot == true)
+        //     {
+        //         if (CurrentCoolDown <= 0f /*&& OnGunShoot != null*/)
+        //         {
+        //             //OnGunShoot.Invoke();
+        //             CurrentCoolDown = FireCoolDown;
+        //             PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
+        //             PlayerRoot.PlayerShoot.Shoot(_spreadAngle, _gunType);
+
+        //             // shootEffect.ActiveShootEffect();
+        //             shootEffect.ActiveShootEffect();
+
+        //             if (gameObject.tag == "AK47")
+        //             {
+        //                 if (Time.time >= nextFireTime)
+        //                 {
+        //                     // ak47Sound.Stop();
+        //                     PlayGunAudio_ServerRpc(transform.position);
+        //                     nextFireTime = Time.time + FireCoolDown;
+        //                 }
+        //                 // ak47Sound.Stop();
+        //             }
+        //         }
+        //     }
+        // }
+
+        // else
+        // {
+        //     if (PlayerRoot.PlayerAssetsInputs.shoot == true && isPressed == false)
+        //     {
+        //         isPressed = true;
+
+        //         if (CurrentCoolDown <= 0f /*&& OnGunShoot != null*/)
+        //         {
+        //             //OnGunShoot.Invoke();
+        //             CurrentCoolDown = FireCoolDown;
+        //             PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
+        //             PlayerRoot.PlayerShoot.Shoot(_spreadAngle, _gunType);
+
+        //             // shootEffect.ActiveShootEffect();
+        //             shootEffect.ActiveShootEffect();
+
+        //             if (gameObject.tag == "Sniper")
+        //             {
+        //                 if (Time.time >= nextFireTime)
+        //                 {
+        //                     StopGunAudio_ServerRpc(transform.position);
+        //                     PlayGunAudio_ServerRpc(transform.position);
+        //                     // nextFireTime = Time.time + FireCoolDown;
+        //                 }
+        //             }
+
+        //             if (gameObject.tag == "Pistol")
+        //             {
+        //                 if (Time.time >= nextFireTime)
+        //                 {
+        //                     StopGunAudio_ServerRpc(transform.position);
+        //                     PlayGunAudio_ServerRpc(transform.position);
+        //                     // nextFireTime = Time.time + FireCoolDown;
+        //                 }
+        //             }
+        //         }
+        //     }
+
+        //     if (PlayerRoot.PlayerAssetsInputs.shoot == false) isPressed = false;
+        // }
+
+        // CurrentCoolDown -= Time.deltaTime;
     }
 
     public IEnumerator TransitionAimState(Vector3 targetPos, Vector3 targetEulerRot)
@@ -343,5 +411,36 @@ public class Gun : PlayerBehaviour
         Shoot();
         Aim();
         //OnReload();
+
+        Tick(Time.deltaTime);
     }
+
+    #region Timer
+    bool IsRunning = false;
+    float RemainingTime;
+    Action onFinishedTimer;
+
+    void StartTimer(float duration, Action onFinished = null)
+    {
+        if (IsRunning == true) return;
+
+        RemainingTime = duration;
+        IsRunning = true;
+        onFinishedTimer = onFinished;
+    }
+
+    void Tick(float deltaTime)
+    {
+        if (!IsRunning) return;
+
+        RemainingTime -= deltaTime;
+
+        if (RemainingTime <= 0f)
+        {
+            RemainingTime = 0f;
+            IsRunning = false;
+            onFinishedTimer?.Invoke();
+        }
+    }
+    #endregion
 }
