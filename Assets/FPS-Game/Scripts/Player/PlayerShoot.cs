@@ -66,10 +66,13 @@ public class PlayerShoot : PlayerBehaviour
     // Local
     public void Shoot(float spreadAngle, GunType gunType)
     {
-        Vector2 screenCenterPoint = new(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        // Vector2 screenCenterPoint = new(Screen.width / 2f, Screen.height / 2f);
+        // Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
-        HandleServerShoot_ServerRPC(ray.origin, ray.direction, spreadAngle, gunType, OwnerClientId);
+        // HandleServerShoot_ServerRPC(ray.origin, ray.direction, spreadAngle, gunType, OwnerClientId);
+
+        Transform camera = PlayerRoot.PlayerCamera.GetPlayerCameraTarget();
+        HandleServerShoot_ServerRPC(camera.position, camera.forward, spreadAngle, gunType, OwnerClientId, NetworkObjectId);
     }
 
     // HandleServerShoot_ServerRPC xử lí tín hiệu bắn và xét xem có bắn trúng mục tiêu nào hay không, nếu có thì gọi tới hàm TakeDamage (server) 
@@ -79,7 +82,8 @@ public class PlayerShoot : PlayerBehaviour
         Vector3 shootDirection,
         float spreadAngle,
         GunType gunType,
-        ulong shooterClientId)
+        ulong shooterClientId,
+        ulong shooterNetworkObjectId)
     {
         Vector3 spreadDirection = Quaternion.Euler(
             Random.Range(-spreadAngle, spreadAngle),
@@ -100,7 +104,7 @@ public class PlayerShoot : PlayerBehaviour
             {
                 if (player.TryGetComponent<PlayerRoot>(out var playerTargetRoot))
                 {
-                    if (playerTargetRoot.OwnerClientId == shooterClientId && !playerTargetRoot.IsCharacterBot())
+                    if (playerTargetRoot.OwnerClientId == shooterClientId && playerTargetRoot.NetworkObjectId == shooterNetworkObjectId)
                     {
                         Debug.Log("Self-shoot");
                         return;
