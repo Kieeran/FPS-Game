@@ -349,6 +349,8 @@ namespace PlayerAssets
 
         private void Shoot()
         {
+            if (PlayerRoot.PlayerReload.IsReloading) return;
+
             if (_input.shoot)
             {
                 _animator.SetLayerWeight(1, Mathf.Lerp(_animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));

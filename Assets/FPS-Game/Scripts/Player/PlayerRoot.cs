@@ -43,6 +43,7 @@ public class PlayerEvents
     public event Action OnPlayerDead;
     public event Action ToggleEscapeUI;
     public event Action OnReload;
+    public event Action OnDoneReload;
     public event Action OnCollectedHealthPickup;
     public event Action OnWeaponAmmoDepleted;
     public event Action OnGunShoot;
@@ -96,6 +97,11 @@ public class PlayerEvents
     public void InvokeOnReload()
     {
         OnReload?.Invoke();
+    }
+
+    public void InvokeOnDoneReload()
+    {
+        OnDoneReload?.Invoke();
     }
 
     public void InvokeOnCollectedHealthPickup()

@@ -4,10 +4,7 @@ public class SupplyLoad : MonoBehaviour
 {
     public int Capacity;
     public int InitSupplies;
-
-    [HideInInspector]
     public int CurrentMagazineAmmo;
-    [HideInInspector]
     public int TotalSupplies;
     private bool _isInitialized = false;
 

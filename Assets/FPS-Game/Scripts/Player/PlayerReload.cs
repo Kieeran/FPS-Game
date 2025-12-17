@@ -22,6 +22,7 @@ public class PlayerReload : PlayerBehaviour
     void Start()
     {
         PlayerRoot.Events.OnWeaponAmmoDepleted += Reload;
+        PlayerRoot.Events.OnDoneReload += ResetIsReloading;
     }
 
     void Update()

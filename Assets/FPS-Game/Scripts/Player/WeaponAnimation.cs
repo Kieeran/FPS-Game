@@ -78,5 +78,6 @@ public class WeaponAnimation : PlayerBehaviour
         if (!IsOwner) return;
 
         animator.SetBool("Reload", false);
+        PlayerRoot.Events.InvokeOnDoneReload();
     }
 }

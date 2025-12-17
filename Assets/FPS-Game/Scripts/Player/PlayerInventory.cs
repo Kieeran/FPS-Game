@@ -20,6 +20,7 @@ public class PlayerInventory : PlayerBehaviour
         PlayerRoot.Events.OnWeaponChanged += SetCurrentWeapon;
         PlayerRoot.Events.OnReload += Reload;
         PlayerRoot.Events.OnCollectedHealthPickup += RefillAmmos;
+        PlayerRoot.Events.OnDoneGunShoot += CheckCurrentAmmo;
     }
 
     void OnDisable()
@@ -62,11 +63,13 @@ public class PlayerInventory : PlayerBehaviour
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += _currentWeaponSupplyLoad.TotalSupplies;
             _currentWeaponSupplyLoad.TotalSupplies = 0;
 
-            PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(() =>
+            if (!PlayerRoot.IsCharacterBot())
             {
-                SetAmmoInfoUI();
-                PlayerRoot.PlayerReload.ResetIsReloading();
-            });
+                PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(() =>
+                {
+                    SetAmmoInfoUI();
+                });
+            }
         }
 
         else
@@ -74,11 +77,13 @@ public class PlayerInventory : PlayerBehaviour
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += ammoToReload;
             _currentWeaponSupplyLoad.TotalSupplies -= ammoToReload;
 
-            PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(() =>
+            if (!PlayerRoot.IsCharacterBot())
             {
-                SetAmmoInfoUI();
-                PlayerRoot.PlayerReload.ResetIsReloading();
-            });
+                PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(() =>
+               {
+                   SetAmmoInfoUI();
+               });
+            }
         }
     }
 
@@ -97,7 +102,8 @@ public class PlayerInventory : PlayerBehaviour
             return;
         }
         _currentWeaponSupplyLoad = null;
-        PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.SetAmmoInfoUI(0, 0);
+        if (!PlayerRoot.IsCharacterBot())
+            PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.SetAmmoInfoUI(0, 0);
     }
 
     public void UpdatecurrentMagazineAmmo()
@@ -105,7 +111,10 @@ public class PlayerInventory : PlayerBehaviour
         _currentWeaponSupplyLoad.CurrentMagazineAmmo--;
 
         SetAmmoInfoUI();
+    }
 
+    void CheckCurrentAmmo()
+    {
         if (_currentWeaponSupplyLoad.CurrentMagazineAmmo == 0)
         {
             PlayerRoot.Events.InvokeOnWeaponAmmoDepleted();
