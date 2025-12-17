@@ -113,7 +113,7 @@ public class Gun : PlayerBehaviour
             if (Automatic)
             {
                 if (!isReadyToFire) return;
-
+                PlayerRoot.Events.InvokeOnGunShoot();
                 PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
                 PlayerRoot.PlayerShoot.Shoot(_spreadAngle, _gunType);
 
@@ -131,6 +131,7 @@ public class Gun : PlayerBehaviour
                 isReadyToFire = false;
                 StartTimer(FireCoolDown, () =>
                 {
+                    PlayerRoot.Events.InvokeOnDoneGunShoot();
                     isReadyToFire = true;
                 });
             }
@@ -141,6 +142,8 @@ public class Gun : PlayerBehaviour
                 if (isPressed == false)
                 {
                     isPressed = true;
+                    PlayerRoot.Events.InvokeOnGunShoot();
+
                     PlayerRoot.PlayerInventory.UpdatecurrentMagazineAmmo();
                     PlayerRoot.PlayerShoot.Shoot(_spreadAngle, _gunType);
 
@@ -167,6 +170,7 @@ public class Gun : PlayerBehaviour
                     isReadyToFire = false;
                     StartTimer(FireCoolDown, () =>
                     {
+                        PlayerRoot.Events.InvokeOnDoneGunShoot();
                         isReadyToFire = true;
                     });
                 }

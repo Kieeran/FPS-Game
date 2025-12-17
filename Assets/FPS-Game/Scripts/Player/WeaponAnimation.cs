@@ -25,44 +25,46 @@ public class WeaponAnimation : PlayerBehaviour
         base.InitializeOnNetworkSpawn();
         PlayerRoot.Events.OnReload += () =>
         {
-            if (!IsShooting)
-            {
-                animator.SetBool("Reload", true);
-            }
+            animator.SetBool("Reload", true);
+        };
+
+        PlayerRoot.Events.OnGunShoot += () =>
+        {
+            animator.SetTrigger("Shoot");
         };
     }
 
-    bool _isPressed = false;
+    // bool _isPressed = false;
 
-    void Update()
-    {
-        if (!IsOwner) return;
-        if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
+    // void Update()
+    // {
+    //     if (!IsOwner) return;
+    //     if (PlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
 
-        if (Automatic)
-        {
-            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !PlayerRoot.PlayerReload.IsReloading)
-            {
-                animator.SetTrigger("Shoot");
+    //     if (Automatic)
+    //     {
+    //         if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !PlayerRoot.PlayerReload.IsReloading)
+    //         {
+    //             animator.SetTrigger("Shoot");
 
-                IsShooting = true;
-            }
-        }
+    //             IsShooting = true;
+    //         }
+    //     }
 
-        else
-        {
-            if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !PlayerRoot.PlayerReload.IsReloading && _isPressed == false)
-            {
-                _isPressed = true;
+    //     else
+    //     {
+    //         if (PlayerRoot.PlayerAssetsInputs.shoot == true && !IsShooting && !PlayerRoot.PlayerReload.IsReloading && _isPressed == false)
+    //         {
+    //             _isPressed = true;
 
-                animator.SetTrigger("Shoot");
+    //             animator.SetTrigger("Shoot");
 
-                IsShooting = true;
-            }
+    //             IsShooting = true;
+    //         }
 
-            if (PlayerRoot.PlayerAssetsInputs.shoot == false) _isPressed = false;
-        }
-    }
+    //         if (PlayerRoot.PlayerAssetsInputs.shoot == false) _isPressed = false;
+    //     }
+    // }
 
     public void OnDoneShoot()
     {

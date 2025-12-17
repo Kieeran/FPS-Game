@@ -45,6 +45,8 @@ public class PlayerEvents
     public event Action OnReload;
     public event Action OnCollectedHealthPickup;
     public event Action OnWeaponAmmoDepleted;
+    public event Action OnGunShoot;
+    public event Action OnDoneGunShoot;
 
     public event Action OnLeftSlash_1;
     public event Action OnLeftSlash_2;
@@ -104,6 +106,16 @@ public class PlayerEvents
     public void InvokeOnWeaponAmmoDepleted()
     {
         OnWeaponAmmoDepleted?.Invoke();
+    }
+
+    public void InvokeOnGunShoot()
+    {
+        OnGunShoot?.Invoke();
+    }
+
+    public void InvokeOnDoneGunShoot()
+    {
+        OnDoneGunShoot?.Invoke();
     }
 
     public void InvokeOnLeftSlash_1()
