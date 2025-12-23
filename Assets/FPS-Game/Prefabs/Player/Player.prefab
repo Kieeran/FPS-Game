@@ -4295,6 +4295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireCoolDown: 0.4
+  boltActionCooldown: 0
   shootEffect: {fileID: 3327655574649894840}
   _aimFOV: 30
   _spreadAngle: 1
@@ -5300,6 +5301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6923736987763261450}
+  gun: {fileID: 3280156445995770102}
 --- !u!114 &9086066378912105567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5312,7 +5314,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: -1316629574
+    TransitionDuration: 0
+    TriggerNameHash: -1316629574
+    TransitionIndex: 0
   m_Animator: {fileID: 6923736987763261450}
 --- !u!65 &7822546661044709180
 BoxCollider:
@@ -10330,6 +10339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireCoolDown: 0.18
+  boltActionCooldown: 0
   shootEffect: {fileID: 2125436478189442123}
   _aimFOV: 30
   _spreadAngle: 1
@@ -11860,7 +11870,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26819c64ff2dc468b363a67fcb29f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireCoolDown: 2
+  FireCoolDown: 1.5
+  boltActionCooldown: 0
   shootEffect: {fileID: 5275834517874757834}
   _aimFOV: 10
   _spreadAngle: 0

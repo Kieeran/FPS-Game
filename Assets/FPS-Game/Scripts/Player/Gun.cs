@@ -10,6 +10,7 @@ public class Gun : PlayerBehaviour
     SupplyLoad _supplyLoad;
     private bool isPressed = false;
     public float FireCoolDown;
+    public float boltActionCooldown;
 
     [SerializeField] _ShootEffect shootEffect;
     [SerializeField] float _aimFOV;
@@ -22,7 +23,7 @@ public class Gun : PlayerBehaviour
 
     public bool Automatic;
 
-    private float CurrentCoolDown;
+    // private float CurrentCoolDown;
     bool isReadyToFire = true;
 
     private float nextFireTime;
@@ -62,7 +63,7 @@ public class Gun : PlayerBehaviour
         TorsoDamage = _torsoDamage;
         LegDamage = _legDamage;
 
-        CurrentCoolDown = FireCoolDown;
+        // CurrentCoolDown = FireCoolDown;
     }
 
     public override void InitializeStart()

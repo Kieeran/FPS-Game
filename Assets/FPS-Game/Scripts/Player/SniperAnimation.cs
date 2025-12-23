@@ -4,20 +4,37 @@ using UnityEngine;
 
 public class SniperAnimation : PlayerBehaviour
 {
-    public Animator animator;
-    
+    [SerializeField] Animator animator;
+    [SerializeField] Gun gun;
+    string shootAnimName = "Shoot";
+    string boltActionAnimName = "Reload_Single";
+    string reloadAnimName = "Reload_Mag";
+    float shootCycleAniSpeed;
+    float fullReloadAniSpeed;
+
+    void Start()
+    {
+        CalculateAnimSpeeds();
+    }
+
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
         PlayerRoot.Events.OnReload += () =>
         {
-            if (animator.GetBool("Reload_Mag") == false)
-            {
-                animator.SetBool("Reload_Mag", true);
+            SetAnimationSpeed(fullReloadAniSpeed);
+            animator.SetTrigger("Reload");
+            if (PlayerRoot.PlayerAim.ToggleAim == true)
+                PlayerRoot.PlayerCamera.UnAimScope();
+        };
 
-                if (PlayerRoot.PlayerAim.ToggleAim == true)
-                    PlayerRoot.PlayerCamera.UnAimScope();
-            }
+        PlayerRoot.Events.OnGunShoot += () =>
+        {
+            SetAnimationSpeed(shootCycleAniSpeed);
+            animator.SetTrigger("Shoot");
+
+            if (PlayerRoot.PlayerAim.ToggleAim == true)
+                PlayerRoot.PlayerCamera.UnAimScope();
         };
     }
 
@@ -25,33 +42,6 @@ public class SniperAnimation : PlayerBehaviour
     {
         animator.Rebind();
         animator.Update(0f);
-    }
-
-    bool _isPressed = false;
-
-    void Update()
-    {
-        if (!IsOwner) return;
-
-        if (PlayerRoot.PlayerAssetsInputs.shoot == true &&
-        animator.GetBool("Shoot") == false &&
-        animator.GetBool("Reload_Single") == false &&
-        _isPressed == false)
-        {
-            _isPressed = true;
-            animator.SetBool("Shoot", true);
-
-            if (PlayerRoot.PlayerAim.ToggleAim == true)
-                PlayerRoot.PlayerCamera.UnAimScope();
-        }
-
-        if (PlayerRoot.PlayerAssetsInputs.shoot == false) _isPressed = false;
-    }
-
-    public void DoneShoot()
-    {
-        animator.SetBool("Shoot", false);
-        animator.SetBool("Reload_Single", true);
     }
 
     public void DoneReloadSingle()
@@ -66,5 +56,42 @@ public class SniperAnimation : PlayerBehaviour
     {
         animator.SetBool("Reload_Mag", false);
         animator.SetBool("Reload_Single", true);
+    }
+
+    void CalculateAnimSpeeds()
+    {
+        RuntimeAnimatorController ac = animator.runtimeAnimatorController;
+        float shootAnimDuration = 0f;
+        float boltActionAnimDuration = 0f;
+        float reloadAnimDuration = 0f;
+
+        foreach (AnimationClip clip in ac.animationClips)
+        {
+            if (clip.name == shootAnimName)
+            {
+                shootAnimDuration = clip.length;
+            }
+
+            if (clip.name == boltActionAnimName)
+            {
+                boltActionAnimDuration = clip.length;
+            }
+
+            if (clip.name == reloadAnimName)
+            {
+                reloadAnimDuration = clip.length;
+            }
+        }
+
+        float shootCycleAniDuration = shootAnimDuration + boltActionAnimDuration;
+        float fullReloadAniDuration = reloadAnimDuration + boltActionAnimDuration;
+
+        shootCycleAniSpeed = shootCycleAniDuration / gun.FireCoolDown;
+        fullReloadAniSpeed = fullReloadAniDuration / gun.FireCoolDown;
+    }
+
+    void SetAnimationSpeed(float multiplier)
+    {
+        animator.SetFloat("SpeedMultiplier", multiplier);
     }
 }
