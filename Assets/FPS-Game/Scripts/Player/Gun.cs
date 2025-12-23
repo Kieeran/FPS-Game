@@ -10,7 +10,7 @@ public class Gun : PlayerBehaviour
     SupplyLoad _supplyLoad;
     private bool isPressed = false;
     public float FireCoolDown;
-    public float boltActionCooldown;
+    public float ReloadCoolDown;
 
     [SerializeField] _ShootEffect shootEffect;
     [SerializeField] float _aimFOV;

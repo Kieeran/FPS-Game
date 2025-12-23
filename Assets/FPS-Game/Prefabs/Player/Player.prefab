@@ -871,6 +871,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8021387592346993996}
   gun: {fileID: 5432729954051960007}
+  shootSpeed: 0
+  reloadSpeed: 0
 --- !u!114 &1663965351673787201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -884,6 +886,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: -1525363869
+    TransitionDuration: 0
+    TriggerNameHash: -1525363869
+    TransitionIndex: 0
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: 2081823275
@@ -4295,7 +4304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireCoolDown: 0.4
-  boltActionCooldown: 0
+  ReloadCoolDown: 2.4
   shootEffect: {fileID: 3327655574649894840}
   _aimFOV: 30
   _spreadAngle: 1
@@ -5050,6 +5059,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 209696228727527026}
   gun: {fileID: 5226092564806773297}
+  shootSpeed: 0
+  reloadSpeed: 0
 --- !u!114 &4755823640859937337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5070,6 +5081,13 @@ MonoBehaviour:
     TransitionDuration: 0
     TriggerNameHash: -1316629574
     TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: -1525363869
+    TransitionDuration: 0
+    TriggerNameHash: -1525363869
+    TransitionIndex: 1
   m_Animator: {fileID: 209696228727527026}
 --- !u!65 &2211200954905999891
 BoxCollider:
@@ -5322,6 +5340,13 @@ MonoBehaviour:
     TransitionDuration: 0
     TriggerNameHash: -1316629574
     TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: 1495519512
+    TransitionDuration: 0
+    TriggerNameHash: -1525363869
+    TransitionIndex: 1
   m_Animator: {fileID: 6923736987763261450}
 --- !u!65 &7822546661044709180
 BoxCollider:
@@ -10339,7 +10364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireCoolDown: 0.18
-  boltActionCooldown: 0
+  ReloadCoolDown: 3
   shootEffect: {fileID: 2125436478189442123}
   _aimFOV: 30
   _spreadAngle: 1
@@ -11871,7 +11896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireCoolDown: 1.5
-  boltActionCooldown: 0
+  ReloadCoolDown: 1
   shootEffect: {fileID: 5275834517874757834}
   _aimFOV: 10
   _spreadAngle: 0

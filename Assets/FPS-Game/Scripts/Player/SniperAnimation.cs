@@ -28,6 +28,12 @@ public class SniperAnimation : PlayerBehaviour
                 PlayerRoot.PlayerCamera.UnAimScope();
         };
 
+        PlayerRoot.Events.OnDoneReload += () =>
+        {
+            if (PlayerRoot.PlayerAim.ToggleAim == true)
+                PlayerRoot.PlayerCamera.AimScope();
+        };
+
         PlayerRoot.Events.OnGunShoot += () =>
         {
             SetAnimationSpeed(shootCycleAniSpeed);
@@ -36,26 +42,18 @@ public class SniperAnimation : PlayerBehaviour
             if (PlayerRoot.PlayerAim.ToggleAim == true)
                 PlayerRoot.PlayerCamera.UnAimScope();
         };
+
+        PlayerRoot.Events.OnDoneGunShoot += () =>
+        {
+            if (PlayerRoot.PlayerAim.ToggleAim == true)
+                PlayerRoot.PlayerCamera.AimScope();
+        };
     }
 
     void OnEnable()
     {
         animator.Rebind();
         animator.Update(0f);
-    }
-
-    public void DoneReloadSingle()
-    {
-        animator.SetBool("Reload_Single", false);
-
-        if (PlayerRoot.PlayerAim.ToggleAim == true)
-            PlayerRoot.PlayerCamera.AimScope();
-    }
-
-    public void DoneReloadMag()
-    {
-        animator.SetBool("Reload_Mag", false);
-        animator.SetBool("Reload_Single", true);
     }
 
     void CalculateAnimSpeeds()

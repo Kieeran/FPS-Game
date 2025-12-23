@@ -5,7 +5,10 @@ public class WeaponAnimation : PlayerBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Gun gun;
 
-    float shootSpeed;
+    string shootAnimName = "Shoot";
+    string reloadAnimName = "Reload";
+    public float shootSpeed;
+    public float reloadSpeed;
 
     void OnEnable()
     {
@@ -19,43 +22,42 @@ public class WeaponAnimation : PlayerBehaviour
         SetAnimationSpeed();
     }
 
-    void Start()
-    {
-        foreach (var clip in animator.runtimeAnimatorController.animationClips)
-        {
-            if (clip.name == "Shoot")
-            {
-                shootSpeed = clip.length / gun.FireCoolDown;
-                break;
-            }
-        }
-        SetAnimationSpeed();
-    }
-
     public override void InitializeOnNetworkSpawn()
     {
         base.InitializeOnNetworkSpawn();
         PlayerRoot.Events.OnReload += () =>
         {
-            animator.SetBool("Reload", true);
+            animator.SetTrigger("Reload");
         };
 
         PlayerRoot.Events.OnGunShoot += () =>
         {
             animator.SetTrigger("Shoot");
         };
-    }
 
-    public void OnDoneReload()
-    {
-        if (!IsOwner) return;
-
-        animator.SetBool("Reload", false);
-        PlayerRoot.Events.InvokeOnDoneReload();
+        CalculateAnimSpeeds();
+        SetAnimationSpeed();
     }
 
     void SetAnimationSpeed()
     {
-        animator.SetFloat("ShootSpeed", shootSpeed);
+        animator.SetFloat("ShootAniSpeed", shootSpeed);
+        animator.SetFloat("ReloadAniSpeed", reloadSpeed);
+    }
+
+    void CalculateAnimSpeeds()
+    {
+        foreach (var clip in animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == shootAnimName)
+            {
+                shootSpeed = clip.length / gun.FireCoolDown;
+            }
+
+            if (clip.name == reloadAnimName)
+            {
+                reloadSpeed = clip.length / gun.ReloadCoolDown;
+            }
+        }
     }
 }
