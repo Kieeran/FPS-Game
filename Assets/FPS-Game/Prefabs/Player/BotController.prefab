@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
-  viewDistance: 15
+  viewDistance: 50
   obstacleMask:
     serializedVersion: 2
     m_Bits: 1
