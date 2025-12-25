@@ -12,6 +12,9 @@ namespace CustomTask
 	{
 		[Tooltip("The GameObject that the agent is seeking")]
 		public SharedGameObject target;
+		[Tooltip("If target is null then use the target position")]
+		public SharedVector3 targetPosition;
+
 		public SharedVector3 moveDir;
 		public float repathInterval = 0.5f;
 
@@ -26,8 +29,7 @@ namespace CustomTask
 		{
 			base.OnStart();
 			if (path == null) path = new NavMeshPath();
-			// navMeshAgent.enabled = true;
-			
+
 			hasArrived = false;
 			currentCorner = 0;
 			repathTimer = 0f;
@@ -81,15 +83,38 @@ namespace CustomTask
 
 		void CalculateNewPath()
 		{
-			if (target == null) return;
+			if (target.Value == null && targetPosition.Value == Vector3.zero) return;
 
 			// Tính lại path
-			if (NavMesh.CalculatePath(transform.position, target.Value.transform.position, NavMesh.AllAreas, path))
+			if (NavMesh.CalculatePath(transform.position, Target(), NavMesh.AllAreas, path))
 				currentCorner = 1; // corner[0] là vị trí hiện tại
 			else
 			{
 				Debug.Log("Không thể tính toán path mới");
 			}
+		}
+
+		// Return targetPosition if target is null
+		private Vector3 Target()
+		{
+			Vector3 targetPos;
+			if (target.Value != null)
+			{
+				targetPos = target.Value.transform.position;
+			}
+			else
+			{
+				targetPos = targetPosition.Value;
+			}
+
+			float snapDistance = 10f; // Khoảng cách tìm kiếm xuống dưới
+			if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, snapDistance, NavMesh.AllAreas))
+			{
+				targetPos = hit.position; // Trả về điểm trên NavMesh
+			}
+
+			// Nếu không tìm thấy, trả về vị trí gốc
+			return targetPos;
 		}
 
 		public override void OnDrawGizmos()
@@ -103,10 +128,10 @@ namespace CustomTask
 			}
 		}
 
-		public override void OnReset()
+		public override void OnEnd()
 		{
-			base.OnReset();
-			target = null;
+			base.OnEnd();
+			moveDir.Value = Vector3.zero;
 		}
 	}
 }

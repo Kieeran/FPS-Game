@@ -66,8 +66,6 @@ namespace AIBot
         private void Update()
         {
             UpdateValues();
-
-            blackboardLinker.SetTargetPlayer(sensor.GetTargetPlayerTransform());
         }
 
         void UpdateValues()
@@ -85,6 +83,9 @@ namespace AIBot
                 case State.Combat:
                     PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetLookEuler());
                     PlayerRoot.AIInputFeeder.OnAttack?.Invoke(blackboardLinker.GetAttack());
+                    PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
+
+                    blackboardLinker.SetLastKnownPlayerPos(sensor.GetLastKnownPlayerPos());
                     // // If player currently not visible, start lost sight timer; otherwise reset
                     // if (!blackboardLinker?.isPlayerVisible ?? true)
                     // {
@@ -101,6 +102,8 @@ namespace AIBot
                     // }
                     break;
             }
+
+            blackboardLinker.SetTargetPlayer(sensor.GetTargetPlayerTransform());
         }
 
         void InitController()

@@ -77,6 +77,11 @@ namespace AIBot
             GlobalVariables.Instance.SetVariable("targetCamera", sharedTransform);
         }
 
+        public void SetLastKnownPlayerPos(Vector3 value)
+        {
+            SafeSet("lastKnownPlayerPos", value);
+        }
+
         void Update()
         {
             GetValuesSharedVariables();
@@ -100,6 +105,8 @@ namespace AIBot
                 case "CombatTree":
                     lookEuler = (Vector3)GlobalVariables.Instance.GetVariable("lookEuler").GetValue();
                     attack = (bool)GlobalVariables.Instance.GetVariable("attack").GetValue();
+
+                    moveDir = (Vector3)activeBehavior.GetVariable("moveDir").GetValue();
                     return;
 
                 default:

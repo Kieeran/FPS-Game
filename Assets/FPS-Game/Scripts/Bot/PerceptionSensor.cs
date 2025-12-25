@@ -16,6 +16,8 @@ namespace AIBot
         [Header("Perception")]
         [Tooltip("Transform of the detected player.")]
         [SerializeField] Transform targetPlayer;
+        [Tooltip("Last seen world position (updated when spotted).")]
+        [SerializeField] Vector3 lastKnownPlayerPos = Vector3.zero;
 
         [Tooltip("Maximum sight distance.")]
         [SerializeField] float viewDistance;
@@ -48,15 +50,10 @@ namespace AIBot
         // /// <summary>Current visibility state (cached)</summary>
         // public bool isPlayerVisible { get; private set; } = false;
 
-        // /// <summary>Last seen world position (updated when spotted).</summary>
-        // public Vector3 LastSeenPos { get; private set; } = Vector3.zero;
-
         // private float _nextCheck = 0f;
         // public Vector3 posOffset;
         PlayerRoot botRoot;
-
         float botHorizontalFOV;
-
         Dictionary<Transform, Color> targetsDebug = new();
 
         void Awake()
@@ -102,6 +99,11 @@ namespace AIBot
             return targetPlayer;
         }
 
+        public Vector3 GetLastKnownPlayerPos()
+        {
+            return lastKnownPlayerPos;
+        }
+
         PlayerRoot CheckSurroundingFOV(List<PlayerRoot> targets, float detectRange, float fov, LayerMask obstacleMask)
         {
             PlayerRoot nearest = null;
@@ -134,7 +136,7 @@ namespace AIBot
 
                 if (Physics.Raycast(botCameraTransform.position, dir, out RaycastHit hit, dist, obstacleMask))
                 {
-                    Debug.Log($"Hit something: {hit.collider.name}");
+                    // Debug.Log($"Hit something: {hit.collider.name}");
                     targetsDebug.Add(targetCameraTransform, Color.yellow);
                     continue;
                 }
@@ -146,7 +148,10 @@ namespace AIBot
                 }
             }
             if (nearest != null)
+            {
                 targetsDebug.Add(nearest.PlayerCamera.GetPlayerCameraTarget(), Color.green);
+                lastKnownPlayerPos = nearest.transform.position;
+            }
             return nearest;
         }
 
