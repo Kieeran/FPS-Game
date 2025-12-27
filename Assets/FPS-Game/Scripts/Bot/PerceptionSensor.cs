@@ -1,16 +1,10 @@
 using System;
 using System.Collections.Generic;
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityQuaternion;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AIBot
 {
-    /// <summary>
-    /// Very small perception sensor that detects a single player transform via distance + FOV + simple raycast occlusion.
-    /// Fires OnPlayerSpotted and OnPlayerLost events.
-    /// Designed for demo simplicity.
-    /// </summary>
     public class PerceptionSensor : MonoBehaviour
     {
         [Header("Perception")]
@@ -22,44 +16,21 @@ namespace AIBot
         [Tooltip("Maximum sight distance.")]
         [SerializeField] float viewDistance;
         [SerializeField] LayerMask obstacleMask;
-
-        // [Tooltip("Angle of vision cone in degrees.")]
-        // public float viewHalfAngle = 30f;
-
-        // [Tooltip("Layer mask used for occlusion (what can block sight).")]
-        // public LayerMask occlusionMask = ~0;
-
-        // // [Tooltip("How often (seconds) to check perception.")]
-        // // public float checkInterval = 0.1f;
-
-        // public float height = 1f;
-        // // public Color meshColor = Color.yellow;
-        // int count;
-        // Collider[] colliders = new Collider[50];
-        // public LayerMask layers;
-        // public List<GameObject> Objects = new List<GameObject>();
-
-        // Mesh mesh;
-
-        // /// <summary>Raised when player becomes visible. Args: worldPos, playerTransform</summary>
-        // public event Action<Vector3, GameObject> OnPlayerSpotted;
-
-        // /// <summary>Raised when player becomes not visible (lost).</summary>
-        // public event Action OnPlayerLost;
-
-        // /// <summary>Current visibility state (cached)</summary>
-        // public bool isPlayerVisible { get; private set; } = false;
-
-        // private float _nextCheck = 0f;
-        // public Vector3 posOffset;
         PlayerRoot botRoot;
         float botHorizontalFOV;
         Dictionary<Transform, Color> targetsDebug = new();
 
+        [Header("Search Sampling")]
+        [SerializeField] int sampleDirectionCount = 16;
+        float sampleRadius = 10f;
+        float navMeshSampleMaxDistance = 10f;
+
+        List<Vector3> theoreticalSamplePoints = new();
+        List<Vector3> navMeshSamplePoints = new();
+
         void Awake()
         {
             botRoot = transform.root.GetComponent<PlayerRoot>();
-            // if (mesh == null) mesh = CreateWedgeMesh();
         }
 
         void Start()
@@ -69,14 +40,6 @@ namespace AIBot
 
         private void Update()
         {
-            // if (playerTransform == null) return;
-
-            // if (Time.time >= _nextCheck)
-            // {
-            //     _nextCheck = Time.time + checkInterval;
-            //     Scan();
-            // }
-
             targetsDebug.Clear();
             if (InGameManager.Instance != null)
             {
@@ -91,6 +54,11 @@ namespace AIBot
                     // Debug.Log("There is no nearest player");
                     targetPlayer = null;
                 }
+            }
+
+            if (targetPlayer == null && lastKnownPlayerPos != Vector3.zero)
+            {
+                GenerateNavMeshSamplePoints();
             }
         }
 
@@ -155,264 +123,6 @@ namespace AIBot
             return nearest;
         }
 
-        // private void Scan()
-        // {
-        //     count = Physics.OverlapSphereNonAlloc(transform.position, viewDistance, colliders, layers, QueryTriggerInteraction.Collide);
-
-        //     Objects.Clear();
-        //     for (int i = 0; i < count; i++)
-        //     {
-        //         GameObject obj = colliders[i].GameObject();
-        //         if (IsInSight(obj))
-        //         {
-        //             SetPlayerSpotted(obj.transform.position);
-        //             Objects.Add(obj);
-        //         }
-        //         else SetPlayerLost();
-        //     }
-        // }
-
-        // private void Scan()
-        // {
-        //     Objects.Clear();
-        //     if (playerTransform == null)
-        //     {
-        //         SetPlayerLost();
-        //         return;
-        //     }
-        //     GameObject obj = playerTransform.gameObject;
-        //     if (IsInSight(obj))
-        //     {
-        //         SetPlayerSpotted(obj.transform.position);
-        //         Objects.Add(obj);
-        //     }
-        //     else
-        //     {
-        //         SetPlayerLost();
-        //     }
-        // }
-
-        // private void Scan()
-        // {
-        //     count = Physics.OverlapSphereNonAlloc(
-        //         transform.position, viewDistance, colliders, layers, QueryTriggerInteraction.Collide);
-
-        //     Objects.Clear();
-        //     bool foundPlayer = false;
-        //     GameObject playerObj = null;
-        //     Vector3 playerPos = Vector3.zero;
-
-        //     for (int i = 0; i < count; i++)
-        //     {
-        //         GameObject obj = colliders[i].gameObject;
-
-        //         if (obj.CompareTag("Player") && IsInSight(obj))
-        //         {
-        //             playerObj = obj;
-        //             playerPos = obj.transform.position;
-        //             Objects.Add(obj);
-        //             foundPlayer = true;
-        //             // Continue looping – there might be more (defensive)
-        //         }
-        //     }
-
-        //     if (foundPlayer && playerObj != null)
-        //     {
-        //         // Only fire if we haven't already this scan
-        //         if (!isPlayerVisible)
-        //         {
-        //             isPlayerVisible = true;
-        //             LastSeenPos = playerPos;
-        //         }
-        //         OnPlayerSpotted?.Invoke(playerPos, playerObj);
-        //     }
-        //     else if (isPlayerVisible)
-        //     {
-        //         // Only transition to lost if we were previously visible
-        //         isPlayerVisible = false;
-        //         OnPlayerLost?.Invoke();
-        //     }
-        // }
-
-        // public bool IsInSight(GameObject obj)
-        // {
-        //     Vector3 origin = transform.position;
-        //     Vector3 dest = obj.transform.position;
-        //     Vector3 direction = dest - origin;
-        //     if (direction.y < 0 || direction.y > height)
-        //     {
-        //         Debug.Log("direction.y");
-        //         return false;
-        //     }
-
-        //     direction.y = 0;
-        //     float deltaAngle = Vector3.Angle(direction, transform.forward);
-        //     if (deltaAngle > viewHalfAngle)
-        //     {
-        //         Debug.Log("deltaAngle");
-        //         return false;
-        //     }
-
-        //     origin.y += height / 2;
-        //     dest.y = origin.y;
-        //     if (Physics.Linecast(origin, dest, occlusionMask))
-        //     {
-        //         Debug.Log("occlusionMask");
-        //         return false;
-        //     }
-
-        //     return true;
-        // }
-
-        // private void SetPlayerSpotted(Vector3 pos)
-        // {
-        //     bool already = isPlayerVisible;
-        //     isPlayerVisible = true;
-        //     LastSeenPos = pos;
-        //     if (!already) OnPlayerSpotted?.Invoke(pos, playerTransform.GameObject());
-        //     else
-        //     {
-        //         // still visible, but update last-seen position so BT can chase live
-        //         OnPlayerSpotted?.Invoke(pos, playerTransform.GameObject());
-        //     }
-        // }
-
-        // private void SetPlayerLost()
-        // {
-        //     if (!isPlayerVisible) return;
-        //     isPlayerVisible = false;
-        //     OnPlayerLost?.Invoke();
-        // }
-
-        // Mesh CreateWedgeMesh()
-        // {
-        //     Mesh mesh = new Mesh();
-
-        //     int segments = 10;
-        //     int numTriangles = (segments * 4) + 2 + 2; // segment * 4: Top, bottom, the tip and the far end of the mesh
-        //     int numVertices = numTriangles * 3;
-
-        //     Vector3[] vertices = new Vector3[numVertices];
-        //     int[] triangles = new int[numVertices];
-
-        //     Vector3 bottomCenter = Vector3.zero;
-        //     Vector3 bottomLeft = Quaternion.Euler(0, -viewHalfAngle, 0) * Vector3.forward * viewDistance;
-        //     Vector3 bottomRight = Quaternion.Euler(0, viewHalfAngle, 0) * Vector3.forward * viewDistance;
-
-        //     Vector3 topCenter = bottomCenter + Vector3.up * height;
-        //     Vector3 topRight = bottomRight + Vector3.up * height;
-        //     Vector3 topLeft = bottomLeft + Vector3.up * height;
-
-        //     int vert = 0;
-
-        //     // Left side
-        //     vertices[vert++] = bottomCenter;
-        //     vertices[vert++] = bottomLeft;
-        //     vertices[vert++] = topLeft;
-
-        //     vertices[vert++] = topLeft;
-        //     vertices[vert++] = topCenter;
-        //     vertices[vert++] = bottomCenter;
-
-        //     // Right side
-        //     vertices[vert++] = bottomCenter;
-        //     vertices[vert++] = bottomRight;
-        //     vertices[vert++] = topRight;
-
-        //     vertices[vert++] = topRight;
-        //     vertices[vert++] = topCenter;
-        //     vertices[vert++] = bottomCenter;
-
-        //     float currentAngle = -viewHalfAngle;
-        //     float deltaAngle = viewHalfAngle * 2 / segments;
-        //     for (int i = 0; i < segments; ++i)
-        //     {
-        //         bottomLeft = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward * viewDistance;
-
-        //         bottomRight = Quaternion.Euler(0, currentAngle + deltaAngle, 0) * Vector3.forward * viewDistance;
-
-
-        //         topRight = bottomRight + Vector3.up * height;
-
-        //         topLeft = bottomLeft + Vector3.up * height;
-
-
-        //         // Far side
-        //         vertices[vert++] = bottomRight;
-        //         vertices[vert++] = bottomLeft;
-        //         vertices[vert++] = topRight;
-
-        //         vertices[vert++] = topLeft;
-        //         vertices[vert++] = topRight;
-        //         vertices[vert++] = bottomLeft;
-
-        //         // Top side
-        //         vertices[vert++] = topCenter;
-        //         vertices[vert++] = topLeft;
-        //         vertices[vert++] = topRight;
-
-        //         // Bottom side
-        //         vertices[vert++] = bottomCenter;
-        //         vertices[vert++] = bottomLeft;
-        //         vertices[vert++] = bottomRight;
-
-        //         currentAngle += deltaAngle;
-        //     }
-
-        //     for (int i = 0; i < numVertices; ++i)
-        //     {
-        //         triangles[i] = i;
-        //     }
-
-        //     mesh.vertices = vertices;
-        //     mesh.triangles = triangles;
-        //     mesh.RecalculateNormals();
-
-        //     return mesh;
-        // }
-
-        // private void OnValidate()
-        // {
-        //     mesh = CreateWedgeMesh();
-        // }
-
-        // private void OnDrawGizmos()
-        // {
-        //     Transform target;
-        //     if (!Application.isPlaying)
-        //     {
-        //         target = transform;
-        //     }
-        //     else
-        //     {
-        //         if (PlayerRoot == null) return;
-        //         target = PlayerRoot.PlayerCamera.GetPlayerCameraTarget();
-        //     }
-
-        //     if (mesh)
-        //     {
-        //         Gizmos.color = meshColor;
-        //         Gizmos.DrawMesh(mesh, target.position + posOffset, target.rotation);
-        //     }
-
-        //     if (Application.isPlaying)
-        //     {
-        //         DrawLinesToUsers();
-        //     }
-
-        //     // Gizmos.DrawWireSphere(playerCameraTarget.position, viewDistance);
-        //     // for (int i = 0; i < count; i++)
-        //     // {
-        //     //     Gizmos.DrawSphere(colliders[i].transform.position, 0.2f);
-        //     // }
-
-        //     // Gizmos.color = Color.green;
-        //     // foreach (var obj in Objects)
-        //     // {
-        //     //     Gizmos.DrawSphere(obj.transform.position, 0.2f);
-        //     // }
-        // }
-
         float GetHorizontalFOV(float verticalFov, float aspect)
         {
             float vFovRad = verticalFov * Mathf.Deg2Rad;
@@ -425,6 +135,35 @@ namespace AIBot
             Camera playerCam = Camera.main;
             botHorizontalFOV = GetHorizontalFOV(playerCam.fieldOfView, playerCam.aspect);
         }
+
+        void GenerateNavMeshSamplePoints()
+        {
+            theoreticalSamplePoints.Clear();
+            navMeshSamplePoints.Clear();
+
+            Vector3 center = lastKnownPlayerPos;
+
+            for (int i = 0; i < sampleDirectionCount; i++)
+            {
+                float angle = i * (360f / sampleDirectionCount);
+                Vector3 dir = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+
+                // (1) Điểm lý thuyết trong không gian
+                Vector3 theoreticalPoint = center + dir * sampleRadius;
+                theoreticalSamplePoints.Add(theoreticalPoint);
+
+                // (2) Nhờ NavMesh tìm điểm đứng hợp lệ gần đó
+                if (NavMesh.SamplePosition(
+                    theoreticalPoint,
+                    out NavMeshHit hit,
+                    navMeshSampleMaxDistance,
+                    NavMesh.AllAreas))
+                {
+                    navMeshSamplePoints.Add(hit.position);
+                }
+            }
+        }
+
 
         private void OnDrawGizmos()
         {
@@ -449,6 +188,8 @@ namespace AIBot
 
             // Vẽ đường tới các user
             DrawLinesToUsers();
+
+            DrawSearchSamplingGizmos();
         }
 
         void DrawFOVGizmo(Transform eye, float range, float fov)
@@ -488,6 +229,30 @@ namespace AIBot
                     botRoot.PlayerCamera.GetPlayerCameraTarget().position,
                     t.Key.position
                 );
+            }
+        }
+
+        void DrawSearchSamplingGizmos()
+        {
+            // Điểm lý thuyết (màu vàng)
+            Gizmos.color = Color.yellow;
+            foreach (var p in theoreticalSamplePoints)
+            {
+                Gizmos.DrawSphere(p, 0.12f);
+            }
+
+            // Điểm NavMesh thật (màu xanh lá)
+            Gizmos.color = Color.green;
+            foreach (var p in navMeshSamplePoints)
+            {
+                Gizmos.DrawSphere(p, 0.18f);
+            }
+
+            // Nối LKPP → điểm NavMesh
+            Gizmos.color = new Color(0f, 1f, 0f, 0.4f);
+            foreach (var p in navMeshSamplePoints)
+            {
+                Gizmos.DrawLine(lastKnownPlayerPos, p);
             }
         }
     }
