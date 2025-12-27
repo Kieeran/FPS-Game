@@ -126,6 +126,41 @@ namespace CustomTask
 				for (int i = 0; i < path.corners.Length - 1; i++)
 					Gizmos.DrawLine(path.corners[i], path.corners[i + 1]);
 			}
+
+			// Vẽ target mà bot đi tới
+			DrawTarget();
+		}
+
+		void DrawTarget()
+		{
+			Vector3 targetPos = Vector3.zero;
+			bool hasTarget = false;
+
+			if (target != null && target.Value != null)
+			{
+				targetPos = target.Value.transform.position;
+				hasTarget = true;
+			}
+			else if (targetPosition != null && targetPosition.Value != Vector3.zero)
+			{
+				targetPos = targetPosition.Value;
+				hasTarget = true;
+			}
+
+			if (!hasTarget) return;
+
+			// Vẽ sphere tại vị trí target
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireSphere(targetPos, 0.5f);
+
+			// Vẽ arrow chỉ xuống target
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawLine(targetPos + Vector3.up * 2f, targetPos);
+
+			// Vẽ X marking the spot
+			Gizmos.color = Color.green;
+			Gizmos.DrawLine(targetPos + new Vector3(-0.3f, 0.1f, -0.3f), targetPos + new Vector3(0.3f, 0.1f, 0.3f));
+			Gizmos.DrawLine(targetPos + new Vector3(-0.3f, 0.1f, 0.3f), targetPos + new Vector3(0.3f, 0.1f, -0.3f));
 		}
 
 		public override void OnEnd()
