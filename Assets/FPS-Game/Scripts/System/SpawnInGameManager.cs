@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,9 +7,11 @@ public class SpawnInGameManager : MonoBehaviour
     [SerializeField] private GameObject inGameManagerPrefab;
     [SerializeField] Transform spawnPositions;
     [SerializeField] Transform waypoints;
+    [SerializeField] TacticalPoints tacticalPoints;
 
     public Transform GetSpawnPositions() { return spawnPositions; }
     public Transform GetWaypoints() { return waypoints; }
+    public List<Transform> GetTacticalPointsList() { return tacticalPoints.TPoints; }
 
     void Awake()
     {
