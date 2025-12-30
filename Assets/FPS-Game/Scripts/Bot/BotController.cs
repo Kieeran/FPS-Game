@@ -85,7 +85,7 @@ namespace AIBot
                     PlayerRoot.AIInputFeeder.OnAttack?.Invoke(blackboardLinker.GetAttack());
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
 
-                    blackboardLinker.SetLastKnownPlayerPos(sensor.GetLastKnownPlayerPos());
+                    blackboardLinker.SetLastKnownPlayerData(sensor.GetLastKnownPlayerData());
                     // // If player currently not visible, start lost sight timer; otherwise reset
                     // if (!blackboardLinker?.isPlayerVisible ?? true)
                     // {

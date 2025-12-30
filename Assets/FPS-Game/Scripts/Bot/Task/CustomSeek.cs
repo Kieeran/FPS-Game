@@ -4,6 +4,7 @@ using BehaviorDesigner.Runtime.Tasks;
 using TooltipAttribute = BehaviorDesigner.Runtime.Tasks.TooltipAttribute;
 using BehaviorDesigner.Runtime.Tasks.Movement;
 using UnityEngine.AI;
+using AIBot;
 
 namespace CustomTask
 {
@@ -12,8 +13,8 @@ namespace CustomTask
 	{
 		[Tooltip("The GameObject that the agent is seeking")]
 		public SharedGameObject target;
-		[Tooltip("If target is null then use the target position")]
-		public SharedVector3 targetPosition;
+		[Tooltip("If target is null then use the target data")]
+		public SharedLastKnownData data;
 
 		public SharedVector3 moveDir;
 		public float repathInterval = 0.5f;
@@ -83,7 +84,7 @@ namespace CustomTask
 
 		void CalculateNewPath()
 		{
-			if (target.Value == null && targetPosition.Value == Vector3.zero) return;
+			if (target.Value == null && !data.Value.IsValid()) return;
 
 			// Tính lại path
 			if (NavMesh.CalculatePath(transform.position, Target(), NavMesh.AllAreas, path))
@@ -104,7 +105,7 @@ namespace CustomTask
 			}
 			else
 			{
-				targetPos = targetPosition.Value;
+				targetPos = data.Value.position;
 			}
 
 			float snapDistance = 10f; // Khoảng cách tìm kiếm xuống dưới
@@ -141,9 +142,9 @@ namespace CustomTask
 				targetPos = target.Value.transform.position;
 				hasTarget = true;
 			}
-			else if (targetPosition != null && targetPosition.Value != Vector3.zero)
+			else if (data.Value.IsValid())
 			{
-				targetPos = targetPosition.Value;
+				targetPos = data.Value.position;
 				hasTarget = true;
 			}
 
@@ -161,6 +162,34 @@ namespace CustomTask
 			Gizmos.color = Color.green;
 			Gizmos.DrawLine(targetPos + new Vector3(-0.3f, 0.1f, -0.3f), targetPos + new Vector3(0.3f, 0.1f, 0.3f));
 			Gizmos.DrawLine(targetPos + new Vector3(-0.3f, 0.1f, 0.3f), targetPos + new Vector3(0.3f, 0.1f, -0.3f));
+
+			if (data.Value.IsValid())
+			{
+				DrawDirectionArrow(data.Value.position, data.Value.rotation);
+			}
+		}
+
+		void DrawDirectionArrow(Vector3 position, Quaternion rotation)
+		{
+			// Lấy hướng forward từ rotation
+			Vector3 forward = rotation * Vector3.forward;
+
+			// Vẽ mũi tên chính (hướng di chuyển)
+			Vector3 arrowStart = position + Vector3.up * 0.2f; // Nâng lên một chút để dễ nhìn
+			Vector3 arrowEnd = arrowStart + forward * 1.5f; // Chiều dài mũi tên
+
+			Gizmos.color = Color.magenta;
+			Gizmos.DrawLine(arrowStart, arrowEnd);
+
+			// Vẽ đầu mũi tên (2 nhánh tạo góc 30°)
+			float arrowHeadLength = 0.4f;
+			float arrowHeadAngle = 25f;
+
+			Vector3 right = Quaternion.LookRotation(forward) * Quaternion.Euler(0, 180 + arrowHeadAngle, 0) * Vector3.forward;
+			Vector3 left = Quaternion.LookRotation(forward) * Quaternion.Euler(0, 180 - arrowHeadAngle, 0) * Vector3.forward;
+
+			Gizmos.DrawLine(arrowEnd, arrowEnd + right * arrowHeadLength);
+			Gizmos.DrawLine(arrowEnd, arrowEnd + left * arrowHeadLength);
 		}
 
 		public override void OnEnd()

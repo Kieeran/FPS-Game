@@ -2,16 +2,56 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using BehaviorDesigner.Runtime;
 
 namespace AIBot
 {
+    [Serializable]
+    public struct LastKnownData
+    {
+        public Vector3 position;
+        public Quaternion rotation;
+
+        public LastKnownData(Vector3 pos, Quaternion rot)
+        {
+            position = pos;
+            rotation = rot;
+        }
+
+        public LastKnownData(Transform transform)
+        {
+            position = transform.position;
+            rotation = transform.rotation;
+        }
+
+        public bool IsValid()
+        {
+            return position != Vector3.zero && rotation != Quaternion.identity;
+        }
+
+        public void SetValue(Transform val)
+        {
+            position = val.position;
+            rotation = val.rotation;
+        }
+    }
+
+    [System.Serializable]
+    public class SharedLastKnownData : SharedVariable<LastKnownData>
+    {
+        public static implicit operator SharedLastKnownData(LastKnownData value)
+        {
+            return new SharedLastKnownData { Value = value };
+        }
+    }
+
     public class PerceptionSensor : MonoBehaviour
     {
         [Header("Perception")]
         [Tooltip("Transform of the detected player.")]
         [SerializeField] Transform targetPlayer;
-        [Tooltip("Last seen world position (updated when spotted).")]
-        [SerializeField] Vector3 lastKnownPlayerPos = Vector3.zero;
+        [Tooltip("Last seen world data (updated when spotted).")]
+        [SerializeField] LastKnownData lastKnownData = new();
 
         [Tooltip("Maximum sight distance.")]
         [SerializeField] float viewDistance;
@@ -56,9 +96,9 @@ namespace AIBot
                 }
             }
 
-            if (targetPlayer == null && lastKnownPlayerPos != Vector3.zero)
+            if (targetPlayer == null && lastKnownData.IsValid())
             {
-                GenerateNavMeshSamplePoints();
+                // GenerateNavMeshSamplePoints();
             }
         }
 
@@ -67,9 +107,9 @@ namespace AIBot
             return targetPlayer;
         }
 
-        public Vector3 GetLastKnownPlayerPos()
+        public LastKnownData GetLastKnownPlayerData()
         {
-            return lastKnownPlayerPos;
+            return lastKnownData;
         }
 
         PlayerRoot CheckSurroundingFOV(List<PlayerRoot> targets, float detectRange, float fov, LayerMask obstacleMask)
@@ -118,7 +158,7 @@ namespace AIBot
             if (nearest != null)
             {
                 targetsDebug.Add(nearest.PlayerCamera.GetPlayerCameraTarget(), Color.green);
-                lastKnownPlayerPos = nearest.transform.position;
+                lastKnownData.SetValue(nearest.PlayerCamera.GetPlayerCameraTarget());
             }
             return nearest;
         }
@@ -141,7 +181,7 @@ namespace AIBot
             theoreticalSamplePoints.Clear();
             navMeshSamplePoints.Clear();
 
-            Vector3 center = lastKnownPlayerPos;
+            Vector3 center = lastKnownData.position;
 
             for (int i = 0; i < sampleDirectionCount; i++)
             {
@@ -252,7 +292,7 @@ namespace AIBot
             Gizmos.color = new Color(0f, 1f, 0f, 0.4f);
             foreach (var p in navMeshSamplePoints)
             {
-                Gizmos.DrawLine(lastKnownPlayerPos, p);
+                Gizmos.DrawLine(lastKnownData.position, p);
             }
         }
     }

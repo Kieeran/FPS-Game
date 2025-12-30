@@ -77,9 +77,9 @@ namespace AIBot
             GlobalVariables.Instance.SetVariable("targetCamera", sharedTransform);
         }
 
-        public void SetLastKnownPlayerPos(Vector3 value)
+        public void SetLastKnownPlayerData(LastKnownData data)
         {
-            SafeSet("lastKnownPlayerPos", value);
+            SafeSet("lastKnownPlayerData", data);
         }
 
         void Update()
