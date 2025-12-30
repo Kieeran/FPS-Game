@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using System.Collections;
 using UnityEngine.AI;
+using System.Linq;
 
 public struct PlayerInfo
 {
@@ -71,6 +72,7 @@ public class InGameManager : NetworkBehaviour
 
     public static event System.Action OnManagerReady;
 
+    public SpawnInGameManager spawnInGameManager { get; private set; }
     public TimePhaseCounter TimePhaseCounter { get; private set; }
     public KillCountChecker KillCountChecker { get; private set; }
     public GenerateHealthPickup GenerateHealthPickup { get; private set; }
@@ -102,6 +104,7 @@ public class InGameManager : NetworkBehaviour
         GameObject obj = Instantiate(_playerFollowCamera);
         PlayerFollowCamera = obj.GetComponent<CinemachineVirtualCamera>();
 
+        spawnInGameManager = GameObject.FindGameObjectsWithTag("NavigationPoint").FirstOrDefault().GetComponent<SpawnInGameManager>();
         TimePhaseCounter = GetComponent<TimePhaseCounter>();
         KillCountChecker = GetComponent<KillCountChecker>();
         GenerateHealthPickup = GetComponent<GenerateHealthPickup>();

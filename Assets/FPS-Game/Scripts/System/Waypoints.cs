@@ -18,7 +18,7 @@ public class Waypoints : NetworkBehaviour
     void InitWaypoints()
     {
         WaypointsList = new();
-        waypoints = GameObject.FindGameObjectsWithTag("NavigationPoint").FirstOrDefault().GetComponent<SpawnInGameManager>().GetWaypoints();
+        waypoints = InGameManager.Instance.spawnInGameManager.GetWaypoints();
         if (waypoints != null)
         {
             foreach (Transform child in waypoints)

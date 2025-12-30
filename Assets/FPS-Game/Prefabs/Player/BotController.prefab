@@ -67,6 +67,7 @@ GameObject:
   - component: {fileID: 3065118947464049570}
   - component: {fileID: 6303200039506592036}
   - component: {fileID: 2264964879111128093}
+  - component: {fileID: 2606811245963303293}
   m_Layer: 13
   m_Name: BotController
   m_TagString: BotController
@@ -243,6 +244,7 @@ MonoBehaviour:
   combatBehavior: {fileID: 3065118947464049570}
   sensor: {fileID: 1332134225394880598}
   blackboardLinker: {fileID: 2264964879111128093}
+  botTactics: {fileID: 2606811245963303293}
 --- !u!114 &2264964879111128093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,3 +261,18 @@ MonoBehaviour:
   moveDir: {x: 0, y: 0, z: 0}
   lookEuler: {x: 0, y: 0, z: 0}
   attack: 0
+--- !u!114 &2606811245963303293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6247042719265355539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3afdfbf237082f4daa6561ff605e76c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  searchRadius: 40
+  showDebugGizmos: 1
+  debugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

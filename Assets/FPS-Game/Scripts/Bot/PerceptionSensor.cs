@@ -56,6 +56,10 @@ namespace AIBot
         [Tooltip("Maximum sight distance.")]
         [SerializeField] float viewDistance;
         [SerializeField] LayerMask obstacleMask;
+
+        public event Action<LastKnownData> OnPlayerLost;
+        bool isTriggerOnPlayerLost = false;
+
         PlayerRoot botRoot;
         float botHorizontalFOV;
         Dictionary<Transform, Color> targetsDebug = new();
@@ -88,6 +92,8 @@ namespace AIBot
                 {
                     // Debug.Log($"Nearest player: {root}");
                     targetPlayer = root.PlayerCamera.GetPlayerCameraTarget();
+
+                    isTriggerOnPlayerLost = false;
                 }
                 else
                 {
@@ -96,9 +102,11 @@ namespace AIBot
                 }
             }
 
-            if (targetPlayer == null && lastKnownData.IsValid())
+            if (targetPlayer == null && lastKnownData.IsValid() && !isTriggerOnPlayerLost)
             {
                 // GenerateNavMeshSamplePoints();
+                isTriggerOnPlayerLost = true;
+                OnPlayerLost.Invoke(lastKnownData);
             }
         }
 

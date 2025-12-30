@@ -14,6 +14,7 @@ public class TacticalPoints : MonoBehaviour
 
     void Awake()
     {
+        TPoints = new();
         foreach (Transform tp in transform)
         {
             TPoints.Add(tp);

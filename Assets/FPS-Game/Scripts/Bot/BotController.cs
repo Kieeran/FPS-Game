@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public enum State
 {
@@ -13,15 +14,6 @@ public enum State
 
 namespace AIBot
 {
-    /// <summary>
-    /// Central FSM owner for a demo bot.
-    /// Controls a minimal state machine (Idle -> Patrol -> Combat),
-    /// and activates the corresponding Behavior Designer Behavior for each state.
-    ///
-    /// Important: Behavior Designer's Behavior component does NOT expose IsRunning/isPaused,
-    /// so this controller tracks the currently active Behavior instance and uses
-    /// StartBehavior/StopBehavior + enabled to control it.
-    /// </summary>
     [DisallowMultipleComponent]
     public class BotController : MonoBehaviour
     {
@@ -36,6 +28,7 @@ namespace AIBot
 
         [Tooltip("Adapter that synchronizes C# blackboard values to BD SharedVariables")]
         [SerializeField] BlackboardLinker blackboardLinker;
+        [SerializeField] BotTactics botTactics;
 
         // [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         // public float lostSightTimeout = 2f;
@@ -56,6 +49,8 @@ namespace AIBot
             {
                 Value = PlayerRoot.PlayerCamera.GetPlayerCameraTarget()
             });
+
+            sensor.OnPlayerLost += HandlePlayerLost;
         }
 
         void Start()
@@ -124,21 +119,21 @@ namespace AIBot
             SwitchToState(State.Idle);
         }
 
-        // private void OnDestroy()
-        // {
-        //     if (perception != null)
-        //     {
-        //         perception.OnPlayerSpotted -= HandlePlayerSpotted;
-        //         perception.OnPlayerLost -= HandlePlayerLost;
-        //     }
+        private void OnDestroy()
+        {
+            if (sensor != null)
+            {
+                // sensor.OnPlayerSpotted -= HandlePlayerSpotted;
+                sensor.OnPlayerLost -= HandlePlayerLost;
+            }
 
-        //     // Ensure we stop any active behavior cleanly
-        //     if (_activeBehavior != null)
-        //     {
-        //         StopBehavior(_activeBehavior);
-        //         _activeBehavior = null;
-        //     }
-        // }
+            // Ensure we stop any active behavior cleanly
+            if (_activeBehavior != null)
+            {
+                StopBehavior(_activeBehavior);
+                _activeBehavior = null;
+            }
+        }
 
         public void OnSwitchState(string state)
         {
@@ -265,15 +260,21 @@ namespace AIBot
         //     SwitchToState(FSMState.CurrentState.Combat);
         // }
 
-        // private void HandlePlayerLost()
-        // {
-        //     // Mark not visible; BotController's Update will start/handle the timeout when in Combat
-        //     blackboardLinker?.SetPlayerVisible(false, blackboardLinker?.PlayerLastSeenPos ?? Vector3.zero, null);
+        void HandlePlayerLost(LastKnownData data)
+        {
+            // // Mark not visible; BotController's Update will start/handle the timeout when in Combat
+            // blackboardLinker?.SetPlayerVisible(false, blackboardLinker?.PlayerLastSeenPos ?? Vector3.zero, null);
 
-        //     // Start the lost-sight timer if currently in combat
-        //     if (_state == FSMState.CurrentState.Combat && _lostSightStart < 0f)
-        //         _lostSightStart = Time.time;
-        // }
+            // // Start the lost-sight timer if currently in combat
+            // if (_state == FSMState.CurrentState.Combat && _lostSightStart < 0f)
+            //     _lostSightStart = Time.time;
+
+            List<Transform> points = botTactics.GetPointsAroundLKP(data.position);
+            foreach (Transform tf in points)
+            {
+                Debug.Log(tf.name);
+            }
+        }
 
         #endregion
     }
