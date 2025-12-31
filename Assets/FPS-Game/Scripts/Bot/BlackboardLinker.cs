@@ -104,6 +104,7 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
+                    lookEuler = (Vector3)GlobalVariables.Instance.GetVariable("lookEuler").GetValue();
                     moveDir = (Vector3)activeBehavior.GetVariable("moveDir").GetValue();
                     return;
 

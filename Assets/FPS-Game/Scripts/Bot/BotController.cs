@@ -116,6 +116,7 @@ namespace AIBot
                     break;
 
                 case State.Patrol:
+                    PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetLookEuler());
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
                     break;
 

@@ -12,12 +12,19 @@ namespace CustomTask
 	public class CustomSeek : Action
 	{
 		[Tooltip("The GameObject that the agent is seeking")]
-		public SharedGameObject target;
+		[SerializeField] SharedGameObject target;
 		[Tooltip("If target is null then use the target data")]
-		public SharedTPointData currentTacticalPoint;
+		[SerializeField] SharedTPointData currentTacticalPoint;
 
-		public SharedVector3 moveDir;
-		public float repathInterval = 0.5f;
+		[Tooltip("Góc tối thiểu để cho phép di chuyển (độ). Nếu góc lớn hơn, bot chỉ xoay không di chuyển")]
+		[SerializeField] float minAngleToMove = 60f;
+
+		[SerializeField] SharedVector3 moveDir;
+		[SerializeField] SharedVector3 lookEuler;
+		[SerializeField] float repathInterval = 0.5f;
+
+		PlayerRoot playerRoot;
+		Transform playerCameraTarget;
 
 		NavMeshPath path;
 		int currentCorner = 0;
@@ -34,6 +41,9 @@ namespace CustomTask
 			hasArrived = false;
 			currentCorner = 0;
 			repathTimer = 0f;
+
+			playerRoot = transform.root.GetComponent<PlayerRoot>();
+			playerCameraTarget = playerRoot.PlayerCamera.GetPlayerCameraTarget();
 		}
 
 		public override TaskStatus OnUpdate()
@@ -42,7 +52,6 @@ namespace CustomTask
 			if (HasArrived())
 			{
 				moveDir.Value = Vector3.zero;
-				// navMeshAgent.enabled = false;
 				return TaskStatus.Success;
 			}
 			CalculatePath();
@@ -65,7 +74,31 @@ namespace CustomTask
 			Vector3 dir = nextPoint - transform.position;
 			dir.y = 0;
 
-			moveDir.Value = dir;
+			// Tính toán hướng nhìn (luôn luôn tính, bất kể góc như thế nào)
+			if (dir.magnitude > 0.01f)
+			{
+				Quaternion lookRotation = Quaternion.LookRotation(dir.normalized);
+				lookEuler.Value = new Vector3(
+					lookRotation.eulerAngles.x,
+					lookRotation.eulerAngles.y,
+					lookEuler.Value.z
+				);
+			}
+
+			// Kiểm tra góc giữa hướng bot và hướng cần đi
+			float angleToTarget = Vector3.Angle(playerCameraTarget.forward, dir.normalized);
+
+			// Nếu góc quá lớn (ví dụ đi ngược), chỉ xoay không di chuyển
+			if (angleToTarget > minAngleToMove)
+			{
+				// Góc quá lớn -> set moveDir = zero để bot chỉ xoay
+				moveDir.Value = Vector3.zero;
+			}
+			else
+			{
+				// Góc OK -> cho phép di chuyển
+				moveDir.Value = dir;
+			}
 
 			if (dir.magnitude < 0.25f)
 			{
