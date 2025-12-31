@@ -8,13 +8,25 @@ public class BotTactics : MonoBehaviour
     [Header("Search Settings")]
     [SerializeField] float searchRadius = 20f; // Bán kính tìm kiếm quanh LKP
 
+    [Header("Weights")]
+    [Range(0, 1)][SerializeField] float directionWeight = 0.6f; // Độ quan trọng của hướng chạy
+    [Range(0, 1)][SerializeField] float distanceWeight = 0.4f;  // Độ quan trọng của khoảng cách từ LKP
+
+    // Cấu trúc bổ trợ để lưu điểm số
+    public struct ScoredPoint
+    {
+        public Transform point;
+        public float score;
+    }
+
     [Header("Debug Gizmos")]
     [SerializeField] bool showDebugGizmos = true;
     [SerializeField] Color debugColor = Color.yellow;
 
     // Biến lưu tạm để vẽ Gizmos
     private Vector3 lastDebugLKP;
-    private List<Transform> lastCandidates = new List<Transform>();
+    List<Transform> lastCandidates = new();
+    Queue<Transform> currentSearchPath = new();
 
     public List<Transform> GetPointsAroundLKP(Vector3 lkp)
     {
@@ -47,6 +59,51 @@ public class BotTactics : MonoBehaviour
         // Cập nhật danh sách cuối cùng để vẽ Line nối trong Gizmos
         lastCandidates = candidatePoints.OrderBy(p => Vector3.Distance(lkp, p.position)).ToList();
         return lastCandidates;
+    }
+
+    public List<Transform> GetRankedPoints(Vector3 lkp, Vector3 lkDir, Vector3 botPos)
+    {
+        List<ScoredPoint> scoredPoints = new List<ScoredPoint>();
+        var candidates = GetPointsAroundLKP(lkp); // Hàm bạn đã có
+
+        foreach (Transform tp in candidates)
+        {
+            // 1. Tính toán Direction Score (Dùng Dot Product)
+            Vector3 dirToPoint = (tp.position - lkp).normalized;
+            float dot = Vector3.Dot(dirToPoint, lkDir.normalized);
+            // Chuẩn hóa dot từ [-1, 1] về [0, 1]
+            float directionScore = Mathf.Clamp01((dot + 1f) / 2f);
+
+            // 2. Tính toán Distance Score (Càng gần LKP điểm càng cao)
+            float distToLKP = Vector3.Distance(tp.position, lkp);
+            float distanceScore = 1f - Mathf.Clamp01(distToLKP / searchRadius);
+
+            // 3. Tổng hợp điểm số có trọng số
+            float finalScore = (directionScore * directionWeight) + (distanceScore * distanceWeight);
+
+            scoredPoints.Add(new ScoredPoint { point = tp, score = finalScore });
+        }
+
+        // Sắp xếp giảm dần theo điểm số
+        return scoredPoints.OrderByDescending(sp => sp.score).Select(sp => sp.point).ToList();
+    }
+
+    public void CalculateSearchPath(TPointData lastKnownData)
+    {
+        if (!lastKnownData.IsValid()) return;
+
+        var rankedPoints = GetRankedPoints(
+            lastKnownData.Position,
+            lastKnownData.Rotation.eulerAngles,
+            transform.position
+        );
+
+        currentSearchPath = new Queue<Transform>(rankedPoints);
+    }
+
+    public Transform GetNextPoint()
+    {
+        return currentSearchPath.Count > 0 ? currentSearchPath.Dequeue() : null;
     }
 
     private void OnDrawGizmos()

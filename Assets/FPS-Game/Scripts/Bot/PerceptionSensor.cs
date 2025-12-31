@@ -6,58 +6,19 @@ using BehaviorDesigner.Runtime;
 
 namespace AIBot
 {
-    [Serializable]
-    public struct LastKnownData
-    {
-        public Vector3 position;
-        public Quaternion rotation;
-
-        public LastKnownData(Vector3 pos, Quaternion rot)
-        {
-            position = pos;
-            rotation = rot;
-        }
-
-        public LastKnownData(Transform transform)
-        {
-            position = transform.position;
-            rotation = transform.rotation;
-        }
-
-        public bool IsValid()
-        {
-            return position != Vector3.zero && rotation != Quaternion.identity;
-        }
-
-        public void SetValue(Transform val)
-        {
-            position = val.position;
-            rotation = val.rotation;
-        }
-    }
-
-    [System.Serializable]
-    public class SharedLastKnownData : SharedVariable<LastKnownData>
-    {
-        public static implicit operator SharedLastKnownData(LastKnownData value)
-        {
-            return new SharedLastKnownData { Value = value };
-        }
-    }
-
     public class PerceptionSensor : MonoBehaviour
     {
         [Header("Perception")]
         [Tooltip("Transform of the detected player.")]
         [SerializeField] Transform targetPlayer;
         [Tooltip("Last seen world data (updated when spotted).")]
-        [SerializeField] LastKnownData lastKnownData = new();
+        [SerializeField] TPointData lastKnownData = new();
 
         [Tooltip("Maximum sight distance.")]
         [SerializeField] float viewDistance;
         [SerializeField] LayerMask obstacleMask;
 
-        public event Action<LastKnownData> OnPlayerLost;
+        public event Action<TPointData> OnPlayerLost;
         bool isTriggerOnPlayerLost = false;
 
         PlayerRoot botRoot;
@@ -115,7 +76,7 @@ namespace AIBot
             return targetPlayer;
         }
 
-        public LastKnownData GetLastKnownPlayerData()
+        public TPointData GetLastKnownPlayerData()
         {
             return lastKnownData;
         }
@@ -189,8 +150,9 @@ namespace AIBot
             theoreticalSamplePoints.Clear();
             navMeshSamplePoints.Clear();
 
-            Vector3 center = lastKnownData.position;
+            if (!lastKnownData.IsValid()) return;
 
+            Vector3 center = lastKnownData.Position;
             for (int i = 0; i < sampleDirectionCount; i++)
             {
                 float angle = i * (360f / sampleDirectionCount);
@@ -211,7 +173,6 @@ namespace AIBot
                 }
             }
         }
-
 
         private void OnDrawGizmos()
         {
@@ -296,11 +257,13 @@ namespace AIBot
                 Gizmos.DrawSphere(p, 0.18f);
             }
 
+            if (!lastKnownData.IsValid()) return;
+
             // Nối LKPP → điểm NavMesh
             Gizmos.color = new Color(0f, 1f, 0f, 0.4f);
             foreach (var p in navMeshSamplePoints)
             {
-                Gizmos.DrawLine(lastKnownData.position, p);
+                Gizmos.DrawLine(lastKnownData.Position, p);
             }
         }
     }

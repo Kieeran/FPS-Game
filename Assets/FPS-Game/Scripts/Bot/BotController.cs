@@ -12,6 +12,50 @@ public enum State
     Combat
 }
 
+[Serializable]
+public struct TPointData
+{
+    public Vector3 Position { get; private set; }
+    public Quaternion Rotation { get; private set; }
+    bool isValid;
+
+    public bool IsValid() => isValid;
+
+    public TPointData(Vector3 pos, Quaternion rot)
+    {
+        Position = pos;
+        Rotation = rot;
+
+        isValid = true;
+    }
+
+    public TPointData(Transform transform)
+    {
+        Position = transform.position;
+        Rotation = transform.rotation;
+
+        isValid = true;
+    }
+
+    public void SetValue(Transform val)
+    {
+        Position = val.position;
+        Rotation = val.rotation;
+
+        isValid = true;
+    }
+
+    public void Invalidate()
+    {
+        isValid = false;
+    }
+
+    public void Validate()
+    {
+        isValid = true;
+    }
+}
+
 namespace AIBot
 {
     [DisallowMultipleComponent]
@@ -80,7 +124,6 @@ namespace AIBot
                     PlayerRoot.AIInputFeeder.OnAttack?.Invoke(blackboardLinker.GetAttack());
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
 
-                    blackboardLinker.SetLastKnownPlayerData(sensor.GetLastKnownPlayerData());
                     // // If player currently not visible, start lost sight timer; otherwise reset
                     // if (!blackboardLinker?.isPlayerVisible ?? true)
                     // {
@@ -246,6 +289,22 @@ namespace AIBot
             }
         }
 
+        public void ShiftToNextCandidate()
+        {
+            Transform nextTP = botTactics.GetNextPoint();
+            TPointData data = new();
+            if (nextTP == null)
+            {
+                data.Invalidate();
+            }
+            else
+            {
+                data.SetValue(nextTP);
+            }
+
+            blackboardLinker.SetCurrentTacticalPoint(data);
+        }
+
         #region Perception Event Handlers
 
         // private void HandlePlayerSpotted(Vector3 lastSeenWorldPos, GameObject playerGameObject)
@@ -260,7 +319,7 @@ namespace AIBot
         //     SwitchToState(FSMState.CurrentState.Combat);
         // }
 
-        void HandlePlayerLost(LastKnownData data)
+        void HandlePlayerLost(TPointData data)
         {
             // // Mark not visible; BotController's Update will start/handle the timeout when in Combat
             // blackboardLinker?.SetPlayerVisible(false, blackboardLinker?.PlayerLastSeenPos ?? Vector3.zero, null);
@@ -269,11 +328,9 @@ namespace AIBot
             // if (_state == FSMState.CurrentState.Combat && _lostSightStart < 0f)
             //     _lostSightStart = Time.time;
 
-            List<Transform> points = botTactics.GetPointsAroundLKP(data.position);
-            foreach (Transform tf in points)
-            {
-                Debug.Log(tf.name);
-            }
+            if (!data.IsValid()) return;
+            botTactics.CalculateSearchPath(data);
+            blackboardLinker.SetLastKnownPlayerData(data);
         }
 
         #endregion

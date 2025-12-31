@@ -2,17 +2,17 @@ using System;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
 
+[Serializable]
+public class SharedTPointData : SharedVariable<TPointData>
+{
+    public static implicit operator SharedTPointData(TPointData value)
+    {
+        return new SharedTPointData { Value = value };
+    }
+}
+
 namespace AIBot
 {
-    /// <summary>
-    /// Minimal adapter that synchronizes a tiny set of blackboard fields to the active Behavior Designer Behavior.
-    /// It performs change-detection to avoid unnecessary SetVariableValue calls.
-    /// This expects Behavior trees to declare SharedVariables:
-    ///   - SharedBool  "isPlayerVisible"
-    ///   - SharedVector3 "playerLastSeenPos"
-    ///   - SharedInt "currentWaypointIndex"
-    ///   - SharedGameObjectList or SharedTransformList "waypoints" (optional authoring)
-    /// </summary>
     [DisallowMultipleComponent]
     public class BlackboardLinker : MonoBehaviour
     {
@@ -77,9 +77,14 @@ namespace AIBot
             GlobalVariables.Instance.SetVariable("targetCamera", sharedTransform);
         }
 
-        public void SetLastKnownPlayerData(LastKnownData data)
+        public void SetLastKnownPlayerData(TPointData data)
         {
-            SafeSet("lastKnownPlayerData", data);
+            SetCurrentTacticalPoint(data);
+        }
+
+        public void SetCurrentTacticalPoint(TPointData data)
+        {
+            SafeSet("currentTacticalPoint", data);
         }
 
         void Update()

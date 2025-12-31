@@ -14,7 +14,7 @@ namespace CustomTask
 		[Tooltip("The GameObject that the agent is seeking")]
 		public SharedGameObject target;
 		[Tooltip("If target is null then use the target data")]
-		public SharedLastKnownData data;
+		public SharedTPointData currentTacticalPoint;
 
 		public SharedVector3 moveDir;
 		public float repathInterval = 0.5f;
@@ -84,7 +84,7 @@ namespace CustomTask
 
 		void CalculateNewPath()
 		{
-			if (target.Value == null && !data.Value.IsValid()) return;
+			if (target.Value == null && !currentTacticalPoint.Value.IsValid()) return;
 
 			// Tính lại path
 			if (NavMesh.CalculatePath(transform.position, Target(), NavMesh.AllAreas, path))
@@ -98,14 +98,14 @@ namespace CustomTask
 		// Return targetPosition if target is null
 		private Vector3 Target()
 		{
-			Vector3 targetPos;
+			Vector3 targetPos = Vector3.zero;
 			if (target.Value != null)
 			{
 				targetPos = target.Value.transform.position;
 			}
-			else
+			else if (currentTacticalPoint.Value.IsValid())
 			{
-				targetPos = data.Value.position;
+				targetPos = currentTacticalPoint.Value.Position;
 			}
 
 			float snapDistance = 10f; // Khoảng cách tìm kiếm xuống dưới
@@ -142,9 +142,9 @@ namespace CustomTask
 				targetPos = target.Value.transform.position;
 				hasTarget = true;
 			}
-			else if (data.Value.IsValid())
+			else if (currentTacticalPoint.Value.IsValid())
 			{
-				targetPos = data.Value.position;
+				targetPos = currentTacticalPoint.Value.Position;
 				hasTarget = true;
 			}
 
@@ -163,9 +163,9 @@ namespace CustomTask
 			Gizmos.DrawLine(targetPos + new Vector3(-0.3f, 0.1f, -0.3f), targetPos + new Vector3(0.3f, 0.1f, 0.3f));
 			Gizmos.DrawLine(targetPos + new Vector3(-0.3f, 0.1f, 0.3f), targetPos + new Vector3(0.3f, 0.1f, -0.3f));
 
-			if (data.Value.IsValid())
+			if (currentTacticalPoint.Value.IsValid())
 			{
-				DrawDirectionArrow(data.Value.position, data.Value.rotation);
+				DrawDirectionArrow(currentTacticalPoint.Value.Position, currentTacticalPoint.Value.Rotation);
 			}
 		}
 

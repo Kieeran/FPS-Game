@@ -37,7 +37,7 @@ namespace CustomTask
         [SerializeField] SharedVector3 lookEuler;
 
         [Tooltip("Data về vị trí di chuyển cuối của player)")]
-        [SerializeField] SharedLastKnownData data;
+        [SerializeField] SharedTPointData data;
 
         [Header("Scan Pattern")]
         [Tooltip("Bắt đầu quét từ bên trái hay bên phải")]
@@ -76,8 +76,10 @@ namespace CustomTask
         {
             base.OnStart();
 
+            if (!data.Value.IsValid()) return;
+
             // Lấy hướng LKP
-            centerYaw = data.Value.rotation.eulerAngles.y;
+            centerYaw = data.Value.Rotation.eulerAngles.y;
 
             // Tính góc bắt đầu và kết thúc (quét 180°)
             if (startFromLeft)
@@ -109,6 +111,8 @@ namespace CustomTask
 
         public override TaskStatus OnUpdate()
         {
+            if (!data.Value.IsValid()) return TaskStatus.Failure;
+
             switch (currentState)
             {
                 case ScanState.MovingToStartPosition:
