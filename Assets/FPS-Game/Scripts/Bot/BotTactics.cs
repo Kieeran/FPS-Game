@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ public class BotTactics : MonoBehaviour
     // Biến lưu tạm để vẽ Gizmos
     private Vector3 lastDebugLKP;
     List<Transform> lastCandidates = new();
-    Queue<Transform> currentSearchPath = new();
+    public List<Transform> currentSearchPath { get; private set; } = new();
 
     public List<Transform> GetPointsAroundLKP(Vector3 lkp)
     {
@@ -61,7 +62,7 @@ public class BotTactics : MonoBehaviour
         return lastCandidates;
     }
 
-    public List<Transform> GetRankedPoints(Vector3 lkp, Vector3 lkDir, Vector3 botPos)
+    public List<Transform> GetRankedPoints(Vector3 lkp, Vector3 lkDir)
     {
         List<ScoredPoint> scoredPoints = new List<ScoredPoint>();
         var candidates = GetPointsAroundLKP(lkp); // Hàm bạn đã có
@@ -88,50 +89,56 @@ public class BotTactics : MonoBehaviour
         return scoredPoints.OrderByDescending(sp => sp.score).Select(sp => sp.point).ToList();
     }
 
-    public void CalculateSearchPath(TPointData lastKnownData)
+    public void CalculateSearchPath(TPointData lastKnownData, Action<List<Transform>> onDoneCalculate)
     {
         if (!lastKnownData.IsValid()) return;
 
-        var rankedPoints = GetRankedPoints(
+        currentSearchPath.Clear();
+        currentSearchPath = GetRankedPoints(
             lastKnownData.Position,
-            lastKnownData.Rotation.eulerAngles,
-            transform.position
+            lastKnownData.Rotation.eulerAngles
         );
 
-        currentSearchPath = new Queue<Transform>(rankedPoints);
+        onDoneCalculate?.Invoke(currentSearchPath);
     }
 
     public Transform GetNextPoint()
     {
-        return currentSearchPath.Count > 0 ? currentSearchPath.Dequeue() : null;
+        if (currentSearchPath.Count <= 0) return null;
+
+        Transform point = currentSearchPath[0];
+        currentSearchPath.RemoveAt(0);
+
+        return point;
     }
 
     private void OnDrawGizmos()
     {
-        if (!showDebugGizmos || lastDebugLKP == Vector3.zero) return;
+        if (!showDebugGizmos) return;
+
+        DrawSearchRadius();
+        DrawCurrentPath();
+    }
+
+    private void DrawSearchRadius()
+    {
+        if (lastDebugLKP == Vector3.zero) return;
 
         Gizmos.color = debugColor;
-
-        // 1. Vẽ vòng tròn bán kính tìm kiếm tại LKP (Dùng WireSphere hoặc vẽ vòng tròn phẳng)
+        // Vẽ vòng tròn bán kính tìm kiếm
         Gizmos.DrawWireSphere(lastDebugLKP, searchRadius);
+    }
 
-        // 2. Vẽ một biểu tượng nhỏ tại tâm LKP
-        Gizmos.DrawIcon(lastDebugLKP + Vector3.up * 1f, "SearchIcon", true);
+    private void DrawCurrentPath()
+    {
+        if (currentSearchPath == null || currentSearchPath.Count == 0) return;
 
-        // 3. Vẽ đường nối từ LKP đến các điểm tìm được để dễ quan sát
-        if (lastCandidates != null)
+        for (int i = 0; i < currentSearchPath.Count; i++)
         {
-            foreach (var tp in lastCandidates)
-            {
-                if (tp == null) continue;
+            if (currentSearchPath[i] == null) continue;
 
-                // Vẽ đường line mờ nối đến các điểm trong danh sách
-                Gizmos.color = new Color(debugColor.r, debugColor.g, debugColor.b, 0.3f);
-                Gizmos.DrawLine(lastDebugLKP, tp.position);
-
-                // Vẽ sphere nhỏ tại các điểm được chọn
-                Gizmos.DrawSphere(tp.position, 0.3f);
-            }
+            // Vẽ khối cầu tại mỗi điểm TP
+            Gizmos.DrawSphere(currentSearchPath[i].position, 0.3f);
         }
     }
 }

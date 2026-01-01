@@ -32,6 +32,8 @@ namespace AIBot
 
         List<Vector3> theoreticalSamplePoints = new();
         List<Vector3> navMeshSamplePoints = new();
+        List<Transform> currentSearchPath = new();
+        [SerializeField] Color botToTPLineColor;
 
         void Awake()
         {
@@ -63,12 +65,27 @@ namespace AIBot
                 }
             }
 
-            if (targetPlayer == null && lastKnownData.IsValid() && !isTriggerOnPlayerLost)
+            if (targetPlayer == null && lastKnownData.IsValid())
             {
                 // GenerateNavMeshSamplePoints();
-                isTriggerOnPlayerLost = true;
-                OnPlayerLost.Invoke(lastKnownData);
+
+                // Kích hoạt event OnPlayerLost chỉ một lần
+                if (!isTriggerOnPlayerLost)
+                {
+                    isTriggerOnPlayerLost = true;
+                    OnPlayerLost.Invoke(lastKnownData);
+                }
+
+                if (currentSearchPath != null && currentSearchPath.Count > 0)
+                {
+                    CheckVisibleTacticalPoints(currentSearchPath, viewDistance, botHorizontalFOV, obstacleMask);
+                }
             }
+        }
+
+        public void SetCurrentSearchPath(List<Transform> val)
+        {
+            currentSearchPath = val;
         }
 
         public Transform GetTargetPlayerTransform()
@@ -132,6 +149,30 @@ namespace AIBot
             return nearest;
         }
 
+        void CheckVisibleTacticalPoints(List<Transform> tpList, float range, float fov, LayerMask obstacleMask)
+        {
+            if (tpList == null || tpList.Count == 0) return;
+
+            Transform eye = botRoot.PlayerCamera.GetPlayerCameraTarget();
+            float fovCos = Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad);
+
+            // Duyệt ngược từ cuối danh sách lên đầu để xóa an toàn
+            for (int i = tpList.Count - 1; i >= 0; i--)
+            {
+                if (tpList[i] == null)
+                {
+                    tpList.RemoveAt(i);
+                    continue;
+                }
+
+                if (IsLocationVisible(tpList[i].position, eye.position, eye.forward, range, fovCos, obstacleMask))
+                {
+                    // Nếu nhìn thấy, loại bỏ khỏi danh sách ngay lập tức
+                    tpList.RemoveAt(i);
+                }
+            }
+        }
+
         float GetHorizontalFOV(float verticalFov, float aspect)
         {
             float vFovRad = verticalFov * Mathf.Deg2Rad;
@@ -174,6 +215,24 @@ namespace AIBot
             }
         }
 
+        bool IsLocationVisible(Vector3 targetPos, Vector3 eyePos, Vector3 forward, float range, float fovCos, LayerMask mask)
+        {
+            Vector3 dir = targetPos - eyePos;
+            float dist = dir.magnitude;
+
+            if (dist > range) return false; // Lọc khoảng cách
+
+            dir = dir.normalized;
+
+            // Lọc FOV
+            if (Vector3.Dot(forward, dir) < fovCos) return false;
+
+            // Lọc vật cản
+            if (Physics.Raycast(eyePos, dir, dist, mask)) return false;
+
+            return true;
+        }
+
         private void OnDrawGizmos()
         {
             Transform target;
@@ -198,7 +257,10 @@ namespace AIBot
             // Vẽ đường tới các user
             DrawLinesToUsers();
 
-            DrawSearchSamplingGizmos();
+            // Vẽ đường tới các tacticle point
+            DrawLinesToTPs();
+
+            // DrawSearchSamplingGizmos();
         }
 
         void DrawFOVGizmo(Transform eye, float range, float fov)
@@ -241,30 +303,44 @@ namespace AIBot
             }
         }
 
-        void DrawSearchSamplingGizmos()
+        void DrawLinesToTPs()
         {
-            // Điểm lý thuyết (màu vàng)
-            Gizmos.color = Color.yellow;
-            foreach (var p in theoreticalSamplePoints)
-            {
-                Gizmos.DrawSphere(p, 0.12f);
-            }
+            if (currentSearchPath == null || currentSearchPath.Count <= 0) return;
 
-            // Điểm NavMesh thật (màu xanh lá)
-            Gizmos.color = Color.green;
-            foreach (var p in navMeshSamplePoints)
+            Gizmos.color = botToTPLineColor;
+            foreach (var tf in currentSearchPath)
             {
-                Gizmos.DrawSphere(p, 0.18f);
-            }
-
-            if (!lastKnownData.IsValid()) return;
-
-            // Nối LKPP → điểm NavMesh
-            Gizmos.color = new Color(0f, 1f, 0f, 0.4f);
-            foreach (var p in navMeshSamplePoints)
-            {
-                Gizmos.DrawLine(lastKnownData.Position, p);
+                Gizmos.DrawLine(
+                    botRoot.PlayerCamera.GetPlayerCameraTarget().position,
+                    tf.position
+                );
             }
         }
+
+        // void DrawSearchSamplingGizmos()
+        // {
+        //     // Điểm lý thuyết (màu vàng)
+        //     Gizmos.color = Color.yellow;
+        //     foreach (var p in theoreticalSamplePoints)
+        //     {
+        //         Gizmos.DrawSphere(p, 0.12f);
+        //     }
+
+        //     // Điểm NavMesh thật (màu xanh lá)
+        //     Gizmos.color = Color.green;
+        //     foreach (var p in navMeshSamplePoints)
+        //     {
+        //         Gizmos.DrawSphere(p, 0.18f);
+        //     }
+
+        //     if (!lastKnownData.IsValid()) return;
+
+        //     // Nối LKPP → điểm NavMesh
+        //     Gizmos.color = new Color(0f, 1f, 0f, 0.4f);
+        //     foreach (var p in navMeshSamplePoints)
+        //     {
+        //         Gizmos.DrawLine(lastKnownData.Position, p);
+        //     }
+        // }
     }
 }

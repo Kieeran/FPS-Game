@@ -330,7 +330,12 @@ namespace AIBot
             //     _lostSightStart = Time.time;
 
             if (!data.IsValid()) return;
-            botTactics.CalculateSearchPath(data);
+            
+            botTactics.CalculateSearchPath(data, (val) =>
+            {
+                sensor.SetCurrentSearchPath(val);
+            });
+
             blackboardLinker.SetLastKnownPlayerData(data);
         }
 

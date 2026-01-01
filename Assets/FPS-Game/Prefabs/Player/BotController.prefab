@@ -50,6 +50,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   sampleDirectionCount: 16
+  botToTPLineColor: {r: 1, g: 0, b: 0.7206764, a: 1}
 --- !u!1 &6247042719265355539
 GameObject:
   m_ObjectHideFlags: 0
