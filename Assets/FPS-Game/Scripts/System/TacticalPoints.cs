@@ -7,10 +7,11 @@ public class TacticalPoints : MonoBehaviour
 {
     public List<Transform> TPoints { get; private set; }
     [Header("Gizmos Settings")]
-    public bool drawGizmos = true;
-    public float gizmoRadius = 0.5f;
-    public Color validColor = Color.green;
-    public Color invalidColor = Color.red;
+    [SerializeField] bool drawGizmos = true;
+    [SerializeField] float gizmoRadius = 0.5f;
+    [SerializeField] Color validColor = Color.green;
+    [SerializeField] Color invalidColor = Color.red;
+    [SerializeField] float heightOffset;
 
     void Awake()
     {
@@ -42,6 +43,9 @@ public class TacticalPoints : MonoBehaviour
 
                 // Nếu điểm gốc bị lệch, vẽ đường nối tới vị trí NavMesh thực tế
                 Gizmos.DrawLine(tp.position, hit.position);
+
+                // Snap TP tới vị trí ngang tầm nhìn của character
+                tp.position = hit.position + Vector3.up * heightOffset;
             }
             else
             {
