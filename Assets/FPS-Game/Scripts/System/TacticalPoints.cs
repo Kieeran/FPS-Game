@@ -5,13 +5,13 @@ using UnityEngine.AI;
 
 public class TacticalPoints : MonoBehaviour
 {
-    public List<Transform> TPoints { get; private set; }
     [Header("Gizmos Settings")]
-    // [SerializeField] bool drawGizmos;
     [SerializeField] float gizmoRadius = 0.5f;
     [SerializeField] Color validColor = Color.green;
     [SerializeField] Color invalidColor = Color.red;
     [SerializeField] float heightOffset;
+
+    public List<Transform> TPoints { get; private set; }
 
     void Awake()
     {
@@ -22,6 +22,22 @@ public class TacticalPoints : MonoBehaviour
         }
     }
 
+    private void OnValidate()
+    {
+        foreach (Transform tp in transform)
+        {
+            if (tp == null) continue;
+            if (NavMesh.SamplePosition(tp.position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+            {
+                Vector3 targetPos = hit.position + Vector3.up * heightOffset;
+                if (Vector3.Distance(tp.position, targetPos) > 0.01f)
+                {
+                    tp.position = targetPos;
+                }
+            }
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
 #if UNITY_EDITOR
@@ -29,9 +45,6 @@ public class TacticalPoints : MonoBehaviour
         {
             return;
         }
-
-        if (TPoints == null) return;
-        // if (!drawGizmos) return;
 
         foreach (Transform tp in transform)
         {
@@ -49,9 +62,6 @@ public class TacticalPoints : MonoBehaviour
 
                 // Nếu điểm gốc bị lệch, vẽ đường nối tới vị trí NavMesh thực tế
                 Gizmos.DrawLine(tp.position, hit.position);
-
-                // Snap TP tới vị trí ngang tầm nhìn của character
-                tp.position = hit.position + Vector3.up * heightOffset;
             }
             else
             {
