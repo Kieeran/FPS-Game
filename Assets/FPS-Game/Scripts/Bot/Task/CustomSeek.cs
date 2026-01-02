@@ -228,7 +228,9 @@ namespace CustomTask
 		public override void OnEnd()
 		{
 			base.OnEnd();
+
 			moveDir.Value = Vector3.zero;
+			path.ClearCorners();
 		}
 	}
 }

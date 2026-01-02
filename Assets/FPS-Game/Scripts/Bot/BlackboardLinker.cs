@@ -53,7 +53,8 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
-                    SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
+                    // SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
+                    SafeSet("currentWayPoint", InGameManager.Instance.ZoneController.GetRandomTPAtBestZone());
                     return;
 
                 case "CombatTree":

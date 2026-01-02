@@ -5,8 +5,36 @@ using UnityEngine;
 public class Zone : MonoBehaviour
 {
     public List<Transform> TPoints = new();
+    public float baseWeight = 10f;     // Độ ưu tiên cố định
+    public float growRate = 1f;        // Tốc độ tăng trọng số mỗi giây
+
     Collider[] colliders;
     ZonesContainer container;
+    float lastVisitedTime;     // Thời điểm cuối cùng được kiểm tra
+
+    void Start()
+    {
+        // Khởi tạo ngẫu nhiên để Bot không đi trùng nhau lúc đầu
+        lastVisitedTime = Time.time - Random.Range(0, 60f);
+    }
+
+    public float GetCurrentWeight()
+    {
+        // Trọng số hiện tại = Trọng số gốc + (thời gian trôi qua * tốc độ tăng)
+        return baseWeight + (Time.time - lastVisitedTime) * growRate;
+    }
+
+    public void ResetWeight()
+    {
+        lastVisitedTime = Time.time;
+        Debug.Log($"Zone has been reset: {gameObject.name}");
+    }
+
+    public Transform GetRandomTP()
+    {
+        if (TPoints.Count == 0) return null;
+        return TPoints[Random.Range(0, TPoints.Count)];
+    }
 
     void OnValidate()
     {
@@ -41,6 +69,10 @@ public class Zone : MonoBehaviour
                 }
             }
         }
+
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
     }
 
     private void OnDrawGizmosSelected()

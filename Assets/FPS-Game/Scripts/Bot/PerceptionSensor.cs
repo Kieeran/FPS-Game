@@ -50,7 +50,8 @@ namespace AIBot
             targetsDebug.Clear();
             if (InGameManager.Instance != null)
             {
-                PlayerRoot root = CheckSurroundingFOV(InGameManager.Instance.AllCharacters, viewDistance, botHorizontalFOV, obstacleMask);
+                // PlayerRoot root = CheckSurroundingFOV(InGameManager.Instance.AllCharacters, viewDistance, botHorizontalFOV, obstacleMask);
+                PlayerRoot root = null;
                 if (root != null)
                 {
                     // Debug.Log($"Nearest player: {root}");
