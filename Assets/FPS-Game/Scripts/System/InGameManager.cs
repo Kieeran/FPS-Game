@@ -80,6 +80,7 @@ public class InGameManager : NetworkBehaviour
     public HandleSpawnBot HandleSpawnBot { get; private set; }
     public RandomSpawn RandomSpawn { get; private set; }
     public Waypoints Waypoints { get; private set; }
+    public AreaController AreaController { get; private set; }
 
     public System.Action OnGameEnd;
 
@@ -112,11 +113,13 @@ public class InGameManager : NetworkBehaviour
         HandleSpawnBot = GetComponent<HandleSpawnBot>();
         RandomSpawn = GetComponent<RandomSpawn>();
         Waypoints = GetComponent<Waypoints>();
+        AreaController = GetComponent<AreaController>();
 
         OnGameEnd += () =>
         {
             IsGameEnd = true;
         };
+        AreaController.InitAreas(spawnInGameManager.GetAreasContainer());
     }
     public override void OnNetworkSpawn()
     {

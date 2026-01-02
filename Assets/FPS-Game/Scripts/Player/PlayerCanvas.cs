@@ -15,9 +15,8 @@ public class PlayerCanvas : MonoBehaviour
     public HealRefillAmmoEffect HealRefillAmmoEffect;
     public Image ScopeAim;
     public Image CrossHair;
-
-    public TMP_Text timerNum;
-
+    [SerializeField] TMP_Text timerNum;
+    [SerializeField] TMP_Text locationText;
     public Transform VictoryDefeatPopUp;
     public TMP_Text VictoryDefeatText;
 
@@ -56,6 +55,11 @@ public class PlayerCanvas : MonoBehaviour
     public void UpdateTimerNum(int mins, int secs)
     {
         timerNum.text = $"{mins}:{secs:D2}";
+    }
+
+    public void UpdateLocationText(string text)
+    {
+        locationText.text = text.ToUpper();
     }
 
     public void PlayEndGameFadeOut(Action OnEndEffect)

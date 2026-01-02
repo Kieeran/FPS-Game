@@ -11,5 +11,11 @@ public class PlayerCollision : PlayerBehaviour
             PlayerRoot.Events.InvokeOnCollectedHealthPickup();
             Destroy(other.gameObject);
         }
+
+        if (other.transform.parent.CompareTag("Area"))
+        {
+            PlayerRoot.PlayerUI.UpdateLocationText(other.transform.parent.gameObject.name);
+        }
+        // Debug.Log($"Trigger log: {other.transform.parent.name}");
     }
 }

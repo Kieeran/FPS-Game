@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1740776021170264635}
   - component: {fileID: 7419375008985376956}
   - component: {fileID: 3278319922578863799}
+  - component: {fileID: 6516851295146062378}
   m_Layer: 0
   m_Name: InGameManager
   m_TagString: Untagged
@@ -52,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1900463573
+  GlobalObjectIdHash: 2642733906
   InScenePlacedSourceGlobalObjectIdHash: 2642733906
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -78,6 +79,7 @@ MonoBehaviour:
   IsGameEnd: 0
   IsTimeOut:
     m_InternalValue: 0
+  AllCharacters: []
 --- !u!114 &2782243707476674553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74a574cc74b3c6418d60c9ca52c7e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnPositions: {fileID: 0}
 --- !u!114 &3278319922578863799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +175,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e444ad7a13a9394f99a09d86192d5d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaypointsList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+--- !u!114 &6516851295146062378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4920083990778913584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 135de2b2cd85c5f43b22eee8dc0da00a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areasContainer: {fileID: 0}
