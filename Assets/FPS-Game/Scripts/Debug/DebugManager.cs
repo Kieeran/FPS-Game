@@ -14,4 +14,6 @@ public class DebugManager : MonoBehaviour
         }
         Instance = this;
     }
+
+    public bool IgnorePlayer;
 }
