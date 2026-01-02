@@ -7,7 +7,7 @@ public class TacticalPoints : MonoBehaviour
 {
     public List<Transform> TPoints { get; private set; }
     [Header("Gizmos Settings")]
-    [SerializeField] bool drawGizmos = true;
+    [SerializeField] bool drawGizmos;
     [SerializeField] float gizmoRadius = 0.5f;
     [SerializeField] Color validColor = Color.green;
     [SerializeField] Color invalidColor = Color.red;

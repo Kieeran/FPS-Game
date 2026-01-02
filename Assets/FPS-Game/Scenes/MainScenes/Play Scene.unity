@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 15820487}
   m_Layer: 0
   m_Name: Stair Room
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -698,7 +698,7 @@ GameObject:
   - component: {fileID: 21751902}
   m_Layer: 0
   m_Name: Long Cellar
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2216,7 +2216,7 @@ GameObject:
   - component: {fileID: 170542274}
   m_Layer: 0
   m_Name: Storage Room
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2945,7 +2945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 348272422}
   m_Layer: 0
-  m_Name: AreasContainer
+  m_Name: ZonesContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3096,7 +3096,7 @@ GameObject:
   - component: {fileID: 392971426}
   m_Layer: 0
   m_Name: T Spawn
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4484,7 +4484,7 @@ GameObject:
   - component: {fileID: 568983210}
   m_Layer: 0
   m_Name: Tunnel
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5039,7 +5039,7 @@ GameObject:
   - component: {fileID: 635590089}
   m_Layer: 0
   m_Name: House
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5687,7 +5687,7 @@ GameObject:
   - component: {fileID: 686322178}
   m_Layer: 0
   m_Name: Stairs
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6085,7 +6085,7 @@ GameObject:
   - component: {fileID: 737236667}
   m_Layer: 0
   m_Name: Long
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7878,7 +7878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a5b1bc4868cd74f8038b2cd54f5c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 0
+  drawGizmos: 1
   gizmoRadius: 0.5
   validColor: {r: 0, g: 1, b: 0, a: 1}
   invalidColor: {r: 1, g: 0, b: 0, a: 1}
@@ -11041,7 +11041,7 @@ GameObject:
   - component: {fileID: 1307917061}
   m_Layer: 0
   m_Name: CT Left
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11321,7 +11321,7 @@ GameObject:
   - component: {fileID: 1363987821}
   m_Layer: 0
   m_Name: CT Right
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11934,7 +11934,7 @@ GameObject:
   - component: {fileID: 1444559616}
   m_Layer: 0
   m_Name: Streets
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12198,7 +12198,7 @@ GameObject:
   - component: {fileID: 1474389963}
   m_Layer: 0
   m_Name: Market
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12757,7 +12757,7 @@ GameObject:
   - component: {fileID: 1516141906}
   m_Layer: 0
   m_Name: CT Spawn
-  m_TagString: Area
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

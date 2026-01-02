@@ -12,7 +12,7 @@ public class SpawnInGameManager : MonoBehaviour
 
     public Transform GetSpawnPositions() { return spawnPositions; }
     public Transform GetWaypoints() { return waypoints; }
-    public Transform GetAreasContainer() { return areasContainer; }
+    public Transform GetZonesContainer() { return areasContainer; }
     public List<Transform> GetTacticalPointsList() { return tacticalPoints.TPoints; }
 
     void Awake()

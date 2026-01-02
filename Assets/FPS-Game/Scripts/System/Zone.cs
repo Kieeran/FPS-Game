@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Area : MonoBehaviour
+public class Zone : MonoBehaviour
 {
-    [SerializeField] string areaName;
+    [SerializeField] string zoneName;
 
     void Awake()
     {
-        areaName = gameObject.name;
+        zoneName = gameObject.name;
     }
 }
