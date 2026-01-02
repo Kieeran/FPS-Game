@@ -17,7 +17,7 @@ public class Zone : MonoBehaviour
     [ContextMenu("Bake Zone Points")]
     public void BakeZonePoints()
     {
-        GameObject[] allTPs = GameObject.FindGameObjectsWithTag("TacticalPoint");
+        GameObject[] allTPs = GameObject.FindGameObjectsWithTag(container.tpTag);
         InitZone(allTPs);
     }
 

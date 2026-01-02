@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class ZonesContainer : MonoBehaviour
 {
-    public float gizmoRadius = 0.5f;
     [SerializeField] List<Zone> zones;
+
+    public float gizmoRadius = 0.5f;
+    public string tpTag = "TacticalPoint";
 
     public List<Zone> GetZones() { return zones; }
 
     [ContextMenu("Bake All Zones")]
     public void BakeAllZones()
     {
-        GameObject[] allTPs = GameObject.FindGameObjectsWithTag("TacticalPoint");
+        GameObject[] allTPs = GameObject.FindGameObjectsWithTag(tpTag);
         zones = GetComponentsInChildren<Zone>().ToList();
 
         foreach (var zone in zones)
