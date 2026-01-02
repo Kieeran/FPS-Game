@@ -7,7 +7,7 @@ public class TacticalPoints : MonoBehaviour
 {
     public List<Transform> TPoints { get; private set; }
     [Header("Gizmos Settings")]
-    [SerializeField] bool drawGizmos;
+    // [SerializeField] bool drawGizmos;
     [SerializeField] float gizmoRadius = 0.5f;
     [SerializeField] Color validColor = Color.green;
     [SerializeField] Color invalidColor = Color.red;
@@ -22,10 +22,16 @@ public class TacticalPoints : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
+#if UNITY_EDITOR
+        if (UnityEditor.Selection.activeGameObject != gameObject)
+        {
+            return;
+        }
+
         if (TPoints == null) return;
-        if (!drawGizmos) return;
+        // if (!drawGizmos) return;
 
         foreach (Transform tp in transform)
         {
@@ -54,5 +60,6 @@ public class TacticalPoints : MonoBehaviour
                 Gizmos.DrawCube(tp.position, new Vector3(gizmoRadius, gizmoRadius, gizmoRadius));
             }
         }
+#endif
     }
 }

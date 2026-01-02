@@ -5,18 +5,11 @@ using UnityEngine;
 public class ZoneController : MonoBehaviour
 {
     public List<Zone> allZones { get; private set; } = new();
-    [SerializeField] Transform zonesContainer;
+    [SerializeField] ZonesContainer zonesContainer;
 
-    public void InitZones(Transform tf)
+    public void InitZones(ZonesContainer container)
     {
-        zonesContainer = tf;
-
-        foreach (Transform t in zonesContainer)
-        {
-            if (t.TryGetComponent<Zone>(out var zone))
-            {
-                allZones.Add(zone);
-            }
-        }
+        zonesContainer = container;
+        allZones = container.GetZones();
     }
 }

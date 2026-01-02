@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &20139499
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &27293662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1369,7 +1369,7 @@ GameObject:
   - component: {fileID: 86701585}
   m_Layer: 2
   m_Name: TP (9)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2250,7 +2250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &208759753
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,7 +2264,7 @@ GameObject:
   - component: {fileID: 208759755}
   m_Layer: 2
   m_Name: TP (5)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2573,7 +2573,7 @@ GameObject:
   - component: {fileID: 311446741}
   m_Layer: 2
   m_Name: TP (4)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2782,7 +2782,7 @@ GameObject:
   - component: {fileID: 337938751}
   m_Layer: 2
   m_Name: TP (3)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2944,6 +2944,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 348272422}
+  - component: {fileID: 348272423}
   m_Layer: 0
   m_Name: ZonesContainer
   m_TagString: Untagged
@@ -2979,6 +2980,33 @@ Transform:
   - {fileID: 568983209}
   m_Father: {fileID: 424747359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &348272423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348272421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bdf56fe0425b0447a4a0ba5702d3310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gizmoRadius: 0.5
+  zones:
+  - {fileID: 1516141906}
+  - {fileID: 1307917061}
+  - {fileID: 1363987821}
+  - {fileID: 686322178}
+  - {fileID: 1474389963}
+  - {fileID: 635590089}
+  - {fileID: 392971426}
+  - {fileID: 21751902}
+  - {fileID: 170542274}
+  - {fileID: 15820487}
+  - {fileID: 737236667}
+  - {fileID: 1444559616}
+  - {fileID: 568983210}
 --- !u!1 &362171285
 GameObject:
   m_ObjectHideFlags: 0
@@ -3130,7 +3158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &393414563
 GameObject:
   m_ObjectHideFlags: 0
@@ -4163,7 +4191,7 @@ GameObject:
   - component: {fileID: 512662218}
   m_Layer: 2
   m_Name: TP (2)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4517,7 +4545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &581215097
 GameObject:
   m_ObjectHideFlags: 0
@@ -5073,7 +5101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &652102482
 GameObject:
   m_ObjectHideFlags: 0
@@ -5720,7 +5748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &687998542
 GameObject:
   m_ObjectHideFlags: 0
@@ -6119,7 +6147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &763482578
 GameObject:
   m_ObjectHideFlags: 0
@@ -7529,7 +7557,7 @@ GameObject:
   - component: {fileID: 813940542}
   m_Layer: 2
   m_Name: TP
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7878,7 +7906,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a5b1bc4868cd74f8038b2cd54f5c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 1
   gizmoRadius: 0.5
   validColor: {r: 0, g: 1, b: 0, a: 1}
   invalidColor: {r: 1, g: 0, b: 0, a: 1}
@@ -8243,7 +8270,7 @@ GameObject:
   - component: {fileID: 942170653}
   m_Layer: 2
   m_Name: TP (10)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9649,7 +9676,7 @@ GameObject:
   - component: {fileID: 1134627519}
   m_Layer: 2
   m_Name: TP (1)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11074,7 +11101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &1308063535
 GameObject:
   m_ObjectHideFlags: 0
@@ -11088,7 +11115,7 @@ GameObject:
   - component: {fileID: 1308063537}
   m_Layer: 2
   m_Name: TP (11)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11354,7 +11381,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints:
+  - {fileID: 1308063536}
+  - {fileID: 1743610965}
 --- !u!1 &1364140279
 GameObject:
   m_ObjectHideFlags: 0
@@ -11969,7 +11998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &1462264419
 GameObject:
   m_ObjectHideFlags: 0
@@ -12231,7 +12260,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints:
+  - {fileID: 208759754}
+  - {fileID: 337938750}
+  - {fileID: 512662217}
+  - {fileID: 942170652}
+  - {fileID: 1134627518}
+  - {fileID: 1542023893}
+  - {fileID: 1552195546}
+  - {fileID: 86701584}
+  - {fileID: 813940540}
 --- !u!1 &1475477745
 GameObject:
   m_ObjectHideFlags: 0
@@ -12790,7 +12828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaName: 
+  TPoints: []
 --- !u!1 &1525979945
 GameObject:
   m_ObjectHideFlags: 0
@@ -13102,7 +13140,7 @@ GameObject:
   - component: {fileID: 1542023894}
   m_Layer: 2
   m_Name: TP (7)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13185,7 +13223,7 @@ GameObject:
   - component: {fileID: 1552195547}
   m_Layer: 2
   m_Name: TP (6)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14602,7 +14640,7 @@ GameObject:
   - component: {fileID: 1743610966}
   m_Layer: 2
   m_Name: TP (12)
-  m_TagString: Untagged
+  m_TagString: TacticlePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17167,7 +17205,7 @@ MonoBehaviour:
   inGameManagerPrefab: {fileID: 4920083990778913584, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
   spawnPositions: {fileID: 5858090780237407506}
   waypoints: {fileID: 221784742}
-  areasContainer: {fileID: 348272422}
+  zonesContainer: {fileID: 348272423}
   tacticalPoints: {fileID: 869183240}
 --- !u!1 &2128088422
 GameObject:

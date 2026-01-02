@@ -12,7 +12,7 @@ public class PlayerCollision : PlayerBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.transform.parent.CompareTag("Area"))
+        if (other.transform.parent.CompareTag("Zone"))
         {
             PlayerRoot.PlayerUI.UpdateLocationText(other.transform.parent.gameObject.name);
         }
