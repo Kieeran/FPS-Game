@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum ZoneID
+{
+    None, CT_Spawn, CT_Left, CT_Right, Stairs, Market, House, T_Spawn,
+    Long_Cellar, Storage_Room, Stair_Room, Long, Streets, Tunnel
+}
+
 public class ZonesContainer : MonoBehaviour
 {
     [SerializeField] List<Zone> zones;

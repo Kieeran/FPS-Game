@@ -13,6 +13,7 @@ public class PointVisibilityData
 
 public class Zone : MonoBehaviour
 {
+    public ZoneID zoneID = ZoneID.None;
     public List<Transform> TPoints = new();
     public float baseWeight = 10f;     // Độ ưu tiên cố định
     public float growRate = 1f;        // Tốc độ tăng trọng số mỗi giây

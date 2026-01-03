@@ -545,7 +545,7 @@ GameObject:
   - component: {fileID: 15820486}
   - component: {fileID: 15820487}
   m_Layer: 0
-  m_Name: Stair Room
+  m_Name: Stair_Room
   m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -580,6 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 10
   TPoints:
   - {fileID: 338184303}
   - {fileID: 870937527}
@@ -827,7 +828,7 @@ GameObject:
   - component: {fileID: 21751901}
   - component: {fileID: 21751902}
   m_Layer: 0
-  m_Name: Long Cellar
+  m_Name: Long_Cellar
   m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -862,6 +863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 8
   TPoints:
   - {fileID: 1531217824}
   baseWeight: 10
@@ -2589,7 +2591,7 @@ GameObject:
   - component: {fileID: 170542273}
   - component: {fileID: 170542274}
   m_Layer: 0
-  m_Name: Storage Room
+  m_Name: Storage_Room
   m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2624,6 +2626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 9
   TPoints:
   - {fileID: 536685330}
   - {fileID: 1361586401}
@@ -3940,7 +3943,7 @@ GameObject:
   - component: {fileID: 392971425}
   - component: {fileID: 392971426}
   m_Layer: 0
-  m_Name: T Spawn
+  m_Name: T_Spawn
   m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3975,6 +3978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 7
   TPoints:
   - {fileID: 121536185}
   - {fileID: 622491781}
@@ -5924,6 +5928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 13
   TPoints:
   - {fileID: 435195854}
   - {fileID: 1035079374}
@@ -6701,6 +6706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 6
   TPoints:
   - {fileID: 21749180}
   - {fileID: 34330157}
@@ -7496,6 +7502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 4
   TPoints:
   - {fileID: 192759724}
   - {fileID: 568880135}
@@ -8127,6 +8134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 11
   TPoints:
   - {fileID: 749735534}
   - {fileID: 1444852255}
@@ -14371,7 +14379,7 @@ GameObject:
   - component: {fileID: 1307917060}
   - component: {fileID: 1307917061}
   m_Layer: 0
-  m_Name: CT Left
+  m_Name: CT_Left
   m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14405,6 +14413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 2
   TPoints:
   - {fileID: 1015153836}
   baseWeight: 10
@@ -14830,7 +14839,7 @@ GameObject:
   - component: {fileID: 1363987820}
   - component: {fileID: 1363987821}
   m_Layer: 0
-  m_Name: CT Right
+  m_Name: CT_Right
   m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14864,6 +14873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 3
   TPoints:
   - {fileID: 1308063536}
   - {fileID: 1743610965}
@@ -15724,6 +15734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 12
   TPoints:
   - {fileID: 259482219}
   - {fileID: 422198758}
@@ -16332,6 +16343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 5
   TPoints:
   - {fileID: 86701584}
   - {fileID: 208759754}
@@ -17048,7 +17060,7 @@ GameObject:
   - component: {fileID: 1516141905}
   - component: {fileID: 1516141906}
   m_Layer: 0
-  m_Name: CT Spawn
+  m_Name: CT_Spawn
   m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17082,6 +17094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17edabcb2ff3af14f87d2e4242d295bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoneID: 1
   TPoints:
   - {fileID: 300708315}
   - {fileID: 681442382}
