@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Zone : MonoBehaviour
 {
@@ -88,9 +89,12 @@ public class Zone : MonoBehaviour
         foreach (Transform tp in TPoints)
         {
             if (tp == null) continue;
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(tp.position, container.gizmoRadius);
+            if (NavMesh.SamplePosition(tp.position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawSphere(hit.position, container.gizmoRadius);
+                Gizmos.DrawLine(tp.position, hit.position);
+            }
         }
 #endif
     }

@@ -59,8 +59,6 @@ public class TacticalPoints : MonoBehaviour
                 // Nếu nằm trên NavMesh, vẽ màu xanh và đường nối tới vị trí snap
                 Gizmos.color = validColor;
                 Gizmos.DrawSphere(hit.position, gizmoRadius);
-
-                // Nếu điểm gốc bị lệch, vẽ đường nối tới vị trí NavMesh thực tế
                 Gizmos.DrawLine(tp.position, hit.position);
             }
             else
