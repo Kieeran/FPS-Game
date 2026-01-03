@@ -12,6 +12,49 @@ public class Zone : MonoBehaviour
     Collider[] colliders;
     ZonesContainer container;
     float lastVisitedTime;     // Thời điểm cuối cùng được kiểm tra
+    public float gridSize = 2.0f;
+    public List<Vector3> generatedInfoPoints = new();
+
+    [ContextMenu("Generate InfoPoints for this Zone")]
+    public void GenerateInfoPoints()
+    {
+        // 1. Xóa các điểm cũ trước khi tạo mới
+        ClearInfoPoints();
+
+        foreach (var col in colliders)
+        {
+            Bounds bounds = col.bounds;
+
+            // 2. Vòng lặp quét theo trục X và Z
+            for (float x = bounds.min.x; x <= bounds.max.x; x += gridSize)
+            {
+                for (float z = bounds.min.z; z <= bounds.max.z; z += gridSize)
+                {
+                    // 3. Bắn Raycast từ trên xuống (Y max)
+                    Vector3 rayStart = new(x, bounds.max.y, z);
+                    if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, bounds.size.y, container.groundLayer))
+                    {
+                        // 4. Kiểm tra điểm có nằm trên NavMesh không
+                        if (NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 1.0f, NavMesh.AllAreas))
+                        {
+                            generatedInfoPoints.Add(navHit.position + Vector3.up * container.heightOffset);
+                        }
+                    }
+                }
+            }
+        }
+
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
+
+        Debug.Log($"Đã tạo {generatedInfoPoints.Count} InfoPoints cho Zone: {gameObject.name}");
+    }
+
+    public void ClearInfoPoints()
+    {
+        generatedInfoPoints.Clear();
+    }
 
     void Start()
     {
@@ -84,18 +127,27 @@ public class Zone : MonoBehaviour
         {
             return;
         }
-        if (TPoints == null || TPoints.Count <= 0) return;
 
-        foreach (Transform tp in TPoints)
+        if (TPoints != null && TPoints.Count > 0)
         {
-            if (tp == null) continue;
-            if (NavMesh.SamplePosition(tp.position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+            foreach (Transform tp in TPoints)
             {
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(hit.position, container.gizmoRadius);
-                Gizmos.DrawLine(tp.position, hit.position);
+                if (tp == null) continue;
+                if (NavMesh.SamplePosition(tp.position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+                {
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawSphere(hit.position, container.gizmoRadius);
+                    Gizmos.DrawLine(tp.position, hit.position);
+                }
             }
         }
+
+        Gizmos.color = Color.cyan;
+        foreach (var p in generatedInfoPoints)
+        {
+            Gizmos.DrawSphere(p, 0.2f);
+        }
+
 #endif
     }
 }

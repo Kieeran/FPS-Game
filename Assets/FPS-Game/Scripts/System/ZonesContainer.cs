@@ -6,8 +6,9 @@ using UnityEngine;
 public class ZonesContainer : MonoBehaviour
 {
     [SerializeField] List<Zone> zones;
-
+    public float heightOffset = 2.84f;
     public float gizmoRadius = 0.5f;
+    public LayerMask groundLayer;
     public string tpTag = "TacticalPoint";
 
     public List<Zone> GetZones() { return zones; }
@@ -18,10 +19,25 @@ public class ZonesContainer : MonoBehaviour
         GameObject[] allTPs = GameObject.FindGameObjectsWithTag(tpTag);
         zones = GetComponentsInChildren<Zone>().ToList();
 
+        int allInfoPointsCount = 0;
         foreach (var zone in zones)
         {
             // Truyền danh sách allTPs vào hàm Init của từng Zone
             zone.InitZone(allTPs);
+
+            zone.GenerateInfoPoints();
+            allInfoPointsCount += zone.generatedInfoPoints.Count;
+        }
+
+        Debug.Log($"Đã tạo {allInfoPointsCount} InfoPoints cho tất cả các zone");
+    }
+
+    [ContextMenu("Clear All InfoPoints")]
+    public void ClearAllInfoPoints()
+    {
+        foreach (var zone in zones)
+        {
+            zone.ClearInfoPoints();
         }
     }
 }
