@@ -8,7 +8,7 @@ public class ZonesContainer : MonoBehaviour
     [SerializeField] List<Zone> zones;
     public float heightOffset = 2.84f;
     public float gizmoRadius = 0.5f;
-    public LayerMask groundLayer;
+    public LayerMask obstacleLayer;
     public string tpTag = "TacticalPoint";
 
     public List<Zone> GetZones() { return zones; }
@@ -27,6 +27,8 @@ public class ZonesContainer : MonoBehaviour
 
             zone.GenerateInfoPoints();
             allInfoPointsCount += zone.generatedInfoPoints.Count;
+
+            zone.BakeVisibility();
         }
 
         Debug.Log($"Đã tạo {allInfoPointsCount} InfoPoints cho tất cả các zone");

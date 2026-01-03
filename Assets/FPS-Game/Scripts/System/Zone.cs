@@ -1,7 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+
+[System.Serializable]
+public class PointVisibilityData
+{
+    public int priority;           // Số lượng điểm nhìn thấy được
+    public List<int> visibleIndices; // Danh sách index của các điểm nhìn thấy được
+}
 
 public class Zone : MonoBehaviour
 {
@@ -14,6 +22,54 @@ public class Zone : MonoBehaviour
     float lastVisitedTime;     // Thời điểm cuối cùng được kiểm tra
     public float gridSize = 2.0f;
     public List<Vector3> generatedInfoPoints = new();
+
+    public List<PointVisibilityData> visibilityMatrix = new();
+
+    [ContextMenu("Bake Visibility & Priority")]
+    public void BakeVisibility()
+    {
+        if (generatedInfoPoints == null || generatedInfoPoints.Count <= 0) return;
+
+        visibilityMatrix.Clear();
+
+        // 1. Khởi tạo danh sách data
+        for (int i = 0; i < generatedInfoPoints.Count; i++)
+        {
+            visibilityMatrix.Add(new PointVisibilityData
+            {
+                visibleIndices = new List<int>()
+            });
+        }
+
+        // 2. Chiếu Raycast lẫn nhau (O(n^2))
+        for (int i = 0; i < generatedInfoPoints.Count; i++)
+        {
+            Vector3 startPos = generatedInfoPoints[i];
+
+            for (int j = 0; j < generatedInfoPoints.Count; j++)
+            {
+                if (i == j) continue; // Không tự chiếu chính mình
+
+                Vector3 endPos = generatedInfoPoints[j];
+
+                // Bắn tia Linecast để kiểm tra vật cản
+                if (!Physics.Linecast(startPos, endPos, container.obstacleLayer))
+                {
+                    // Nếu không có vật cản, thêm index j vào danh sách nhìn thấy của i
+                    visibilityMatrix[i].visibleIndices.Add(j);
+                }
+            }
+
+            // 3. Gán Priority dựa trên số lượng điểm nhìn thấy
+            visibilityMatrix[i].priority = visibilityMatrix[i].visibleIndices.Count;
+        }
+
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
+
+        Debug.Log($"Bake hoàn tất cho {gameObject.name}. Điểm cao nhất nhìn thấy được {visibilityMatrix.Max(x => x.priority)} điểm khác.");
+    }
 
     [ContextMenu("Generate InfoPoints for this Zone")]
     public void GenerateInfoPoints()
@@ -32,7 +88,7 @@ public class Zone : MonoBehaviour
                 {
                     // 3. Bắn Raycast từ trên xuống (Y max)
                     Vector3 rayStart = new(x, bounds.max.y, z);
-                    if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, bounds.size.y, container.groundLayer))
+                    if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, bounds.size.y, container.obstacleLayer))
                     {
                         // 4. Kiểm tra điểm có nằm trên NavMesh không
                         if (NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 1.0f, NavMesh.AllAreas))
@@ -117,6 +173,7 @@ public class Zone : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(this);
 #endif
+
     }
 
     private void OnDrawGizmosSelected()
@@ -128,24 +185,32 @@ public class Zone : MonoBehaviour
             return;
         }
 
-        if (TPoints != null && TPoints.Count > 0)
-        {
-            foreach (Transform tp in TPoints)
-            {
-                if (tp == null) continue;
-                if (NavMesh.SamplePosition(tp.position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
-                {
-                    Gizmos.color = Color.green;
-                    Gizmos.DrawSphere(hit.position, container.gizmoRadius);
-                    Gizmos.DrawLine(tp.position, hit.position);
-                }
-            }
-        }
+        // if (TPoints != null && TPoints.Count > 0)
+        // {
+        //     foreach (Transform tp in TPoints)
+        //     {
+        //         if (tp == null) continue;
+        //         if (NavMesh.SamplePosition(tp.position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+        //         {
+        //             Gizmos.color = Color.green;
+        //             Gizmos.DrawSphere(hit.position, container.gizmoRadius);
+        //             Gizmos.DrawLine(tp.position, hit.position);
+        //         }
+        //     }
+        // }
 
-        Gizmos.color = Color.cyan;
-        foreach (var p in generatedInfoPoints)
+        if (generatedInfoPoints != null && generatedInfoPoints.Count > 0)
         {
-            Gizmos.DrawSphere(p, 0.2f);
+            for (int i = 0; i < generatedInfoPoints.Count; i++)
+            {
+                // Vẽ điểm, màu đậm nhạt tùy theo Priority
+                float intensity = visibilityMatrix.Count > 0 ? (float)visibilityMatrix[i].priority / generatedInfoPoints.Count : 0;
+                Gizmos.color = Color.Lerp(Color.red, Color.green, intensity);
+                Gizmos.DrawSphere(generatedInfoPoints[i], 0.2f);
+
+                // Hiển thị số Priority trên đầu điểm (Chỉ trong Scene View)
+                UnityEditor.Handles.Label(generatedInfoPoints[i] + Vector3.up * 0.5f, visibilityMatrix.Count > i ? visibilityMatrix[i].priority.ToString() : "");
+            }
         }
 
 #endif
