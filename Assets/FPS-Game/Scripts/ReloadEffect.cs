@@ -6,16 +6,13 @@ public class ReloadEffect : MonoBehaviour
 {
     Image _reloadUI;
 
-    [SerializeField] float _fillAmountOffset;
-    [SerializeField] float _alphaOffset;
+    [SerializeField] float _fadeOutDuration = 0.3f;
     float _startAlpha;
 
     void Start()
     {
         _reloadUI = GetComponent<Image>();
-
         _startAlpha = _reloadUI.color.a;
-
         ResetReloadUI();
     }
 
@@ -26,34 +23,39 @@ public class ReloadEffect : MonoBehaviour
         _reloadUI.fillAmount = 0;
     }
 
-    public void StartReloadEffect(System.Action onDone)
+    public void StartReloadEffect(float reloadDuration, System.Action onDone)
     {
         gameObject.SetActive(true);
-
-        StartCoroutine(FillReloadUI(onDone));
+        StartCoroutine(FillReloadUI(reloadDuration, onDone));
     }
 
-    IEnumerator FillReloadUI(System.Action onDone)
+    IEnumerator FillReloadUI(float duration, System.Action onDone)
     {
-        while (_reloadUI.fillAmount < 1f)
+        float elapsed = 0f;
+
+        while (elapsed < duration)
         {
-            _reloadUI.fillAmount += _fillAmountOffset;
+            elapsed += Time.deltaTime;
+            _reloadUI.fillAmount = Mathf.Clamp01(elapsed / duration);
             yield return null;
         }
 
         _reloadUI.fillAmount = 1f;
-        StartCoroutine(FadeOutReloadUI(onDone));
+        onDone?.Invoke();
+
+        StartCoroutine(FadeOutReloadUI());
     }
 
-    IEnumerator FadeOutReloadUI(System.Action onDone)
+    IEnumerator FadeOutReloadUI()
     {
         Color color = _reloadUI.color;
+        float elapsed = 0f;
 
-        while (color.a > 0f)
+        while (elapsed < _fadeOutDuration)
         {
-            color.a -= _alphaOffset;
+            elapsed += Time.deltaTime;
+            color.a = Mathf.Lerp(_startAlpha, 0f, elapsed / _fadeOutDuration);
             _reloadUI.color = color;
-
             yield return null;
         }
 
@@ -61,6 +63,5 @@ public class ReloadEffect : MonoBehaviour
         _reloadUI.color = color;
 
         ResetReloadUI();
-        onDone?.Invoke();
     }
 }

@@ -164,6 +164,11 @@ public class PlayerUI : PlayerBehaviour
         CurrentPlayerCanvas.UpdateTimerNum(mins, secs);
     }
 
+    public void UpdateLocationText(string text)
+    {
+        if (!PlayerRoot.IsCharacterBot()) CurrentPlayerCanvas.UpdateLocationText(text);
+    }
+
     void Update()
     {
         if (!IsOwner) return;

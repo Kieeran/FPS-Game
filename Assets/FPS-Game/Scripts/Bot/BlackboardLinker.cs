@@ -2,17 +2,17 @@ using System;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
 
+[Serializable]
+public class SharedTPointData : SharedVariable<TPointData>
+{
+    public static implicit operator SharedTPointData(TPointData value)
+    {
+        return new SharedTPointData { Value = value };
+    }
+}
+
 namespace AIBot
 {
-    /// <summary>
-    /// Minimal adapter that synchronizes a tiny set of blackboard fields to the active Behavior Designer Behavior.
-    /// It performs change-detection to avoid unnecessary SetVariableValue calls.
-    /// This expects Behavior trees to declare SharedVariables:
-    ///   - SharedBool  "isPlayerVisible"
-    ///   - SharedVector3 "playerLastSeenPos"
-    ///   - SharedInt "currentWaypointIndex"
-    ///   - SharedGameObjectList or SharedTransformList "waypoints" (optional authoring)
-    /// </summary>
     [DisallowMultipleComponent]
     public class BlackboardLinker : MonoBehaviour
     {
@@ -53,7 +53,8 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
-                    SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
+                    // SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
+                    SafeSet("currentWayPoint", InGameManager.Instance.ZoneController.GetRandomTPAtBestZone());
                     return;
 
                 case "CombatTree":
@@ -77,6 +78,16 @@ namespace AIBot
             GlobalVariables.Instance.SetVariable("targetCamera", sharedTransform);
         }
 
+        public void SetLastKnownPlayerData(TPointData data)
+        {
+            SetCurrentTacticalPoint(data);
+        }
+
+        public void SetCurrentTacticalPoint(TPointData data)
+        {
+            SafeSet("currentTacticalPoint", data);
+        }
+
         void Update()
         {
             GetValuesSharedVariables();
@@ -94,12 +105,15 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
+                    lookEuler = (Vector3)GlobalVariables.Instance.GetVariable("lookEuler").GetValue();
                     moveDir = (Vector3)activeBehavior.GetVariable("moveDir").GetValue();
                     return;
 
                 case "CombatTree":
                     lookEuler = (Vector3)GlobalVariables.Instance.GetVariable("lookEuler").GetValue();
                     attack = (bool)GlobalVariables.Instance.GetVariable("attack").GetValue();
+
+                    moveDir = (Vector3)activeBehavior.GetVariable("moveDir").GetValue();
                     return;
 
                 default:

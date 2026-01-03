@@ -85,7 +85,7 @@ public class SniperAnimation : PlayerBehaviour
         float fullReloadAniDuration = reloadAnimDuration + boltActionAnimDuration;
 
         shootCycleAniSpeed = shootCycleAniDuration / gun.FireCoolDown;
-        fullReloadAniSpeed = fullReloadAniDuration / gun.FireCoolDown;
+        fullReloadAniSpeed = fullReloadAniDuration / gun.ReloadCoolDown;
     }
 
     void SetAnimationSpeed(float multiplier)

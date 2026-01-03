@@ -11896,7 +11896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireCoolDown: 1.5
-  ReloadCoolDown: 1
+  ReloadCoolDown: 3
   shootEffect: {fileID: 5275834517874757834}
   _aimFOV: 10
   _spreadAngle: 0

@@ -51,6 +51,11 @@ public class PlayerInventory : PlayerBehaviour
         }
 
         int ammoToReload = _currentWeaponSupplyLoad.Capacity - _currentWeaponSupplyLoad.CurrentMagazineAmmo;
+        Gun currentGun = null;
+        if (_currentWeapon.TryGetComponent<Gun>(out var gun))
+        {
+            currentGun = gun;
+        }
 
         if (ammoToReload == 0)
         {
@@ -63,9 +68,9 @@ public class PlayerInventory : PlayerBehaviour
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += _currentWeaponSupplyLoad.TotalSupplies;
             _currentWeaponSupplyLoad.TotalSupplies = 0;
 
-            if (!PlayerRoot.IsCharacterBot())
+            if (!PlayerRoot.IsCharacterBot() && currentGun != null)
             {
-                PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(() =>
+                PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(currentGun.ReloadCoolDown, () =>
                 {
                     SetAmmoInfoUI();
                 });
@@ -77,9 +82,9 @@ public class PlayerInventory : PlayerBehaviour
             _currentWeaponSupplyLoad.CurrentMagazineAmmo += ammoToReload;
             _currentWeaponSupplyLoad.TotalSupplies -= ammoToReload;
 
-            if (!PlayerRoot.IsCharacterBot())
+            if (!PlayerRoot.IsCharacterBot() && currentGun != null)
             {
-                PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(() =>
+                PlayerRoot.PlayerUI.CurrentPlayerCanvas.BulletHud.ReloadEffect.StartReloadEffect(currentGun.ReloadCoolDown, () =>
                {
                    SetAmmoInfoUI();
                });

@@ -1,7 +1,10 @@
 {
     "files.exclude": {
-        "**/.DS_Store": true,
         "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
         "**/.vs": true,
         "**/.gitmodules": true,
         "**/.vsconfig": true,
@@ -54,7 +57,18 @@
         "ProjectSettings/": true,
         "UserSettings/": true,
         "temp/": true,
-        "Temp/": true
+        "Temp/": true,
+        "Cache/": true,
+        "Libraries/": true
     },
-    "dotnet.defaultSolution": "FPS-Game.sln"
+    "dotnet.defaultSolution": "FPS-Game.sln",
+    "workbench.colorTheme": "Default Dark Modern",
+    "editor.semanticTokenColorCustomizations": {
+        "rules": {
+            "*.deprecated": {
+                "fontStyle": "strikethrough"
+            }
+        }
+    },
+    "path-intellisense.extensionOnImport": true
 }
