@@ -26,6 +26,8 @@ public class Zone : MonoBehaviour
 
     public List<PointVisibilityData> visibilityMatrix = new();
 
+    public List<ZonePortal> portals = new();
+
     [ContextMenu("Bake Visibility & Priority")]
     public void BakeVisibility()
     {
