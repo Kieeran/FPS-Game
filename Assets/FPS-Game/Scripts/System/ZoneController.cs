@@ -45,20 +45,18 @@ public class ZoneController : MonoBehaviour
         return bestZone;
     }
 
-    public GameObject GetTarget(Vector3 currentPos, Zone currentZone)
+    public Vector3 GetTarget(Vector3 currentPos, Zone currentZone)
     {
         Zone targetZone = GetBestZone();
         Vector3 point = GetFirstTPInZone(targetZone);
         ZonePortal portal = GetFinalPortalBeforeTarget(point, targetZone, currentPos, currentZone);
 
         PointVisibilityData data = portal.GetTargetNearestIPoint(targetZone.zoneID);
-        GameObject myEmptyObj = new("TEMP_OBJ");
-        myEmptyObj.transform.position = data.position;
 
         Debug.Log($"Patrol to the nearest [{data.position}] and highest priority [{data.priority}]");
         Debug.Log($"Zone: {targetZone.zoneID}");
 
-        return myEmptyObj;
+        return data.position;
     }
 
     public Vector3 GetFirstTPInZone(Zone zone)

@@ -60,9 +60,8 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
-                    GameObject target = InGameManager.Instance.ZoneController.GetTarget(botController.transform.position, botController.PlayerRoot.CurrentZone);
-                    // SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
-                    SafeSet("currentWayPoint", target);
+                    Vector3 targetPosition = InGameManager.Instance.ZoneController.GetTarget(botController.transform.position, botController.PlayerRoot.CurrentZone);
+                    SafeSet("targetPosition", targetPosition);
                     return;
 
                 case "CombatTree":

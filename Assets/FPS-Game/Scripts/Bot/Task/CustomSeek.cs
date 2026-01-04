@@ -15,6 +15,8 @@ namespace CustomTask
 		[SerializeField] SharedGameObject target;
 		[Tooltip("If target is null then use the target data")]
 		[SerializeField] SharedTPointData currentTacticalPoint;
+		[Tooltip("If target data is null then use the target position")]
+		[SerializeField] SharedVector3 targetPosition;
 
 		[Tooltip("Góc tối thiểu để cho phép di chuyển (độ). Nếu góc lớn hơn, bot chỉ xoay không di chuyển")]
 		[SerializeField] float minAngleToMove = 60f;
@@ -117,7 +119,9 @@ namespace CustomTask
 
 		void CalculateNewPath()
 		{
-			if (target.Value == null && !currentTacticalPoint.Value.IsValid()) return;
+			if (target.Value == null &&
+			!currentTacticalPoint.Value.IsValid() &&
+			targetPosition.Value == Vector3.zero) return;
 
 			// Tính lại path
 			if (NavMesh.CalculatePath(transform.position, Target(), NavMesh.AllAreas, path))
@@ -139,6 +143,10 @@ namespace CustomTask
 			else if (currentTacticalPoint.Value.IsValid())
 			{
 				targetPos = currentTacticalPoint.Value.Position;
+			}
+			else if (targetPosition.Value != Vector3.zero)
+			{
+				targetPos = targetPosition.Value;
 			}
 
 			float snapDistance = 10f; // Khoảng cách tìm kiếm xuống dưới
@@ -178,6 +186,11 @@ namespace CustomTask
 			else if (currentTacticalPoint.Value.IsValid())
 			{
 				targetPos = currentTacticalPoint.Value.Position;
+				hasTarget = true;
+			}
+			else if (targetPosition.Value != Vector3.zero)
+			{
+				targetPos = targetPosition.Value;
 				hasTarget = true;
 			}
 
