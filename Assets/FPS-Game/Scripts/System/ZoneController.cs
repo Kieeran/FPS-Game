@@ -45,9 +45,39 @@ public class ZoneController : MonoBehaviour
         return bestZone;
     }
 
-    public (PointVisibilityData data, Zone zone) GetTarget(Vector3 currentPos, Zone currentZone)
+    public (PointVisibilityData data, Zone zone) GetTargetForChase(Vector3 currentPos, Zone currentZone, TPointData data)
+    {
+        Zone targetZone = null;
+        float bestMatch = -0.5f;
+
+        Vector3 playerLookDir = (data.Rotation * Vector3.forward).normalized;
+
+        foreach (var portal in currentZone.portals)
+        {
+            Vector3 dirToPortal = (portal.transform.position - data.Position).normalized;
+            float dot = Vector3.Dot(playerLookDir, dirToPortal);
+
+            if (dot > bestMatch)
+            {
+                bestMatch = dot;
+                targetZone = portal.GetOtherZone(currentZone.zoneID);
+            }
+        }
+
+        // Nếu không tìm thấy hàng xóm nào khả thi, mặc định tìm trong currentZone
+        if (targetZone == null) targetZone = currentZone;
+
+        return GetTarget(currentPos, currentZone, targetZone);
+    }
+
+    public (PointVisibilityData data, Zone zone) GetTargetForPatrol(Vector3 currentPos, Zone currentZone)
     {
         Zone targetZone = GetBestZone();
+        return GetTarget(currentPos, currentZone, targetZone);
+    }
+
+    (PointVisibilityData data, Zone zone) GetTarget(Vector3 currentPos, Zone currentZone, Zone targetZone)
+    {
         Vector3 point = GetFirstTPInZone(targetZone);
         ZonePortal portal = GetFinalPortalBeforeTarget(point, targetZone, currentPos, currentZone);
 

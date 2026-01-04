@@ -81,10 +81,10 @@ namespace AIBot
                     OnPlayerLost.Invoke(lastKnownData);
                 }
 
-                if (currentSearchPath != null && currentSearchPath.Count > 0)
-                {
-                    CheckVisibleTacticalPoints(currentSearchPath, viewDistance, botHorizontalFOV, obstacleMask);
-                }
+                // if (currentSearchPath != null && currentSearchPath.Count > 0)
+                // {
+                //     CheckVisibleTacticalPoints(currentSearchPath, viewDistance, botHorizontalFOV, obstacleMask);
+                // }
             }
         }
 

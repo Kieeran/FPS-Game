@@ -46,6 +46,7 @@ namespace AIBot
         [SerializeField] Vector3 lookEuler;
         [SerializeField] bool attack;
 
+        TPointData lastKnownPlayerData;
         BotController botController;
 
         void Start()
@@ -79,10 +80,10 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
-                    var targetZoneInfo = InGameManager.Instance.ZoneController.GetTarget(botController.transform.position, botController.PlayerRoot.CurrentZone);
-                    SafeSet("targetPosition", targetZoneInfo.data.position);
-                    SafeSet("pointVisibilityData", targetZoneInfo.data);
-                    SafeSet("visibilityMatrix", targetZoneInfo.zone.visibilityMatrix);
+                    var patrolInfo = InGameManager.Instance.ZoneController.GetTargetForPatrol(botController.transform.position, botController.PlayerRoot.CurrentZone);
+                    SafeSet("targetPosition", patrolInfo.data.position);
+                    SafeSet("pointVisibilityData", patrolInfo.data);
+                    SafeSet("visibilityMatrix", patrolInfo.zone.visibilityMatrix);
                     return;
 
                 case "CombatTree":
@@ -108,12 +109,26 @@ namespace AIBot
 
         public void SetLastKnownPlayerData(TPointData data)
         {
+            lastKnownPlayerData = data;
             SetCurrentTacticalPoint(data);
         }
 
         public void SetCurrentTacticalPoint(TPointData data)
         {
             SafeSet("currentTacticalPoint", data);
+        }
+
+        public void SetNextTarget()
+        {
+            var chaseInfo = InGameManager.Instance.ZoneController.GetTargetForChase(
+                botController.transform.position,
+                botController.PlayerRoot.CurrentZone,
+                lastKnownPlayerData
+            );
+
+            SafeSet("targetPosition", chaseInfo.data.position);
+            SafeSet("pointVisibilityData", chaseInfo.data);
+            SafeSet("visibilityMatrix", chaseInfo.zone.visibilityMatrix);
         }
 
         void Update()
