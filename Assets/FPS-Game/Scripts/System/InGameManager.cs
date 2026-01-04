@@ -119,7 +119,10 @@ public class InGameManager : NetworkBehaviour
         {
             IsGameEnd = true;
         };
-        ZoneController.InitZones(spawnInGameManager.GetZonesContainer());
+        ZoneController.InitZones(
+            spawnInGameManager.GetZonesContainer(),
+            spawnInGameManager.GetZonePortalsContainer()
+        );
     }
     public override void OnNetworkSpawn()
     {

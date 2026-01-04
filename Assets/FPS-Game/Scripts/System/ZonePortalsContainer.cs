@@ -11,9 +11,58 @@ public class ZonePortalsContainer : MonoBehaviour
     [SerializeField] List<ZonePortal> zonePortals;
     public List<ZonePortal> GetZonePortals() { return zonePortals; }
 
+    // Dictionary lưu trữ: ZoneID hiện tại -> Danh sách các Portal dẫn đi các Zone khác
+    public Dictionary<ZoneID, List<ZonePortal>> zoneAdjacencyMap = new();
+
+    void Awake()
+    {
+        RebuildAdjacencyMap();
+    }
+
+    void RebuildAdjacencyMap()
+    {
+        zoneAdjacencyMap.Clear();
+
+        foreach (var zone in zonesContainer.GetZones())
+        {
+            if (!zoneAdjacencyMap.ContainsKey(zone.zoneID))
+            {
+                zoneAdjacencyMap[zone.zoneID] = new List<ZonePortal>();
+            }
+
+            // Copy từ zone.portals vào dictionary
+            zoneAdjacencyMap[zone.zoneID].AddRange(zone.portals);
+        }
+
+        Debug.Log($"Rebuilt adjacency map with {zoneAdjacencyMap.Count} zones");
+    }
+
     void OnValidate()
     {
         zonePortals = GetComponentsInChildren<ZonePortal>().ToList();
+    }
+
+    [ContextMenu("Scan All Portals")]
+    public void ScanAllPortals()
+    {
+        zoneAdjacencyMap.Clear();
+        ZonePortal[] allPortals = zonePortals.ToArray();
+
+        foreach (var portal in allPortals)
+        {
+            // Đăng ký cho Zone A
+            RegisterConnection(portal.zoneA.zoneID, portal);
+            // Đăng ký cho Zone B (để Portal có tính 2 chiều)
+            RegisterConnection(portal.zoneB.zoneID, portal);
+        }
+
+        foreach (var zone in zonesContainer.GetZones())
+        {
+            zone.portals.Clear();
+            zone.portals = zoneAdjacencyMap[zone.zoneID];
+        }
+
+        Debug.Log($"Đã cập nhật bản đồ giao thông với {allPortals.Length} cổng kết nối.");
     }
 
     [ContextMenu("Bake Portal Strategy")]
@@ -32,6 +81,15 @@ public class ZonePortalsContainer : MonoBehaviour
         }
 
         Debug.Log("Bake Portal Strategy thành công!");
+    }
+
+    private void RegisterConnection(ZoneID zoneID, ZonePortal portal)
+    {
+        if (!zoneAdjacencyMap.ContainsKey(zoneID))
+        {
+            zoneAdjacencyMap[zoneID] = new List<ZonePortal>();
+        }
+        zoneAdjacencyMap[zoneID].Add(portal);
     }
 
     private PointVisibilityData CalculateBestEntry(ZonePortal portal, Zone targetZone)

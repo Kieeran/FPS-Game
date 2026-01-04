@@ -8,10 +8,12 @@ public class ZoneController : MonoBehaviour
 {
     public List<Zone> allZones { get; private set; } = new();
     ZonesContainer zonesContainer;
-    public void InitZones(ZonesContainer container)
+    ZonePortalsContainer zonePortalsContainer;
+    public void InitZones(ZonesContainer zonesContainer, ZonePortalsContainer zonePortalsContainer)
     {
-        zonesContainer = container;
-        allZones = zonesContainer.GetZones();
+        this.zonesContainer = zonesContainer;
+        this.zonePortalsContainer = zonePortalsContainer;
+        allZones = this.zonesContainer.GetZones();
     }
 
     public GameObject GetRandomTPAtBestZone()

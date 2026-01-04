@@ -20,7 +20,8 @@ public class Zone : MonoBehaviour
     public float growRate = 1f;        // Tốc độ tăng trọng số mỗi giây
 
     Collider[] colliders;
-    ZonesContainer container;
+    ZonesContainer zonesContainer;
+    ZonePortalsContainer zonePortalsContainer;
     float lastVisitedTime;     // Thời điểm cuối cùng được kiểm tra
     public float gridSize = 2.0f;
     public List<Vector3> generatedInfoPoints = new();
@@ -58,7 +59,7 @@ public class Zone : MonoBehaviour
                 Vector3 endPos = generatedInfoPoints[j];
 
                 // Bắn tia Linecast để kiểm tra vật cản
-                if (!Physics.Linecast(startPos, endPos, container.obstacleLayer))
+                if (!Physics.Linecast(startPos, endPos, zonesContainer.obstacleLayer))
                 {
                     // Nếu không có vật cản, thêm index j vào danh sách nhìn thấy của i
                     visibilityMatrix[i].visibleIndices.Add(j);
@@ -93,12 +94,12 @@ public class Zone : MonoBehaviour
                 {
                     // 3. Bắn Raycast từ trên xuống (Y max)
                     Vector3 rayStart = new(x, bounds.max.y, z);
-                    if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, bounds.size.y, container.obstacleLayer))
+                    if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, bounds.size.y, zonesContainer.obstacleLayer))
                     {
                         // 4. Kiểm tra điểm có nằm trên NavMesh không
                         if (NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 1.0f, NavMesh.AllAreas))
                         {
-                            generatedInfoPoints.Add(navHit.position + Vector3.up * container.heightOffset);
+                            generatedInfoPoints.Add(navHit.position + Vector3.up * zonesContainer.heightOffset);
                         }
                     }
                 }
@@ -119,7 +120,7 @@ public class Zone : MonoBehaviour
 
     public ZonePortal GetPortalTo(Zone targetZone)
     {
-        List<ZonePortal> zonePortals = container.zoneAdjacencyMap[zoneID];
+        List<ZonePortal> zonePortals = zonePortalsContainer.zoneAdjacencyMap[zoneID];
         foreach (var portal in zonePortals)
         {
             Zone zone = portal.GetOtherZone(zoneID);
@@ -168,13 +169,14 @@ public class Zone : MonoBehaviour
     void OnValidate()
     {
         colliders = GetComponentsInChildren<Collider>();
-        container = GetComponentInParent<ZonesContainer>();
+        zonesContainer = GetComponentInParent<ZonesContainer>();
+        zonePortalsContainer = zonesContainer.zonePortalsContainer;
     }
 
     [ContextMenu("Bake Zone Points")]
     public void BakeZonePoints()
     {
-        GameObject[] allTPs = GameObject.FindGameObjectsWithTag(container.tpTag);
+        GameObject[] allTPs = GameObject.FindGameObjectsWithTag(zonesContainer.tpTag);
         InitZone(allTPs);
     }
 

@@ -18,64 +18,6 @@ public class ZonesContainer : MonoBehaviour
     public LayerMask obstacleLayer;
     public string tpTag = "TacticalPoint";
 
-    // Dictionary lưu trữ: ZoneID hiện tại -> Danh sách các Portal dẫn đi các Zone khác
-    public Dictionary<ZoneID, List<ZonePortal>> zoneAdjacencyMap = new();
-
-    void Awake()
-    {
-        RebuildAdjacencyMap();
-    }
-
-    void RebuildAdjacencyMap()
-    {
-        zoneAdjacencyMap.Clear();
-
-        foreach (var zone in zones)
-        {
-            if (!zoneAdjacencyMap.ContainsKey(zone.zoneID))
-            {
-                zoneAdjacencyMap[zone.zoneID] = new List<ZonePortal>();
-            }
-
-            // Copy từ zone.portals vào dictionary
-            zoneAdjacencyMap[zone.zoneID].AddRange(zone.portals);
-        }
-
-        Debug.Log($"Rebuilt adjacency map with {zoneAdjacencyMap.Count} zones");
-    }
-
-    [ContextMenu("Scan All Portals")]
-    public void ScanAllPortals()
-    {
-        zoneAdjacencyMap.Clear();
-        ZonePortal[] allPortals = zonePortalsContainer.GetZonePortals().ToArray();
-
-        foreach (var portal in allPortals)
-        {
-            // Đăng ký cho Zone A
-            RegisterConnection(portal.zoneA.zoneID, portal);
-            // Đăng ký cho Zone B (để Portal có tính 2 chiều)
-            RegisterConnection(portal.zoneB.zoneID, portal);
-        }
-
-        foreach (var zone in zones)
-        {
-            zone.portals.Clear();
-            zone.portals = zoneAdjacencyMap[zone.zoneID];
-        }
-
-        Debug.Log($"Đã cập nhật bản đồ giao thông với {allPortals.Length} cổng kết nối.");
-    }
-
-    private void RegisterConnection(ZoneID zoneID, ZonePortal portal)
-    {
-        if (!zoneAdjacencyMap.ContainsKey(zoneID))
-        {
-            zoneAdjacencyMap[zoneID] = new List<ZonePortal>();
-        }
-        zoneAdjacencyMap[zoneID].Add(portal);
-    }
-
     public List<Zone> GetZones() { return zones; }
 
     [ContextMenu("Bake All Zones")]

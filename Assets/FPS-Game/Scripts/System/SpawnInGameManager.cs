@@ -8,11 +8,13 @@ public class SpawnInGameManager : MonoBehaviour
     [SerializeField] Transform spawnPositions;
     [SerializeField] Transform waypoints;
     [SerializeField] ZonesContainer zonesContainer;
+    [SerializeField] ZonePortalsContainer zonesPortalContainer;
     [SerializeField] TacticalPoints tacticalPoints;
 
     public Transform GetSpawnPositions() { return spawnPositions; }
     public Transform GetWaypoints() { return waypoints; }
     public ZonesContainer GetZonesContainer() { return zonesContainer; }
+    public ZonePortalsContainer GetZonePortalsContainer() { return zonesPortalContainer; }
     public List<Transform> GetTacticalPointsList() { return tacticalPoints.TPoints; }
 
     void Awake()
