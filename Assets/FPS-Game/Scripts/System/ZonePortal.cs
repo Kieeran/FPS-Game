@@ -22,6 +22,11 @@ public class ZonePortal : MonoBehaviour
         return null;
     }
 
+    public PointVisibilityData GetTargetNearestIPoint(ZoneID targetZoneID)
+    {
+        return targetZoneID == zoneA.zoneID ? nearestIPointInA : nearestIPointInB;
+    }
+
     private void OnDrawGizmosSelected()
     {
         if (zoneA != null && zoneB != null)

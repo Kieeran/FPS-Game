@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -50,7 +51,14 @@ public class ZoneController : MonoBehaviour
         Vector3 point = GetFirstTPInZone(targetZone);
         ZonePortal portal = GetFinalPortalBeforeTarget(point, targetZone, currentPos, currentZone);
 
-        return portal.gameObject;
+        PointVisibilityData data = portal.GetTargetNearestIPoint(targetZone.zoneID);
+        GameObject myEmptyObj = new("TEMP_OBJ");
+        myEmptyObj.transform.position = data.position;
+
+        Debug.Log($"Patrol to the nearest [{data.position}] and highest priority [{data.priority}]");
+        Debug.Log($"Zone: {targetZone.zoneID}");
+
+        return myEmptyObj;
     }
 
     public Vector3 GetFirstTPInZone(Zone zone)
