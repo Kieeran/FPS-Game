@@ -27,6 +27,13 @@ namespace AIBot
         [SerializeField] Vector3 lookEuler;
         [SerializeField] bool attack;
 
+        BotController botController;
+
+        void Start()
+        {
+            botController = GetComponent<BotController>();
+        }
+
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
         // public Vector3 PlayerLastSeenPos => _playerLastSeenPos;
 
@@ -53,8 +60,9 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
+                    GameObject target = InGameManager.Instance.ZoneController.GetTarget(botController.transform.position, botController.PlayerRoot.CurrentZone);
                     // SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
-                    SafeSet("currentWayPoint", InGameManager.Instance.ZoneController.GetRandomTPAtBestZone());
+                    SafeSet("currentWayPoint", target);
                     return;
 
                 case "CombatTree":

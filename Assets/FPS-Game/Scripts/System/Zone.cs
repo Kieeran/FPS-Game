@@ -28,7 +28,7 @@ public class Zone : MonoBehaviour
 
     public List<ZonePortal> portals = new();
 
-    [ContextMenu("Bake Visibility & Priority")]
+    [ContextMenu("Bake Visibility And Priority")]
     public void BakeVisibility()
     {
         if (generatedInfoPoints == null || generatedInfoPoints.Count <= 0) return;
@@ -113,6 +113,30 @@ public class Zone : MonoBehaviour
     public void ClearInfoPoints()
     {
         generatedInfoPoints.Clear();
+    }
+
+    public ZonePortal GetPortalTo(Zone targetZone)
+    {
+        List<ZonePortal> zonePortals = container.zoneAdjacencyMap[zoneID];
+        foreach (var portal in zonePortals)
+        {
+            Zone zone = portal.GetOtherZone(zoneID);
+            if (zone == targetZone) return portal;
+        }
+        return null;
+    }
+
+    public bool IsPointInZone(Vector3 pos)
+    {
+        foreach (var col in colliders)
+        {
+            // Kiểm tra xem điểm có nằm trong Bounds của Collider không
+            if (col.bounds.Contains(pos))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     void Start()

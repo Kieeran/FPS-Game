@@ -1,17 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ZoneController : MonoBehaviour
 {
     public List<Zone> allZones { get; private set; } = new();
-
+    ZonesContainer zonesContainer;
     public void InitZones(ZonesContainer container)
     {
-        allZones = container.GetZones();
+        zonesContainer = container;
+        allZones = zonesContainer.GetZones();
     }
 
     public GameObject GetRandomTPAtBestZone()
+    {
+        Zone bestZone = GetBestZone();
+        return bestZone.GetRandomTP().gameObject;
+    }
+
+    Zone GetBestZone()
     {
         if (allZones == null || allZones.Count <= 0)
         {
@@ -27,10 +36,90 @@ public class ZoneController : MonoBehaviour
                 bestZone = zone;
             }
         }
-
         bestZone.ResetWeight();
         Debug.Log($"Bot patrol to zone: {bestZone.gameObject.name}");
 
-        return bestZone.GetRandomTP().gameObject;
+        return bestZone;
+    }
+
+    public GameObject GetTarget(Vector3 currentPos, Zone currentZone)
+    {
+        Zone targetZone = GetBestZone();
+        Vector3 point = GetFirstTPInZone(targetZone);
+        ZonePortal portal = GetFinalPortalBeforeTarget(point, targetZone, currentPos, currentZone);
+
+        return portal.gameObject;
+    }
+
+    public Vector3 GetFirstTPInZone(Zone zone)
+    {
+        return zone.TPoints[0].position;
+    }
+
+    private Zone GetZoneAtPosition(Vector3 pos)
+    {
+        foreach (Zone zone in allZones)
+        {
+            if (zone.IsPointInZone(pos))
+            {
+                return zone;
+            }
+        }
+        return null;
+    }
+
+    public ZonePortal GetFinalPortalBeforeTarget(Vector3 targetPoint, Zone targetZone, Vector3 currentPos, Zone currentZone)
+    {
+        if (NavMesh.SamplePosition(targetPoint, out NavMeshHit hit, 3.5f, NavMesh.AllAreas))
+        {
+            targetPoint = hit.position;
+        }
+
+        NavMeshPath path = new();
+        if (NavMesh.CalculatePath(currentPos, targetPoint, NavMesh.AllAreas, path))
+        {
+            if (path.status != NavMeshPathStatus.PathComplete)
+            {
+                Debug.Log("Đường đi không thông suốt");
+                return null;
+            }
+
+            List<Zone> zoneSequence = new()
+            {
+                currentZone
+            };
+
+            for (int i = 0; i < path.corners.Length - 1; i++)
+            {
+                Vector3 start = path.corners[i];
+                Vector3 end = path.corners[i + 1];
+                float segmentDistance = Vector3.Distance(start, end);
+
+                // Chia nhỏ đoạn thẳng này: Cứ mỗi 1.0 đơn vị (mét) lấy 1 điểm để check
+                float step = 1.0f;
+                int iterations = Mathf.CeilToInt(segmentDistance / step);
+
+                for (int j = 1; j <= iterations; j++)
+                {
+                    // Nội suy điểm nằm trên đoạn thẳng
+                    float t = (float)j / iterations;
+                    Vector3 checkPoint = Vector3.Lerp(start, end, t);
+
+                    Zone zoneAtPoint = GetZoneAtPosition(checkPoint);
+
+                    if (zoneAtPoint != null && !zoneSequence.Contains(zoneAtPoint))
+                    {
+                        zoneSequence.Add(zoneAtPoint);
+                    }
+                }
+            }
+
+            if (zoneSequence.Count >= 2 && zoneSequence.Last() == targetZone)
+            {
+                Zone penultimateZone = zoneSequence[zoneSequence.Count - 2];
+                return penultimateZone.GetPortalTo(targetZone);
+            }
+        }
+        return null;
     }
 }

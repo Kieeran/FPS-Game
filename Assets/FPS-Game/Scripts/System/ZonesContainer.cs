@@ -20,6 +20,29 @@ public class ZonesContainer : MonoBehaviour
     // Dictionary lưu trữ: ZoneID hiện tại -> Danh sách các Portal dẫn đi các Zone khác
     public Dictionary<ZoneID, List<ZonePortal>> zoneAdjacencyMap = new();
 
+    void Awake()
+    {
+        RebuildAdjacencyMap();
+    }
+
+    void RebuildAdjacencyMap()
+    {
+        zoneAdjacencyMap.Clear();
+
+        foreach (var zone in zones)
+        {
+            if (!zoneAdjacencyMap.ContainsKey(zone.zoneID))
+            {
+                zoneAdjacencyMap[zone.zoneID] = new List<ZonePortal>();
+            }
+
+            // Copy từ zone.portals vào dictionary
+            zoneAdjacencyMap[zone.zoneID].AddRange(zone.portals);
+        }
+
+        Debug.Log($"Rebuilt adjacency map with {zoneAdjacencyMap.Count} zones");
+    }
+
     [ContextMenu("Scan All Portals")]
     public void ScanAllPortals()
     {
