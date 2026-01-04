@@ -45,7 +45,7 @@ public class ZoneController : MonoBehaviour
         return bestZone;
     }
 
-    public Vector3 GetTarget(Vector3 currentPos, Zone currentZone)
+    public (PointVisibilityData data, Zone zone) GetTarget(Vector3 currentPos, Zone currentZone)
     {
         Zone targetZone = GetBestZone();
         Vector3 point = GetFirstTPInZone(targetZone);
@@ -56,7 +56,7 @@ public class ZoneController : MonoBehaviour
         Debug.Log($"Patrol to the nearest [{data.position}] and highest priority [{data.priority}]");
         Debug.Log($"Zone: {targetZone.zoneID}");
 
-        return data.position;
+        return (data, targetZone);
     }
 
     public Vector3 GetFirstTPInZone(Zone zone)

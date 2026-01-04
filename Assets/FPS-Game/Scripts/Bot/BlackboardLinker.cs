@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
+using System.Collections.Generic;
 
 [Serializable]
 public class SharedTPointData : SharedVariable<TPointData>
@@ -8,6 +9,24 @@ public class SharedTPointData : SharedVariable<TPointData>
     public static implicit operator SharedTPointData(TPointData value)
     {
         return new SharedTPointData { Value = value };
+    }
+}
+
+[Serializable]
+public class SharedPointVisibilityData : SharedVariable<PointVisibilityData>
+{
+    public static implicit operator SharedPointVisibilityData(PointVisibilityData value)
+    {
+        return new SharedPointVisibilityData { Value = value };
+    }
+}
+
+[Serializable]
+public class SharedPointVisibilityDataList : SharedVariable<List<PointVisibilityData>>
+{
+    public static implicit operator SharedPointVisibilityDataList(List<PointVisibilityData> value)
+    {
+        return new SharedPointVisibilityDataList { Value = value };
     }
 }
 
@@ -60,8 +79,10 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
-                    Vector3 targetPosition = InGameManager.Instance.ZoneController.GetTarget(botController.transform.position, botController.PlayerRoot.CurrentZone);
-                    SafeSet("targetPosition", targetPosition);
+                    var targetZoneInfo = InGameManager.Instance.ZoneController.GetTarget(botController.transform.position, botController.PlayerRoot.CurrentZone);
+                    SafeSet("targetPosition", targetZoneInfo.data.position);
+                    SafeSet("pointVisibilityData", targetZoneInfo.data);
+                    SafeSet("visibilityMatrix", targetZoneInfo.zone.visibilityMatrix);
                     return;
 
                 case "CombatTree":
