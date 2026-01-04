@@ -97,15 +97,15 @@ public class ZonePortalsContainer : MonoBehaviour
         PointVisibilityData result = new();
         if (targetZone.visibilityMatrix == null || targetZone.visibilityMatrix.Count == 0) return result;
 
-        int maxPriority = targetZone.visibilityMatrix.Max(p => p.priority);
-        var highPriorityPoints = targetZone.visibilityMatrix
-            .Where(p => p.priority >= maxPriority)
-            .ToList();
+        // int maxPriority = targetZone.visibilityMatrix.Max(p => p.priority);
+        // var highPriorityPoints = targetZone.visibilityMatrix
+        //     .Where(p => p.priority >= maxPriority)
+        //     .ToList();
 
         PointVisibilityData bestPoint = new();
         float shortestDistance = float.MaxValue;
 
-        foreach (var ip in highPriorityPoints)
+        foreach (var ip in targetZone.visibilityMatrix)
         {
             NavMeshPath path = new();
             if (NavMesh.CalculatePath(
