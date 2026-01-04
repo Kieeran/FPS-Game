@@ -11,6 +11,7 @@ public enum ZoneID
 
 public class ZonesContainer : MonoBehaviour
 {
+    public ZonePortalsContainer zonePortalsContainer;
     [SerializeField] List<Zone> zones;
     public float heightOffset = 2.84f;
     public float gizmoRadius = 0.5f;
@@ -47,7 +48,7 @@ public class ZonesContainer : MonoBehaviour
     public void ScanAllPortals()
     {
         zoneAdjacencyMap.Clear();
-        ZonePortal[] allPortals = FindObjectsOfType<ZonePortal>();
+        ZonePortal[] allPortals = zonePortalsContainer.GetZonePortals().ToArray();
 
         foreach (var portal in allPortals)
         {

@@ -7,6 +7,7 @@ using UnityEngine.AI;
 [System.Serializable]
 public class PointVisibilityData
 {
+    public Vector3 position;
     public int priority;           // Số lượng điểm nhìn thấy được
     public List<int> visibleIndices; // Danh sách index của các điểm nhìn thấy được
 }
@@ -40,6 +41,7 @@ public class Zone : MonoBehaviour
         {
             visibilityMatrix.Add(new PointVisibilityData
             {
+                position = generatedInfoPoints[i],
                 visibleIndices = new List<int>()
             });
         }
