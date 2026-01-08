@@ -14,12 +14,12 @@ using UnityEngine.AI;
 
 public class Zone : MonoBehaviour
 {
-    public ZoneID zoneID = ZoneID.None;
+    public ZoneData zoneData;
     // public List<Transform> TPoints = new();
     // public float baseWeight = 10f;     // Độ ưu tiên cố định
     // public float growRate = 1f;        // Tốc độ tăng trọng số mỗi giây
 
-    Collider[] colliders;
+    [SerializeField] Collider[] colliders;
     // ZonesContainer zonesContainer;
     // ZonePortalsContainer zonePortalsContainer;
     float lastVisitedTime;     // Thời điểm cuối cùng được kiểm tra
@@ -166,12 +166,12 @@ public class Zone : MonoBehaviour
     //         return TPoints[Random.Range(0, TPoints.Count)];
     //     }
 
-    //     void OnValidate()
-    //     {
-    //         colliders = GetComponentsInChildren<Collider>();
-    //         zonesContainer = GetComponentInParent<ZonesContainer>();
-    //         zonePortalsContainer = zonesContainer.zonePortalsContainer;
-    //     }
+    void OnValidate()
+    {
+        colliders = GetComponentsInChildren<Collider>();
+        // zonesContainer = GetComponentInParent<ZonesContainer>();
+        // zonePortalsContainer = zonesContainer.zonePortalsContainer;
+    }
 
     //     [ContextMenu("Bake Zone Points")]
     //     public void BakeZonePoints()

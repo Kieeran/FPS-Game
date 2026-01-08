@@ -15,12 +15,12 @@ public class ZonePortal : MonoBehaviour
     // // Dữ liệu nhìn vào Zone A khi đứng ở mép Portal phía Zone B
     // public PointVisibilityData nearestIPointInB;
 
-    public Zone GetOtherZone(ZoneID currentZoneID)
-    {
-        if (zoneA.zoneID == currentZoneID) return zoneB;
-        if (zoneB.zoneID == currentZoneID) return zoneA;
-        return null;
-    }
+    // public Zone GetOtherZone(ZoneID currentZoneID)
+    // {
+    //     if (zoneA.zoneID == currentZoneID) return zoneB;
+    //     if (zoneB.zoneID == currentZoneID) return zoneA;
+    //     return null;
+    // }
 
     // public PointVisibilityData GetTargetNearestIPoint(ZoneID targetZoneID)
     // {
