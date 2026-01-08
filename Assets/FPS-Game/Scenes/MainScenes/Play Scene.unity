@@ -6469,7 +6469,7 @@ MonoBehaviour:
   pointSizeGizmos: 0.3
   pointColorGizmos: {r: 1, g: 1, b: 0, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
-  selectedZoneID: 3
+  selectedZoneID: 1
   gridSize: 2
 --- !u!1 &449259695
 GameObject:
@@ -18201,7 +18201,7 @@ MonoBehaviour:
   pointSizeGizmos: 0.2
   pointColorGizmos: {r: 0, g: 0, b: 0, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
-  selectedZoneID: 0
+  selectedZoneID: 1
 --- !u!1 &1485888357
 GameObject:
   m_ObjectHideFlags: 0

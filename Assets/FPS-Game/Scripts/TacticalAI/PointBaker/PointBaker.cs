@@ -129,6 +129,19 @@ public class PointBaker : MonoBehaviour
         }
     }
 
+    void DrawInfoPointsPriority()
+    {
+        if (ZoneManager.Instance == null) return;
+        if (selectedZoneID == ZoneID.None) return;
+
+        Zone targetZone = ZoneManager.Instance.GetZoneByID(selectedZoneID);
+        foreach (InfoPoint point in targetZone.zoneData.masterPoints)
+        {
+            // Hiển thị số Priority trên đầu điểm (Chỉ trong Scene View)
+            Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+        }
+    }
+
     protected virtual void DrawGizmos() { }
 
     protected virtual void DrawGizmosSelected()
@@ -167,6 +180,7 @@ public class PointBaker : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
+        DrawInfoPointsPriority();
         DrawGizmosSelected();
     }
 }
