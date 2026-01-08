@@ -86,33 +86,4 @@ public class CenterPointBaker : PointBaker
 
         Debug.Log($"Đã khôi phục {pointsHolder.childCount} điểm để chỉnh sửa.");
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (pointsHolder != null && pointsHolder.childCount > 0)
-        {
-            SyncDebugPoints();
-        }
-
-        if (pointsDebug == null || pointsDebug.Count == 0) return;
-
-        foreach (Vector3 pos in pointsDebug)
-        {
-            Gizmos.color = pointColorGizmos;
-            Gizmos.DrawSphere(pos, pointSizeGizmos);
-
-            bool isOnNavMesh = NavMesh.SamplePosition(pos, out NavMeshHit hit, 10f, NavMesh.AllAreas);
-            if (isOnNavMesh)
-            {
-                Gizmos.color = pointColorGizmos;
-                Gizmos.DrawSphere(hit.position, 0.5f);
-                Gizmos.DrawLine(pos, hit.position);
-            }
-            else
-            {
-                Gizmos.color = invalidPointColorGizmos;
-                Gizmos.DrawCube(pos, Vector3.one * 15f);
-            }
-        }
-    }
 }
