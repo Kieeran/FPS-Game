@@ -184,6 +184,7 @@ public class PlayerRoot : NetworkBehaviour
     public PlayerEvents Events { get; private set; }
     public NetworkVariable<bool> IsBot = new();
     public NetworkVariable<FixedString32Bytes> BotID = new();
+    public Zone CurrentZone;
     public void SetIsCharacterBot(bool b)
     {
         if (!IsServer)

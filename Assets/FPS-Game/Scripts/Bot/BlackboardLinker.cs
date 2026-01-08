@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
+using System.Collections.Generic;
 
 [Serializable]
 public class SharedTPointData : SharedVariable<TPointData>
@@ -8,6 +9,24 @@ public class SharedTPointData : SharedVariable<TPointData>
     public static implicit operator SharedTPointData(TPointData value)
     {
         return new SharedTPointData { Value = value };
+    }
+}
+
+[Serializable]
+public class SharedPointVisibilityData : SharedVariable<PointVisibilityData>
+{
+    public static implicit operator SharedPointVisibilityData(PointVisibilityData value)
+    {
+        return new SharedPointVisibilityData { Value = value };
+    }
+}
+
+[Serializable]
+public class SharedPointVisibilityDataList : SharedVariable<List<PointVisibilityData>>
+{
+    public static implicit operator SharedPointVisibilityDataList(List<PointVisibilityData> value)
+    {
+        return new SharedPointVisibilityDataList { Value = value };
     }
 }
 
@@ -26,6 +45,14 @@ namespace AIBot
         [SerializeField] Vector3 moveDir;
         [SerializeField] Vector3 lookEuler;
         [SerializeField] bool attack;
+
+        TPointData lastKnownPlayerData;
+        BotController botController;
+
+        void Start()
+        {
+            botController = GetComponent<BotController>();
+        }
 
         /// <summary>Expose last seen pos for other systems (e.g., BotController).</summary>
         // public Vector3 PlayerLastSeenPos => _playerLastSeenPos;
@@ -53,8 +80,10 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
-                    // SafeSet("currentWayPoint", InGameManager.Instance.Waypoints.GetRandomWaypoint().gameObject);
-                    SafeSet("currentWayPoint", InGameManager.Instance.ZoneController.GetRandomTPAtBestZone());
+                    var patrolInfo = InGameManager.Instance.ZoneController.GetTargetForPatrol(botController.transform.position, botController.PlayerRoot.CurrentZone);
+                    SafeSet("targetPosition", patrolInfo.data.position);
+                    SafeSet("pointVisibilityData", patrolInfo.data);
+                    SafeSet("visibilityMatrix", patrolInfo.zone.visibilityMatrix);
                     return;
 
                 case "CombatTree":
@@ -80,12 +109,26 @@ namespace AIBot
 
         public void SetLastKnownPlayerData(TPointData data)
         {
+            lastKnownPlayerData = data;
             SetCurrentTacticalPoint(data);
         }
 
         public void SetCurrentTacticalPoint(TPointData data)
         {
             SafeSet("currentTacticalPoint", data);
+        }
+
+        public void SetNextTarget()
+        {
+            var chaseInfo = InGameManager.Instance.ZoneController.GetTargetForChase(
+                botController.transform.position,
+                botController.PlayerRoot.CurrentZone,
+                lastKnownPlayerData
+            );
+
+            SafeSet("targetPosition", chaseInfo.data.position);
+            SafeSet("pointVisibilityData", chaseInfo.data);
+            SafeSet("visibilityMatrix", chaseInfo.zone.visibilityMatrix);
         }
 
         void Update()

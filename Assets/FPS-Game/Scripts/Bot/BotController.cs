@@ -292,18 +292,20 @@ namespace AIBot
 
         public void ShiftToNextCandidate()
         {
-            Transform nextTP = botTactics.GetNextPoint();
-            TPointData data = new();
-            if (nextTP == null)
-            {
-                data.Invalidate();
-            }
-            else
-            {
-                data.SetValue(nextTP);
-            }
+            // Transform nextTP = botTactics.GetNextPoint();
+            // TPointData data = new();
+            // if (nextTP == null)
+            // {
+            //     data.Invalidate();
+            // }
+            // else
+            // {
+            //     data.SetValue(nextTP);
+            // }
 
-            blackboardLinker.SetCurrentTacticalPoint(data);
+            // blackboardLinker.SetCurrentTacticalPoint(data);
+            
+            blackboardLinker.SetNextTarget();
         }
 
         #region Perception Event Handlers
@@ -331,10 +333,10 @@ namespace AIBot
 
             if (!data.IsValid()) return;
 
-            botTactics.CalculateSearchPath(data, (val) =>
-            {
-                sensor.SetCurrentSearchPath(val);
-            });
+            // botTactics.CalculateSearchPath(data, (val) =>
+            // {
+            //     sensor.SetCurrentSearchPath(val);
+            // });
 
             blackboardLinker.SetLastKnownPlayerData(data);
         }

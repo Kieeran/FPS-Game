@@ -14,7 +14,11 @@ public class PlayerCollision : PlayerBehaviour
 
         if (other.transform.parent.CompareTag("Zone"))
         {
-            PlayerRoot.PlayerUI.UpdateLocationText(other.transform.parent.gameObject.name);
+            Zone zone = other.GetComponentInParent<Zone>();
+            PlayerRoot.PlayerUI.UpdateLocationText(zone.zoneID.ToString());
+            PlayerRoot.CurrentZone = zone;
+
+            Debug.Log($"Current zone: {zone.zoneID}");
         }
         // Debug.Log($"Trigger log: {other.transform.parent.name}");
     }
