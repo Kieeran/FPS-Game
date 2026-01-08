@@ -17,31 +17,31 @@ MonoBehaviour:
   growRate: 1
   centerPos: {x: -18.575943, y: 2.8788438, z: 129.08426}
   allPoints:
-  - rid: 7985690472900723327
-  - rid: 7985690472900723328
-  - rid: 7985690472900723329
+  - rid: 7985690472900723382
+  - rid: 7985690472900723383
+  - rid: 7985690472900723384
   portals: []
   references:
     version: 2
     RefIds:
-    - rid: 7985690472900723327
+    - rid: 7985690472900723382
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:
-        position: {x: -24.331001, y: 2.8788438, z: 124.959}
+        position: {x: -23.084, y: 2.8788438, z: 137.175}
         type: 1
         priority: 0
         visibleIndices: 
-    - rid: 7985690472900723328
+    - rid: 7985690472900723383
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -12.382, y: 2.8788438, z: 131.257}
         type: 1
         priority: 0
         visibleIndices: 
-    - rid: 7985690472900723329
+    - rid: 7985690472900723384
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:
-        position: {x: -23.084, y: 2.8788438, z: 137.175}
+        position: {x: -24.331001, y: 2.8788438, z: 124.959}
         type: 1
         priority: 0
         visibleIndices: 

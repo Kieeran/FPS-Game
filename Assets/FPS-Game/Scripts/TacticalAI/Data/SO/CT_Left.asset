@@ -17,12 +17,12 @@ MonoBehaviour:
   growRate: 1
   centerPos: {x: -10.375, y: 2.652177, z: 53.5}
   allPoints:
-  - rid: 7985690472900723316
+  - rid: 7985690472900723371
   portals: []
   references:
     version: 2
     RefIds:
-    - rid: 7985690472900723316
+    - rid: 7985690472900723371
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -15.158001, y: 2.652177, z: 69.49}

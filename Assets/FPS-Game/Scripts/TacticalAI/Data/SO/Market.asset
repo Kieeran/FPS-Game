@@ -17,87 +17,87 @@ MonoBehaviour:
   growRate: 1
   centerPos: {x: 41.422832, y: 2.7655103, z: 48.288044}
   allPoints:
-  - rid: 7985690472900723317
-  - rid: 7985690472900723318
-  - rid: 7985690472900723319
-  - rid: 7985690472900723320
-  - rid: 7985690472900723321
-  - rid: 7985690472900723322
-  - rid: 7985690472900723323
-  - rid: 7985690472900723324
-  - rid: 7985690472900723325
-  - rid: 7985690472900723326
+  - rid: 7985690472900723372
+  - rid: 7985690472900723373
+  - rid: 7985690472900723374
+  - rid: 7985690472900723375
+  - rid: 7985690472900723376
+  - rid: 7985690472900723377
+  - rid: 7985690472900723378
+  - rid: 7985690472900723379
+  - rid: 7985690472900723380
+  - rid: 7985690472900723381
   portals: []
   references:
     version: 2
     RefIds:
-    - rid: 7985690472900723317
+    - rid: 7985690472900723372
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:
-        position: {x: 28.998, y: 2.8788438, z: 64.924}
+        position: {x: 28.998, y: 2.9171898, z: 72.42}
         type: 1
         priority: 0
         visibleIndices: 
-    - rid: 7985690472900723318
-      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
-      data:
-        position: {x: 25.56, y: 2.8788438, z: 53.6}
-        type: 1
-        priority: 0
-        visibleIndices: 
-    - rid: 7985690472900723319
-      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
-      data:
-        position: {x: 17.09, y: 2.8788438, z: 53.6}
-        type: 1
-        priority: 0
-        visibleIndices: 
-    - rid: 7985690472900723320
-      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
-      data:
-        position: {x: 38.36, y: 2.7655103, z: 64.72}
-        type: 1
-        priority: 0
-        visibleIndices: 
-    - rid: 7985690472900723321
-      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
-      data:
-        position: {x: 34.72, y: 2.652177, z: 68.541}
-        type: 1
-        priority: 0
-        visibleIndices: 
-    - rid: 7985690472900723322
-      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
-      data:
-        position: {x: 29.142, y: 2.8788438, z: 43.58}
-        type: 1
-        priority: 0
-        visibleIndices: 
-    - rid: 7985690472900723323
-      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
-      data:
-        position: {x: 58.03, y: 2.8788438, z: 44.69}
-        type: 1
-        priority: 0
-        visibleIndices: 
-    - rid: 7985690472900723324
-      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
-      data:
-        position: {x: 51.54, y: 2.8123255, z: 64.93}
-        type: 1
-        priority: 0
-        visibleIndices: 
-    - rid: 7985690472900723325
+    - rid: 7985690472900723373
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: 55.4, y: 2.8788438, z: 68.46}
         type: 1
         priority: 0
         visibleIndices: 
-    - rid: 7985690472900723326
+    - rid: 7985690472900723374
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:
-        position: {x: 28.998, y: 2.9171898, z: 72.42}
+        position: {x: 51.54, y: 2.8123255, z: 64.93}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690472900723375
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 58.03, y: 2.8788438, z: 44.69}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690472900723376
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 29.142, y: 2.8788438, z: 43.58}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690472900723377
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 34.72, y: 2.652177, z: 68.541}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690472900723378
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 38.36, y: 2.7655103, z: 64.72}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690472900723379
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 17.09, y: 2.8788438, z: 53.6}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690472900723380
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 25.56, y: 2.8788438, z: 53.6}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690472900723381
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 28.998, y: 2.8788438, z: 64.924}
         type: 1
         priority: 0
         visibleIndices: 
