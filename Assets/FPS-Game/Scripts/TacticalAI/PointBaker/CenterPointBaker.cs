@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CenterPointBaker : PointBaker
 {
@@ -86,20 +87,32 @@ public class CenterPointBaker : PointBaker
         Debug.Log($"Đã khôi phục {pointsHolder.childCount} điểm để chỉnh sửa.");
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (pointsHolder != null && pointsHolder.childCount > 0)
         {
             SyncDebugPoints();
-            return;
         }
 
         if (pointsDebug == null || pointsDebug.Count == 0) return;
 
-        Gizmos.color = Color.green;
         foreach (Vector3 pos in pointsDebug)
         {
-            Gizmos.DrawSphere(pos, 0.2f);
+            Gizmos.color = pointColorGizmos;
+            Gizmos.DrawSphere(pos, pointSizeGizmos);
+
+            bool isOnNavMesh = NavMesh.SamplePosition(pos, out NavMeshHit hit, 10f, NavMesh.AllAreas);
+            if (isOnNavMesh)
+            {
+                Gizmos.color = pointColorGizmos;
+                Gizmos.DrawSphere(hit.position, 0.5f);
+                Gizmos.DrawLine(pos, hit.position);
+            }
+            else
+            {
+                Gizmos.color = invalidPointColorGizmos;
+                Gizmos.DrawCube(pos, Vector3.one * 15f);
+            }
         }
     }
 }

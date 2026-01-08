@@ -7,6 +7,9 @@ public class PointBaker : MonoBehaviour
 {
     public Transform pointsHolder;
     public List<Vector3> pointsDebug = new();
+    public float pointSizeGizmos = 0.2f;
+    public Color pointColorGizmos;
+    public Color invalidPointColorGizmos = Color.red;
 
     void OnValidate()
     {
@@ -42,6 +45,10 @@ public class PointBaker : MonoBehaviour
                     pointTF.position = targetPos;
                 }
             }
+            else
+            {
+                Debug.Log($"Điểm {pointTF.gameObject.name} ở vị trí {pointTF.position} khi snap xuống không nằm trên NavMeshSurface");
+            }
         }
     }
 
@@ -56,7 +63,7 @@ public class PointBaker : MonoBehaviour
         GameObject pointGO = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         pointGO.transform.SetParent(pointsHolder);
         pointGO.name = "Point#" + (pointsHolder.childCount - 1);
-        pointGO.transform.localScale = Vector3.one * 0.5f;
+        pointGO.transform.localScale = Vector3.one * 0.2f;
 
         if (pos == Vector3.zero)
         {

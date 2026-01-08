@@ -16,8 +16,32 @@ MonoBehaviour:
   baseWeight: 10
   growRate: 1
   centerPos: {x: -20.099998, y: 2.652177, z: 90.1}
-  allPoints: []
+  allPoints:
+  - rid: 7985690472900723330
+  - rid: 7985690472900723331
+  - rid: 7985690472900723332
   portals: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 7985690472900723330
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: -18.169998, y: 2.652177, z: 96.267}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690472900723331
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: -18.16, y: 2.652177, z: 108.066}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690472900723332
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: -27.91, y: 2.652177, z: 75.57}
+        type: 1
+        priority: 0
+        visibleIndices: 
