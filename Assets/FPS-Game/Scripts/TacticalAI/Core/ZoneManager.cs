@@ -10,6 +10,7 @@ public class ZoneManager : MonoBehaviour
     public List<Zone> allZones = new();
     public float heightOffset = 2.84f;
 
+    public LayerMask obstacleLayer;
     [SerializeField] LayerMask zoneLayer;
     [SerializeField] Transform zoneContainer;
 

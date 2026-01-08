@@ -21,6 +21,107 @@ MonoBehaviour:
   - rid: 7985690472900723353
   - rid: 7985690472900723354
   - rid: 7985690472900723355
+  - rid: 7985690476933808195
+  - rid: 7985690476933808196
+  - rid: 7985690476933808197
+  - rid: 7985690476933808198
+  - rid: 7985690476933808199
+  - rid: 7985690476933808200
+  - rid: 7985690476933808201
+  - rid: 7985690476933808202
+  - rid: 7985690476933808203
+  - rid: 7985690476933808204
+  - rid: 7985690476933808205
+  - rid: 7985690476933808206
+  - rid: 7985690476933808207
+  - rid: 7985690476933808208
+  - rid: 7985690476933808209
+  - rid: 7985690476933808210
+  - rid: 7985690476933808211
+  - rid: 7985690476933808212
+  - rid: 7985690476933808213
+  - rid: 7985690476933808214
+  - rid: 7985690476933808215
+  - rid: 7985690476933808216
+  - rid: 7985690476933808217
+  - rid: 7985690476933808218
+  - rid: 7985690476933808219
+  - rid: 7985690476933808220
+  - rid: 7985690476933808221
+  - rid: 7985690476933808222
+  - rid: 7985690476933808223
+  - rid: 7985690476933808224
+  - rid: 7985690476933808225
+  - rid: 7985690476933808226
+  - rid: 7985690476933808227
+  - rid: 7985690476933808228
+  - rid: 7985690476933808229
+  - rid: 7985690476933808230
+  - rid: 7985690476933808231
+  - rid: 7985690476933808232
+  - rid: 7985690476933808233
+  - rid: 7985690476933808234
+  - rid: 7985690476933808235
+  - rid: 7985690476933808236
+  - rid: 7985690476933808237
+  - rid: 7985690476933808238
+  - rid: 7985690476933808239
+  - rid: 7985690476933808240
+  - rid: 7985690476933808241
+  - rid: 7985690476933808242
+  - rid: 7985690476933808243
+  - rid: 7985690476933808244
+  - rid: 7985690476933808245
+  - rid: 7985690476933808246
+  - rid: 7985690476933808247
+  - rid: 7985690476933808248
+  - rid: 7985690476933808249
+  - rid: 7985690476933808250
+  - rid: 7985690476933808251
+  - rid: 7985690476933808252
+  - rid: 7985690476933808253
+  - rid: 7985690476933808254
+  - rid: 7985690476933808255
+  - rid: 7985690476933808256
+  - rid: 7985690476933808257
+  - rid: 7985690476933808258
+  - rid: 7985690476933808259
+  - rid: 7985690476933808260
+  - rid: 7985690476933808261
+  - rid: 7985690476933808262
+  - rid: 7985690476933808263
+  - rid: 7985690476933808264
+  - rid: 7985690476933808265
+  - rid: 7985690476933808266
+  - rid: 7985690476933808267
+  - rid: 7985690476933808268
+  - rid: 7985690476933808269
+  - rid: 7985690476933808270
+  - rid: 7985690476933808271
+  - rid: 7985690476933808272
+  - rid: 7985690476933808273
+  - rid: 7985690476933808274
+  - rid: 7985690476933808275
+  - rid: 7985690476933808276
+  - rid: 7985690476933808277
+  - rid: 7985690476933808278
+  - rid: 7985690476933808279
+  - rid: 7985690476933808280
+  - rid: 7985690476933808281
+  - rid: 7985690476933808282
+  - rid: 7985690476933808283
+  - rid: 7985690476933808284
+  - rid: 7985690476933808285
+  - rid: 7985690476933808286
+  - rid: 7985690476933808287
+  - rid: 7985690476933808288
+  - rid: 7985690476933808289
+  - rid: 7985690476933808290
+  - rid: 7985690476933808291
+  - rid: 7985690476933808292
+  - rid: 7985690476933808293
+  - rid: 7985690476933808294
+  - rid: 7985690476933808295
   portals:
   - position: {x: 47.31, y: 8.205511, z: 132.37}
     type: 2
@@ -65,5 +166,712 @@ MonoBehaviour:
       data:
         position: {x: 49.45, y: 2.6968434, z: 87.26}
         type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808195
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 43.74667, y: 8.205511, z: 130.33334}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808196
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 45.53446, y: 7.1855106, z: 122.94913}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808197
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 45.074852, y: 7.7521772, z: 124.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808198
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 45.07485, y: 7.7521772, z: 126.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808199
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 45.074852, y: 7.8557625, z: 128.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808200
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 45.11071, y: 8.205511, z: 130.79071}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808201
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.600002, y: 2.652177, z: 87.04}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808202
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.600002, y: 3.1314402, z: 88.78085}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808203
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.183777, y: 3.2373977, z: 90.81108}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808204
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.381073, y: 3.3708496, z: 92.78401}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808205
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.581306, y: 3.8042045, z: 94.78639}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808206
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.59439, y: 3.8275943, z: 96.82151}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808207
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.571926, y: 4.3849883, z: 98.775856}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808208
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.548294, y: 4.4655104, z: 100.83202}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808209
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.526104, y: 4.9698906, z: 102.76216}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808210
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.502323, y: 5.032177, z: 104.83148}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808211
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.479744, y: 5.466486, z: 106.7955}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808212
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.45635, y: 5.48551, z: 108.83097}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808213
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.432438, y: 5.535781, z: 110.9113}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808214
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.410378, y: 6.0521774, z: 112.83044}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808215
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.38798, y: 6.066038, z: 114.77887}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808216
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.161453, y: 6.5297885, z: 116.847885}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808217
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.074852, y: 6.6068897, z: 118.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808218
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.074852, y: 7.0102444, z: 120.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808219
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.074852, y: 7.1855106, z: 122.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808220
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.074852, y: 7.437052, z: 124.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808221
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.074852, y: 7.7521772, z: 126.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808222
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.074852, y: 7.876071, z: 128.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808223
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 47.074852, y: 8.236639, z: 130.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808224
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 2.652177, z: 84.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808225
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 2.6535, z: 86.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808226
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.074852, y: 3.1500702, z: 88.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808227
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 3.2748055, z: 90.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808228
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.074852, y: 3.5538154, z: 92.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808229
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 3.7855103, z: 94.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808230
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 3.814631, z: 96.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808231
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 4.4655104, z: 98.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808232
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 4.4655104, z: 100.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808233
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 4.987421, z: 102.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808234
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 5.0062118, z: 104.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808235
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 5.4509516, z: 106.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808236
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 5.4735923, z: 108.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808237
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.074852, y: 5.945368, z: 110.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808238
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 6.039609, z: 112.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808239
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 6.033083, z: 114.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808240
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.074852, y: 6.37893, z: 116.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808241
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 6.618844, z: 118.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808242
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.074852, y: 6.9104185, z: 120.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808243
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 7.1855106, z: 122.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808244
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 7.396776, z: 124.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808245
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 7.7160273, z: 126.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808246
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 7.9016724, z: 128.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808247
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 49.07485, y: 8.231475, z: 130.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808248
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51, y: 2.652177, z: 84.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808249
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.06517, y: 2.652177, z: 86.845924}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808250
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.074852, y: 3.054407, z: 88.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808251
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.074852, y: 3.332177, z: 90.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808252
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.074852, y: 3.372721, z: 92.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808253
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 3.7855103, z: 94.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808254
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 3.7855103, z: 96.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808255
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 4.4655104, z: 98.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808256
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 4.4655104, z: 100.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808257
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.074844, y: 4.9325833, z: 102.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808258
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 5.0065603, z: 104.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808259
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.074852, y: 5.4079795, z: 106.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808260
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 5.4505024, z: 108.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808261
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.074852, y: 5.8429923, z: 110.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808262
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 5.9795113, z: 112.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808263
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 5.997773, z: 114.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808264
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.074852, y: 6.361321, z: 116.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808265
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 6.618844, z: 118.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808266
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.074852, y: 6.618844, z: 120.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808267
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 7.1855106, z: 122.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808268
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 7.1855106, z: 124.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808269
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.07485, y: 7.586357, z: 126.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808270
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 51.074844, y: 7.7067747, z: 128.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808271
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 50.851532, y: 7.7951508, z: 130.1692}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808272
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 53.100082, y: 3.8510523, z: 94.973335}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808273
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 53.100082, y: 3.8510523, z: 96.333336}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808274
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 53.074852, y: 4.918844, z: 103.13333}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808275
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 53.07485, y: 4.918844, z: 104.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808276
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 52.58667, y: 5.3814673, z: 106.826}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808277
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 52.58667, y: 5.4448957, z: 108.823975}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808278
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 52.58667, y: 5.7561865, z: 110.81386}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808279
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 53.07485, y: 5.9477735, z: 112.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808280
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 53.07485, y: 5.9602733, z: 114.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808281
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 53.074852, y: 6.272132, z: 116.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808282
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 53.07485, y: 6.618844, z: 118.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808283
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 53.07485, y: 6.618844, z: 120.82658}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808284
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 52.992786, y: 7.1855106, z: 122.80672}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808285
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 52.53567, y: 7.1855106, z: 124.69612}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808286
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 55.032803, y: 2.8105137, z: 94.89636}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808287
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 55.045147, y: 2.8026967, z: 96.41093}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808288
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 54.853336, y: 4.918844, z: 103.13333}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808289
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 54.853336, y: 4.918844, z: 104.82657}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808290
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 54.806763, y: 5.9388437, z: 112.81168}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808291
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 54.69599, y: 5.9388437, z: 114.80553}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808292
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 54.476276, y: 5.993987, z: 116.67495}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808293
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 57.074852, y: 1.6140251, z: 94.826584}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808294
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 57.05794, y: 1.615716, z: 96.511566}
+        type: 0
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690476933808295
+      type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: 58.480003, y: 1.5188437, z: 94.973335}
+        type: 0
         priority: 0
         visibleIndices: 

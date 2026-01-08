@@ -96,7 +96,9 @@ public class PointBaker : MonoBehaviour
         }
     }
 
-    protected void OnDrawGizmosSelected()
+    protected virtual void DrawGizmos() { }
+
+    protected virtual void DrawGizmosSelected()
     {
         if (pointsHolder != null && pointsHolder.childCount > 0)
         {
@@ -110,7 +112,7 @@ public class PointBaker : MonoBehaviour
             Gizmos.color = pointColorGizmos;
             Gizmos.DrawSphere(pos, pointSizeGizmos);
 
-            bool isOnNavMesh = NavMesh.SamplePosition(pos, out NavMeshHit hit, 10f, NavMesh.AllAreas);
+            bool isOnNavMesh = NavMesh.SamplePosition(pos, out NavMeshHit hit, 5f, NavMesh.AllAreas);
             if (isOnNavMesh)
             {
                 Gizmos.color = pointColorGizmos;
@@ -123,5 +125,15 @@ public class PointBaker : MonoBehaviour
                 Gizmos.DrawCube(pos, Vector3.one * 0.5f);
             }
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        DrawGizmos();
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        DrawGizmosSelected();
     }
 }
