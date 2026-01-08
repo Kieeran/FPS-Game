@@ -7,7 +7,6 @@ using UnityEngine.AI;
 public class InfoPointBaker : PointBaker
 {
     public float gridSize = 2.0f;
-    public ZoneID selectedZone = ZoneID.None;
 
     Dictionary<ZoneID, List<InfoPoint>> infoPointsByZone = new();
 

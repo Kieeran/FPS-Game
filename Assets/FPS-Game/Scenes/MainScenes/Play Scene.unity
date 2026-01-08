@@ -1964,6 +1964,7 @@ MonoBehaviour:
   pointSizeGizmos: 0.2
   pointColorGizmos: {r: 1, g: 0, b: 1, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
+  selectedZone: 0
 --- !u!1 &115604495
 GameObject:
   m_ObjectHideFlags: 0
@@ -3626,6 +3627,7 @@ MonoBehaviour:
   pointSizeGizmos: 0.2
   pointColorGizmos: {r: 0, g: 1, b: 1, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
+  selectedZone: 0
 --- !u!1 &300708314
 GameObject:
   m_ObjectHideFlags: 0
@@ -6467,8 +6469,8 @@ MonoBehaviour:
   pointSizeGizmos: 0.3
   pointColorGizmos: {r: 1, g: 1, b: 0, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
-  gridSize: 2
   selectedZone: 1
+  gridSize: 2
 --- !u!1 &449259695
 GameObject:
   m_ObjectHideFlags: 0
@@ -18121,6 +18123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1481897630}
   - component: {fileID: 1481897631}
+  - component: {fileID: 1481897632}
   m_Layer: 0
   m_Name: ZoneManager
   m_TagString: Untagged
@@ -18181,6 +18184,24 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16384
   zoneContainer: {fileID: 348272422}
+--- !u!114 &1481897632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481897629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8014763d2ad46c49b879762f3af8542, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointsHolder: {fileID: 0}
+  pointsDebug: []
+  pointSizeGizmos: 0.2
+  pointColorGizmos: {r: 0, g: 0, b: 0, a: 0}
+  invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
+  selectedZone: 0
 --- !u!1 &1485888357
 GameObject:
   m_ObjectHideFlags: 0
@@ -24198,6 +24219,7 @@ MonoBehaviour:
   pointSizeGizmos: 0.2
   pointColorGizmos: {r: 0, g: 1, b: 0, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
+  selectedZone: 0
 --- !u!224 &2081022668
 RectTransform:
   m_ObjectHideFlags: 0

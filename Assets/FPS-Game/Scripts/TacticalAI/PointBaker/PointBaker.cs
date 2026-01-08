@@ -10,6 +10,7 @@ public class PointBaker : MonoBehaviour
     public float pointSizeGizmos = 0.2f;
     public Color pointColorGizmos;
     public Color invalidPointColorGizmos = Color.red;
+    public ZoneID selectedZone = ZoneID.None;
 
     void OnValidate()
     {
@@ -181,6 +182,13 @@ public class PointBaker : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
+#if UNITY_EDITOR
+        if (Selection.activeGameObject != gameObject)
+        {
+            return;
+        }
+#endif
+
         DrawGizmosSelected();
     }
 }
