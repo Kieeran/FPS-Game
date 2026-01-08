@@ -22,7 +22,9 @@ public class ZoneData : ScriptableObject
 
     [Header("Navigation Points (IP + TP)")]
     [SerializeReference]
-    public List<InfoPoint> allPoints = new();
+    public List<InfoPoint> infoPoints = new();
+    [SerializeReference]
+    public List<TacticalPoint> tacticalPoints = new();
 
     [Header("Exits & Entrances")]
     public List<PortalPoint> portals = new();

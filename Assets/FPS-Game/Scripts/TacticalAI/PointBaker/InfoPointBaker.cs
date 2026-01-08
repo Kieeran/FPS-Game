@@ -64,7 +64,7 @@ public class InfoPointBaker : PointBaker
         {
             foreach (InfoPoint infoPoint in infoPointsByZone[zone.zoneData.zoneID])
             {
-                zone.zoneData.allPoints.Add(infoPoint);
+                zone.zoneData.infoPoints.Add(infoPoint);
                 zone.zoneData.masterPoints.Add(infoPoint);
             }
 
@@ -86,13 +86,7 @@ public class InfoPointBaker : PointBaker
     {
         foreach (Zone zone in ZoneManager.Instance.allZones)
         {
-            for (int i = zone.zoneData.allPoints.Count - 1; i >= 0; i--)
-            {
-                if (zone.zoneData.allPoints[i].type == PointType.Info)
-                {
-                    zone.zoneData.allPoints.RemoveAt(i);
-                }
-            }
+            zone.zoneData.infoPoints.Clear();
 
             for (int i = zone.zoneData.masterPoints.Count - 1; i >= 0; i--)
             {
@@ -111,10 +105,22 @@ public class InfoPointBaker : PointBaker
     protected override void DrawGizmosSelected()
     {
         if (pointsDebug == null || pointsDebug.Count == 0) return;
-        if (infoPointsByZone == null || infoPointsByZone.Count == 0) return;
-        if (selectedZone == ZoneID.None) return;
+        if (ZoneManager.Instance == null) return;
+        if (selectedZoneID == ZoneID.None) return;
 
-        List<InfoPoint> targetInfoPoints = infoPointsByZone[selectedZone];
+        List<InfoPoint> targetInfoPoints = new();
+
+        if (infoPointsByZone != null && infoPointsByZone.Count != 0)
+        {
+            targetInfoPoints = infoPointsByZone[selectedZoneID];
+        }
+        else
+        {
+            Zone targetZone = ZoneManager.Instance.GetZoneByID(selectedZoneID);
+            if (targetZone == null) return;
+            targetInfoPoints = targetZone.zoneData.infoPoints;
+        }
+
         foreach (InfoPoint infoPoint in targetInfoPoints)
         {
             Gizmos.color = pointColorGizmos;

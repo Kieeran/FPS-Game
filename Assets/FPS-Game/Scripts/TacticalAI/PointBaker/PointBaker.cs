@@ -10,7 +10,7 @@ public class PointBaker : MonoBehaviour
     public float pointSizeGizmos = 0.2f;
     public Color pointColorGizmos;
     public Color invalidPointColorGizmos = Color.red;
-    public ZoneID selectedZone = ZoneID.None;
+    public ZoneID selectedZoneID = ZoneID.None;
 
     void OnValidate()
     {
@@ -58,46 +58,31 @@ public class PointBaker : MonoBehaviour
     {
         if (ZoneManager.Instance == null) return;
 
-        //         visibilityMatrix.Clear();
+        foreach (Zone zone in ZoneManager.Instance.allZones)
+        {
+            List<InfoPoint> masterPoints = zone.zoneData.masterPoints;
+            for (int i = 0; i < masterPoints.Count; i++)
+            {
+                Vector3 startPos = masterPoints[i].position;
+                masterPoints[i].visibleIndices.Clear();
+                for (int j = 0; j < masterPoints.Count; j++)
+                {
+                    if (i == j) continue; // Không tự chiếu chính mình
 
-        //         // 1. Khởi tạo danh sách data
-        //         for (int i = 0; i < generatedInfoPoints.Count; i++)
-        //         {
-        //             visibilityMatrix.Add(new PointVisibilityData
-        //             {
-        //                 position = generatedInfoPoints[i],
-        //                 visibleIndices = new List<int>()
-        //             });
-        //         }
+                    Vector3 endPos = masterPoints[j].position;
 
-        //         // 2. Chiếu Raycast lẫn nhau (O(n^2))
-        //         for (int i = 0; i < generatedInfoPoints.Count; i++)
-        //         {
-        //             Vector3 startPos = generatedInfoPoints[i];
+                    // Bắn tia Linecast để kiểm tra vật cản
+                    if (!Physics.Linecast(startPos, endPos, ZoneManager.Instance.obstacleLayer))
+                    {
+                        // Nếu không có vật cản, thêm index j vào danh sách nhìn thấy của i
+                        masterPoints[i].visibleIndices.Add(j);
+                    }
+                }
 
-        //             for (int j = 0; j < generatedInfoPoints.Count; j++)
-        //             {
-        //                 if (i == j) continue; // Không tự chiếu chính mình
-
-        //                 Vector3 endPos = generatedInfoPoints[j];
-
-        //                 // Bắn tia Linecast để kiểm tra vật cản
-        //                 if (!Physics.Linecast(startPos, endPos, zonesContainer.obstacleLayer))
-        //                 {
-        //                     // Nếu không có vật cản, thêm index j vào danh sách nhìn thấy của i
-        //                     visibilityMatrix[i].visibleIndices.Add(j);
-        //                 }
-        //             }
-
-        //             // 3. Gán Priority dựa trên số lượng điểm nhìn thấy
-        //             visibilityMatrix[i].priority = visibilityMatrix[i].visibleIndices.Count;
-        //         }
-
-        // #if UNITY_EDITOR
-        //         UnityEditor.EditorUtility.SetDirty(this);
-        // #endif
-
-        //         Debug.Log($"Bake hoàn tất cho {gameObject.name}. Điểm cao nhất nhìn thấy được {visibilityMatrix.Max(x => x.priority)} điểm khác.");
+                // Gán Priority dựa trên số lượng điểm nhìn thấy
+                masterPoints[i].priority = masterPoints[i].visibleIndices.Count;
+            }
+        }
     }
 
     [ContextMenu("Create a new point GameObject")]
@@ -182,13 +167,6 @@ public class PointBaker : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-#if UNITY_EDITOR
-        if (Selection.activeGameObject != gameObject)
-        {
-            return;
-        }
-#endif
-
         DrawGizmosSelected();
     }
 }

@@ -60,6 +60,16 @@ public class ZoneManager : MonoBehaviour
         }
     }
 
+    public Zone GetZoneByID(ZoneID zoneID)
+    {
+        foreach (Zone zone in allZones)
+        {
+            if (zone.zoneData.zoneID == zoneID) return zone;
+        }
+
+        return null;
+    }
+
     public Zone GetZoneAt(Transform pointTF, Vector3 pointPos)
     {
         if (pointTF == null)
