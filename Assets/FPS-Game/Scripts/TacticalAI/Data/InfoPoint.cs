@@ -24,7 +24,8 @@ public class TacticalPoint : InfoPoint
 [System.Serializable]
 public class PortalPoint : InfoPoint
 {
-    public Zone zoneA;
-    public Zone zoneB;
+    public string portalName;
+    public ZoneData zoneDataA;
+    public ZoneData zoneDataB;
     public PortalPoint() { type = PointType.Portal; }
 }

@@ -19,7 +19,21 @@ MonoBehaviour:
   allPoints:
   - rid: 7985690472900723366
   - rid: 7985690472900723367
-  portals: []
+  portals:
+  - position: {x: 15.7, y: 2.8788438, z: 53.729996}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: CT_Right - Market
+    zoneDataA: {fileID: 11400000}
+    zoneDataB: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+  - position: {x: 4.7700005, y: -0.06782317, z: 25}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: CT_Spawn - CT_Right
+    zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
+    zoneDataB: {fileID: 11400000}
   references:
     version: 2
     RefIds:

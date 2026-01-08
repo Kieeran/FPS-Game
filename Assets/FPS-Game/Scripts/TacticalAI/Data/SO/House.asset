@@ -23,7 +23,14 @@ MonoBehaviour:
   - rid: 7985690472900723391
   - rid: 7985690472900723392
   - rid: 7985690472900723393
-  portals: []
+  portals:
+  - position: {x: -5.299, y: 8.432178, z: 98.04}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Long - House
+    zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
+    zoneDataB: {fileID: 11400000}
   references:
     version: 2
     RefIds:

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ZonePortal : MonoBehaviour
 {
-    [Header("Connections")]
     public string portalName;
     public Zone zoneA;
     public Zone zoneB;
@@ -27,12 +26,12 @@ public class ZonePortal : MonoBehaviour
     //     return targetZoneID == zoneA.zoneID ? nearestIPointInA : nearestIPointInB;
     // }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (zoneA != null && zoneB != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawCube(transform.position, Vector3.one);
-        }
-    }
+    // private void OnDrawGizmosSelected()
+    // {
+    //     if (zoneA != null && zoneB != null)
+    //     {
+    //         Gizmos.color = Color.green;
+    //         Gizmos.DrawCube(transform.position, Vector3.one);
+    //     }
+    // }
 }

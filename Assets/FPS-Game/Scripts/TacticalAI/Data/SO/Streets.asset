@@ -26,7 +26,49 @@ MonoBehaviour:
   - rid: 7985690472900723363
   - rid: 7985690472900723364
   - rid: 7985690472900723365
-  portals: []
+  portals:
+  - position: {x: 15.64, y: 2.8788438, z: 130.07}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Streets - Long_Cellar
+    zoneDataA: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
+    zoneDataB: {fileID: 11400000}
+  - position: {x: 19.369999, y: 2.6564474, z: 131.76}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Streets - T_Spawn
+    zoneDataA: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+    zoneDataB: {fileID: 11400000}
+  - position: {x: 49.7, y: 2.652177, z: 84.61}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Streets - Tunnel
+    zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+    zoneDataB: {fileID: 11400000}
+  - position: {x: 33.32, y: 2.652177, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Market - Streets - 2
+    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    zoneDataB: {fileID: 11400000}
+  - position: {x: 55.91, y: 2.8788438, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Market - Streets
+    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    zoneDataB: {fileID: 11400000}
+  - position: {x: -16.17, y: 2.652177, z: 102.31}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Stairs - Streets
+    zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
+    zoneDataB: {fileID: 11400000}
   references:
     version: 2
     RefIds:

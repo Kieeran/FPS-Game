@@ -58,7 +58,7 @@ public class PointBaker : MonoBehaviour
         CreatePointGOAt(Vector3.zero);
     }
 
-    public void CreatePointGOAt(Vector3 pos)
+    public GameObject CreatePointGOAt(Vector3 pos)
     {
         GameObject pointGO = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         pointGO.transform.SetParent(pointsHolder);
@@ -77,6 +77,8 @@ public class PointBaker : MonoBehaviour
 
         Selection.activeGameObject = pointGO;
         SyncDebugPoints();
+
+        return pointGO;
     }
 
     protected void SyncDebugPoints()

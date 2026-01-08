@@ -23,7 +23,7 @@ public class TacticalPointBaker : PointBaker
             return;
         }
 
-        ClearOldTacticalPoints();
+        ClearOldPoints();
 
         SyncDebugPoints();
         ValidatePointInternal();
@@ -79,7 +79,7 @@ public class TacticalPointBaker : PointBaker
         Debug.Log($"Bake TacticalPoint Complete! Thành công: {successCount}, Thất bại: {failCount}");
     }
 
-    void ClearOldTacticalPoints()
+    void ClearOldPoints()
     {
         foreach (Zone zone in ZoneManager.Instance.allZones)
         {

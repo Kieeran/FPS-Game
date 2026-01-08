@@ -27,7 +27,28 @@ MonoBehaviour:
   - rid: 7985690472900723379
   - rid: 7985690472900723380
   - rid: 7985690472900723381
-  portals: []
+  portals:
+  - position: {x: 33.32, y: 2.652177, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Market - Streets - 2
+    zoneDataA: {fileID: 11400000}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+  - position: {x: 55.91, y: 2.8788438, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Market - Streets
+    zoneDataA: {fileID: 11400000}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+  - position: {x: 15.7, y: 2.8788438, z: 53.729996}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: CT_Right - Market
+    zoneDataA: {fileID: 11400000, guid: 03cfa90d6d1563c49a2378c05af105f9, type: 2}
+    zoneDataB: {fileID: 11400000}
   references:
     version: 2
     RefIds:

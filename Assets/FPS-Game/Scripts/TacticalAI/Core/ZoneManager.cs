@@ -13,6 +13,8 @@ public class ZoneManager : MonoBehaviour
     [SerializeField] LayerMask zoneLayer;
     [SerializeField] Transform zoneContainer;
 
+    public Dictionary<ZoneID, Zone> zoneCache;
+
     // Chạy cả Edit Mode & Play Mode
     private void OnEnable()
     {
@@ -28,6 +30,8 @@ public class ZoneManager : MonoBehaviour
                 this);
         }
 #endif
+
+        BuildZoneCache();
     }
 
     private void OnDisable()
@@ -90,6 +94,19 @@ public class ZoneManager : MonoBehaviour
 
             Zone zone = hitColliders[0].GetComponentInParent<Zone>();
             return zone;
+        }
+    }
+
+    public void BuildZoneCache()
+    {
+        zoneCache = new();
+        foreach (Zone zone in allZones)
+        {
+            if (zone.zoneData != null && zone.zoneData.zoneID != ZoneID.None)
+            {
+                if (!zoneCache.ContainsKey(zone.zoneData.zoneID))
+                    zoneCache.Add(zone.zoneData.zoneID, zone);
+            }
         }
     }
 }
