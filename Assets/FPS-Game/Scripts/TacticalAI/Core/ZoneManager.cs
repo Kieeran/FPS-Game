@@ -10,6 +10,7 @@ public class ZoneManager : MonoBehaviour
     public List<Zone> allZones = new();
     public float heightOffset = 2.84f;
 
+    [SerializeField] LayerMask zoneLayer;
     [SerializeField] Transform zoneContainer;
 
     // Chạy cả Edit Mode & Play Mode
@@ -51,6 +52,44 @@ public class ZoneManager : MonoBehaviour
         if (zoneContainer != null)
         {
             allZones = zoneContainer.GetComponentsInChildren<Zone>(true).ToList();
+        }
+    }
+
+    public Zone GetZoneAt(Transform pointTF, Vector3 pointPos)
+    {
+        if (pointTF == null)
+        {
+            if (allZones == null || allZones.Count == 0) return null;
+
+            foreach (Zone zone in allZones)
+            {
+                foreach (var col in zone.colliders)
+                {
+                    // Kiểm tra nếu vị trí điểm xét nằm trong vùng của Collider
+                    if (col.bounds.Contains(pointPos))
+                    {
+                        return zone;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        else
+        {
+            // Lấy bán kính từ SphereCollider của Object hoặc lấy scale
+            float radius = 1.0f;
+            if (pointTF.TryGetComponent<SphereCollider>(out var sphereCol))
+            {
+                radius = sphereCol.radius * pointTF.transform.lossyScale.x;
+            }
+
+            Collider[] hitColliders = Physics.OverlapSphere(pointTF.transform.position, radius, zoneLayer);
+            if (hitColliders.Length == 0) return null;
+
+            Zone zone = hitColliders[0].GetComponentInParent<Zone>();
+            return zone;
         }
     }
 }

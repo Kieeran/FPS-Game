@@ -19,7 +19,7 @@ public class Zone : MonoBehaviour
     // public float baseWeight = 10f;     // Độ ưu tiên cố định
     // public float growRate = 1f;        // Tốc độ tăng trọng số mỗi giây
 
-    [SerializeField] Collider[] colliders;
+    public Collider[] colliders;
     // ZonesContainer zonesContainer;
     // ZonePortalsContainer zonePortalsContainer;
     float lastVisitedTime;     // Thời điểm cuối cùng được kiểm tra

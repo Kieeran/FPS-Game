@@ -5,21 +5,33 @@ using UnityEngine.AI;
 
 public class PointBaker : MonoBehaviour
 {
-    public Transform poinsHolder;
-    public List<Transform> pointsTransform = new();
+    public Transform pointsHolder;
+    public List<Vector3> pointsDebug = new();
+
     void OnValidate()
     {
-        ValidateBase();
-        OnValidateInternal();
+        ValidatePointBase();
+        ValidatePointInternal();
     }
 
-    protected virtual void OnValidateInternal() { }
-
-    protected void ValidateBase()
+    public List<Transform> GetPointsTransform()
     {
-        if (ZoneManager.Instance == null) return;
+        List<Transform> pointsTransform = new();
+        foreach (Transform t in pointsHolder)
+        {
+            pointsTransform.Add(t);
+        }
 
-        foreach (Transform pointTF in pointsTransform)
+        return pointsTransform;
+    }
+
+    protected virtual void ValidatePointInternal() { }
+
+    protected void ValidatePointBase()
+    {
+        if (ZoneManager.Instance == null || pointsHolder == null) return;
+
+        foreach (Transform pointTF in pointsHolder)
         {
             if (pointTF == null) continue;
             if (NavMesh.SamplePosition(pointTF.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
@@ -29,6 +41,48 @@ public class PointBaker : MonoBehaviour
                 {
                     pointTF.position = targetPos;
                 }
+            }
+        }
+    }
+
+    [ContextMenu("Create a new point GameObject")]
+    public void CreatePointGO()
+    {
+        CreatePointGOAt(Vector3.zero);
+    }
+
+    public void CreatePointGOAt(Vector3 pos)
+    {
+        GameObject pointGO = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        pointGO.transform.SetParent(pointsHolder);
+        pointGO.name = "Point#" + (pointsHolder.childCount - 1);
+        pointGO.transform.localScale = Vector3.one * 0.5f;
+
+        if (pos == Vector3.zero)
+        {
+            SceneView.lastActiveSceneView.MoveToView(pointGO.transform);
+        }
+
+        else
+        {
+            pointGO.transform.position = pos;
+        }
+
+        Selection.activeGameObject = pointGO;
+        SyncDebugPoints();
+    }
+
+    protected void SyncDebugPoints()
+    {
+        if (pointsHolder == null) return;
+
+        // Nếu đang có GameObject, cập nhật pointsDebug theo vị trí Transform
+        if (pointsHolder.childCount > 0)
+        {
+            pointsDebug.Clear();
+            foreach (Transform child in pointsHolder)
+            {
+                if (child != null) pointsDebug.Add(child.position);
             }
         }
     }
