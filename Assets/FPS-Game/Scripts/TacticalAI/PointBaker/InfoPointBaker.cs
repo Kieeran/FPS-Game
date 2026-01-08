@@ -66,12 +66,13 @@ public class InfoPointBaker : PointBaker
             foreach (InfoPoint infoPoint in infoPointsByZone[zone.zoneData.zoneID])
             {
                 zone.zoneData.allPoints.Add(infoPoint);
+                zone.zoneData.masterPoints.Add(infoPoint);
+            }
 
 #if UNITY_EDITOR
-                EditorUtility.SetDirty(zone.zoneData);
+            EditorUtility.SetDirty(zone.zoneData);
 #endif
 
-            }
         }
 
 #if UNITY_EDITOR
@@ -91,13 +92,20 @@ public class InfoPointBaker : PointBaker
                 if (zone.zoneData.allPoints[i].type == PointType.Info)
                 {
                     zone.zoneData.allPoints.RemoveAt(i);
-
-#if UNITY_EDITOR
-                    EditorUtility.SetDirty(zone.zoneData);
-#endif
-
                 }
             }
+
+            for (int i = zone.zoneData.masterPoints.Count - 1; i >= 0; i--)
+            {
+                if (zone.zoneData.masterPoints[i].type == PointType.Info)
+                {
+                    zone.zoneData.masterPoints.RemoveAt(i);
+                }
+            }
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(zone.zoneData);
+#endif
         }
     }
 

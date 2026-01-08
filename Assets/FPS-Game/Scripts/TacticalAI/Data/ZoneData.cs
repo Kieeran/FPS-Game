@@ -16,6 +16,10 @@ public class ZoneData : ScriptableObject
     public float growRate = 1f;        // Tốc độ tăng trọng số mỗi giây
     public Vector3 centerPos;
 
+    [Header("Master Data")]
+    [SerializeReference]
+    public List<InfoPoint> masterPoints = new();
+
     [Header("Navigation Points (IP + TP)")]
     [SerializeReference]
     public List<InfoPoint> allPoints = new();

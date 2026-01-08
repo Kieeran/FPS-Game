@@ -52,6 +52,53 @@ public class PointBaker : MonoBehaviour
         }
     }
 
+    [ContextMenu("Bake Visibility And Priority of InfoPoints")]
+    public void BakeInfoPointVisibility()
+    {
+        if (ZoneManager.Instance == null) return;
+
+        //         visibilityMatrix.Clear();
+
+        //         // 1. Khởi tạo danh sách data
+        //         for (int i = 0; i < generatedInfoPoints.Count; i++)
+        //         {
+        //             visibilityMatrix.Add(new PointVisibilityData
+        //             {
+        //                 position = generatedInfoPoints[i],
+        //                 visibleIndices = new List<int>()
+        //             });
+        //         }
+
+        //         // 2. Chiếu Raycast lẫn nhau (O(n^2))
+        //         for (int i = 0; i < generatedInfoPoints.Count; i++)
+        //         {
+        //             Vector3 startPos = generatedInfoPoints[i];
+
+        //             for (int j = 0; j < generatedInfoPoints.Count; j++)
+        //             {
+        //                 if (i == j) continue; // Không tự chiếu chính mình
+
+        //                 Vector3 endPos = generatedInfoPoints[j];
+
+        //                 // Bắn tia Linecast để kiểm tra vật cản
+        //                 if (!Physics.Linecast(startPos, endPos, zonesContainer.obstacleLayer))
+        //                 {
+        //                     // Nếu không có vật cản, thêm index j vào danh sách nhìn thấy của i
+        //                     visibilityMatrix[i].visibleIndices.Add(j);
+        //                 }
+        //             }
+
+        //             // 3. Gán Priority dựa trên số lượng điểm nhìn thấy
+        //             visibilityMatrix[i].priority = visibilityMatrix[i].visibleIndices.Count;
+        //         }
+
+        // #if UNITY_EDITOR
+        //         UnityEditor.EditorUtility.SetDirty(this);
+        // #endif
+
+        //         Debug.Log($"Bake hoàn tất cho {gameObject.name}. Điểm cao nhất nhìn thấy được {visibilityMatrix.Max(x => x.priority)} điểm khác.");
+    }
+
     [ContextMenu("Create a new point GameObject")]
     public void CreatePointGO()
     {

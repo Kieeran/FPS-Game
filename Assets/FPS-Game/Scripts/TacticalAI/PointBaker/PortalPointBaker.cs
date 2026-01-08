@@ -64,12 +64,13 @@ public class PortalPointBaker : PointBaker
                 if (zone.zoneData.zoneID == portalPoint.zoneDataA.zoneID || zone.zoneData.zoneID == portalPoint.zoneDataB.zoneID)
                 {
                     zone.zoneData.portals.Add(portalPoint);
-
-#if UNITY_EDITOR
-                    EditorUtility.SetDirty(zone.zoneData);
-#endif
+                    zone.zoneData.masterPoints.Add(portalPoint);
                 }
             }
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(zone.zoneData);
+#endif
         }
 
 #if UNITY_EDITOR
@@ -93,6 +94,14 @@ public class PortalPointBaker : PointBaker
         {
             zone.zoneData.portals.Clear();
 
+            for (int i = zone.zoneData.masterPoints.Count - 1; i >= 0; i--)
+            {
+                if (zone.zoneData.masterPoints[i].type == PointType.Portal)
+                {
+                    zone.zoneData.masterPoints.RemoveAt(i);
+                }
+            }
+
 #if UNITY_EDITOR
             EditorUtility.SetDirty(zone.zoneData);
 #endif
@@ -107,14 +116,25 @@ public class PortalPointBaker : PointBaker
         if (pointsHolder.childCount > 0) return; // Đã ở chế độ edit rồi
 
         int pointCount = 0;
+        HashSet<string> processedPortalNames = new();
         foreach (Zone zone in ZoneManager.Instance.allZones)
         {
             foreach (PortalPoint portalPoint in zone.zoneData.portals)
             {
+                if (processedPortalNames.Contains(portalPoint.portalName))
+                {
+                    continue;
+                }
+
                 ZonePortal portal = CreatePortalPointGO();
+                portal.transform.position = portalPoint.position;
                 portal.name = portalPoint.portalName;
+                portal.portalName = portalPoint.portalName;
                 portal.zoneA = ZoneManager.Instance.zoneCache[portalPoint.zoneDataA.zoneID];
                 portal.zoneB = ZoneManager.Instance.zoneCache[portalPoint.zoneDataB.zoneID];
+
+                processedPortalNames.Add(portalPoint.portalName);
+                pointCount++;
             }
         }
 

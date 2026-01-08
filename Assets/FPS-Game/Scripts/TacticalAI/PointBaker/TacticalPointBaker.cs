@@ -42,6 +42,7 @@ public class TacticalPointBaker : PointBaker
                     position = pointsTransform[i].position
                 };
                 zone.zoneData.allPoints.Add(tacticalPoint);
+                zone.zoneData.masterPoints.Add(tacticalPoint);
 
 #if UNITY_EDITOR
                 EditorUtility.SetDirty(zone.zoneData);
@@ -88,13 +89,20 @@ public class TacticalPointBaker : PointBaker
                 if (zone.zoneData.allPoints[i].type == PointType.Tactical)
                 {
                     zone.zoneData.allPoints.RemoveAt(i);
-
-#if UNITY_EDITOR
-                    EditorUtility.SetDirty(zone.zoneData);
-#endif
-
                 }
             }
+
+            for (int i = zone.zoneData.masterPoints.Count - 1; i >= 0; i--)
+            {
+                if (zone.zoneData.masterPoints[i].type == PointType.Tactical)
+                {
+                    zone.zoneData.masterPoints.RemoveAt(i);
+                }
+            }
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(zone.zoneData);
+#endif
         }
     }
 

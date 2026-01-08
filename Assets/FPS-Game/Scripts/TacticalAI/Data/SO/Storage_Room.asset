@@ -16,31 +16,43 @@ MonoBehaviour:
   baseWeight: 10
   growRate: 1
   centerPos: {x: -18.575943, y: 2.8788438, z: 129.08426}
+  masterPoints:
+  - rid: 7985690477770572118
+  - rid: 7985690477770572119
+  - rid: 7985690477770572120
+  - rid: 7985690477770572156
+  - rid: 7985690477770572157
+  - rid: 7985690478220935549
+  - rid: 7985690478220935550
+  - rid: 7985690478220935551
+  - rid: 7985690478220935552
+  - rid: 7985690478220935553
+  - rid: 7985690478220935554
+  - rid: 7985690478220935555
+  - rid: 7985690478220935556
+  - rid: 7985690478220935557
+  - rid: 7985690478220935558
+  - rid: 7985690478220935559
+  - rid: 7985690478220935560
+  - rid: 7985690478220935561
   allPoints:
-  - rid: 7985690472900723382
-  - rid: 7985690472900723383
-  - rid: 7985690472900723384
-  - rid: 7985690476933808829
-  - rid: 7985690476933808830
-  - rid: 7985690476933808831
-  - rid: 7985690476933808832
-  - rid: 7985690476933808833
-  - rid: 7985690476933808834
-  - rid: 7985690476933808835
-  - rid: 7985690476933808836
-  - rid: 7985690476933808837
-  - rid: 7985690476933808838
-  - rid: 7985690476933808839
-  - rid: 7985690476933808840
-  - rid: 7985690476933808841
+  - rid: 7985690477770572118
+  - rid: 7985690477770572119
+  - rid: 7985690477770572120
+  - rid: 7985690478220935549
+  - rid: 7985690478220935550
+  - rid: 7985690478220935551
+  - rid: 7985690478220935552
+  - rid: 7985690478220935553
+  - rid: 7985690478220935554
+  - rid: 7985690478220935555
+  - rid: 7985690478220935556
+  - rid: 7985690478220935557
+  - rid: 7985690478220935558
+  - rid: 7985690478220935559
+  - rid: 7985690478220935560
+  - rid: 7985690478220935561
   portals:
-  - position: {x: -12.92, y: 2.8788438, z: 139.8}
-    type: 2
-    priority: 0
-    visibleIndices: 
-    portalName: Storage_Room - Long_Cellar
-    zoneDataA: {fileID: 11400000}
-    zoneDataB: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
   - position: {x: -14.93, y: 6.067177, z: 122.1}
     type: 2
     priority: 0
@@ -48,115 +60,142 @@ MonoBehaviour:
     portalName: Stair_Room - Storage_Room
     zoneDataA: {fileID: 11400000}
     zoneDataB: {fileID: 11400000, guid: 8afa3929c9de5214aa416aac56d7c814, type: 2}
+  - position: {x: -12.92, y: 2.8788438, z: 139.8}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Storage_Room - Long_Cellar
+    zoneDataA: {fileID: 11400000}
+    zoneDataB: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 7985690472900723382
-      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
-      data:
-        position: {x: -23.084, y: 2.8788438, z: 137.175}
-        type: 1
-        priority: 0
-        visibleIndices: 
-    - rid: 7985690472900723383
-      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
-      data:
-        position: {x: -12.382, y: 2.8788438, z: 131.257}
-        type: 1
-        priority: 0
-        visibleIndices: 
-    - rid: 7985690472900723384
+    - rid: 7985690477770572118
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -24.331001, y: 2.8788438, z: 124.959}
         type: 1
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808829
+    - rid: 7985690477770572119
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: -12.382, y: 2.8788438, z: 131.257}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690477770572120
+      type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: -23.084, y: 2.8788438, z: 137.175}
+        type: 1
+        priority: 0
+        visibleIndices: 
+    - rid: 7985690477770572156
+      type: {class: PortalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: -14.93, y: 6.067177, z: 122.1}
+        type: 2
+        priority: 0
+        visibleIndices: 
+        portalName: Stair_Room - Storage_Room
+        zoneDataA: {fileID: 11400000}
+        zoneDataB: {fileID: 11400000, guid: 8afa3929c9de5214aa416aac56d7c814, type: 2}
+    - rid: 7985690477770572157
+      type: {class: PortalPoint, ns: , asm: Assembly-CSharp}
+      data:
+        position: {x: -12.92, y: 2.8788438, z: 139.8}
+        type: 2
+        priority: 0
+        visibleIndices: 
+        portalName: Storage_Room - Long_Cellar
+        zoneDataA: {fileID: 11400000}
+        zoneDataB: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
+    - rid: 7985690478220935549
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -23.64164, y: 2.8788438, z: 124.44}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808830
+    - rid: 7985690478220935550
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -23.641636, y: 2.8788438, z: 126.394806}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808831
+    - rid: 7985690478220935551
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -21.641644, y: 2.9514215, z: 122.394806}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808832
+    - rid: 7985690478220935552
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -21.64164, y: 2.8788438, z: 124.3948}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808833
+    - rid: 7985690478220935553
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -21.64164, y: 2.8788438, z: 126.394806}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808834
+    - rid: 7985690478220935554
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -19.64164, y: 3.6946316, z: 122.39481}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808835
+    - rid: 7985690478220935555
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -19.641636, y: 2.8788438, z: 124.3948}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808836
+    - rid: 7985690478220935556
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -19.64164, y: 2.8788438, z: 126.394806}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808837
+    - rid: 7985690478220935557
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -17.64164, y: 4.653979, z: 122.39481}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808838
+    - rid: 7985690478220935558
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -17.68, y: 2.8788438, z: 124.394806}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808839
+    - rid: 7985690478220935559
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -17.641636, y: 2.8788438, z: 126.394806}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808840
+    - rid: 7985690478220935560
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -15.641639, y: 5.671018, z: 122.39481}
         type: 0
         priority: 0
         visibleIndices: 
-    - rid: 7985690476933808841
+    - rid: 7985690478220935561
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
       data:
         position: {x: -15.965038, y: 2.8788438, z: 126.2562}
