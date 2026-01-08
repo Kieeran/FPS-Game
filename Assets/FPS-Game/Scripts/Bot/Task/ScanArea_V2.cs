@@ -10,8 +10,8 @@ namespace CustomTask
     public class ScanArea_V2 : Action
     {
         [Header("References")]
-        [SerializeField] SharedPointVisibilityData data; // Data chứa visibleIndices của điểm đang đứng
-        [SerializeField] SharedPointVisibilityDataList visibilityMatrix; // Danh sách toàn bộ IPoint của Zone
+        // [SerializeField] SharedPointVisibilityData data; // Data chứa visibleIndices của điểm đang đứng
+        // [SerializeField] SharedPointVisibilityDataList visibilityMatrix; // Danh sách toàn bộ IPoint của Zone
         [SerializeField] SharedVector3 lookEuler; // Biến điều khiển góc xoay của Bot
 
         [Header("Scan Settings")]
@@ -29,13 +29,13 @@ namespace CustomTask
         {
             base.OnStart();
 
-            if (data.Value == null || data.Value.visibleIndices.Count == 0)
-            {
-                currentState = State.Completed;
-                return;
-            }
+            // if (data.Value == null || data.Value.visibleIndices.Count == 0)
+            // {
+            //     currentState = State.Completed;
+            //     return;
+            // }
 
-            pointsInThisScan = new List<int>(data.Value.visibleIndices);
+            // pointsInThisScan = new List<int>(data.Value.visibleIndices);
             CalculateBoundaryAngles();
 
             currentProgress = 0;
@@ -70,26 +70,26 @@ namespace CustomTask
 
         void CalculateBoundaryAngles()
         {
-            float minAngle = float.MaxValue;
-            float maxAngle = float.MinValue;
+            // float minAngle = float.MaxValue;
+            // float maxAngle = float.MinValue;
 
-            Vector3 botPos = transform.position;
-            Vector3 botForward = transform.forward;
+            // Vector3 botPos = transform.position;
+            // Vector3 botForward = transform.forward;
 
-            foreach (int idx in pointsInThisScan)
-            {
-                Vector3 targetPos = visibilityMatrix.Value[idx].position;
-                Vector3 dir = (targetPos - botPos).normalized;
-                float angle = Vector3.SignedAngle(botForward, dir, Vector3.up);
+            // foreach (int idx in pointsInThisScan)
+            // {
+            //     Vector3 targetPos = visibilityMatrix.Value[idx].position;
+            //     Vector3 dir = (targetPos - botPos).normalized;
+            //     float angle = Vector3.SignedAngle(botForward, dir, Vector3.up);
 
-                if (angle < minAngle) minAngle = angle;
-                if (angle > maxAngle) maxAngle = angle;
-            }
+            //     if (angle < minAngle) minAngle = angle;
+            //     if (angle > maxAngle) maxAngle = angle;
+            // }
 
-            // Tính toán Yaw thế giới dựa trên Forward hiện tại của Bot
-            float currentYaw = transform.eulerAngles.y;
-            startYaw = NormalizeAngle(currentYaw + minAngle);
-            endYaw = NormalizeAngle(currentYaw + maxAngle);
+            // // Tính toán Yaw thế giới dựa trên Forward hiện tại của Bot
+            // float currentYaw = transform.eulerAngles.y;
+            // startYaw = NormalizeAngle(currentYaw + minAngle);
+            // endYaw = NormalizeAngle(currentYaw + maxAngle);
         }
 
         void HandleRotation(float targetYaw)

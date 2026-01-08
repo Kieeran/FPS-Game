@@ -9,11 +9,11 @@ public class ZonePortal : MonoBehaviour
     public Zone zoneA;
     public Zone zoneB;
 
-    [Header("Basked Visibility Data")]
-    // Dữ liệu nhìn vào Zone B khi đứng ở mép Portal phía Zone A
-    public PointVisibilityData nearestIPointInA;
-    // Dữ liệu nhìn vào Zone A khi đứng ở mép Portal phía Zone B
-    public PointVisibilityData nearestIPointInB;
+    // [Header("Basked Visibility Data")]
+    // // Dữ liệu nhìn vào Zone B khi đứng ở mép Portal phía Zone A
+    // public PointVisibilityData nearestIPointInA;
+    // // Dữ liệu nhìn vào Zone A khi đứng ở mép Portal phía Zone B
+    // public PointVisibilityData nearestIPointInB;
 
     public Zone GetOtherZone(ZoneID currentZoneID)
     {
@@ -22,10 +22,10 @@ public class ZonePortal : MonoBehaviour
         return null;
     }
 
-    public PointVisibilityData GetTargetNearestIPoint(ZoneID targetZoneID)
-    {
-        return targetZoneID == zoneA.zoneID ? nearestIPointInA : nearestIPointInB;
-    }
+    // public PointVisibilityData GetTargetNearestIPoint(ZoneID targetZoneID)
+    // {
+    //     return targetZoneID == zoneA.zoneID ? nearestIPointInA : nearestIPointInB;
+    // }
 
     private void OnDrawGizmosSelected()
     {

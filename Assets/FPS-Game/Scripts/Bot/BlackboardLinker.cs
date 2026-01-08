@@ -12,23 +12,23 @@ public class SharedTPointData : SharedVariable<TPointData>
     }
 }
 
-[Serializable]
-public class SharedPointVisibilityData : SharedVariable<PointVisibilityData>
-{
-    public static implicit operator SharedPointVisibilityData(PointVisibilityData value)
-    {
-        return new SharedPointVisibilityData { Value = value };
-    }
-}
+// [Serializable]
+// public class SharedPointVisibilityData : SharedVariable<PointVisibilityData>
+// {
+//     public static implicit operator SharedPointVisibilityData(PointVisibilityData value)
+//     {
+//         return new SharedPointVisibilityData { Value = value };
+//     }
+// }
 
-[Serializable]
-public class SharedPointVisibilityDataList : SharedVariable<List<PointVisibilityData>>
-{
-    public static implicit operator SharedPointVisibilityDataList(List<PointVisibilityData> value)
-    {
-        return new SharedPointVisibilityDataList { Value = value };
-    }
-}
+// [Serializable]
+// public class SharedPointVisibilityDataList : SharedVariable<List<PointVisibilityData>>
+// {
+//     public static implicit operator SharedPointVisibilityDataList(List<PointVisibilityData> value)
+//     {
+//         return new SharedPointVisibilityDataList { Value = value };
+//     }
+// }
 
 namespace AIBot
 {
@@ -80,10 +80,10 @@ namespace AIBot
                     return;
 
                 case "PatrolTree":
-                    var patrolInfo = InGameManager.Instance.ZoneController.GetTargetForPatrol(botController.transform.position, botController.PlayerRoot.CurrentZone);
-                    SafeSet("targetPosition", patrolInfo.data.position);
-                    SafeSet("pointVisibilityData", patrolInfo.data);
-                    SafeSet("visibilityMatrix", patrolInfo.zone.visibilityMatrix);
+                    // var patrolInfo = InGameManager.Instance.ZoneController.GetTargetForPatrol(botController.transform.position, botController.PlayerRoot.CurrentZone);
+                    // SafeSet("targetPosition", patrolInfo.data.position);
+                    // SafeSet("pointVisibilityData", patrolInfo.data);
+                    // SafeSet("visibilityMatrix", patrolInfo.zone.visibilityMatrix);
                     return;
 
                 case "CombatTree":
@@ -120,15 +120,15 @@ namespace AIBot
 
         public void SetNextTarget()
         {
-            var chaseInfo = InGameManager.Instance.ZoneController.GetTargetForChase(
-                botController.transform.position,
-                botController.PlayerRoot.CurrentZone,
-                lastKnownPlayerData
-            );
+            // var chaseInfo = InGameManager.Instance.ZoneController.GetTargetForChase(
+            //     botController.transform.position,
+            //     botController.PlayerRoot.CurrentZone,
+            //     lastKnownPlayerData
+            // );
 
-            SafeSet("targetPosition", chaseInfo.data.position);
-            SafeSet("pointVisibilityData", chaseInfo.data);
-            SafeSet("visibilityMatrix", chaseInfo.zone.visibilityMatrix);
+            // SafeSet("targetPosition", chaseInfo.data.position);
+            // SafeSet("pointVisibilityData", chaseInfo.data);
+            // SafeSet("visibilityMatrix", chaseInfo.zone.visibilityMatrix);
         }
 
         void Update()

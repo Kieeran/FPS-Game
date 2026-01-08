@@ -14,74 +14,74 @@ public class ZonePortalsContainer : MonoBehaviour
     // Dictionary lưu trữ: ZoneID hiện tại -> Danh sách các Portal dẫn đi các Zone khác
     public Dictionary<ZoneID, List<ZonePortal>> zoneAdjacencyMap = new();
 
-    void Awake()
-    {
-        RebuildAdjacencyMap();
-    }
+    // void Awake()
+    // {
+    //     RebuildAdjacencyMap();
+    // }
 
-    void RebuildAdjacencyMap()
-    {
-        zoneAdjacencyMap.Clear();
+    // void RebuildAdjacencyMap()
+    // {
+    //     zoneAdjacencyMap.Clear();
 
-        foreach (var zone in zonesContainer.GetZones())
-        {
-            if (!zoneAdjacencyMap.ContainsKey(zone.zoneID))
-            {
-                zoneAdjacencyMap[zone.zoneID] = new List<ZonePortal>();
-            }
+    //     foreach (var zone in zonesContainer.GetZones())
+    //     {
+    //         if (!zoneAdjacencyMap.ContainsKey(zone.zoneID))
+    //         {
+    //             zoneAdjacencyMap[zone.zoneID] = new List<ZonePortal>();
+    //         }
 
-            // Copy từ zone.portals vào dictionary
-            zoneAdjacencyMap[zone.zoneID].AddRange(zone.portals);
-        }
+    //         // Copy từ zone.portals vào dictionary
+    //         zoneAdjacencyMap[zone.zoneID].AddRange(zone.portals);
+    //     }
 
-        Debug.Log($"Rebuilt adjacency map with {zoneAdjacencyMap.Count} zones");
-    }
+    //     Debug.Log($"Rebuilt adjacency map with {zoneAdjacencyMap.Count} zones");
+    // }
 
     void OnValidate()
     {
         zonePortals = GetComponentsInChildren<ZonePortal>().ToList();
     }
 
-    [ContextMenu("Scan All Portals")]
-    public void ScanAllPortals()
-    {
-        zoneAdjacencyMap.Clear();
-        ZonePortal[] allPortals = zonePortals.ToArray();
+    // [ContextMenu("Scan All Portals")]
+    // public void ScanAllPortals()
+    // {
+    //     zoneAdjacencyMap.Clear();
+    //     ZonePortal[] allPortals = zonePortals.ToArray();
 
-        foreach (var portal in allPortals)
-        {
-            // Đăng ký cho Zone A
-            RegisterConnection(portal.zoneA.zoneID, portal);
-            // Đăng ký cho Zone B (để Portal có tính 2 chiều)
-            RegisterConnection(portal.zoneB.zoneID, portal);
-        }
+    //     foreach (var portal in allPortals)
+    //     {
+    //         // Đăng ký cho Zone A
+    //         RegisterConnection(portal.zoneA.zoneID, portal);
+    //         // Đăng ký cho Zone B (để Portal có tính 2 chiều)
+    //         RegisterConnection(portal.zoneB.zoneID, portal);
+    //     }
 
-        foreach (var zone in zonesContainer.GetZones())
-        {
-            zone.portals.Clear();
-            zone.portals = zoneAdjacencyMap[zone.zoneID];
-        }
+    //     foreach (var zone in zonesContainer.GetZones())
+    //     {
+    //         zone.portals.Clear();
+    //         zone.portals = zoneAdjacencyMap[zone.zoneID];
+    //     }
 
-        Debug.Log($"Đã cập nhật bản đồ giao thông với {allPortals.Length} cổng kết nối.");
-    }
+    //     Debug.Log($"Đã cập nhật bản đồ giao thông với {allPortals.Length} cổng kết nối.");
+    // }
 
-    [ContextMenu("Bake Portal Strategy")]
-    public void BakePortalStrategy()
-    {
-        foreach (ZonePortal portal in zonePortals)
-        {
-            // Bake cho cả 2 phía của Portal
-            portal.nearestIPointInA = CalculateBestEntry(portal, portal.zoneA);
-            portal.nearestIPointInB = CalculateBestEntry(portal, portal.zoneB);
+//     [ContextMenu("Bake Portal Strategy")]
+//     public void BakePortalStrategy()
+//     {
+//         foreach (ZonePortal portal in zonePortals)
+//         {
+//             // Bake cho cả 2 phía của Portal
+//             portal.nearestIPointInA = CalculateBestEntry(portal, portal.zoneA);
+//             portal.nearestIPointInB = CalculateBestEntry(portal, portal.zoneB);
 
-            // Đánh dấu để Unity lưu lại thay đổi sau khi Bake
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(this);
-#endif
-        }
+//             // Đánh dấu để Unity lưu lại thay đổi sau khi Bake
+// #if UNITY_EDITOR
+//             UnityEditor.EditorUtility.SetDirty(this);
+// #endif
+//         }
 
-        Debug.Log("Bake Portal Strategy thành công!");
-    }
+//         Debug.Log("Bake Portal Strategy thành công!");
+//     }
 
     private void RegisterConnection(ZoneID zoneID, ZonePortal portal)
     {
@@ -92,39 +92,39 @@ public class ZonePortalsContainer : MonoBehaviour
         zoneAdjacencyMap[zoneID].Add(portal);
     }
 
-    private PointVisibilityData CalculateBestEntry(ZonePortal portal, Zone targetZone)
-    {
-        PointVisibilityData result = new();
-        if (targetZone.visibilityMatrix == null || targetZone.visibilityMatrix.Count == 0) return result;
+    // private PointVisibilityData CalculateBestEntry(ZonePortal portal, Zone targetZone)
+    // {
+    //     PointVisibilityData result = new();
+    //     if (targetZone.visibilityMatrix == null || targetZone.visibilityMatrix.Count == 0) return result;
 
-        // int maxPriority = targetZone.visibilityMatrix.Max(p => p.priority);
-        // var highPriorityPoints = targetZone.visibilityMatrix
-        //     .Where(p => p.priority >= maxPriority)
-        //     .ToList();
+    //     // int maxPriority = targetZone.visibilityMatrix.Max(p => p.priority);
+    //     // var highPriorityPoints = targetZone.visibilityMatrix
+    //     //     .Where(p => p.priority >= maxPriority)
+    //     //     .ToList();
 
-        PointVisibilityData bestPoint = new();
-        float shortestDistance = float.MaxValue;
+    //     PointVisibilityData bestPoint = new();
+    //     float shortestDistance = float.MaxValue;
 
-        foreach (var ip in targetZone.visibilityMatrix)
-        {
-            NavMeshPath path = new();
-            if (NavMesh.CalculatePath(
-                GetSnappedPos(ip.position),
-                GetSnappedPos(portal.transform.position),
-                NavMesh.AllAreas, path)
-            )
-            {
-                float dist = GetPathLength(path);
-                if (dist < shortestDistance)
-                {
-                    shortestDistance = dist;
-                    bestPoint = ip;
-                }
-            }
-        }
-        result = bestPoint;
-        return result;
-    }
+    //     foreach (var ip in targetZone.visibilityMatrix)
+    //     {
+    //         NavMeshPath path = new();
+    //         if (NavMesh.CalculatePath(
+    //             GetSnappedPos(ip.position),
+    //             GetSnappedPos(portal.transform.position),
+    //             NavMesh.AllAreas, path)
+    //         )
+    //         {
+    //             float dist = GetPathLength(path);
+    //             if (dist < shortestDistance)
+    //             {
+    //                 shortestDistance = dist;
+    //                 bestPoint = ip;
+    //             }
+    //         }
+    //     }
+    //     result = bestPoint;
+    //     return result;
+    // }
 
     private float GetPathLength(NavMeshPath path)
     {
