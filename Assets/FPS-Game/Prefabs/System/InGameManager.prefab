@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2642733906
+  GlobalObjectIdHash: 1900463573
   InScenePlacedSourceGlobalObjectIdHash: 2642733906
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitingPhaseDuration: 26
   preparationPhaseDuration: 0
-  combatPhaseDuration: 999
+  combatPhaseDuration: 9999
   resultPhaseDuration: 0
   _lobbyRelayChecker: {fileID: 6509468171419657047}
 --- !u!114 &6509468171419657047
@@ -187,4 +187,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135de2b2cd85c5f43b22eee8dc0da00a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areasContainer: {fileID: 0}
