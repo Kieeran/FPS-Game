@@ -61,6 +61,7 @@ MonoBehaviour:
     portalName: Stair_Room - Storage_Room
     zoneDataA: {fileID: 11400000}
     zoneDataB: {fileID: 11400000, guid: 8afa3929c9de5214aa416aac56d7c814, type: 2}
+    traversalCost: 21.418192
   - position: {x: -12.92, y: 2.8788438, z: 139.8}
     type: 2
     priority: 0
@@ -68,6 +69,7 @@ MonoBehaviour:
     portalName: Storage_Room - Long_Cellar
     zoneDataA: {fileID: 11400000}
     zoneDataB: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
+    traversalCost: 26.368183
   references:
     version: 2
     RefIds:
@@ -81,6 +83,7 @@ MonoBehaviour:
         portalName: Stair_Room - Storage_Room
         zoneDataA: {fileID: 11400000}
         zoneDataB: {fileID: 11400000, guid: 8afa3929c9de5214aa416aac56d7c814, type: 2}
+        traversalCost: 0
     - rid: 7985690477770572157
       type: {class: PortalPoint, ns: , asm: Assembly-CSharp}
       data:
@@ -91,6 +94,7 @@ MonoBehaviour:
         portalName: Storage_Room - Long_Cellar
         zoneDataA: {fileID: 11400000}
         zoneDataB: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
+        traversalCost: 0
     - rid: 7985690478780875742
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:

@@ -161,6 +161,7 @@ MonoBehaviour:
     portalName: CT_Left - Stairs
     zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
     zoneDataB: {fileID: 11400000}
+    traversalCost: 40.182007
   - position: {x: -4.2800007, y: -0.040445328, z: 25}
     type: 2
     priority: 0
@@ -168,6 +169,7 @@ MonoBehaviour:
     portalName: CT_Spawn - CT_Left
     zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
     zoneDataB: {fileID: 11400000}
+    traversalCost: 43.016445
   references:
     version: 2
     RefIds:
@@ -181,6 +183,7 @@ MonoBehaviour:
         portalName: CT_Left - Stairs
         zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
         zoneDataB: {fileID: 11400000}
+        traversalCost: 0
     - rid: 7985690477770572152
       type: {class: PortalPoint, ns: , asm: Assembly-CSharp}
       data:
@@ -191,6 +194,7 @@ MonoBehaviour:
         portalName: CT_Spawn - CT_Left
         zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
         zoneDataB: {fileID: 11400000}
+        traversalCost: 0
     - rid: 7985690478780875731
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:

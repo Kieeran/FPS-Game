@@ -239,6 +239,7 @@ MonoBehaviour:
     portalName: Tunnel - T_Spawn
     zoneDataA: {fileID: 11400000}
     zoneDataB: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+    traversalCost: 42.16577
   - position: {x: 49.7, y: 2.652177, z: 84.61}
     type: 2
     priority: 0
@@ -246,6 +247,7 @@ MonoBehaviour:
     portalName: Streets - Tunnel
     zoneDataA: {fileID: 11400000}
     zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+    traversalCost: 61.56221
   references:
     version: 2
     RefIds:
@@ -259,6 +261,7 @@ MonoBehaviour:
         portalName: Tunnel - T_Spawn
         zoneDataA: {fileID: 11400000}
         zoneDataB: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+        traversalCost: 0
     - rid: 7985690477770572138
       type: {class: PortalPoint, ns: , asm: Assembly-CSharp}
       data:
@@ -269,6 +272,7 @@ MonoBehaviour:
         portalName: Streets - Tunnel
         zoneDataA: {fileID: 11400000}
         zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+        traversalCost: 0
     - rid: 7985690478780875712
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:

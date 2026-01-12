@@ -130,6 +130,7 @@ MonoBehaviour:
     portalName: Long - House
     zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
     zoneDataB: {fileID: 11400000}
+    traversalCost: 69.36072
   references:
     version: 2
     RefIds:
@@ -143,6 +144,7 @@ MonoBehaviour:
         portalName: Long - House
         zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
         zoneDataB: {fileID: 11400000}
+        traversalCost: 0
     - rid: 7985690478780875748
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:

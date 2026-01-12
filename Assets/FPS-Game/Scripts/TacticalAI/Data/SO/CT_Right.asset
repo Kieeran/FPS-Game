@@ -141,6 +141,7 @@ MonoBehaviour:
     portalName: CT_Right - Market
     zoneDataA: {fileID: 11400000}
     zoneDataB: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    traversalCost: 39.061523
   - position: {x: 4.7700005, y: -0.06782317, z: 25}
     type: 2
     priority: 0
@@ -148,6 +149,7 @@ MonoBehaviour:
     portalName: CT_Spawn - CT_Right
     zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
     zoneDataB: {fileID: 11400000}
+    traversalCost: 32.616123
   references:
     version: 2
     RefIds:
@@ -161,6 +163,7 @@ MonoBehaviour:
         portalName: CT_Right - Market
         zoneDataA: {fileID: 11400000}
         zoneDataB: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+        traversalCost: 0
     - rid: 7985690477770572148
       type: {class: PortalPoint, ns: , asm: Assembly-CSharp}
       data:
@@ -171,6 +174,7 @@ MonoBehaviour:
         portalName: CT_Spawn - CT_Right
         zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
         zoneDataB: {fileID: 11400000}
+        traversalCost: 0
     - rid: 7985690478780875726
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
       data:
