@@ -185,24 +185,138 @@ public class ZoneManager : MonoBehaviour
         return 0;
     }
 
+    public ZoneData startZone;
+    public ZoneData targetZone;
+    public bool showResultRoute = true;
+    List<ZoneData> route = new();
+
+    [ContextMenu("Get Shortest Path")]
+    public void CalculateShortestPath()
+    {
+        route = GetShortestPath(startZone, targetZone);
+
+        if (route == null || route.Count == 0)
+            Debug.LogWarning("Không tìm thấy lộ trình!");
+        else
+            Debug.Log($"Đã tìm thấy lộ trình qua {route.Count} Zone.");
+    }
+
+    public List<ZoneData> GetShortestPath(ZoneData startZone, ZoneData targetZone)
+    {
+        if (startZone == null || targetZone == null) return new List<ZoneData>();
+
+        Dictionary<ZoneData, float> dists = new();
+        Dictionary<ZoneData, ZoneData> prevs = new();
+        List<(ZoneData zone, float d)> pq = new();
+
+        // Khởi tạo
+        foreach (var z in allZones)
+        {
+            dists[z.zoneData] = float.MaxValue;
+            prevs[z.zoneData] = null;
+        }
+
+        dists[startZone] = 0;
+        pq.Add((startZone, 0));
+
+        while (pq.Count > 0)
+        {
+            pq.Sort((a, b) => a.d.CompareTo(b.d));
+
+            (ZoneData u, float d) = pq[0];
+            pq.RemoveAt(0);
+
+            if (d > dists[u]) continue;
+            if (u == targetZone) break;
+
+            foreach (var portal in u.portals)
+            {
+                ZoneData v = portal.GetOtherZone(u);
+                float weight = portal.traversalCost; // traversalCost đã bake
+
+                if (dists[u] + weight < dists[v])
+                {
+                    dists[v] = dists[u] + weight;
+                    prevs[v] = u;
+                    pq.Add((v, dists[v]));
+                }
+            }
+        }
+
+        return ReconstructPath(prevs, targetZone);
+    }
+
+    private List<ZoneData> ReconstructPath(Dictionary<ZoneData, ZoneData> prevs, ZoneData target)
+    {
+        List<ZoneData> path = new();
+        ZoneData curr = target;
+
+        while (curr != null)
+        {
+            path.Add(curr);
+            // Kiểm tra xem node hiện tại có nằm trong bảng truy vết không
+            if (prevs.ContainsKey(curr))
+                curr = prevs[curr];
+            else
+                break;
+        }
+
+        path.Reverse();
+        return path;
+    }
+
+    // Hàm phụ trợ tìm Portal nối giữa 2 Zone
+    private PortalPoint GetPortalBetween(ZoneData a, ZoneData b)
+    {
+        foreach (var p in a.portals)
+        {
+            if (p.GetOtherZone(a) == b) return p;
+        }
+
+        Debug.Log($"Không tìm thấy portal nối giữa {a.zoneID} và {b.zoneID}");
+        return null;
+    }
+
     public bool showNavigationGraph = true;
 
     private void OnDrawGizmos()
     {
-        if (!showNavigationGraph) return;
         NavMeshPath path = new();
-        foreach (Zone zone in allZones)
+
+        if (showNavigationGraph)
         {
-            if (zone.zoneData == null) continue;
-            Vector3 startPos = zone.zoneData.centerPos;
-            if (zone.zoneData.portals == null) continue;
-
-            foreach (var portal in zone.zoneData.portals)
+            foreach (Zone zone in allZones)
             {
-                if (portal == null) continue;
+                if (zone.zoneData == null) continue;
+                Vector3 startPos = zone.zoneData.centerPos;
+                if (zone.zoneData.portals == null) continue;
 
-                // Vẽ đường đi dưới đất từ Center -> Portal
-                DrawNavMeshGizmoLine(GetSnappedPos(startPos), GetSnappedPos(portal.position), path, Color.green);
+                foreach (var portal in zone.zoneData.portals)
+                {
+                    if (portal == null) continue;
+
+                    // Vẽ đường đi dưới đất từ Center -> Portal
+                    DrawNavMeshGizmoLine(GetSnappedPos(startPos), GetSnappedPos(portal.position), path, Color.green);
+                }
+            }
+        }
+
+        if (showResultRoute)
+        {
+            if (route != null && route.Count >= 2)
+            {
+                for (int i = 0; i < route.Count - 1; i++)
+                {
+                    ZoneData current = route[i];
+                    ZoneData next = route[i + 1];
+                    PortalPoint connector = GetPortalBetween(current, next);
+
+                    if (connector != null)
+                    {
+                        DrawNavMeshGizmoLine(GetSnappedPos(current.centerPos), GetSnappedPos(connector.position), path, Color.green);
+                        DrawNavMeshGizmoLine(GetSnappedPos(connector.position), GetSnappedPos(next.centerPos), path, Color.green);
+                    }
+                }
             }
         }
     }

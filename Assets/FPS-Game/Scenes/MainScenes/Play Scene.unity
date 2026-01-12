@@ -18183,6 +18183,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16384
   zoneContainer: {fileID: 348272422}
+  startZone: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
+  targetZone: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+  showResultRoute: 0
   showNavigationGraph: 1
 --- !u!1 &1485888357
 GameObject:

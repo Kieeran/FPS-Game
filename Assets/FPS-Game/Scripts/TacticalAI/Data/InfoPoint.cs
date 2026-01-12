@@ -29,4 +29,11 @@ public class PortalPoint : InfoPoint
     public ZoneData zoneDataA;
     public ZoneData zoneDataB;
     public float traversalCost;
+
+    public ZoneData GetOtherZone(ZoneData currentZone)
+    {
+        if (zoneDataA == currentZone) return zoneDataB;
+        if (zoneDataB == currentZone) return zoneDataA;
+        return null;
+    }
 }
