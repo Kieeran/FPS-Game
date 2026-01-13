@@ -8,6 +8,14 @@ public enum ZoneID
     Long_Cellar, Storage_Room, Stair_Room, Long, Streets, Tunnel
 }
 
+[System.Serializable]
+public class PortalConnection
+{
+    public PortalPoint portalA;
+    public PortalPoint portalB;
+    public float traversalCost; // Quãng đường NavMesh giữa 2 portal trong cùng 1 zone
+}
+
 [CreateAssetMenu(fileName = "NewZoneData", menuName = "AI/Zone Data")]
 public class ZoneData : ScriptableObject
 {
@@ -28,4 +36,6 @@ public class ZoneData : ScriptableObject
 
     [Header("Exits & Entrances")]
     public List<PortalPoint> portals = new();
+    [Header("Portal Connection")]
+    public List<PortalConnection> internalPaths = new();
 }

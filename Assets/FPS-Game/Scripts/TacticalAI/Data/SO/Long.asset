@@ -216,6 +216,26 @@ MonoBehaviour:
     zoneDataA: {fileID: 11400000}
     zoneDataB: {fileID: 11400000, guid: 12276391b5724e64ab088db6bfc0c4f1, type: 2}
     traversalCost: 69.36072
+  internalPaths:
+  - portalA:
+      position: {x: 11.58, y: 8.205511, z: 136.16}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: T_Spawn - Long
+      zoneDataA: {fileID: 11400000}
+      zoneDataB: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+      traversalCost: 45.99028
+    portalB:
+      position: {x: -5.299, y: 8.432178, z: 98.04}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: Long - House
+      zoneDataA: {fileID: 11400000}
+      zoneDataB: {fileID: 11400000, guid: 12276391b5724e64ab088db6bfc0c4f1, type: 2}
+      traversalCost: 69.36072
+    traversalCost: 50.915375
   references:
     version: 2
     RefIds:

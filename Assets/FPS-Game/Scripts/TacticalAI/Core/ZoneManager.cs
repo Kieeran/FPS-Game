@@ -134,6 +134,52 @@ public class ZoneManager : MonoBehaviour
         return originalPos;
     }
 
+    [ContextMenu("Bake All Portal Connection Traversal Cost")]
+    public void BakeAllPortalConnectionTraversalCost()
+    {
+        int successCount = 0;
+        NavMeshPath path = new();
+
+        foreach (Zone zone in allZones)
+        {
+            if (zone.zoneData == null) continue;
+            zone.zoneData.internalPaths.Clear();
+
+            List<PortalPoint> portals = zone.zoneData.portals;
+
+            for (int i = 0; i < portals.Count; i++)
+            {
+                for (int j = i + 1; j < portals.Count; j++) // Chỉ xét các portal phía sau i
+                {
+                    PortalPoint pA = portals[i];
+                    PortalPoint pB = portals[j];
+
+                    float dist = GetNavMeshDistance(GetSnappedPos(pA.position), GetSnappedPos(pB.position), path);
+
+                    if (dist < float.PositiveInfinity && dist > 0)
+                    {
+                        zone.zoneData.internalPaths.Add(new PortalConnection
+                        {
+                            portalA = pA,
+                            portalB = pB,
+                            traversalCost = dist
+                        });
+                        successCount++;
+                    }
+                }
+            }
+            
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(zone.zoneData);
+#endif
+        }
+
+#if UNITY_EDITOR
+        AssetDatabase.SaveAssets();
+#endif
+        Debug.Log($"Bake hoàn tất! Đã cập nhật Portal Connection Traversal Cost cho {successCount} connection.");
+    }
+
     [ContextMenu("Bake All Portal Traversal Cost")]
     public void BakeAllPortalTraversalCost()
     {

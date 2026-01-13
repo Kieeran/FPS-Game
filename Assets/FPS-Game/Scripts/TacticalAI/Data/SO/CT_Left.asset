@@ -170,6 +170,26 @@ MonoBehaviour:
     zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
     zoneDataB: {fileID: 11400000}
     traversalCost: 43.016445
+  internalPaths:
+  - portalA:
+      position: {x: -16.04, y: 2.652177, z: 70.13}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: CT_Left - Stairs
+      zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
+      zoneDataB: {fileID: 11400000}
+      traversalCost: 40.182007
+    portalB:
+      position: {x: -4.2800007, y: -0.040445328, z: 25}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: CT_Spawn - CT_Left
+      zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
+      zoneDataB: {fileID: 11400000}
+      traversalCost: 43.016445
+    traversalCost: 48.735783
   references:
     version: 2
     RefIds:

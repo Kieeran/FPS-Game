@@ -397,6 +397,64 @@ MonoBehaviour:
     zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
     zoneDataB: {fileID: 11400000}
     traversalCost: 45.99028
+  internalPaths:
+  - portalA:
+      position: {x: 47.31, y: 8.205511, z: 132.37}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: Tunnel - T_Spawn
+      zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+      zoneDataB: {fileID: 11400000}
+      traversalCost: 42.16577
+    portalB:
+      position: {x: 19.369999, y: 2.6564474, z: 131.76}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: Streets - T_Spawn
+      zoneDataA: {fileID: 11400000}
+      zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+      traversalCost: 74.584946
+    traversalCost: 56.634453
+  - portalA:
+      position: {x: 47.31, y: 8.205511, z: 132.37}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: Tunnel - T_Spawn
+      zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+      zoneDataB: {fileID: 11400000}
+      traversalCost: 42.16577
+    portalB:
+      position: {x: 11.58, y: 8.205511, z: 136.16}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: T_Spawn - Long
+      zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
+      zoneDataB: {fileID: 11400000}
+      traversalCost: 45.99028
+    traversalCost: 36.35057
+  - portalA:
+      position: {x: 19.369999, y: 2.6564474, z: 131.76}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: Streets - T_Spawn
+      zoneDataA: {fileID: 11400000}
+      zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+      traversalCost: 74.584946
+    portalB:
+      position: {x: 11.58, y: 8.205511, z: 136.16}
+      type: 2
+      priority: 0
+      visibleIndices: 
+      portalName: T_Spawn - Long
+      zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
+      zoneDataB: {fileID: 11400000}
+      traversalCost: 45.99028
+    traversalCost: 57.87551
   references:
     version: 2
     RefIds:
