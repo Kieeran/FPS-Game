@@ -168,7 +168,7 @@ public class ZoneManager : MonoBehaviour
                     }
                 }
             }
-            
+
 #if UNITY_EDITOR
             EditorUtility.SetDirty(zone.zoneData);
 #endif
@@ -323,52 +323,90 @@ public class ZoneManager : MonoBehaviour
         return null;
     }
 
-    public bool showNavigationGraph = true;
+    public bool showNavigationGraphBetweenCenterPos = true;
+    public bool showNavigationGraphBetweenPortal = true;
 
     private void OnDrawGizmos()
     {
-        NavMeshPath path = new();
-
-        if (showNavigationGraph)
+        if (showNavigationGraphBetweenCenterPos)
         {
-            foreach (Zone zone in allZones)
-            {
-                if (zone.zoneData == null) continue;
-                Vector3 startPos = zone.zoneData.centerPos;
-                if (zone.zoneData.portals == null) continue;
+            DrawNavigationGraphBetweenCenterPos();
+        }
 
-                foreach (var portal in zone.zoneData.portals)
-                {
-                    if (portal == null) continue;
-
-                    // Vẽ đường đi dưới đất từ Center -> Portal
-                    DrawNavMeshGizmoLine(GetSnappedPos(startPos), GetSnappedPos(portal.position), path, Color.green);
-                }
-            }
+        if (showNavigationGraphBetweenPortal)
+        {
+            DrawNavigationGraphBetweenPortal();
         }
 
         if (showResultRoute)
         {
-            if (route != null && route.Count >= 2)
-            {
-                for (int i = 0; i < route.Count - 1; i++)
-                {
-                    ZoneData current = route[i];
-                    ZoneData next = route[i + 1];
-                    PortalPoint connector = GetPortalBetween(current, next);
+            DrawResultRoute();
+        }
+    }
 
-                    if (connector != null)
-                    {
-                        DrawNavMeshGizmoLine(GetSnappedPos(current.centerPos), GetSnappedPos(connector.position), path, Color.green);
-                        DrawNavMeshGizmoLine(GetSnappedPos(connector.position), GetSnappedPos(next.centerPos), path, Color.green);
-                    }
+    void DrawNavigationGraphBetweenCenterPos()
+    {
+        NavMeshPath path = new();
+        foreach (Zone zone in allZones)
+        {
+            if (zone.zoneData == null) continue;
+            Vector3 startPos = zone.zoneData.centerPos;
+            if (zone.zoneData.portals == null) continue;
+
+            foreach (var portal in zone.zoneData.portals)
+            {
+                if (portal == null) continue;
+
+                // Vẽ đường đi dưới đất từ Center -> Portal
+                DrawNavMeshGizmoLine(GetSnappedPos(startPos), GetSnappedPos(portal.position), path, Color.green);
+            }
+        }
+    }
+
+    void DrawNavigationGraphBetweenPortal()
+    {
+        NavMeshPath path = new();
+        foreach (Zone zone in allZones)
+        {
+            if (zone.zoneData == null) continue;
+
+            foreach (var connection in zone.zoneData.internalPaths)
+            {
+                if (connection == null) continue;
+
+                // Vẽ đường đi dưới đất từ Portal -> Portal
+                DrawNavMeshGizmoLine(
+                    GetSnappedPos(connection.portalA.position),
+                    GetSnappedPos(connection.portalB.position),
+                    path,
+                    Color.green
+                );
+            }
+        }
+    }
+
+    void DrawResultRoute()
+    {
+        NavMeshPath path = new();
+        if (route != null && route.Count >= 2)
+        {
+            for (int i = 0; i < route.Count - 1; i++)
+            {
+                ZoneData current = route[i];
+                ZoneData next = route[i + 1];
+                PortalPoint connector = GetPortalBetween(current, next);
+
+                if (connector != null)
+                {
+                    DrawNavMeshGizmoLine(GetSnappedPos(current.centerPos), GetSnappedPos(connector.position), path, Color.green);
+                    DrawNavMeshGizmoLine(GetSnappedPos(connector.position), GetSnappedPos(next.centerPos), path, Color.green);
                 }
             }
         }
     }
 
     // Hàm phụ trợ vẽ đường gấp khúc dựa trên NavMesh Corners
-    private void DrawNavMeshGizmoLine(Vector3 start, Vector3 end, NavMeshPath path, Color color)
+    void DrawNavMeshGizmoLine(Vector3 start, Vector3 end, NavMeshPath path, Color color)
     {
         if (NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path))
         {
