@@ -121,6 +121,13 @@ namespace AIBot
                 case State.Patrol:
                     PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetLookEuler());
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
+
+                    if (currenPortalIndex >= portalPointsToPatrol.Count) break;
+                    if (Vector3.Distance(PlayerRoot.GetCharacterPosition(), portalPointsToPatrol[currenPortalIndex].position) <= 5f)
+                    {
+                        NextPortal();
+                    }
+
                     break;
 
                 case State.Combat:
@@ -307,11 +314,11 @@ namespace AIBot
             currenPortalIndex++;
             if (currenPortalIndex >= portalPointsToPatrol.Count)
             {
-                blackboardLinker.SetTargetPortalListEmpty(true);
+                // blackboardLinker.SetTargetPortalListEmpty(true);
                 return;
             }
 
-            blackboardLinker.SetTargetPortalListEmpty(false);
+            // blackboardLinker.SetTargetPortalListEmpty(false);
             blackboardLinker.SetTargetPortalToPatrol(portalPointsToPatrol[currenPortalIndex]);
         }
 
