@@ -99,42 +99,37 @@ public class ZoneManager : MonoBehaviour
         return null;
     }
 
-    public Zone GetZoneAt(Transform pointTF, Vector3 pointPos)
+    public Zone GetZoneAt(Transform pointTF)
     {
-        if (pointTF == null)
+        // Lấy bán kính từ SphereCollider của Object hoặc lấy scale
+        float radius = 1.0f;
+        if (pointTF.TryGetComponent<SphereCollider>(out var sphereCol))
         {
-            if (allZones == null || allZones.Count == 0) return null;
+            radius = sphereCol.radius * pointTF.transform.lossyScale.x;
+        }
 
-            foreach (Zone zone in allZones)
+        Collider[] hitColliders = Physics.OverlapSphere(pointTF.transform.position, radius, zoneLayer);
+        if (hitColliders.Length == 0) return null;
+
+        Zone zone = hitColliders[0].GetComponentInParent<Zone>();
+        return zone;
+    }
+
+    public Zone GetZoneAt(Vector3 pointPos)
+    {
+        if (allZones == null || allZones.Count == 0) return null;
+        foreach (Zone zone in allZones)
+        {
+            foreach (var col in zone.colliders)
             {
-                foreach (var col in zone.colliders)
+                // Kiểm tra nếu vị trí điểm xét nằm trong vùng của Collider
+                if (col.bounds.Contains(pointPos))
                 {
-                    // Kiểm tra nếu vị trí điểm xét nằm trong vùng của Collider
-                    if (col.bounds.Contains(pointPos))
-                    {
-                        return zone;
-                    }
+                    return zone;
                 }
             }
-
-            return null;
         }
-
-        else
-        {
-            // Lấy bán kính từ SphereCollider của Object hoặc lấy scale
-            float radius = 1.0f;
-            if (pointTF.TryGetComponent<SphereCollider>(out var sphereCol))
-            {
-                radius = sphereCol.radius * pointTF.transform.lossyScale.x;
-            }
-
-            Collider[] hitColliders = Physics.OverlapSphere(pointTF.transform.position, radius, zoneLayer);
-            if (hitColliders.Length == 0) return null;
-
-            Zone zone = hitColliders[0].GetComponentInParent<Zone>();
-            return zone;
-        }
+        return null;
     }
 
     public void BuildZoneCache()
@@ -377,7 +372,7 @@ public class ZoneManager : MonoBehaviour
         }
 
         // Tìm các portal ở Zone hiện tại và nạp vào pq (Nguồn động)
-        Zone currentZone = GetZoneAt(null, source);
+        Zone currentZone = GetZoneAt(source);
         if (currentZone == null)
         {
             Debug.LogError("Không tìm thấy Zone tại vị trí Bot!");

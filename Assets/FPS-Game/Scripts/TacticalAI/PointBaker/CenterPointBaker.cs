@@ -31,7 +31,7 @@ public class CenterPointBaker : PointBaker
 
         for (int i = pointsTransform.Count - 1; i >= 0; i--)
         {
-            Zone zone = ZoneManager.Instance.GetZoneAt(pointsTransform[i], Vector3.zero);
+            Zone zone = ZoneManager.Instance.GetZoneAt(pointsTransform[i]);
 
             if (zone != null && zone.zoneData != null)
             {
