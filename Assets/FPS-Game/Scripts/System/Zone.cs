@@ -148,17 +148,17 @@ public class Zone : MonoBehaviour
         lastVisitedTime = Time.time - Random.Range(0, 60f);
     }
 
-    //     public float GetCurrentWeight()
-    //     {
-    //         // Trọng số hiện tại = Trọng số gốc + (thời gian trôi qua * tốc độ tăng)
-    //         return baseWeight + (Time.time - lastVisitedTime) * growRate;
-    //     }
+    public float GetCurrentWeight()
+    {
+        // Trọng số hiện tại = Trọng số gốc + (thời gian trôi qua * tốc độ tăng)
+        return zoneData.baseWeight + (Time.time - lastVisitedTime) * zoneData.growRate;
+    }
 
-    //     public void ResetWeight()
-    //     {
-    //         lastVisitedTime = Time.time;
-    //         Debug.Log($"Zone has been reset: {gameObject.name}");
-    //     }
+    public void ResetWeight()
+    {
+        lastVisitedTime = Time.time;
+        Debug.Log($"Zone has been reset: {zoneData.zoneID}");
+    }
 
     //     public Transform GetRandomTP()
     //     {

@@ -79,6 +79,28 @@ public class ZoneManager : MonoBehaviour
         }
     }
 
+    private Zone GetBestZone()
+    {
+        if (allZones == null || allZones.Count == 0)
+        {
+            Debug.Log("Unvalid zones list");
+            return null;
+        }
+
+        Zone bestZone = allZones[0];
+        foreach (Zone zone in allZones)
+        {
+            if (zone.GetCurrentWeight() > bestZone.GetCurrentWeight())
+            {
+                bestZone = zone;
+            }
+        }
+        bestZone.ResetWeight();
+        Debug.Log($"Bot patrol to zone: {bestZone.zoneData.zoneID}");
+
+        return bestZone;
+    }
+
     public Zone GetZoneByID(ZoneID zoneID)
     {
         foreach (Zone zone in allZones)
@@ -288,7 +310,14 @@ public class ZoneManager : MonoBehaviour
 #endif
     }
 
-    public List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData targetZone)
+    public List<PortalPoint> CalculatePath(Vector3 botPosition)
+    {
+        Zone bestZone = GetBestZone();
+        portalPointPath = CalculatePath(botPosition, bestZone.zoneData);
+        return portalPointPath;
+    }
+
+    List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData targetZone)
     {
         Debug.Log($"Bắt đầu tính toán lộ trình tới Zone: {targetZone.zoneID}");
         // Khởi tạo danh sách đích (Targets)

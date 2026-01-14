@@ -131,6 +131,16 @@ namespace AIBot
             // SafeSet("visibilityMatrix", chaseInfo.zone.visibilityMatrix);
         }
 
+        public void SetTargetPortalToPatrol(PortalPoint portal)
+        {
+            SafeSet("targetPosition", portal.position);
+        }
+
+        public void SetTargetPortalListEmpty(bool b)
+        {
+            SafeSet("targetPortalListEmpty", b);
+        }
+
         void Update()
         {
             GetValuesSharedVariables();

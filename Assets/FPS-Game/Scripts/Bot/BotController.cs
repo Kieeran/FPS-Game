@@ -85,6 +85,9 @@ namespace AIBot
         private Behavior _activeBehavior;
         public PlayerRoot PlayerRoot { get; private set; }
 
+        List<PortalPoint> portalPointsToPatrol = new();
+        int currenPortalIndex = 0;
+
         void Awake()
         {
             PlayerRoot = transform.root.GetComponent<PlayerRoot>();
@@ -225,7 +228,9 @@ namespace AIBot
                     break;
                 case State.Patrol:
                     Debug.Log("Entering Patrol State");
+                    CalculatePatrolPath();
                     StartBehavior(patrolBehavior);
+                    blackboardLinker.SetTargetPortalToPatrol(portalPointsToPatrol[currenPortalIndex]);
                     break;
                 case State.Combat:
                     Debug.Log("Entering Combat State");
@@ -290,6 +295,26 @@ namespace AIBot
             }
         }
 
+        void CalculatePatrolPath()
+        {
+            portalPointsToPatrol.Clear();
+            portalPointsToPatrol = ZoneManager.Instance.CalculatePath(PlayerRoot.GetCharacterPosition());
+            currenPortalIndex = 0;
+        }
+
+        public void NextPortal()
+        {
+            currenPortalIndex++;
+            if (currenPortalIndex >= portalPointsToPatrol.Count)
+            {
+                blackboardLinker.SetTargetPortalListEmpty(true);
+                return;
+            }
+
+            blackboardLinker.SetTargetPortalListEmpty(false);
+            blackboardLinker.SetTargetPortalToPatrol(portalPointsToPatrol[currenPortalIndex]);
+        }
+
         public void ShiftToNextCandidate()
         {
             // Transform nextTP = botTactics.GetNextPoint();
@@ -304,7 +329,7 @@ namespace AIBot
             // }
 
             // blackboardLinker.SetCurrentTacticalPoint(data);
-            
+
             blackboardLinker.SetNextTarget();
         }
 
