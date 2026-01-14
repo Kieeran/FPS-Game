@@ -184,7 +184,9 @@ public class PlayerRoot : NetworkBehaviour
     public PlayerEvents Events { get; private set; }
     public NetworkVariable<bool> IsBot = new();
     public NetworkVariable<FixedString32Bytes> BotID = new();
-    public Zone CurrentZone;
+    // CurrentZone và CurrentZoneData là khác nhau
+    public Zone CurrentZone;    // Dùng khi detect khi character đi vào vùng trigger collider nào đó
+    public ZoneData CurrentZoneData;    // Dùng khi cần lấy current zone lúc tính path 
     public void SetIsCharacterBot(bool b)
     {
         if (!IsServer)

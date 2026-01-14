@@ -310,14 +310,14 @@ public class ZoneManager : MonoBehaviour
 #endif
     }
 
-    public List<PortalPoint> CalculatePath(Vector3 botPosition)
+    public List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData currentZoneData)
     {
         Zone bestZone = GetBestZone();
-        portalPointPath = CalculatePath(botPosition, bestZone.zoneData);
+        portalPointPath = CalculatePath(botPosition, currentZoneData, bestZone.zoneData);
         return portalPointPath;
     }
 
-    List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData targetZone)
+    List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData currentZoneData, ZoneData targetZone)
     {
         Debug.Log($"Bắt đầu tính toán lộ trình tới Zone: {targetZone.zoneID}");
         // Khởi tạo danh sách đích (Targets)
@@ -373,7 +373,7 @@ public class ZoneManager : MonoBehaviour
         // }
 
         // Gọi lõi thuật toán Dijkstra
-        return Dijkstra(botPosition, targets, adj);
+        return Dijkstra(botPosition, currentZoneData, targets, adj);
     }
 
     private void AddEdge(Dictionary<PortalPoint, List<(PortalPoint v, float w)>> adj, PortalPoint from, PortalPoint to, float w)
@@ -388,7 +388,7 @@ public class ZoneManager : MonoBehaviour
         adj[from].Add((to, w));
     }
 
-    public List<PortalPoint> Dijkstra(Vector3 source, List<PortalPoint> targets, Dictionary<PortalPoint, List<(PortalPoint v, float w)>> adj)
+    public List<PortalPoint> Dijkstra(Vector3 source, ZoneData currentZoneData, List<PortalPoint> targets, Dictionary<PortalPoint, List<(PortalPoint v, float w)>> adj)
     {
         var pq = new List<(PortalPoint u, float d)>();
         var dists = new Dictionary<PortalPoint, float>();
@@ -401,15 +401,23 @@ public class ZoneManager : MonoBehaviour
         }
 
         // Tìm các portal ở Zone hiện tại và nạp vào pq (Nguồn động)
-        Zone currentZone = GetZoneAt(source);
-        if (currentZone == null)
+        Zone zone;
+        if (currentZoneData != null)
         {
-            Debug.LogError("Không tìm thấy Zone tại vị trí Bot!");
-            return null;
+            zone = GetZoneByID(currentZoneData.zoneID);
+        }
+        else
+        {
+            zone = GetZoneAt(source);
+            if (zone == null)
+            {
+                Debug.LogError("Không tìm thấy Zone tại vị trí Bot!");
+                return null;
+            }
         }
 
         // Thêm các node hiện có ở source vào pq
-        foreach (var pRaw in currentZone.zoneData.portals)
+        foreach (var pRaw in zone.zoneData.portals)
         {
             PortalPoint pUnique = GetPortalPointByName(pRaw.portalName);
             if (pUnique == null) continue;

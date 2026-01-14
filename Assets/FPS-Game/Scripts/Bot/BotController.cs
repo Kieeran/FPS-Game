@@ -305,7 +305,7 @@ namespace AIBot
         void CalculatePatrolPath()
         {
             portalPointsToPatrol.Clear();
-            portalPointsToPatrol = ZoneManager.Instance.CalculatePath(PlayerRoot.GetCharacterPosition());
+            portalPointsToPatrol = ZoneManager.Instance.CalculatePath(PlayerRoot.GetCharacterPosition(), PlayerRoot.CurrentZoneData);
             currenPortalIndex = 0;
         }
 
@@ -315,11 +315,27 @@ namespace AIBot
             if (currenPortalIndex >= portalPointsToPatrol.Count)
             {
                 // blackboardLinker.SetTargetPortalListEmpty(true);
+                CalculateCurrentZone();
                 return;
             }
 
             // blackboardLinker.SetTargetPortalListEmpty(false);
             blackboardLinker.SetTargetPortalToPatrol(portalPointsToPatrol[currenPortalIndex]);
+        }
+
+        void CalculateCurrentZone()
+        {
+            PortalPoint currentPortal = portalPointsToPatrol[portalPointsToPatrol.Count - 1];
+            PortalPoint prevPortal = portalPointsToPatrol[portalPointsToPatrol.Count - 2];
+
+            if (currentPortal.zoneDataA.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataA.zoneID == prevPortal.zoneDataB.zoneID)
+            {
+                PlayerRoot.CurrentZoneData = currentPortal.zoneDataB;
+            }
+            else if (currentPortal.zoneDataB.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataB.zoneID == prevPortal.zoneDataB.zoneID)
+            {
+                PlayerRoot.CurrentZoneData = currentPortal.zoneDataA;
+            }
         }
 
         public void ShiftToNextCandidate()
