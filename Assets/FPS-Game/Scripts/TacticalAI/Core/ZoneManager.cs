@@ -10,6 +10,7 @@ public class ZoneManager : MonoBehaviour
 {
     public static ZoneManager Instance { get; private set; }
     public List<Zone> allZones = new();
+    public List<PortalPoint> allPortals = new();
     public float heightOffset = 2.84f;
 
     public LayerMask obstacleLayer;
@@ -58,7 +59,23 @@ public class ZoneManager : MonoBehaviour
     {
         if (zoneContainer != null)
         {
+            allZones.Clear();
             allZones = zoneContainer.GetComponentsInChildren<Zone>(true).ToList();
+
+            Dictionary<string, PortalPoint> portalPointDict = new();
+            foreach (Zone zone in allZones)
+            {
+                foreach (PortalPoint portal in zone.zoneData.portals)
+                {
+                    if (portalPointDict.ContainsKey(portal.portalName)) continue;
+                    portalPointDict[portal.portalName] = portal;
+                }
+            }
+            allPortals.Clear();
+            foreach (PortalPoint point in portalPointDict.Values)
+            {
+                allPortals.Add(point);
+            }
         }
     }
 
@@ -69,6 +86,16 @@ public class ZoneManager : MonoBehaviour
             if (zone.zoneData.zoneID == zoneID) return zone;
         }
 
+        return null;
+    }
+
+    public PortalPoint GetPortalPointByName(string name)
+    {
+        if (name == "") return null;
+        foreach (PortalPoint point in allPortals)
+        {
+            if (point.portalName == name) return point;
+        }
         return null;
     }
 
@@ -231,85 +258,283 @@ public class ZoneManager : MonoBehaviour
         return 0;
     }
 
+    public Transform currentBotTransform;
     public ZoneData startZone;
     public ZoneData targetZone;
-    public bool showResultRoute = true;
     List<ZoneData> route = new();
+    // public List<AdjRow> adjList = new();
 
-    [ContextMenu("Get Shortest Path")]
-    public void CalculateShortestPath()
+    // [System.Serializable]
+    // public class AdjRow // Đại diện cho một dòng trong danh sách kề
+    // {
+    //     public string portalName; // Tên portal gốc để dễ nhìn
+    //     public List<PortalPoint> neighbors = new(); // Các portal có thể đi tới
+    // }
+
+    // [ContextMenu("Get Shortest Path")]
+    // public void CalculateShortestPath()
+    // {
+    //     route = GetShortestPath(startZone, targetZone);
+
+    //     if (route == null || route.Count == 0)
+    //         Debug.LogWarning("Không tìm thấy lộ trình!");
+    //     else
+    //         Debug.Log($"Đã tìm thấy lộ trình qua {route.Count} Zone.");
+    // }
+
+    public List<PortalPoint> portalPointPath = new();
+    [ContextMenu("Bake Path")]
+    public void BakePath()
     {
-        route = GetShortestPath(startZone, targetZone);
+        portalPointPath = CalculatePath(currentBotTransform.position, targetZone);
 
-        if (route == null || route.Count == 0)
-            Debug.LogWarning("Không tìm thấy lộ trình!");
-        else
-            Debug.Log($"Đã tìm thấy lộ trình qua {route.Count} Zone.");
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(this);
+#endif
     }
 
-    public List<ZoneData> GetShortestPath(ZoneData startZone, ZoneData targetZone)
+    public List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData targetZone)
     {
-        if (startZone == null || targetZone == null) return new List<ZoneData>();
-
-        Dictionary<ZoneData, float> dists = new();
-        Dictionary<ZoneData, ZoneData> prevs = new();
-        List<(ZoneData zone, float d)> pq = new();
-
-        // Khởi tạo
-        foreach (var z in allZones)
+        Debug.Log($"Bắt đầu tính toán lộ trình tới Zone: {targetZone.zoneID}");
+        // Khởi tạo danh sách đích (Targets)
+        List<PortalPoint> targets = new();
+        foreach (PortalPoint point in targetZone.portals)
         {
-            dists[z.zoneData] = float.MaxValue;
-            prevs[z.zoneData] = null;
-        }
-
-        dists[startZone] = 0;
-        pq.Add((startZone, 0));
-
-        while (pq.Count > 0)
-        {
-            pq.Sort((a, b) => a.d.CompareTo(b.d));
-
-            (ZoneData u, float d) = pq[0];
-            pq.RemoveAt(0);
-
-            if (d > dists[u]) continue;
-            if (u == targetZone) break;
-
-            foreach (var portal in u.portals)
+            PortalPoint p = GetPortalPointByName(point.portalName);
+            if (p != null)
             {
-                ZoneData v = portal.GetOtherZone(u);
-                float weight = portal.traversalCost; // traversalCost đã bake
-
-                if (dists[u] + weight < dists[v])
-                {
-                    dists[v] = dists[u] + weight;
-                    prevs[v] = u;
-                    pq.Add((v, dists[v]));
-                }
+                targets.Add(p);
             }
         }
 
-        return ReconstructPath(prevs, targetZone);
+        // Xây dựng danh sách kề (Adjacency List - adj)
+        // Coi PortalName là Key, danh sách các Portal hàng xóm và khoảng cách là Value
+        var adj = new Dictionary<PortalPoint, List<(PortalPoint v, float w)>>();
+
+        int connectionCount = 0;
+        foreach (Zone zone in allZones)
+        {
+            foreach (var conn in zone.zoneData.internalPaths)
+            {
+                PortalPoint a = GetPortalPointByName(conn.portalA.portalName);
+                PortalPoint b = GetPortalPointByName(conn.portalB.portalName);
+
+                if (a != null && b != null)
+                {
+                    AddEdge(adj, a, b, conn.traversalCost);
+                    AddEdge(adj, b, a, conn.traversalCost);
+                    connectionCount++;
+                }
+            }
+        }
+        Debug.Log($"Đã dựng đồ thị với {connectionCount} kết nối nội bộ.");
+
+        // adjList.Clear();
+        // foreach (PortalPoint portal in adj.Keys)
+        // {
+        //     AdjRow adjRow = new()
+        //     {
+        //         portalName = portal.portalName
+        //     };
+
+        //     Debug.Log($"===={portal.portalName}====");
+        //     string logString = "";
+        //     foreach (var (v, w) in adj[portal])
+        //     {
+        //         adjRow.neighbors.Add(v);
+        //         logString += $"{v.portalName} {w}\n";
+        //     }
+        //     Debug.Log(logString);
+        //     adjList.Add(adjRow);
+        // }
+
+        // Gọi lõi thuật toán Dijkstra
+        return Dijkstra(botPosition, targets, adj);
     }
 
-    private List<ZoneData> ReconstructPath(Dictionary<ZoneData, ZoneData> prevs, ZoneData target)
+    private void AddEdge(Dictionary<PortalPoint, List<(PortalPoint v, float w)>> adj, PortalPoint from, PortalPoint to, float w)
     {
-        List<ZoneData> path = new();
-        ZoneData curr = target;
+        if (!adj.ContainsKey(from))
+        {
+            // Debug.Log($"<color=cyan>Add key {from.portalName} to adj</color>");
+            adj[from] = new List<(PortalPoint, float)>();
+        }
 
-        while (curr != null)
+        // Debug.Log($"Add value {to.portalName} to key <color=cyan>{from.portalName}</color> of adj");
+        adj[from].Add((to, w));
+    }
+
+    public List<PortalPoint> Dijkstra(Vector3 source, List<PortalPoint> targets, Dictionary<PortalPoint, List<(PortalPoint v, float w)>> adj)
+    {
+        var pq = new List<(PortalPoint u, float d)>();
+        var dists = new Dictionary<PortalPoint, float>();
+        var prevs = new Dictionary<PortalPoint, PortalPoint>();
+
+        // Khởi tạo dist = vô cực
+        foreach (PortalPoint point in allPortals)
+        {
+            dists[point] = float.MaxValue;
+        }
+
+        // Tìm các portal ở Zone hiện tại và nạp vào pq (Nguồn động)
+        Zone currentZone = GetZoneAt(null, source);
+        if (currentZone == null)
+        {
+            Debug.LogError("Không tìm thấy Zone tại vị trí Bot!");
+            return null;
+        }
+
+        // Thêm các node hiện có ở source vào pq
+        foreach (var pRaw in currentZone.zoneData.portals)
+        {
+            PortalPoint pUnique = GetPortalPointByName(pRaw.portalName);
+            if (pUnique == null) continue;
+
+            float d = GetNavMeshDistance(GetSnappedPos(source), GetSnappedPos(pUnique.position), new NavMeshPath());
+            dists[pUnique] = d;
+            pq.Add((pUnique, d));
+            Debug.Log($"Nạp portal nguồn: {pUnique.portalName}, Khoảng cách: {d}");
+        }
+
+        PortalPoint finalNode = null;
+        int steps = 0;
+
+        while (pq.Count > 0)
+        {
+            steps++;
+            pq.Sort((a, b) => a.d.CompareTo(b.d));
+            var current = pq[0];
+            pq.RemoveAt(0);
+
+            PortalPoint u = current.u;
+            float d = current.d;
+
+            if (d > dists[u]) continue;
+
+            // Log bước nhảy
+            // Debug.Log($"[Step {steps}] Đang xét Portal: {u.portalName} (Dist: {d})");
+
+            // KIỂM TRA ĐÍCH (Nếu targets chứa u)
+            if (targets.Any(t => t.portalName == u.portalName))
+            {
+                finalNode = u;
+                Debug.Log($"<color=green>Đã tìm thấy đích tại {u.portalName}</color>");
+                break;
+            }
+
+            // Lặp qua danh sách kề (adj)
+            if (adj.ContainsKey(u))
+            {
+                foreach (var edge in adj[u])
+                {
+                    // Đảm bảo hàng xóm cũng là bản Unique
+                    PortalPoint vUnique = GetPortalPointByName(edge.v.portalName);
+                    if (vUnique == null) continue;
+
+                    float newDist = d + edge.w;
+                    if (newDist < dists[vUnique])
+                    {
+                        dists[vUnique] = newDist;
+                        prevs[vUnique] = u;
+                        pq.Add((vUnique, newDist));
+                    }
+                }
+            }
+        }
+        if (finalNode == null) Debug.LogWarning("Không tìm thấy đường tới Target Zone!");
+
+        // Truy vấn ngược
+        return ReconstructPath_V2(prevs, finalNode);
+    }
+
+    private List<PortalPoint> ReconstructPath_V2(Dictionary<PortalPoint, PortalPoint> prevs, PortalPoint finalPortal)
+    {
+        if (finalPortal == null) return new List<PortalPoint>();
+
+        List<PortalPoint> path = new();
+        PortalPoint curr = finalPortal;
+
+        // Sử dụng HashSet để chống vòng lặp vô tận (Safety check)
+        HashSet<PortalPoint> visited = new();
+
+        while (curr != null && !visited.Contains(curr))
         {
             path.Add(curr);
-            // Kiểm tra xem node hiện tại có nằm trong bảng truy vết không
+            visited.Add(curr);
+
             if (prevs.ContainsKey(curr))
                 curr = prevs[curr];
             else
-                break;
+                curr = null;
         }
 
         path.Reverse();
         return path;
     }
+
+    // public List<ZoneData> GetShortestPath(ZoneData startZone, ZoneData targetZone)
+    // {
+    //     if (startZone == null || targetZone == null) return new List<ZoneData>();
+
+    //     Dictionary<ZoneData, float> dists = new();
+    //     Dictionary<ZoneData, ZoneData> prevs = new();
+    //     List<(ZoneData zone, float d)> pq = new();
+
+    //     // Khởi tạo
+    //     foreach (var z in allZones)
+    //     {
+    //         dists[z.zoneData] = float.MaxValue;
+    //         prevs[z.zoneData] = null;
+    //     }
+
+    //     dists[startZone] = 0;
+    //     pq.Add((startZone, 0));
+
+    //     while (pq.Count > 0)
+    //     {
+    //         pq.Sort((a, b) => a.d.CompareTo(b.d));
+
+    //         (ZoneData u, float d) = pq[0];
+    //         pq.RemoveAt(0);
+
+    //         if (d > dists[u]) continue;
+    //         if (u == targetZone) break;
+
+    //         foreach (var portal in u.portals)
+    //         {
+    //             ZoneData v = portal.GetOtherZone(u);
+    //             float weight = portal.traversalCost; // traversalCost đã bake
+
+    //             if (dists[u] + weight < dists[v])
+    //             {
+    //                 dists[v] = dists[u] + weight;
+    //                 prevs[v] = u;
+    //                 pq.Add((v, dists[v]));
+    //             }
+    //         }
+    //     }
+
+    //     return ReconstructPath(prevs, targetZone);
+    // }
+
+    // private List<ZoneData> ReconstructPath(Dictionary<ZoneData, ZoneData> prevs, ZoneData target)
+    // {
+    //     List<ZoneData> path = new();
+    //     ZoneData curr = target;
+
+    //     while (curr != null)
+    //     {
+    //         path.Add(curr);
+    //         // Kiểm tra xem node hiện tại có nằm trong bảng truy vết không
+    //         if (prevs.ContainsKey(curr))
+    //             curr = prevs[curr];
+    //         else
+    //             break;
+    //     }
+
+    //     path.Reverse();
+    //     return path;
+    // }
 
     // Hàm phụ trợ tìm Portal nối giữa 2 Zone
     private PortalPoint GetPortalBetween(ZoneData a, ZoneData b)
@@ -323,47 +548,54 @@ public class ZoneManager : MonoBehaviour
         return null;
     }
 
-    public bool showNavigationGraphBetweenCenterPos = true;
-    public bool showNavigationGraphBetweenPortal = true;
+    // public bool showResultRoute = true;
+    // public bool showNavigationGraphBetweenCenterPos = true;
+    public bool showConnectionGraphBetweenPortal = true;
+    public bool showShortestPortalPointPath = true;
 
     private void OnDrawGizmos()
     {
-        if (showNavigationGraphBetweenCenterPos)
+        // if (showNavigationGraphBetweenCenterPos)
+        // {
+        //     DrawNavigationGraphBetweenCenterPos();
+        // }
+
+        // if (showResultRoute)
+        // {
+        //     DrawResultRoute();
+        // }
+
+        if (showConnectionGraphBetweenPortal)
         {
-            DrawNavigationGraphBetweenCenterPos();
+            DrawConnectionGraphBetweenPortal();
         }
 
-        if (showNavigationGraphBetweenPortal)
+        if (showShortestPortalPointPath)
         {
-            DrawNavigationGraphBetweenPortal();
-        }
-
-        if (showResultRoute)
-        {
-            DrawResultRoute();
-        }
-    }
-
-    void DrawNavigationGraphBetweenCenterPos()
-    {
-        NavMeshPath path = new();
-        foreach (Zone zone in allZones)
-        {
-            if (zone.zoneData == null) continue;
-            Vector3 startPos = zone.zoneData.centerPos;
-            if (zone.zoneData.portals == null) continue;
-
-            foreach (var portal in zone.zoneData.portals)
-            {
-                if (portal == null) continue;
-
-                // Vẽ đường đi dưới đất từ Center -> Portal
-                DrawNavMeshGizmoLine(GetSnappedPos(startPos), GetSnappedPos(portal.position), path, Color.green);
-            }
+            DrawPath();
         }
     }
 
-    void DrawNavigationGraphBetweenPortal()
+    // void DrawNavigationGraphBetweenCenterPos()
+    // {
+    //     NavMeshPath path = new();
+    //     foreach (Zone zone in allZones)
+    //     {
+    //         if (zone.zoneData == null) continue;
+    //         Vector3 startPos = zone.zoneData.centerPos;
+    //         if (zone.zoneData.portals == null) continue;
+
+    //         foreach (var portal in zone.zoneData.portals)
+    //         {
+    //             if (portal == null) continue;
+
+    //             // Vẽ đường đi dưới đất từ Center -> Portal
+    //             DrawNavMeshGizmoLine(GetSnappedPos(startPos), GetSnappedPos(portal.position), path, Color.green);
+    //         }
+    //     }
+    // }
+
+    void DrawConnectionGraphBetweenPortal()
     {
         NavMeshPath path = new();
         foreach (Zone zone in allZones)
@@ -385,22 +617,38 @@ public class ZoneManager : MonoBehaviour
         }
     }
 
-    void DrawResultRoute()
+    // void DrawResultRoute()
+    // {
+    //     NavMeshPath path = new();
+    //     if (route != null && route.Count >= 2)
+    //     {
+    //         for (int i = 0; i < route.Count - 1; i++)
+    //         {
+    //             ZoneData current = route[i];
+    //             ZoneData next = route[i + 1];
+    //             PortalPoint connector = GetPortalBetween(current, next);
+
+    //             if (connector != null)
+    //             {
+    //                 DrawNavMeshGizmoLine(GetSnappedPos(current.centerPos), GetSnappedPos(connector.position), path, Color.green);
+    //                 DrawNavMeshGizmoLine(GetSnappedPos(connector.position), GetSnappedPos(next.centerPos), path, Color.green);
+    //             }
+    //         }
+    //     }
+    // }
+
+    void DrawPath()
     {
         NavMeshPath path = new();
-        if (route != null && route.Count >= 2)
+        if (portalPointPath != null && portalPointPath.Count >= 2)
         {
-            for (int i = 0; i < route.Count - 1; i++)
+            DrawNavMeshGizmoLine(GetSnappedPos(currentBotTransform.position), GetSnappedPos(portalPointPath[0].position), path, Color.green);
+            for (int i = 0; i < portalPointPath.Count - 1; i++)
             {
-                ZoneData current = route[i];
-                ZoneData next = route[i + 1];
-                PortalPoint connector = GetPortalBetween(current, next);
+                PortalPoint current = portalPointPath[i];
+                PortalPoint next = portalPointPath[i + 1];
 
-                if (connector != null)
-                {
-                    DrawNavMeshGizmoLine(GetSnappedPos(current.centerPos), GetSnappedPos(connector.position), path, Color.green);
-                    DrawNavMeshGizmoLine(GetSnappedPos(connector.position), GetSnappedPos(next.centerPos), path, Color.green);
-                }
+                DrawNavMeshGizmoLine(GetSnappedPos(current.position), GetSnappedPos(next.position), path, Color.green);
             }
         }
     }

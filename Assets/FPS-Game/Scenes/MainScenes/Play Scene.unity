@@ -3145,7 +3145,6 @@ GameObject:
   - component: {fileID: 245122155}
   - component: {fileID: 245122158}
   - component: {fileID: 245122157}
-  - component: {fileID: 245122159}
   m_Layer: 2
   m_Name: Bot
   m_TagString: Untagged
@@ -3162,7 +3161,7 @@ Transform:
   m_GameObject: {fileID: 245122154}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.77, y: 0, z: 3.46}
+  m_LocalPosition: {x: 0.77, y: -2.31, z: 5.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3218,31 +3217,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 245122154}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &245122159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245122154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c23708a75ed62f4ca522e7fe58c2aaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1341766273}
-  sectorCount: 0
-  viewAngle: 180
-  searchRadius: 15
-  radialSamples: 1
-  samplesPerSector: 3
-  navMeshSampleDistance: 15
-  maxPathDistance: 15
-  requireCompletePath: 1
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 1
-  drawGizmos: 1
 --- !u!1 &247264210
 GameObject:
   m_ObjectHideFlags: 0
@@ -18175,6 +18149,135 @@ MonoBehaviour:
   - {fileID: 1444559616}
   - {fileID: 392971426}
   - {fileID: 568983210}
+  allPortals:
+  - position: {x: -16.04, y: 2.652177, z: 70.13}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: CT_Left - Stairs
+    zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 22283718b238c2d4daa1c54ae4426cec, type: 2}
+    traversalCost: 40.182007
+  - position: {x: -4.2800007, y: -0.040445328, z: 25}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: CT_Spawn - CT_Left
+    zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 22283718b238c2d4daa1c54ae4426cec, type: 2}
+    traversalCost: 43.016445
+  - position: {x: 15.7, y: 2.8788438, z: 53.729996}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: CT_Right - Market
+    zoneDataA: {fileID: 11400000, guid: 03cfa90d6d1563c49a2378c05af105f9, type: 2}
+    zoneDataB: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    traversalCost: 39.061523
+  - position: {x: 4.7700005, y: -0.06782317, z: 25}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: CT_Spawn - CT_Right
+    zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 03cfa90d6d1563c49a2378c05af105f9, type: 2}
+    traversalCost: 32.616123
+  - position: {x: -5.299, y: 8.432178, z: 98.04}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Long - House
+    zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 12276391b5724e64ab088db6bfc0c4f1, type: 2}
+    traversalCost: 69.36072
+  - position: {x: 11.58, y: 8.205511, z: 136.16}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: T_Spawn - Long
+    zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+    traversalCost: 45.99028
+  - position: {x: 15.64, y: 2.8788438, z: 130.07}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Streets - Long_Cellar
+    zoneDataA: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+    traversalCost: 57.556
+  - position: {x: -12.92, y: 2.8788438, z: 139.8}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Storage_Room - Long_Cellar
+    zoneDataA: {fileID: 11400000, guid: 83fedd6943c3ddd44bc920b4e8338640, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
+    traversalCost: 26.368183
+  - position: {x: 33.32, y: 2.652177, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Market - Streets - 2
+    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+    traversalCost: 63.38446
+  - position: {x: 55.91, y: 2.8788438, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Market - Streets
+    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+    traversalCost: 78.232216
+  - position: {x: -14.93, y: 6.067177, z: 122.1}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Stair_Room - Storage_Room
+    zoneDataA: {fileID: 11400000, guid: 83fedd6943c3ddd44bc920b4e8338640, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 8afa3929c9de5214aa416aac56d7c814, type: 2}
+    traversalCost: 21.418192
+  - position: {x: -16.24, y: 8.431116, z: 112.899994}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Stairs - Stair_Room
+    zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 8afa3929c9de5214aa416aac56d7c814, type: 2}
+    traversalCost: 60.93782
+  - position: {x: -16.17, y: 2.652177, z: 102.31}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Stairs - Streets
+    zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+    traversalCost: 51.19581
+  - position: {x: 19.369999, y: 2.6564474, z: 131.76}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Streets - T_Spawn
+    zoneDataA: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+    traversalCost: 74.584946
+  - position: {x: 49.7, y: 2.652177, z: 84.61}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Streets - Tunnel
+    zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+    traversalCost: 61.56221
+  - position: {x: 47.31, y: 8.205511, z: 132.37}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Tunnel - T_Spawn
+    zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+    traversalCost: 42.16577
   heightOffset: 2.84
   obstacleLayer:
     serializedVersion: 2
@@ -18183,11 +18286,68 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16384
   zoneContainer: {fileID: 348272422}
+  currentBotTransform: {fileID: 245122155}
   startZone: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
-  targetZone: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
-  showResultRoute: 0
-  showNavigationGraphBetweenCenterPos: 0
-  showNavigationGraphBetweenPortal: 1
+  targetZone: {fileID: 11400000, guid: 12276391b5724e64ab088db6bfc0c4f1, type: 2}
+  portalPointPath:
+  - position: {x: 4.7700005, y: -0.06782317, z: 25}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: CT_Spawn - CT_Right
+    zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 03cfa90d6d1563c49a2378c05af105f9, type: 2}
+    traversalCost: 32.616123
+  - position: {x: 15.7, y: 2.8788438, z: 53.729996}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: CT_Right - Market
+    zoneDataA: {fileID: 11400000, guid: 03cfa90d6d1563c49a2378c05af105f9, type: 2}
+    zoneDataB: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    traversalCost: 39.061523
+  - position: {x: 33.32, y: 2.652177, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Market - Streets - 2
+    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+    traversalCost: 63.38446
+  - position: {x: 49.7, y: 2.652177, z: 84.61}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Streets - Tunnel
+    zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+    traversalCost: 61.56221
+  - position: {x: 47.31, y: 8.205511, z: 132.37}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Tunnel - T_Spawn
+    zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+    traversalCost: 42.16577
+  - position: {x: 11.58, y: 8.205511, z: 136.16}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: T_Spawn - Long
+    zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+    traversalCost: 45.99028
+  - position: {x: -5.299, y: 8.432178, z: 98.04}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    portalName: Long - House
+    zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 12276391b5724e64ab088db6bfc0c4f1, type: 2}
+    traversalCost: 69.36072
+  showConnectionGraphBetweenPortal: 0
+  showShortestPortalPointPath: 0
 --- !u!1 &1485888357
 GameObject:
   m_ObjectHideFlags: 0
@@ -18473,7 +18633,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1492778415
 Transform:
   m_ObjectHideFlags: 0
