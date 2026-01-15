@@ -22,6 +22,7 @@ namespace AIBot
         bool isTriggerOnPlayerLost = false;
 
         [SerializeField] BotController botController;
+        [SerializeField] BotTactics botTactics;
         PlayerRoot botRoot;
         float botHorizontalFOV;
         Dictionary<Transform, Color> targetsDebug = new();
@@ -39,11 +40,6 @@ namespace AIBot
         void Awake()
         {
             botRoot = transform.root.GetComponent<PlayerRoot>();
-        }
-
-        void OnValidate()
-        {
-            botController = GetComponentInParent<BotController>();
         }
 
         void Start()
@@ -92,6 +88,8 @@ namespace AIBot
                 //     CheckVisibleTacticalPoints(currentSearchPath, viewDistance, botHorizontalFOV, obstacleMask);
                 // }
             }
+
+            ScanInfoPointInArea();
         }
 
         public void SetCurrentSearchPath(List<Transform> val)
@@ -158,6 +156,37 @@ namespace AIBot
                 lastKnownData.SetValue(nearest.PlayerCamera.GetPlayerCameraTarget());
             }
             return nearest;
+        }
+
+        void ScanInfoPointInArea()
+        {
+            if (botTactics == null || botTactics.currentVisiblePoint == null) return;
+
+            List<InfoPoint> visiblePoints = botTactics.currentVisiblePoint;
+            if (visiblePoints.Count <= 0) return;
+
+            Transform botCameraTransform = botRoot.PlayerCamera.GetPlayerCameraTarget();
+            foreach (InfoPoint point in visiblePoints)
+            {
+                if (point == null) continue;
+
+                Vector3 dir = (point.position - botCameraTransform.position).normalized;
+                float dist = Vector3.Distance(botCameraTransform.position, point.position);
+
+                // outside range
+                if (dist > viewDistance)
+                {
+                    continue;
+                }
+
+                // outside FOV
+                if (Vector3.Dot(botCameraTransform.forward, dir) < Mathf.Cos(botHorizontalFOV * 0.5f * Mathf.Deg2Rad))
+                {
+                    continue;
+                }
+
+                point.isChecked = true;
+            }
         }
 
         void CheckVisibleTacticalPoints(List<Transform> tpList, float range, float fov, LayerMask obstacleMask)

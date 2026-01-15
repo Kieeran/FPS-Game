@@ -346,6 +346,11 @@ namespace AIBot
             blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
         }
 
+        public void HasReachedInfoPoint()
+        {
+            botTactics.CalculateCurrentVisiblePoint();
+        }
+
         public void ShiftToNextCandidate()
         {
             // Transform nextTP = botTactics.GetNextPoint();

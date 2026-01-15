@@ -44,6 +44,7 @@ public class BotTactics : MonoBehaviour
     public List<InfoPoint> currentInfoPointsToScan { get; private set; } = new();
     public InfoPoint currentInfoPoint = new();
     public ScanRange currentScanRange = new();
+    public List<InfoPoint> currentVisiblePoint = new();
 
     public void SetCurrentInfoPointsToScan(List<InfoPoint> infoPoints, InfoPoint point)
     {
@@ -52,6 +53,15 @@ public class BotTactics : MonoBehaviour
         currentInfoPoint = point;
 
         CalculateCurrentScanRange();
+    }
+
+    public void CalculateCurrentVisiblePoint()
+    {
+        currentVisiblePoint.Clear();
+        for (int i = 0; i < currentInfoPoint.visibleIndices.Count; i++)
+        {
+            currentVisiblePoint.Add(currentInfoPointsToScan[i]);
+        }
     }
 
     void CalculateCurrentScanRange()
@@ -210,17 +220,12 @@ public class BotTactics : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (currentInfoPointsToScan.Count <= 0) return;
-        List<InfoPoint> masterPoints = botController.PlayerRoot.CurrentZoneData.masterPoints;
-
-        Gizmos.DrawSphere(currentInfoPoint.position, 0.2f);
-        Handles.Label(currentInfoPoint.position + Vector3.up * 0.5f, currentInfoPoint.priority.ToString());
-
-        foreach (var index in currentInfoPoint.visibleIndices)
+        if (currentVisiblePoint.Count <= 0) return;
+        foreach (var point in currentVisiblePoint)
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(masterPoints[index].position, 0.2f);
-            Handles.Label(masterPoints[index].position + Vector3.up * 0.5f, masterPoints[index].priority.ToString());
+            Gizmos.color = point.isChecked ? Color.green : Color.yellow;
+            Gizmos.DrawSphere(point.position, 0.2f);
+            Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
         }
     }
 }

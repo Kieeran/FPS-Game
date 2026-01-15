@@ -13,7 +13,7 @@ public class InfoPoint
     public int priority;
     public List<int> visibleIndices = new();
 
-    [System.NonSerialized] public bool isChecked = false; // Dữ liệu Runtime
+    public bool isChecked = false; // Dữ liệu Runtime
 }
 
 [System.Serializable]

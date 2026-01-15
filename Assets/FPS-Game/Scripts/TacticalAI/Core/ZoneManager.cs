@@ -95,7 +95,6 @@ public class ZoneManager : MonoBehaviour
                 bestZone = zone;
             }
         }
-        bestZone.ResetWeight();
         Debug.Log($"Bot patrol to zone: {bestZone.zoneData.zoneID}");
 
         return bestZone;
@@ -319,10 +318,10 @@ public class ZoneManager : MonoBehaviour
         while (true)
         {
             bestZone = GetBestZone();
+            bestZone.ResetWeight();
             // Nếu best zone là zone đang đứng thì reset weigh và bỏ qua
             if (bestZone == currentZone)
             {
-                bestZone.ResetWeight();
                 continue;
             }
 
@@ -331,7 +330,6 @@ public class ZoneManager : MonoBehaviour
                 // Nếu best zone là zone liền kề với zone đang đứng thì reset weigh và bỏ qua
                 if (portal.zoneDataA == currentZone.zoneData || portal.zoneDataB == currentZone.zoneData)
                 {
-                    bestZone.ResetWeight();
                     continue;
                 }
             }
