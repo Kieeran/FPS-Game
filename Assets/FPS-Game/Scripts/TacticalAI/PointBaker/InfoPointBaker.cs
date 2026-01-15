@@ -64,17 +64,18 @@ public class InfoPointBaker : PointBaker
         {
             foreach (InfoPoint infoPoint in infoPointsByZone[zone.zoneData.zoneID])
             {
-                zone.zoneData.infoPoints.Add(infoPoint);
+                // zone.zoneData.infoPoints.Add(infoPoint);
                 zone.zoneData.masterPoints.Add(infoPoint);
             }
-
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(zone.zoneData);
-#endif
-
         }
 
 #if UNITY_EDITOR
+        foreach (Zone zone in ZoneManager.Instance.allZones)
+        {
+            zone.zoneData.UpdatePointID();
+            EditorUtility.SetDirty(zone.zoneData);
+        }
+
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
 #endif
@@ -86,7 +87,7 @@ public class InfoPointBaker : PointBaker
     {
         foreach (Zone zone in ZoneManager.Instance.allZones)
         {
-            zone.zoneData.infoPoints.Clear();
+            // zone.zoneData.infoPoints.Clear();
 
             for (int i = zone.zoneData.masterPoints.Count - 1; i >= 0; i--)
             {

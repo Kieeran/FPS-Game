@@ -14,8 +14,8 @@ public class PortalConnection
     public int portalAID;
     public int portalBID;
 
-    [ReadOnly] public PortalPoint portalA;
-    [ReadOnly] public PortalPoint portalB;
+    [InspectorReadOnly] public PortalPoint portalA;
+    [InspectorReadOnly] public PortalPoint portalB;
     public float traversalCost; // Quãng đường NavMesh giữa 2 portal trong cùng 1 zone
 
     public void Resolve(List<InfoPoint> master)
@@ -37,12 +37,21 @@ public class ZoneData : ScriptableObject, ISerializationCallbackReceiver
     [SerializeReference]
     public List<InfoPoint> masterPoints = new();
 
-    [ReadOnly] public List<InfoPoint> infoPoints = new();
-    [ReadOnly] public List<TacticalPoint> tacticalPoints = new();
-    [ReadOnly] public List<PortalPoint> portals = new();
+    [InspectorReadOnly] public List<InfoPoint> infoPoints = new();
+    [InspectorReadOnly] public List<TacticalPoint> tacticalPoints = new();
+    [InspectorReadOnly] public List<PortalPoint> portals = new();
 
     [Header("Portal Connection")]
     public List<PortalConnection> internalPaths = new();
+
+    public void UpdatePointID()
+    {
+        for (int i = 0; i < masterPoints.Count; i++)
+        {
+            masterPoints[i].pointID = i;
+        }
+        SyncReferences();
+    }
 
     public void OnAfterDeserialize()
     {
@@ -60,7 +69,6 @@ public class ZoneData : ScriptableObject, ISerializationCallbackReceiver
     }
 #endif
 
-    [ContextMenu("Sync References")]
     public void SyncReferences()
     {
         if (masterPoints == null) return;

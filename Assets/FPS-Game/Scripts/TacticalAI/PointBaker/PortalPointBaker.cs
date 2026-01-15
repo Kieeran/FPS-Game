@@ -63,17 +63,26 @@ public class PortalPointBaker : PointBaker
             {
                 if (zone.zoneData.zoneID == portalPoint.zoneDataA.zoneID || zone.zoneData.zoneID == portalPoint.zoneDataB.zoneID)
                 {
-                    zone.zoneData.portals.Add(portalPoint);
-                    zone.zoneData.masterPoints.Add(portalPoint);
+                    // zone.zoneData.portals.Add(portalPoint);
+                    zone.zoneData.masterPoints.Add(new PortalPoint()
+                    {
+                        position = portalPoint.position,
+                        portalName = portalPoint.portalName,
+                        zoneDataA = portalPoint.zoneDataA,
+                        zoneDataB = portalPoint.zoneDataB,
+                        type = PointType.Portal
+                    });
                 }
             }
-
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(zone.zoneData);
-#endif
         }
 
 #if UNITY_EDITOR
+        foreach (Zone zone in ZoneManager.Instance.allZones)
+        {
+            zone.zoneData.UpdatePointID();
+            EditorUtility.SetDirty(zone.zoneData);
+        }
+
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
 
@@ -92,7 +101,7 @@ public class PortalPointBaker : PointBaker
     {
         foreach (Zone zone in ZoneManager.Instance.allZones)
         {
-            zone.zoneData.portals.Clear();
+            // zone.zoneData.portals.Clear();
 
             for (int i = zone.zoneData.masterPoints.Count - 1; i >= 0; i--)
             {
@@ -138,6 +147,6 @@ public class PortalPointBaker : PointBaker
             }
         }
 
-        Debug.Log($"Đã khôi phục {pointCount} điểm để chỉnh sửa.");
+        Debug.Log($"Đã khôi phục {pointCount} điểm portal để chỉnh sửa.");
     }
 }
