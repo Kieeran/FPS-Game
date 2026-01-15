@@ -337,7 +337,7 @@ namespace AIBot
             {
                 PlayerRoot.CurrentZoneData = currentPortal.zoneDataA;
             }
-
+            Debug.Log($"Target zone is {PlayerRoot.CurrentZoneData.zoneID}");
             botTactics.SetCurrentInfoPointsToScan(PlayerRoot.CurrentZoneData.masterPoints, currentPortal);
 
             Debug.Log(botTactics.currentScanRange.leftDir);

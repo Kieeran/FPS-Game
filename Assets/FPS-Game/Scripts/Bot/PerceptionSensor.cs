@@ -21,6 +21,7 @@ namespace AIBot
         public event Action<TPointData> OnPlayerLost;
         bool isTriggerOnPlayerLost = false;
 
+        [SerializeField] BotController botController;
         PlayerRoot botRoot;
         float botHorizontalFOV;
         Dictionary<Transform, Color> targetsDebug = new();
@@ -38,6 +39,11 @@ namespace AIBot
         void Awake()
         {
             botRoot = transform.root.GetComponent<PlayerRoot>();
+        }
+
+        void OnValidate()
+        {
+            botController = GetComponentInParent<BotController>();
         }
 
         void Start()

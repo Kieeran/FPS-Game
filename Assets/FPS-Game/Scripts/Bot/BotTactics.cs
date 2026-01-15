@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AIBot;
+using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -46,6 +47,7 @@ public class BotTactics : MonoBehaviour
 
     public void SetCurrentInfoPointsToScan(List<InfoPoint> infoPoints, InfoPoint point)
     {
+        currentInfoPointsToScan.Clear();
         currentInfoPointsToScan = infoPoints;
         currentInfoPoint = point;
 
@@ -203,6 +205,22 @@ public class BotTactics : MonoBehaviour
 
             // Vẽ khối cầu tại mỗi điểm TP
             Gizmos.DrawSphere(currentSearchPath[i].position, 0.3f);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (currentInfoPointsToScan.Count <= 0) return;
+        List<InfoPoint> masterPoints = botController.PlayerRoot.CurrentZoneData.masterPoints;
+
+        Gizmos.DrawSphere(currentInfoPoint.position, 0.2f);
+        Handles.Label(currentInfoPoint.position + Vector3.up * 0.5f, currentInfoPoint.priority.ToString());
+
+        foreach (var index in currentInfoPoint.visibleIndices)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(masterPoints[index].position, 0.2f);
+            Handles.Label(masterPoints[index].position + Vector3.up * 0.5f, masterPoints[index].priority.ToString());
         }
     }
 }

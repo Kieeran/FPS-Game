@@ -6440,10 +6440,10 @@ MonoBehaviour:
   - {x: 57.074852, y: 1.6140251, z: 94.826584}
   - {x: 57.05794, y: 1.615716, z: 96.511566}
   - {x: 58.480003, y: 1.5188437, z: 94.973335}
-  pointSizeGizmos: 0.3
+  pointSizeGizmos: 0.2
   pointColorGizmos: {r: 1, g: 1, b: 0, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
-  selectedZoneID: 1
+  selectedZoneID: 7
   gridSize: 2
 --- !u!1 &449259695
 GameObject:
