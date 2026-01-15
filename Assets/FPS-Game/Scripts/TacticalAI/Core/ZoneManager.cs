@@ -177,6 +177,15 @@ public class ZoneManager : MonoBehaviour
         return originalPos;
     }
 
+    [ContextMenu("Reset All Zone (Be careful !!!)")]
+    public void ResetAllZone()
+    {
+        foreach (var zone in allZones)
+        {
+            zone.zoneData.HardResetZone();
+        }
+    }
+
     [ContextMenu("Bake All Portal Connection Traversal Cost")]
     public void BakeAllPortalConnectionTraversalCost()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum ZoneID
@@ -51,6 +52,19 @@ public class ZoneData : ScriptableObject, ISerializationCallbackReceiver
             masterPoints[i].pointID = i;
         }
         SyncReferences();
+    }
+
+    public void HardResetZone()
+    {
+        masterPoints.Clear();
+        infoPoints.Clear();
+        tacticalPoints.Clear();
+        portals.Clear();
+        internalPaths.Clear();
+
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(this);
+#endif
     }
 
     public void ResetIsChecked()

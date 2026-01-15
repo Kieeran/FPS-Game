@@ -338,6 +338,16 @@ namespace AIBot
                 PlayerRoot.CurrentZoneData = currentPortal.zoneDataA;
             }
             Debug.Log($"Target zone is {PlayerRoot.CurrentZoneData.zoneID}");
+            // Lấy target portal dẫn tới target zone nằm trong danh sách portals của target zone
+            foreach (var portal in PlayerRoot.CurrentZoneData.portals)
+            {
+                if (portal.portalName == currentPortal.portalName)
+                {
+                    currentPortal = portal;
+                    break;
+                }
+            }
+
             botTactics.SetCurrentInfoPointsToScan(PlayerRoot.CurrentZoneData.masterPoints, currentPortal);
 
             Debug.Log(botTactics.currentScanRange.leftDir);
