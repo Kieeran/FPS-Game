@@ -197,7 +197,7 @@ public class PlayerRoot : NetworkBehaviour
         IsBot.Value = b;
     }
     public bool IsCharacterBot() { return IsBot.Value; }
-    public Vector3 GetCharacterPosition() { return transform.position; }
+    public Transform GetCharacterRootTransform() { return transform; }
     public string GetBotID() { return BotID.Value.ToString(); }
     void Awake()
     {

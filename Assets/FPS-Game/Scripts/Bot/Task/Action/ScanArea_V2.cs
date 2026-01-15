@@ -10,118 +10,69 @@ namespace CustomTask
     public class ScanArea_V2 : Action
     {
         [Header("References")]
-        // [SerializeField] SharedPointVisibilityData data; // Data chứa visibleIndices của điểm đang đứng
-        // [SerializeField] SharedPointVisibilityDataList visibilityMatrix; // Danh sách toàn bộ IPoint của Zone
+        [SerializeField] public SharedScanRange scanRange;
         [SerializeField] SharedVector3 lookEuler; // Biến điều khiển góc xoay của Bot
 
         [Header("Scan Settings")]
         [SerializeField] float sweepSpeed = 60f; // Tốc độ lia tâm (độ/giây)
+        [SerializeField] float pauseAtEdge = 0.5f; // Thời gian khựng lại ở biên cho tự nhiên
 
-        // State Machine nội bộ
-        enum State { MovingToStart, Sweeping, Completed }
-        State currentState;
-
-        float startYaw, endYaw;
-        float currentProgress;
-        List<int> pointsInThisScan; // Các điểm cần check tại vị trí này
+        private float leftYaw;
+        private float rightYaw;
+        private bool isMovingToRight = true;
+        private float pauseTimer;
 
         public override void OnStart()
         {
             base.OnStart();
 
-            // if (data.Value == null || data.Value.visibleIndices.Count == 0)
-            // {
-            //     currentState = State.Completed;
-            //     return;
-            // }
+            if (scanRange.Value == null) return;
 
-            // pointsInThisScan = new List<int>(data.Value.visibleIndices);
-            CalculateBoundaryAngles();
+            leftYaw = Quaternion.LookRotation(scanRange.Value.leftDir).eulerAngles.y;
+            rightYaw = Quaternion.LookRotation(scanRange.Value.rightDir).eulerAngles.y;
 
-            currentProgress = 0;
-            currentState = State.MovingToStart;
+            float currentYaw = lookEuler.Value.y;
+            float distToLeft = Mathf.Abs(Mathf.DeltaAngle(currentYaw, leftYaw));
+            float distToRight = Mathf.Abs(Mathf.DeltaAngle(currentYaw, rightYaw));
+
+            // Nếu gần bên trái hơn, thì mục tiêu đầu tiên là bên phải (để bắt đầu quét ngay)
+            // Nếu gần bên phải hơn, thì mục tiêu đầu tiên là bên trái
+            isMovingToRight = distToLeft < distToRight;
+
+            pauseTimer = 0;
         }
 
         public override TaskStatus OnUpdate()
         {
-            switch (currentState)
+            if (scanRange.Value == null) return TaskStatus.Failure;
+
+            // Xử lý nghỉ tại biên
+            if (pauseTimer > 0)
             {
-                case State.MovingToStart:
-                    HandleRotation(startYaw); // Quay nhanh tới điểm bắt đầu
-                    if (IsAtAngle(startYaw)) currentState = State.Sweeping;
-                    break;
+                pauseTimer -= Time.deltaTime;
+                return TaskStatus.Running;
+            }
 
-                case State.Sweeping:
-                    // Lia dần sang endYaw
-                    currentProgress += sweepSpeed * Time.deltaTime / Mathf.Abs(Mathf.DeltaAngle(startYaw, endYaw));
-                    float targetYaw = Mathf.LerpAngle(startYaw, endYaw, currentProgress);
+            float currentYaw = lookEuler.Value.y;
+            float currentTarget = isMovingToRight ? rightYaw : leftYaw;
 
-                    HandleRotation(targetYaw);
+            // Thực hiện xoay mượt
+            float newYaw = Mathf.MoveTowardsAngle(currentYaw, currentTarget, sweepSpeed * Time.deltaTime);
+            lookEuler.Value = new Vector3(lookEuler.Value.x, newYaw, lookEuler.Value.z);
 
-                    if (currentProgress >= 1f) currentState = State.Completed;
-                    break;
-
-                case State.Completed:
-                    return TaskStatus.Success;
+            // Kiểm tra đã chạm biên chưa để đổi chiều
+            if (Mathf.Abs(Mathf.DeltaAngle(newYaw, currentTarget)) < 0.5f)
+            {
+                isMovingToRight = !isMovingToRight;
+                pauseTimer = pauseAtEdge;
             }
 
             return TaskStatus.Running;
         }
 
-        void CalculateBoundaryAngles()
-        {
-            // float minAngle = float.MaxValue;
-            // float maxAngle = float.MinValue;
-
-            // Vector3 botPos = transform.position;
-            // Vector3 botForward = transform.forward;
-
-            // foreach (int idx in pointsInThisScan)
-            // {
-            //     Vector3 targetPos = visibilityMatrix.Value[idx].position;
-            //     Vector3 dir = (targetPos - botPos).normalized;
-            //     float angle = Vector3.SignedAngle(botForward, dir, Vector3.up);
-
-            //     if (angle < minAngle) minAngle = angle;
-            //     if (angle > maxAngle) maxAngle = angle;
-            // }
-
-            // // Tính toán Yaw thế giới dựa trên Forward hiện tại của Bot
-            // float currentYaw = transform.eulerAngles.y;
-            // startYaw = NormalizeAngle(currentYaw + minAngle);
-            // endYaw = NormalizeAngle(currentYaw + maxAngle);
-        }
-
-        void HandleRotation(float targetYaw)
-        {
-            float currentYaw = lookEuler.Value.y;
-            float newYaw = Mathf.MoveTowardsAngle(currentYaw, targetYaw, sweepSpeed * Time.deltaTime);
-
-            // Cập nhật biến SharedVariable để Controller thực thi xoay
-            lookEuler.Value = new Vector3(lookEuler.Value.x, newYaw, lookEuler.Value.z);
-        }
-
-        bool IsAtAngle(float targetYaw)
-        {
-            return Mathf.Abs(Mathf.DeltaAngle(lookEuler.Value.y, targetYaw)) < 1f;
-        }
-
-        Vector3 GetLookDirection()
-        {
-            return Quaternion.Euler(lookEuler.Value.x, lookEuler.Value.y, 0) * Vector3.forward;
-        }
-
-        float NormalizeAngle(float angle)
-        {
-            while (angle > 180) angle -= 360;
-            while (angle < -180) angle += 360;
-            return angle;
-        }
-
         public override void OnReset()
         {
-            currentState = State.MovingToStart;
-            pointsInThisScan = null;
+            base.OnReset();
         }
     }
 }

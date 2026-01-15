@@ -2,7 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AIBot;
 using UnityEngine;
+
+[System.Serializable]
+public class ScanRange
+{
+    public Vector3 leftDir;
+    public Vector3 rightDir;
+    public float angleRange;
+}
 
 public class BotTactics : MonoBehaviour
 {
@@ -28,6 +37,61 @@ public class BotTactics : MonoBehaviour
     private Vector3 lastDebugLKP;
     List<Transform> lastCandidates = new();
     public List<Transform> currentSearchPath { get; private set; } = new();
+
+    [SerializeField] BotController botController;
+
+    public List<InfoPoint> currentInfoPointsToScan { get; private set; } = new();
+    public InfoPoint currentInfoPoint = new();
+    public ScanRange currentScanRange = new();
+
+    public void SetCurrentInfoPointsToScan(List<InfoPoint> infoPoints, InfoPoint point)
+    {
+        currentInfoPointsToScan = infoPoints;
+        currentInfoPoint = point;
+
+        CalculateCurrentScanRange();
+    }
+
+    void CalculateCurrentScanRange()
+    {
+        var indices = currentInfoPoint.visibleIndices;
+        if (indices == null || indices.Count == 0) return;
+
+        List<InfoPoint> masterPoints = botController.PlayerRoot.CurrentZoneData.masterPoints;
+
+        // Chọn điểm đầu tiên làm Neo (Anchor)
+        Vector3 anchorPos = masterPoints[indices[0]].position;
+        Vector3 dirAnchor = (anchorPos - currentInfoPoint.position).normalized;
+
+        float minAngle = 0; // Lệch trái nhất so với Neo
+        float maxAngle = 0; // Lệch phải nhất so với Neo
+
+        // So sánh tất cả các điểm còn lại với Neo
+        for (int i = 0; i < indices.Count; i++)
+        {
+            Vector3 targetPos = masterPoints[indices[i]].position;
+            Vector3 dirTarget = (targetPos - currentInfoPoint.position).normalized;
+
+            // Tính góc lệch có dấu giữa Neo và điểm hiện tại
+            float angle = Vector3.SignedAngle(dirAnchor, dirTarget, Vector3.up);
+
+            if (angle < minAngle) minAngle = angle;
+            if (angle > maxAngle) maxAngle = angle;
+        }
+
+        currentScanRange = new ScanRange
+        {
+            // Biên trái là Neo xoay đi minAngle, Biên phải là Neo xoay đi maxAngle
+            leftDir = Quaternion.AngleAxis(minAngle, Vector3.up) * dirAnchor,
+            rightDir = Quaternion.AngleAxis(maxAngle, Vector3.up) * dirAnchor,
+            angleRange = maxAngle - minAngle
+        };
+    }
+
+    void OnValidate()
+    {
+        botController = GetComponent<BotController>();
+    }
 
     public List<Transform> GetPointsAroundLKP(Vector3 lkp)
     {

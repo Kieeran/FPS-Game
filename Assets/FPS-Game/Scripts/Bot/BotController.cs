@@ -73,6 +73,7 @@ namespace AIBot
         [Tooltip("Adapter that synchronizes C# blackboard values to BD SharedVariables")]
         [SerializeField] BlackboardLinker blackboardLinker;
         [SerializeField] BotTactics botTactics;
+        [SerializeField] float closeDistance = 7f;
 
         // [Tooltip("Seconds allowed without seeing player before returning to patrol")]
         // public float lostSightTimeout = 2f;
@@ -123,7 +124,7 @@ namespace AIBot
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
 
                     if (currenPortalIndex >= portalPointsToPatrol.Count) break;
-                    if (Vector3.Distance(PlayerRoot.GetCharacterPosition(), portalPointsToPatrol[currenPortalIndex].position) <= 5f)
+                    if (Vector3.Distance(PlayerRoot.GetCharacterRootTransform().position, portalPointsToPatrol[currenPortalIndex].position) <= closeDistance)
                     {
                         NextPortal();
                     }
@@ -305,7 +306,7 @@ namespace AIBot
         void CalculatePatrolPath()
         {
             portalPointsToPatrol.Clear();
-            portalPointsToPatrol = ZoneManager.Instance.CalculatePath(PlayerRoot.GetCharacterPosition(), PlayerRoot.CurrentZoneData);
+            portalPointsToPatrol = ZoneManager.Instance.CalculatePath(PlayerRoot.GetCharacterRootTransform().position, PlayerRoot.CurrentZoneData);
             currenPortalIndex = 0;
         }
 
@@ -336,6 +337,13 @@ namespace AIBot
             {
                 PlayerRoot.CurrentZoneData = currentPortal.zoneDataA;
             }
+
+            botTactics.SetCurrentInfoPointsToScan(PlayerRoot.CurrentZoneData.masterPoints, currentPortal);
+
+            Debug.Log(botTactics.currentScanRange.leftDir);
+            Debug.Log(botTactics.currentScanRange.rightDir);
+            Debug.Log(botTactics.currentScanRange.angleRange);
+            blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
         }
 
         public void ShiftToNextCandidate()

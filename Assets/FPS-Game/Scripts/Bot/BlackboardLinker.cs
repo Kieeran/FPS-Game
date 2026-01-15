@@ -30,6 +30,15 @@ public class SharedTPointData : SharedVariable<TPointData>
 //     }
 // }
 
+[Serializable]
+public class SharedScanRange : SharedVariable<ScanRange>
+{
+    public static implicit operator SharedScanRange(ScanRange value)
+    {
+        return new SharedScanRange { Value = value };
+    }
+}
+
 namespace AIBot
 {
     [DisallowMultipleComponent]
@@ -134,6 +143,11 @@ namespace AIBot
         public void SetTargetPortalToPatrol(PortalPoint portal)
         {
             SafeSet("targetPosition", portal.position);
+        }
+
+        public void SetCurrentScanRange(ScanRange range)
+        {
+            SafeSet("currentScanRange", range);
         }
 
         public void SetTargetPortalListEmpty(bool b)
