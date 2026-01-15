@@ -226,39 +226,39 @@ public class ZoneManager : MonoBehaviour
         Debug.Log($"Bake hoàn tất! Đã cập nhật Portal Connection Traversal Cost cho {successCount} connection.");
     }
 
-//     [ContextMenu("Bake All Portal Traversal Cost")]
-//     public void BakeAllPortalTraversalCost()
-//     {
-//         int successCount = 0;
-//         NavMeshPath path = new();
+    //     [ContextMenu("Bake All Portal Traversal Cost")]
+    //     public void BakeAllPortalTraversalCost()
+    //     {
+    //         int successCount = 0;
+    //         NavMeshPath path = new();
 
-//         foreach (Zone zone in allZones)
-//         {
-//             if (zone.zoneData == null) continue;
+    //         foreach (Zone zone in allZones)
+    //         {
+    //             if (zone.zoneData == null) continue;
 
-//             foreach (PortalPoint portal in zone.zoneData.portals)
-//             {
-//                 ZoneData zoneA = portal.zoneDataA;
-//                 ZoneData zoneB = portal.zoneDataB;
-//                 if (zoneA == null || zoneB == null) continue;
+    //             foreach (PortalPoint portal in zone.zoneData.portals)
+    //             {
+    //                 ZoneData zoneA = portal.zoneDataA;
+    //                 ZoneData zoneB = portal.zoneDataB;
+    //                 if (zoneA == null || zoneB == null) continue;
 
-//                 float dist1 = GetNavMeshDistance(GetSnappedPos(zoneA.centerPos), GetSnappedPos(portal.position), path);
-//                 float dist2 = GetNavMeshDistance(GetSnappedPos(portal.position), GetSnappedPos(zoneB.centerPos), path);
+    //                 float dist1 = GetNavMeshDistance(GetSnappedPos(zoneA.centerPos), GetSnappedPos(portal.position), path);
+    //                 float dist2 = GetNavMeshDistance(GetSnappedPos(portal.position), GetSnappedPos(zoneB.centerPos), path);
 
-//                 // Lưu tổng quãng đường thực tế
-//                 portal.traversalCost = dist1 + dist2;
-//                 successCount++;
-//             }
-// #if UNITY_EDITOR
-//             EditorUtility.SetDirty(zone.zoneData);
-// #endif
-//         }
+    //                 // Lưu tổng quãng đường thực tế
+    //                 portal.traversalCost = dist1 + dist2;
+    //                 successCount++;
+    //             }
+    // #if UNITY_EDITOR
+    //             EditorUtility.SetDirty(zone.zoneData);
+    // #endif
+    //         }
 
-// #if UNITY_EDITOR
-//         AssetDatabase.SaveAssets();
-// #endif
-//         Debug.Log($"Bake hoàn tất! Đã cập nhật NavMesh Distance cho {successCount} portal.");
-//     }
+    // #if UNITY_EDITOR
+    //         AssetDatabase.SaveAssets();
+    // #endif
+    //         Debug.Log($"Bake hoàn tất! Đã cập nhật NavMesh Distance cho {successCount} portal.");
+    //     }
 
     // Tính chiều dài đường đi NavMesh
     private float GetNavMeshDistance(Vector3 start, Vector3 end, NavMeshPath path)
@@ -302,19 +302,43 @@ public class ZoneManager : MonoBehaviour
     // }
 
     public List<PortalPoint> portalPointPath = new();
-//     [ContextMenu("Bake Path")]
-//     public void BakePath()
-//     {
-//         portalPointPath = CalculatePath(currentBotTransform.position, targetZone);
+    //     [ContextMenu("Bake Path")]
+    //     public void BakePath()
+    //     {
+    //         portalPointPath = CalculatePath(currentBotTransform.position, targetZone);
 
-// #if UNITY_EDITOR
-//         EditorUtility.SetDirty(this);
-// #endif
-//     }
+    // #if UNITY_EDITOR
+    //         EditorUtility.SetDirty(this);
+    // #endif
+    //     }
 
     public List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData currentZoneData)
     {
-        Zone bestZone = GetBestZone();
+        Zone currentZone = GetZoneAt(botPosition);
+        Zone bestZone;
+        while (true)
+        {
+            bestZone = GetBestZone();
+            // Nếu best zone là zone đang đứng thì reset weigh và bỏ qua
+            if (bestZone == currentZone)
+            {
+                bestZone.ResetWeight();
+                continue;
+            }
+
+            foreach (var portal in bestZone.zoneData.portals)
+            {
+                // Nếu best zone là zone liền kề với zone đang đứng thì reset weigh và bỏ qua
+                if (portal.zoneDataA == currentZone.zoneData || portal.zoneDataB == currentZone.zoneData)
+                {
+                    bestZone.ResetWeight();
+                    continue;
+                }
+            }
+
+            break;
+        }
+
         portalPointPath = CalculatePath(botPosition, currentZoneData, bestZone.zoneData);
         return portalPointPath;
     }
