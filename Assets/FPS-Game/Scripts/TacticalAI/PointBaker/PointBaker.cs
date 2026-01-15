@@ -56,15 +56,34 @@ public class PointBaker : MonoBehaviour
     [ContextMenu("Bake Visibility And Priority of InfoPoints")]
     public void BakeInfoPointVisibility()
     {
-        if (ZoneManager.Instance == null) return;
+        if (ZoneManager.Instance == null)
+        {
+            Debug.LogError("ZoneManager Instance không tồn tại!");
+            return;
+        }
+
+        Debug.Log("Bắt đầu quá trình Bake Visibility cho tất cả các Zone");
+
+        int totalZones = ZoneManager.Instance.allZones.Count;
+        int totalPointsProcessed = 0;
+        int totalConnectionsFound = 0;
 
         foreach (Zone zone in ZoneManager.Instance.allZones)
         {
+            if (zone.zoneData == null) continue;
+
             List<InfoPoint> masterPoints = zone.zoneData.masterPoints;
+            int pointCount = masterPoints.Count;
+            int connectionsInZone = 0;
+
+            // Log bắt đầu xử lý Zone
+            Debug.Log($"Đang xử lý Zone: {zone.name} ({pointCount} points)");
+
             for (int i = 0; i < masterPoints.Count; i++)
             {
                 Vector3 startPos = masterPoints[i].position;
-                masterPoints[i].visibleIndices.Clear();
+                List<int> visibleIndices = new();
+
                 for (int j = 0; j < masterPoints.Count; j++)
                 {
                     if (i == j) continue; // Không tự chiếu chính mình
@@ -75,14 +94,59 @@ public class PointBaker : MonoBehaviour
                     if (!Physics.Linecast(startPos, endPos, ZoneManager.Instance.obstacleLayer))
                     {
                         // Nếu không có vật cản, thêm index j vào danh sách nhìn thấy của i
-                        masterPoints[i].visibleIndices.Add(j);
+                        visibleIndices.Add(j);
+                        connectionsInZone++;
                     }
                 }
 
-                // Gán Priority dựa trên số lượng điểm nhìn thấy
-                masterPoints[i].priority = masterPoints[i].visibleIndices.Count;
+                masterPoints[i].visibleIndices.Clear();
+                masterPoints[i].visibleIndices = visibleIndices;
+                masterPoints[i].priority = visibleIndices.Count;
+
+                foreach (var point in zone.zoneData.infoPoints)
+                {
+                    if (point.position == masterPoints[i].position)
+                    {
+                        point.visibleIndices = visibleIndices;
+                        point.priority = visibleIndices.Count;
+                    }
+                }
+
+                foreach (var point in zone.zoneData.tacticalPoints)
+                {
+                    if (point.position == masterPoints[i].position)
+                    {
+                        point.visibleIndices = visibleIndices;
+                        point.priority = visibleIndices.Count;
+                    }
+                }
+
+                foreach (var point in zone.zoneData.portals)
+                {
+                    if (point.position == masterPoints[i].position)
+                    {
+                        point.visibleIndices = visibleIndices;
+                        point.priority = visibleIndices.Count;
+                    }
+                }
+
+                totalPointsProcessed++;
             }
+
+            totalConnectionsFound += connectionsInZone;
+            // Log kết quả của từng Zone
+            Debug.Log($"Done Zone {zone.name}: Tìm thấy {connectionsInZone} đường nhìn thấy.");
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(zone.zoneData);
+#endif
         }
+#if UNITY_EDITOR
+        AssetDatabase.SaveAssets();
+#endif
+
+        Debug.Log($"[BakeVisibility] HOÀN TẤT!");
+        Debug.Log($"Tổng cộng: {totalZones} Zones, {totalPointsProcessed} Points, {totalConnectionsFound} Connections.");
     }
 
     [ContextMenu("Create a new point GameObject")]
