@@ -11,13 +11,22 @@ public enum ZoneID
 [System.Serializable]
 public class PortalConnection
 {
-    public PortalPoint portalA;
-    public PortalPoint portalB;
+    public int portalAID;
+    public int portalBID;
+
+    [ReadOnly] public PortalPoint portalA;
+    [ReadOnly] public PortalPoint portalB;
     public float traversalCost; // Quãng đường NavMesh giữa 2 portal trong cùng 1 zone
+
+    public void Resolve(List<InfoPoint> master)
+    {
+        portalA = master[portalAID] as PortalPoint;
+        portalB = master[portalBID] as PortalPoint;
+    }
 }
 
 [CreateAssetMenu(fileName = "NewZoneData", menuName = "AI/Zone Data")]
-public class ZoneData : ScriptableObject
+public class ZoneData : ScriptableObject, ISerializationCallbackReceiver
 {
     public ZoneID zoneID = ZoneID.None;
     public float baseWeight = 10f;     // Độ ưu tiên cố định
@@ -28,14 +37,55 @@ public class ZoneData : ScriptableObject
     [SerializeReference]
     public List<InfoPoint> masterPoints = new();
 
-    [Header("Navigation Points (IP + TP)")]
-    [SerializeReference]
-    public List<InfoPoint> infoPoints = new();
-    [SerializeReference]
-    public List<TacticalPoint> tacticalPoints = new();
+    [ReadOnly] public List<InfoPoint> infoPoints = new();
+    [ReadOnly] public List<TacticalPoint> tacticalPoints = new();
+    [ReadOnly] public List<PortalPoint> portals = new();
 
-    [Header("Exits & Entrances")]
-    public List<PortalPoint> portals = new();
     [Header("Portal Connection")]
     public List<PortalConnection> internalPaths = new();
+
+    public void OnAfterDeserialize()
+    {
+        SyncReferences();
+    }
+
+    public void OnBeforeSerialize() { }
+
+    // Chạy mỗi khi thay đổi giá trị trong Edit Mode
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        // Delay một chút để tránh xung đột với quá trình Serialization của Unity
+        UnityEditor.EditorApplication.delayCall += SyncReferences;
+    }
+#endif
+
+    [ContextMenu("Sync References")]
+    public void SyncReferences()
+    {
+        if (masterPoints == null) return;
+
+        infoPoints.Clear();
+        tacticalPoints.Clear();
+        portals.Clear();
+
+        foreach (var p in masterPoints)
+        {
+            if (p == null) continue;
+
+            if (p is PortalPoint pp) portals.Add(pp);
+            else if (p is TacticalPoint tp) tacticalPoints.Add(tp);
+            else infoPoints.Add(p);
+        }
+
+        // Cập nhật lại các liên kết đường đi nội bộ
+        if (internalPaths != null)
+        {
+            foreach (var path in internalPaths)
+            {
+                // Giả sử bạn dùng ID hoặc Index để Resolve
+                path.Resolve(masterPoints);
+            }
+        }
+    }
 }

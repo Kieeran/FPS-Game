@@ -7,6 +7,7 @@ public enum PointType { Info, Tactical, Portal }
 [System.Serializable]
 public class InfoPoint
 {
+    public int pointID;
     public Vector3 position;
     public PointType type = PointType.Info;
     public int priority;
