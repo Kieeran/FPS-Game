@@ -102,34 +102,6 @@ public class PointBaker : MonoBehaviour
                 masterPoints[i].visibleIndices.Clear();
                 masterPoints[i].visibleIndices = visibleIndices;
                 masterPoints[i].priority = visibleIndices.Count;
-
-                // foreach (var point in zone.zoneData.infoPoints)
-                // {
-                //     if (point.position == masterPoints[i].position)
-                //     {
-                //         point.visibleIndices = visibleIndices;
-                //         point.priority = visibleIndices.Count;
-                //     }
-                // }
-
-                // foreach (var point in zone.zoneData.tacticalPoints)
-                // {
-                //     if (point.position == masterPoints[i].position)
-                //     {
-                //         point.visibleIndices = visibleIndices;
-                //         point.priority = visibleIndices.Count;
-                //     }
-                // }
-
-                // foreach (var point in zone.zoneData.portals)
-                // {
-                //     if (point.position == masterPoints[i].position)
-                //     {
-                //         point.visibleIndices = visibleIndices;
-                //         point.priority = visibleIndices.Count;
-                //     }
-                // }
-
                 totalPointsProcessed++;
             }
 

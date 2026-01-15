@@ -96,7 +96,7 @@ public class ZoneManager : MonoBehaviour
             }
         }
         Debug.Log($"Bot patrol to zone: {bestZone.zoneData.zoneID}");
-
+        bestZone.zoneData.ResetIsChecked();
         return bestZone;
     }
 

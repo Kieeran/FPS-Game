@@ -53,6 +53,15 @@ public class ZoneData : ScriptableObject, ISerializationCallbackReceiver
         SyncReferences();
     }
 
+    public void ResetIsChecked()
+    {
+        for (int i = 0; i < masterPoints.Count; i++)
+        {
+            masterPoints[i].isChecked = false;
+        }
+        SyncReferences();
+    }
+
     public void OnAfterDeserialize()
     {
         SyncReferences();
