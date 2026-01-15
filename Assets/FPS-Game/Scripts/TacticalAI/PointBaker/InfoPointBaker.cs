@@ -109,7 +109,7 @@ public class InfoPointBaker : PointBaker
         if (ZoneManager.Instance == null) return;
         if (selectedZoneID == ZoneID.None) return;
 
-        List<InfoPoint> targetInfoPoints = new();
+        List<InfoPoint> targetInfoPoints;
 
         if (infoPointsByZone != null && infoPointsByZone.Count != 0)
         {
@@ -126,6 +126,28 @@ public class InfoPointBaker : PointBaker
         {
             Gizmos.color = pointColorGizmos;
             Gizmos.DrawSphere(infoPoint.position, pointSizeGizmos);
+        }
+
+        DrawPortalVisibility();
+    }
+
+    public int portalListIndex = 0;
+    void DrawPortalVisibility()
+    {
+        PortalPoint portal = ZoneManager.Instance.GetZoneByID(selectedZoneID).zoneData.portals[portalListIndex];
+        foreach (var point in ZoneManager.Instance.GetZoneByID(selectedZoneID).zoneData.masterPoints)
+        {
+            if (!Physics.Linecast(portal.position, point.position, ZoneManager.Instance.obstacleLayer))
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(portal.position, point.position);
+            }
+
+            else
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(portal.position, point.position);
+            }
         }
     }
 }

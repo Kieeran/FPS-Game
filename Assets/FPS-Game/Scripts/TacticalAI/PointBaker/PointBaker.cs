@@ -53,74 +53,6 @@ public class PointBaker : MonoBehaviour
         }
     }
 
-    [ContextMenu("Bake Visibility And Priority of InfoPoints")]
-    public void BakeInfoPointVisibility()
-    {
-        if (ZoneManager.Instance == null)
-        {
-            Debug.LogError("ZoneManager Instance không tồn tại!");
-            return;
-        }
-
-        Debug.Log("Bắt đầu quá trình Bake Visibility cho tất cả các Zone");
-
-        int totalZones = ZoneManager.Instance.allZones.Count;
-        int totalPointsProcessed = 0;
-        int totalConnectionsFound = 0;
-
-        foreach (Zone zone in ZoneManager.Instance.allZones)
-        {
-            if (zone.zoneData == null) continue;
-
-            List<InfoPoint> masterPoints = zone.zoneData.masterPoints;
-            int pointCount = masterPoints.Count;
-            int connectionsInZone = 0;
-
-            // Log bắt đầu xử lý Zone
-            Debug.Log($"Đang xử lý Zone: {zone.name} ({pointCount} points)");
-
-            for (int i = 0; i < masterPoints.Count; i++)
-            {
-                Vector3 startPos = masterPoints[i].position;
-                List<int> visibleIndices = new();
-
-                for (int j = 0; j < masterPoints.Count; j++)
-                {
-                    if (i == j) continue; // Không tự chiếu chính mình
-
-                    Vector3 endPos = masterPoints[j].position;
-
-                    // Bắn tia Linecast để kiểm tra vật cản
-                    if (!Physics.Linecast(startPos, endPos, ZoneManager.Instance.obstacleLayer))
-                    {
-                        // Nếu không có vật cản, thêm index j vào danh sách nhìn thấy của i
-                        visibleIndices.Add(j);
-                        connectionsInZone++;
-                    }
-                }
-
-                masterPoints[i].visibleIndices.Clear();
-                masterPoints[i].visibleIndices = visibleIndices;
-                masterPoints[i].priority = visibleIndices.Count;
-                totalPointsProcessed++;
-            }
-
-            totalConnectionsFound += connectionsInZone;
-            // Log kết quả của từng Zone
-            Debug.Log($"Done Zone {zone.name}: Tìm thấy {connectionsInZone} đường nhìn thấy.");
-
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(zone.zoneData);
-#endif
-        }
-#if UNITY_EDITOR
-        AssetDatabase.SaveAssets();
-#endif
-
-        Debug.Log($"[BakeVisibility] HOÀN TẤT!");
-        Debug.Log($"Tổng cộng: {totalZones} Zones, {totalPointsProcessed} Points, {totalConnectionsFound} Connections.");
-    }
-
     [ContextMenu("Create a new point GameObject")]
     public void CreatePointGO()
     {
@@ -216,7 +148,7 @@ public class PointBaker : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        DrawInfoPointsPriority();
+        // DrawInfoPointsPriority();
         DrawGizmosSelected();
     }
 }

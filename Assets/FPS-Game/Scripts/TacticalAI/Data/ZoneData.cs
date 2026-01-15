@@ -88,7 +88,7 @@ public class ZoneData : ScriptableObject, ISerializationCallbackReceiver
     private void OnValidate()
     {
         // Delay một chút để tránh xung đột với quá trình Serialization của Unity
-        UnityEditor.EditorApplication.delayCall += SyncReferences;
+        EditorApplication.delayCall += SyncReferences;
     }
 #endif
 

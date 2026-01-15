@@ -41,6 +41,7 @@ public class BotTactics : MonoBehaviour
 
     [SerializeField] BotController botController;
 
+    // Current master point list
     public List<InfoPoint> currentInfoPointsToScan { get; private set; } = new();
     public InfoPoint currentInfoPoint = new();
     public ScanRange currentScanRange = new();
@@ -49,7 +50,7 @@ public class BotTactics : MonoBehaviour
     public void SetCurrentInfoPointsToScan(List<InfoPoint> infoPoints, InfoPoint point)
     {
         currentInfoPointsToScan.Clear();
-        currentInfoPointsToScan = infoPoints;
+        currentInfoPointsToScan = new(infoPoints);
         currentInfoPoint = point;
 
         CalculateCurrentScanRange();
@@ -60,7 +61,8 @@ public class BotTactics : MonoBehaviour
         currentVisiblePoint.Clear();
         for (int i = 0; i < currentInfoPoint.visibleIndices.Count; i++)
         {
-            currentVisiblePoint.Add(currentInfoPointsToScan[i]);
+            int pointIndexInList = currentInfoPoint.visibleIndices[i];
+            currentVisiblePoint.Add(currentInfoPointsToScan[pointIndexInList]);
         }
     }
 
@@ -69,7 +71,7 @@ public class BotTactics : MonoBehaviour
         var indices = currentInfoPoint.visibleIndices;
         if (indices == null || indices.Count == 0) return;
 
-        List<InfoPoint> masterPoints = botController.PlayerRoot.CurrentZoneData.masterPoints;
+        List<InfoPoint> masterPoints = new(botController.PlayerRoot.CurrentZoneData.masterPoints);
 
         // Chọn điểm đầu tiên làm Neo (Anchor)
         Vector3 anchorPos = masterPoints[indices[0]].position;
