@@ -99,6 +99,13 @@ namespace AIBot
             });
 
             sensor.OnPlayerLost += HandlePlayerLost;
+
+            botTactics.OnDoneScanInfoPoint += CalculateNextTargetInfoPoint;
+            botTactics.OnDoneScanAllPoint += () =>
+            {
+                blackboardLinker.SetScanAllArea(true);
+                Debug.Log("blackboardLinker.SetScanAllArea(true);");
+            };
         }
 
         void Start()
@@ -238,7 +245,7 @@ namespace AIBot
                     Debug.Log("Entering Patrol State");
                     CalculatePatrolPath();
                     StartBehavior(patrolBehavior);
-                    blackboardLinker.SetTargetPortalToPatrol(portalPointsToPatrol[currenPortalIndex]);
+                    blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
                     break;
                 case State.Combat:
                     Debug.Log("Entering Combat State");
@@ -321,7 +328,7 @@ namespace AIBot
             }
 
             // blackboardLinker.SetTargetPortalListEmpty(false);
-            blackboardLinker.SetTargetPortalToPatrol(portalPointsToPatrol[currenPortalIndex]);
+            blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
         }
 
         void CalculateCurrentZone()
@@ -359,6 +366,14 @@ namespace AIBot
         public void HasReachedInfoPoint()
         {
             botTactics.CalculateCurrentVisiblePoint();
+        }
+
+        public void CalculateNextTargetInfoPoint()
+        {
+            botTactics.CalculateNextInfoPointToScan();
+            blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
+            blackboardLinker.SetIsMoving(true);
+            blackboardLinker.SetTargetInfoPointToPatrol(botTactics.currentInfoPoint);
         }
 
         public void ShiftToNextCandidate()

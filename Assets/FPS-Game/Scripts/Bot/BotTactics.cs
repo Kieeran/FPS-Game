@@ -47,13 +47,41 @@ public class BotTactics : MonoBehaviour
     public ScanRange currentScanRange = new();
     public List<InfoPoint> currentVisiblePoint = new();
 
+    public event Action OnDoneScanInfoPoint;
+    public event Action OnDoneScanAllPoint;
+
     public void SetCurrentInfoPointsToScan(List<InfoPoint> infoPoints, InfoPoint point)
     {
         currentInfoPointsToScan.Clear();
         currentInfoPointsToScan = new(infoPoints);
         currentInfoPoint = point;
-
+        currentInfoPoint.isChecked = true;
         CalculateCurrentScanRange();
+
+        isCheckedAll = false;
+        isCheckedAllArea = false;
+    }
+
+    public void CalculateNextInfoPointToScan()
+    {
+        currentInfoPoint = GetHighestPriorityPoint();
+        currentInfoPoint.isChecked = true;
+        CalculateCurrentScanRange();
+        isCheckedAll = false;
+    }
+
+    InfoPoint GetHighestPriorityPoint()
+    {
+        InfoPoint bestPoint = currentInfoPointsToScan[0];
+        for (int i = 1; i < currentInfoPointsToScan.Count; i++)
+        {
+            if (currentInfoPointsToScan[i].isChecked) continue;
+            if (currentInfoPointsToScan[i].priority > bestPoint.priority)
+            {
+                bestPoint = currentInfoPointsToScan[i];
+            }
+        }
+        return bestPoint;
     }
 
     public void CalculateCurrentVisiblePoint()
@@ -68,10 +96,19 @@ public class BotTactics : MonoBehaviour
 
     void CalculateCurrentScanRange()
     {
-        var indices = currentInfoPoint.visibleIndices;
+        var indices = new List<int>(currentInfoPoint.visibleIndices);
         if (indices == null || indices.Count == 0) return;
 
-        List<InfoPoint> masterPoints = new(botController.PlayerRoot.CurrentZoneData.masterPoints);
+        List<InfoPoint> masterPoints = currentInfoPointsToScan;
+
+        for (int i = indices.Count - 1; i >= 0; i--)
+        {
+            if (masterPoints[indices[i]].isChecked)
+            {
+                indices.RemoveAt(i);
+            }
+        }
+        if (indices.Count == 0) return;
 
         // Chọn điểm đầu tiên làm Neo (Anchor)
         Vector3 anchorPos = masterPoints[indices[0]].position;
@@ -102,9 +139,36 @@ public class BotTactics : MonoBehaviour
         };
     }
 
-    void OnValidate()
+    bool isCheckedAll = false;
+    bool isCheckedAllArea = false;
+    void Update()
     {
-        botController = GetComponent<BotController>();
+        if (isCheckedAll || isCheckedAllArea) return;
+        if (currentVisiblePoint == null || currentVisiblePoint.Count <= 0) return;
+
+        int isCheckedCount = 0;
+        foreach (var point in currentInfoPointsToScan)
+        {
+            if (point.isChecked) isCheckedCount++;
+        }
+        if (isCheckedCount == currentInfoPointsToScan.Count)
+        {
+            isCheckedAllArea = true;
+            OnDoneScanAllPoint?.Invoke();
+            return;
+        }
+
+        isCheckedCount = 0;
+        foreach (var point in currentVisiblePoint)
+        {
+            if (point.isChecked) isCheckedCount++;
+        }
+        if (isCheckedCount == currentVisiblePoint.Count)
+        {
+            isCheckedAll = true;
+            OnDoneScanInfoPoint?.Invoke();
+            return;
+        }
     }
 
     public List<Transform> GetPointsAroundLKP(Vector3 lkp)

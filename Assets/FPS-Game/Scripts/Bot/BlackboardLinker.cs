@@ -140,14 +140,24 @@ namespace AIBot
             // SafeSet("visibilityMatrix", chaseInfo.zone.visibilityMatrix);
         }
 
-        public void SetTargetPortalToPatrol(PortalPoint portal)
+        public void SetTargetInfoPointToPatrol(InfoPoint point)
         {
-            SafeSet("targetPosition", portal.position);
+            SafeSet("targetPosition", point.position);
         }
 
         public void SetCurrentScanRange(ScanRange range)
         {
             SafeSet("currentScanRange", range);
+        }
+
+        public void SetIsMoving(bool b)
+        {
+            SafeSet("IsMoving", b);
+        }
+
+        public void SetScanAllArea(bool b)
+        {
+            SafeSet("ScanAllArea", b);
         }
 
         public void SetTargetPortalListEmpty(bool b)
