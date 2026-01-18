@@ -68,15 +68,18 @@ public class PointBaker : MonoBehaviour
 
         if (pos == Vector3.zero)
         {
+#if UNITY_EDITOR
             SceneView.lastActiveSceneView.MoveToView(pointGO.transform);
+#endif
         }
 
         else
         {
             pointGO.transform.position = pos;
         }
-
+#if UNITY_EDITOR
         Selection.activeGameObject = pointGO;
+#endif
         SyncDebugPoints();
 
         return pointGO;
@@ -105,8 +108,10 @@ public class PointBaker : MonoBehaviour
         Zone targetZone = ZoneManager.Instance.GetZoneByID(selectedZoneID);
         foreach (InfoPoint point in targetZone.zoneData.masterPoints)
         {
+#if UNITY_EDITOR
             // Hiển thị số Priority trên đầu điểm (Chỉ trong Scene View)
             Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+#endif
         }
     }
 
