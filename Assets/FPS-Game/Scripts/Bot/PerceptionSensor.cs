@@ -161,6 +161,7 @@ namespace AIBot
         void ScanInfoPointInArea()
         {
             if (botTactics == null || botTactics.currentVisiblePoint == null) return;
+            if (!botTactics.canScan) return;
 
             List<InfoPoint> visiblePoints = botTactics.currentVisiblePoint;
             if (visiblePoints.Count <= 0) return;

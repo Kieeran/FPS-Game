@@ -172,7 +172,7 @@ public class ZoneManager : MonoBehaviour
 
     public Vector3 GetSnappedPos(Vector3 originalPos)
     {
-        if (NavMesh.SamplePosition(originalPos, out NavMeshHit hit, 4.0f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(originalPos, out NavMeshHit hit, 3f, NavMesh.AllAreas))
         {
             return hit.position;
         }

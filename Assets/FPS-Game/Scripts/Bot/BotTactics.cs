@@ -42,43 +42,68 @@ public class BotTactics : MonoBehaviour
     [SerializeField] BotController botController;
 
     // Current master point list
-    public List<InfoPoint> currentInfoPointsToScan { get; private set; } = new();
+    public List<InfoPoint> currentInfoPointsToScan = new();
     public InfoPoint currentInfoPoint = new();
     public ScanRange currentScanRange = new();
     public List<InfoPoint> currentVisiblePoint = new();
 
-    public event Action OnDoneScanInfoPoint;
-    public event Action OnDoneScanAllPoint;
+    public event Action OnCurrentVisiblePointsCompleted;
+    public event Action OnZoneFullyScanned;
 
-    public void SetCurrentInfoPointsToScan(List<InfoPoint> infoPoints, InfoPoint point)
+    public bool isCurrentVisiblePointsCompleted { get; private set; } = false;
+    public bool isZoneFullyScanned { get; private set; } = false;
+    public bool canScan { get; private set; } = false;
+
+    void ClearZoneScanningData()
     {
         currentInfoPointsToScan.Clear();
-        currentInfoPointsToScan = new(infoPoints);
-        currentInfoPoint = point;
-        currentInfoPoint.isChecked = true;
-        CalculateCurrentScanRange();
+        currentVisiblePoint.Clear();
+        currentInfoPoint = null;
+        currentScanRange = null;
 
-        isCheckedAll = false;
-        isCheckedAllArea = false;
+        canScan = false;
+        isZoneFullyScanned = false;
     }
 
-    public void CalculateNextInfoPointToScan()
+    public void InitializeZoneScanning(List<InfoPoint> infoPoints, InfoPoint point)
     {
-        currentInfoPoint = GetHighestPriorityPoint();
-        currentInfoPoint.isChecked = true;
-        CalculateCurrentScanRange();
-        isCheckedAll = false;
+        ClearZoneScanningData();
+        currentInfoPointsToScan = infoPoints;
+
+        SetupNextScanSession(point);
     }
 
-    InfoPoint GetHighestPriorityPoint()
+    public void SetupNextScanSession(InfoPoint point)
     {
-        InfoPoint bestPoint = currentInfoPointsToScan[0];
-        for (int i = 1; i < currentInfoPointsToScan.Count; i++)
+        if (point != null)
         {
-            if (currentInfoPointsToScan[i].isChecked) continue;
-            if (currentInfoPointsToScan[i].priority > bestPoint.priority)
+            currentInfoPoint = point;
+        }
+        else
+        {
+            currentInfoPoint = GetBestPoint();
+        }
+        currentInfoPoint.isChecked = true;
+
+        CalculateCurrentScanRange();
+        isCurrentVisiblePointsCompleted = false;
+    }
+
+    InfoPoint GetBestPoint()
+    {
+        List<InfoPoint> leftOverPoints = new();
+        foreach (var point in currentInfoPointsToScan)
+        {
+            if (!point.isChecked) leftOverPoints.Add(point);
+        }
+        if (leftOverPoints.Count == 0) return null;
+
+        InfoPoint bestPoint = leftOverPoints[0];
+        for (int i = 1; i < leftOverPoints.Count; i++)
+        {
+            if (leftOverPoints[i].priority > bestPoint.priority)
             {
-                bestPoint = currentInfoPointsToScan[i];
+                bestPoint = leftOverPoints[i];
             }
         }
         return bestPoint;
@@ -92,6 +117,7 @@ public class BotTactics : MonoBehaviour
             int pointIndexInList = currentInfoPoint.visibleIndices[i];
             currentVisiblePoint.Add(currentInfoPointsToScan[pointIndexInList]);
         }
+        canScan = true;
     }
 
     void CalculateCurrentScanRange()
@@ -139,25 +165,32 @@ public class BotTactics : MonoBehaviour
         };
     }
 
-    bool isCheckedAll = false;
-    bool isCheckedAllArea = false;
     void Update()
     {
-        if (isCheckedAll || isCheckedAllArea) return;
-        if (currentVisiblePoint == null || currentVisiblePoint.Count <= 0) return;
+        if (!canScan) return;
+        if (currentInfoPointsToScan == null || currentInfoPointsToScan.Count == 0) return;
+        if (currentVisiblePoint == null || currentVisiblePoint.Count == 0) return;
 
         int isCheckedCount = 0;
+
+        // Check tất cả các point ở zone hiện tại
         foreach (var point in currentInfoPointsToScan)
         {
             if (point.isChecked) isCheckedCount++;
         }
         if (isCheckedCount == currentInfoPointsToScan.Count)
         {
-            isCheckedAllArea = true;
-            OnDoneScanAllPoint?.Invoke();
+            if (!isZoneFullyScanned)
+            {
+                isZoneFullyScanned = true;
+                canScan = false;
+
+                OnZoneFullyScanned?.Invoke();
+            }
             return;
         }
 
+        // // Check ở các point nhìn thấy hiện tại
         isCheckedCount = 0;
         foreach (var point in currentVisiblePoint)
         {
@@ -165,8 +198,13 @@ public class BotTactics : MonoBehaviour
         }
         if (isCheckedCount == currentVisiblePoint.Count)
         {
-            isCheckedAll = true;
-            OnDoneScanInfoPoint?.Invoke();
+            if (!isCurrentVisiblePointsCompleted && !isZoneFullyScanned)
+            {
+                isCurrentVisiblePointsCompleted = true;
+                canScan = false;
+
+                OnCurrentVisiblePointsCompleted?.Invoke();
+            }
             return;
         }
     }
@@ -284,14 +322,44 @@ public class BotTactics : MonoBehaviour
         }
     }
 
+    [Header("Debug")]
+    public bool drawcCurrentVisiblePoint = false;
+    public bool drawcCurrentInfoPointsToScan = false;
+    public int remainingInfoPointsCount = 0;
+
     private void OnDrawGizmosSelected()
     {
-        if (currentVisiblePoint.Count <= 0) return;
-        foreach (var point in currentVisiblePoint)
+        if (drawcCurrentVisiblePoint)
         {
-            Gizmos.color = point.isChecked ? Color.green : Color.yellow;
-            Gizmos.DrawSphere(point.position, 0.2f);
-            Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+            if (currentVisiblePoint.Count <= 0) return;
+            foreach (var point in currentVisiblePoint)
+            {
+                Gizmos.color = point.isChecked ? Color.green : Color.yellow;
+                Gizmos.DrawSphere(point.position, 0.2f);
+                // Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+            }
+        }
+
+        if (drawcCurrentInfoPointsToScan)
+        {
+            if (currentInfoPointsToScan.Count <= 0) return;
+
+            remainingInfoPointsCount = 0;
+            foreach (var point in currentInfoPointsToScan)
+            {
+                if (point.isChecked)
+                {
+                    Gizmos.color = Color.green;
+                }
+                else
+                {
+                    Gizmos.color = Color.yellow;
+                    remainingInfoPointsCount++;
+                }
+
+                Gizmos.DrawSphere(point.position, 0.2f);
+                // Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+            }
         }
     }
 }
