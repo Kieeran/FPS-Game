@@ -2,7 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AIBot;
+using UnityEditor;
 using UnityEngine;
+
+[System.Serializable]
+public class ScanRange
+{
+    public Vector3 leftDir;
+    public Vector3 rightDir;
+    public float angleRange;
+}
 
 public class BotTactics : MonoBehaviour
 {
@@ -28,6 +38,176 @@ public class BotTactics : MonoBehaviour
     private Vector3 lastDebugLKP;
     List<Transform> lastCandidates = new();
     public List<Transform> currentSearchPath { get; private set; } = new();
+
+    [SerializeField] BotController botController;
+
+    // Current master point list
+    public List<InfoPoint> currentInfoPointsToScan = new();
+    public InfoPoint currentInfoPoint = new();
+    public ScanRange currentScanRange = new();
+    public List<InfoPoint> currentVisiblePoint = new();
+
+    public event Action OnCurrentVisiblePointsCompleted;
+    public event Action OnZoneFullyScanned;
+
+    public bool isCurrentVisiblePointsCompleted { get; private set; } = false;
+    public bool isZoneFullyScanned { get; private set; } = false;
+    public bool canScan { get; private set; } = false;
+
+    void ClearZoneScanningData()
+    {
+        currentInfoPointsToScan.Clear();
+        currentVisiblePoint.Clear();
+        currentInfoPoint = null;
+        currentScanRange = null;
+
+        canScan = false;
+        isZoneFullyScanned = false;
+    }
+
+    public void InitializeZoneScanning(List<InfoPoint> infoPoints, InfoPoint point)
+    {
+        ClearZoneScanningData();
+        currentInfoPointsToScan = infoPoints;
+
+        SetupNextScanSession(point);
+    }
+
+    public void SetupNextScanSession(InfoPoint point)
+    {
+        if (point != null)
+        {
+            currentInfoPoint = point;
+        }
+        else
+        {
+            currentInfoPoint = GetBestPoint();
+        }
+        currentInfoPoint.isChecked = true;
+
+        CalculateCurrentScanRange();
+        isCurrentVisiblePointsCompleted = false;
+    }
+
+    InfoPoint GetBestPoint()
+    {
+        List<InfoPoint> leftOverPoints = new();
+        foreach (var point in currentInfoPointsToScan)
+        {
+            if (!point.isChecked) leftOverPoints.Add(point);
+        }
+        if (leftOverPoints.Count == 0) return null;
+
+        InfoPoint bestPoint = leftOverPoints[0];
+        for (int i = 1; i < leftOverPoints.Count; i++)
+        {
+            if (leftOverPoints[i].priority > bestPoint.priority)
+            {
+                bestPoint = leftOverPoints[i];
+            }
+        }
+        return bestPoint;
+    }
+
+    public void CalculateCurrentVisiblePoint()
+    {
+        currentVisiblePoint.Clear();
+        for (int i = 0; i < currentInfoPoint.visibleIndices.Count; i++)
+        {
+            int pointIndexInList = currentInfoPoint.visibleIndices[i];
+            currentVisiblePoint.Add(currentInfoPointsToScan[pointIndexInList]);
+        }
+        canScan = true;
+    }
+
+    void CalculateCurrentScanRange()
+    {
+        var indices = new List<int>(currentInfoPoint.visibleIndices);
+        if (indices == null || indices.Count == 0) return;
+
+        List<InfoPoint> masterPoints = currentInfoPointsToScan;
+
+        for (int i = indices.Count - 1; i >= 0; i--)
+        {
+            if (masterPoints[indices[i]].isChecked)
+            {
+                indices.RemoveAt(i);
+            }
+        }
+        if (indices.Count == 0) return;
+
+        // Chọn điểm đầu tiên làm Neo (Anchor)
+        Vector3 anchorPos = masterPoints[indices[0]].position;
+        Vector3 dirAnchor = (anchorPos - currentInfoPoint.position).normalized;
+
+        float minAngle = 0; // Lệch trái nhất so với Neo
+        float maxAngle = 0; // Lệch phải nhất so với Neo
+
+        // So sánh tất cả các điểm còn lại với Neo
+        for (int i = 0; i < indices.Count; i++)
+        {
+            Vector3 targetPos = masterPoints[indices[i]].position;
+            Vector3 dirTarget = (targetPos - currentInfoPoint.position).normalized;
+
+            // Tính góc lệch có dấu giữa Neo và điểm hiện tại
+            float angle = Vector3.SignedAngle(dirAnchor, dirTarget, Vector3.up);
+
+            if (angle < minAngle) minAngle = angle;
+            if (angle > maxAngle) maxAngle = angle;
+        }
+
+        currentScanRange = new ScanRange
+        {
+            // Biên trái là Neo xoay đi minAngle, Biên phải là Neo xoay đi maxAngle
+            leftDir = Quaternion.AngleAxis(minAngle, Vector3.up) * dirAnchor,
+            rightDir = Quaternion.AngleAxis(maxAngle, Vector3.up) * dirAnchor,
+            angleRange = maxAngle - minAngle
+        };
+    }
+
+    void Update()
+    {
+        if (!canScan) return;
+        if (currentInfoPointsToScan == null || currentInfoPointsToScan.Count == 0) return;
+        if (currentVisiblePoint == null || currentVisiblePoint.Count == 0) return;
+
+        int isCheckedCount = 0;
+
+        // Check tất cả các point ở zone hiện tại
+        foreach (var point in currentInfoPointsToScan)
+        {
+            if (point.isChecked) isCheckedCount++;
+        }
+        if (isCheckedCount == currentInfoPointsToScan.Count)
+        {
+            if (!isZoneFullyScanned)
+            {
+                isZoneFullyScanned = true;
+                canScan = false;
+
+                OnZoneFullyScanned?.Invoke();
+            }
+            return;
+        }
+
+        // // Check ở các point nhìn thấy hiện tại
+        isCheckedCount = 0;
+        foreach (var point in currentVisiblePoint)
+        {
+            if (point.isChecked) isCheckedCount++;
+        }
+        if (isCheckedCount == currentVisiblePoint.Count)
+        {
+            if (!isCurrentVisiblePointsCompleted && !isZoneFullyScanned)
+            {
+                isCurrentVisiblePointsCompleted = true;
+                canScan = false;
+
+                OnCurrentVisiblePointsCompleted?.Invoke();
+            }
+            return;
+        }
+    }
 
     public List<Transform> GetPointsAroundLKP(Vector3 lkp)
     {
@@ -139,6 +319,47 @@ public class BotTactics : MonoBehaviour
 
             // Vẽ khối cầu tại mỗi điểm TP
             Gizmos.DrawSphere(currentSearchPath[i].position, 0.3f);
+        }
+    }
+
+    [Header("Debug")]
+    public bool drawcCurrentVisiblePoint = false;
+    public bool drawcCurrentInfoPointsToScan = false;
+    public int remainingInfoPointsCount = 0;
+
+    private void OnDrawGizmosSelected()
+    {
+        if (drawcCurrentVisiblePoint)
+        {
+            if (currentVisiblePoint.Count <= 0) return;
+            foreach (var point in currentVisiblePoint)
+            {
+                Gizmos.color = point.isChecked ? Color.green : Color.yellow;
+                Gizmos.DrawSphere(point.position, 0.2f);
+                // Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+            }
+        }
+
+        if (drawcCurrentInfoPointsToScan)
+        {
+            if (currentInfoPointsToScan.Count <= 0) return;
+
+            remainingInfoPointsCount = 0;
+            foreach (var point in currentInfoPointsToScan)
+            {
+                if (point.isChecked)
+                {
+                    Gizmos.color = Color.green;
+                }
+                else
+                {
+                    Gizmos.color = Color.yellow;
+                    remainingInfoPointsCount++;
+                }
+
+                Gizmos.DrawSphere(point.position, 0.2f);
+                // Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+            }
         }
     }
 }

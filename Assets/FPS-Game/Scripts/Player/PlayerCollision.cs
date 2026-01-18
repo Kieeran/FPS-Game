@@ -15,11 +15,10 @@ public class PlayerCollision : PlayerBehaviour
         if (other.transform.parent.CompareTag("Zone"))
         {
             Zone zone = other.GetComponentInParent<Zone>();
-            PlayerRoot.PlayerUI.UpdateLocationText(zone.zoneID.ToString());
+            PlayerRoot.PlayerUI.UpdateLocationText(zone.zoneData.zoneID.ToString());
             PlayerRoot.CurrentZone = zone;
 
-            Debug.Log($"Current zone: {zone.zoneID}");
+            Debug.Log($"Enter zone: {zone.zoneData.zoneID}");
         }
-        // Debug.Log($"Trigger log: {other.transform.parent.name}");
     }
 }
