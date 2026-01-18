@@ -99,6 +99,13 @@ namespace AIBot
             });
 
             sensor.OnPlayerLost += HandlePlayerLost;
+
+            botTactics.OnCurrentVisiblePointsCompleted += CalculateNextTargetInfoPoint;
+            botTactics.OnZoneFullyScanned += () =>
+            {
+                blackboardLinker.SetScanAllArea(true);
+                Debug.Log("Current zone is fully scanned!");
+            };
         }
 
         void Start()
@@ -238,7 +245,10 @@ namespace AIBot
                     Debug.Log("Entering Patrol State");
                     CalculatePatrolPath();
                     StartBehavior(patrolBehavior);
-                    blackboardLinker.SetTargetPortalToPatrol(portalPointsToPatrol[currenPortalIndex]);
+
+                    blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
+                    blackboardLinker.SetIsMoving(true);
+                    blackboardLinker.SetScanAllArea(false);
                     break;
                 case State.Combat:
                     Debug.Log("Entering Combat State");
@@ -313,21 +323,41 @@ namespace AIBot
         public void NextPortal()
         {
             currenPortalIndex++;
+            // Nếu portal hiện tại đã là portal cuối cùng trong list
             if (currenPortalIndex >= portalPointsToPatrol.Count)
             {
-                // blackboardLinker.SetTargetPortalListEmpty(true);
-                CalculateCurrentZone();
+                StartScanAreaProcess();
                 return;
             }
 
             // blackboardLinker.SetTargetPortalListEmpty(false);
-            blackboardLinker.SetTargetPortalToPatrol(portalPointsToPatrol[currenPortalIndex]);
+            blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
         }
 
-        void CalculateCurrentZone()
+        void StartScanAreaProcess()
         {
-            PortalPoint currentPortal = portalPointsToPatrol[portalPointsToPatrol.Count - 1];
-            PortalPoint prevPortal = portalPointsToPatrol[portalPointsToPatrol.Count - 2];
+            CalculateDestinationZoneFromPortalRoute();
+
+            PortalPoint currentPortal = portalPointsToPatrol[^1];
+            // Lấy target portal dẫn tới target zone nằm trong danh sách portals của target zone
+            // Note: Portal tuy cùng liên kết hai khu vực A và B, nhưng giá trị portal lưu trong zone A khác với giá trị portal lưu trong zone B
+            foreach (var portal in PlayerRoot.CurrentZoneData.portals)
+            {
+                if (portal.portalName == currentPortal.portalName)
+                {
+                    currentPortal = portal;
+                    break;
+                }
+            }
+            botTactics.InitializeZoneScanning(PlayerRoot.CurrentZoneData.masterPoints, currentPortal);
+
+            blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
+        }
+
+        void CalculateDestinationZoneFromPortalRoute()
+        {
+            PortalPoint currentPortal = portalPointsToPatrol[^1];
+            PortalPoint prevPortal = portalPointsToPatrol[^2];
 
             if (currentPortal.zoneDataA.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataA.zoneID == prevPortal.zoneDataB.zoneID)
             {
@@ -338,12 +368,23 @@ namespace AIBot
                 PlayerRoot.CurrentZoneData = currentPortal.zoneDataA;
             }
             Debug.Log($"Target zone is {PlayerRoot.CurrentZoneData.zoneID}");
-            botTactics.SetCurrentInfoPointsToScan(PlayerRoot.CurrentZoneData.masterPoints, currentPortal);
+        }
 
-            Debug.Log(botTactics.currentScanRange.leftDir);
-            Debug.Log(botTactics.currentScanRange.rightDir);
-            Debug.Log(botTactics.currentScanRange.angleRange);
-            blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
+        public void HasReachedInfoPoint()
+        {
+            botTactics.CalculateCurrentVisiblePoint();
+        }
+
+        public void CalculateNextTargetInfoPoint()
+        {
+            if (!botTactics.isZoneFullyScanned)
+            {
+                botTactics.SetupNextScanSession(null);
+
+                blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
+                blackboardLinker.SetIsMoving(true);
+                blackboardLinker.SetTargetInfoPointToPatrol(botTactics.currentInfoPoint);
+            }
         }
 
         public void ShiftToNextCandidate()

@@ -41,13 +41,8 @@ public class TacticalPointBaker : PointBaker
                 {
                     position = pointsTransform[i].position
                 };
-                zone.zoneData.tacticalPoints.Add(tacticalPoint);
+                // zone.zoneData.tacticalPoints.Add(tacticalPoint);
                 zone.zoneData.masterPoints.Add(tacticalPoint);
-
-#if UNITY_EDITOR
-                EditorUtility.SetDirty(zone.zoneData);
-#endif
-
                 successCount++;
             }
             else
@@ -66,6 +61,12 @@ public class TacticalPointBaker : PointBaker
         pointsTransform.Clear();
 
 #if UNITY_EDITOR
+        foreach (Zone zone in ZoneManager.Instance.allZones)
+        {
+            zone.zoneData.UpdatePointID();
+            EditorUtility.SetDirty(zone.zoneData);
+        }
+
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
 
@@ -84,7 +85,7 @@ public class TacticalPointBaker : PointBaker
     {
         foreach (Zone zone in ZoneManager.Instance.allZones)
         {
-            zone.zoneData.tacticalPoints.Clear();
+            // zone.zoneData.tacticalPoints.Clear();
 
             for (int i = zone.zoneData.masterPoints.Count - 1; i >= 0; i--)
             {
@@ -116,6 +117,6 @@ public class TacticalPointBaker : PointBaker
             }
         }
 
-        Debug.Log($"Đã khôi phục {pointCount} điểm để chỉnh sửa.");
+        Debug.Log($"Đã khôi phục {pointCount} điểm tactical để chỉnh sửa.");
     }
 }

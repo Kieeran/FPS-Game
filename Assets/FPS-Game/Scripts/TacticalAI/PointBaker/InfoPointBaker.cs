@@ -64,17 +64,18 @@ public class InfoPointBaker : PointBaker
         {
             foreach (InfoPoint infoPoint in infoPointsByZone[zone.zoneData.zoneID])
             {
-                zone.zoneData.infoPoints.Add(infoPoint);
+                // zone.zoneData.infoPoints.Add(infoPoint);
                 zone.zoneData.masterPoints.Add(infoPoint);
             }
-
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(zone.zoneData);
-#endif
-
         }
 
 #if UNITY_EDITOR
+        foreach (Zone zone in ZoneManager.Instance.allZones)
+        {
+            zone.zoneData.UpdatePointID();
+            EditorUtility.SetDirty(zone.zoneData);
+        }
+
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
 #endif
@@ -86,7 +87,7 @@ public class InfoPointBaker : PointBaker
     {
         foreach (Zone zone in ZoneManager.Instance.allZones)
         {
-            zone.zoneData.infoPoints.Clear();
+            // zone.zoneData.infoPoints.Clear();
 
             for (int i = zone.zoneData.masterPoints.Count - 1; i >= 0; i--)
             {
@@ -108,7 +109,7 @@ public class InfoPointBaker : PointBaker
         if (ZoneManager.Instance == null) return;
         if (selectedZoneID == ZoneID.None) return;
 
-        List<InfoPoint> targetInfoPoints = new();
+        List<InfoPoint> targetInfoPoints;
 
         if (infoPointsByZone != null && infoPointsByZone.Count != 0)
         {
@@ -125,6 +126,28 @@ public class InfoPointBaker : PointBaker
         {
             Gizmos.color = pointColorGizmos;
             Gizmos.DrawSphere(infoPoint.position, pointSizeGizmos);
+        }
+
+        DrawPortalVisibility();
+    }
+
+    public int portalListIndex = 0;
+    void DrawPortalVisibility()
+    {
+        PortalPoint portal = ZoneManager.Instance.GetZoneByID(selectedZoneID).zoneData.portals[portalListIndex];
+        foreach (var point in ZoneManager.Instance.GetZoneByID(selectedZoneID).zoneData.masterPoints)
+        {
+            if (!Physics.Linecast(portal.position, point.position, ZoneManager.Instance.obstacleLayer))
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(portal.position, point.position);
+            }
+
+            else
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(portal.position, point.position);
+            }
         }
     }
 }

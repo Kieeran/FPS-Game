@@ -7,12 +7,13 @@ public enum PointType { Info, Tactical, Portal }
 [System.Serializable]
 public class InfoPoint
 {
+    public int pointID;
     public Vector3 position;
     public PointType type = PointType.Info;
     public int priority;
     public List<int> visibleIndices = new();
 
-    [System.NonSerialized] public bool isChecked = false; // Dữ liệu Runtime
+    public bool isChecked = false; // Dữ liệu Runtime
 }
 
 [System.Serializable]
@@ -28,7 +29,7 @@ public class PortalPoint : InfoPoint
     public string portalName;
     public ZoneData zoneDataA;
     public ZoneData zoneDataB;
-    public float traversalCost;
+    // public float traversalCost;
 
     public ZoneData GetOtherZone(ZoneData currentZone)
     {
