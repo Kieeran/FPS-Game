@@ -19,6 +19,8 @@ public class ZoneManager : MonoBehaviour
 
     public Dictionary<ZoneID, Zone> zoneCache;
 
+    Dictionary<PortalPoint, List<(PortalPoint v, float w)>> adj;
+
     // Chạy cả Edit Mode & Play Mode
     private void OnEnable()
     {
@@ -53,6 +55,8 @@ public class ZoneManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+        adj = CalculateAdjacencyList();
     }
 
     void OnValidate()
@@ -79,7 +83,7 @@ public class ZoneManager : MonoBehaviour
         }
     }
 
-    private Zone GetBestZone()
+    private Zone GetHighestWeighZone()
     {
         if (allZones == null || allZones.Count == 0)
         {
@@ -384,11 +388,39 @@ public class ZoneManager : MonoBehaviour
 
     public List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData currentZoneData)
     {
+        (ZoneData currentZone, ZoneData targetZone) = InitializeDijkstraData(botPosition, currentZoneData);
+        Debug.Log($"Bắt đầu tính toán lộ trình tới Zone: {targetZone.zoneID}");
+        // Khởi tạo danh sách đích (Targets)
+        List<PortalPoint> targets = new();
+        foreach (PortalPoint point in targetZone.portals)
+        {
+            PortalPoint p = GetPortalPointByName(point.portalName);
+            if (p != null)
+            {
+                targets.Add(p);
+            }
+        }
+        return Dijkstra(botPosition, currentZone, targets, adj);
+    }
+
+    (ZoneData currentZone, ZoneData targetZone) InitializeDijkstraData(Vector3 botPosition, ZoneData currentZoneData)
+    {
         Zone currentZone = GetZoneAt(botPosition);
+        if (currentZone == null)
+        {
+            currentZone = GetZoneByID(currentZoneData.zoneID);
+        }
+        Zone bestZone = FindBestZone(currentZone);
+
+        return (currentZone.zoneData, bestZone.zoneData);
+    }
+
+    Zone FindBestZone(Zone currentZone)
+    {
         Zone bestZone;
         while (true)
         {
-            bestZone = GetBestZone();
+            bestZone = GetHighestWeighZone();
             bestZone.ResetWeight();
             // Nếu best zone là zone đang đứng thì reset weigh và bỏ qua
             if (bestZone == currentZone)
@@ -404,32 +436,16 @@ public class ZoneManager : MonoBehaviour
                     continue;
                 }
             }
-
             break;
         }
-
-        portalPointPath = CalculatePath(botPosition, currentZoneData, bestZone.zoneData);
-        return portalPointPath;
+        return bestZone;
     }
 
-    List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData currentZoneData, ZoneData targetZone)
+    Dictionary<PortalPoint, List<(PortalPoint v, float w)>> CalculateAdjacencyList()
     {
-        Debug.Log($"Bắt đầu tính toán lộ trình tới Zone: {targetZone.zoneID}");
-        // Khởi tạo danh sách đích (Targets)
-        List<PortalPoint> targets = new();
-        foreach (PortalPoint point in targetZone.portals)
-        {
-            PortalPoint p = GetPortalPointByName(point.portalName);
-            if (p != null)
-            {
-                targets.Add(p);
-            }
-        }
-
         // Xây dựng danh sách kề (Adjacency List - adj)
-        // Coi PortalName là Key, danh sách các Portal hàng xóm và khoảng cách là Value
+        // Coi PortalPoint là Key, danh sách các Portal hàng xóm và khoảng cách là Value
         var adj = new Dictionary<PortalPoint, List<(PortalPoint v, float w)>>();
-
         int connectionCount = 0;
         foreach (Zone zone in allZones)
         {
@@ -448,28 +464,48 @@ public class ZoneManager : MonoBehaviour
         }
         Debug.Log($"Đã dựng đồ thị với {connectionCount} kết nối nội bộ.");
 
-        // adjList.Clear();
-        // foreach (PortalPoint portal in adj.Keys)
-        // {
-        //     AdjRow adjRow = new()
-        //     {
-        //         portalName = portal.portalName
-        //     };
-
-        //     Debug.Log($"===={portal.portalName}====");
-        //     string logString = "";
-        //     foreach (var (v, w) in adj[portal])
-        //     {
-        //         adjRow.neighbors.Add(v);
-        //         logString += $"{v.portalName} {w}\n";
-        //     }
-        //     Debug.Log(logString);
-        //     adjList.Add(adjRow);
-        // }
-
-        // Gọi lõi thuật toán Dijkstra
-        return Dijkstra(botPosition, currentZoneData, targets, adj);
+        return adj;
     }
+
+    // List<PortalPoint> CalculatePath(ZoneData currentZoneData, ZoneData targetZone)
+    // {
+    //     Debug.Log($"Bắt đầu tính toán lộ trình tới Zone: {targetZone.zoneID}");
+    //     // Khởi tạo danh sách đích (Targets)
+    //     List<PortalPoint> targets = new();
+    //     foreach (PortalPoint point in targetZone.portals)
+    //     {
+    //         PortalPoint p = GetPortalPointByName(point.portalName);
+    //         if (p != null)
+    //         {
+    //             targets.Add(p);
+    //         }
+    //     }
+
+    //     // Xây dựng danh sách kề (Adjacency List - adj)
+    //     // Coi PortalName là Key, danh sách các Portal hàng xóm và khoảng cách là Value
+    //     var adj = new Dictionary<PortalPoint, List<(PortalPoint v, float w)>>();
+
+    //     int connectionCount = 0;
+    //     foreach (Zone zone in allZones)
+    //     {
+    //         foreach (var conn in zone.zoneData.internalPaths)
+    //         {
+    //             PortalPoint a = GetPortalPointByName(conn.portalA.portalName);
+    //             PortalPoint b = GetPortalPointByName(conn.portalB.portalName);
+
+    //             if (a != null && b != null)
+    //             {
+    //                 AddEdge(adj, a, b, conn.traversalCost);
+    //                 AddEdge(adj, b, a, conn.traversalCost);
+    //                 connectionCount++;
+    //             }
+    //         }
+    //     }
+    //     Debug.Log($"Đã dựng đồ thị với {connectionCount} kết nối nội bộ.");
+
+    //     // Gọi lõi thuật toán Dijkstra
+    //     return Dijkstra(botPosition, currentZoneData, targets, adj);
+    // }
 
     private void AddEdge(Dictionary<PortalPoint, List<(PortalPoint v, float w)>> adj, PortalPoint from, PortalPoint to, float w)
     {
@@ -483,6 +519,9 @@ public class ZoneManager : MonoBehaviour
         adj[from].Add((to, w));
     }
 
+    // Chưa tính tới trường hợp: ở lần tìm đường sau, nếu trước đó bot đứng quá gần portal trong current zone,
+    // khi add các portal vào danh sách (bao gồm portal gần bot) thì sau khi tính toán route, portal gần bot đó sẽ nằm đầu danh sách
+    // và bot phải đi tới đó, dẫn đến việc hệ thống không kịp chuyển sang portal ở zone kế tiếp trong danh sách route.
     public List<PortalPoint> Dijkstra(Vector3 source, ZoneData currentZoneData, List<PortalPoint> targets, Dictionary<PortalPoint, List<(PortalPoint v, float w)>> adj)
     {
         var pq = new List<(PortalPoint u, float d)>();
