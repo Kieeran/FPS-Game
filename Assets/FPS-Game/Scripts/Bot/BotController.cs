@@ -86,7 +86,7 @@ namespace AIBot
         private Behavior _activeBehavior;
         public PlayerRoot PlayerRoot { get; private set; }
 
-        List<PortalPoint> portalPointsToPatrol = new();
+        public List<PortalPoint> portalPointsToPatrol = new();
         int currenPortalIndex = 0;
 
         void Awake()
@@ -142,6 +142,12 @@ namespace AIBot
                     PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetLookEuler());
                     PlayerRoot.AIInputFeeder.OnAttack?.Invoke(blackboardLinker.GetAttack());
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
+
+                    if (currenPortalIndex >= portalPointsToPatrol.Count) break;
+                    if (Vector3.Distance(PlayerRoot.GetCharacterRootTransform().position, portalPointsToPatrol[currenPortalIndex].position) <= closeDistance)
+                    {
+                        NextPortal();
+                    }
 
                     // // If player currently not visible, start lost sight timer; otherwise reset
                     // if (!blackboardLinker?.isPlayerVisible ?? true)
@@ -243,7 +249,9 @@ namespace AIBot
                     break;
                 case State.Patrol:
                     Debug.Log("Entering Patrol State");
-                    CalculatePatrolPath();
+
+                    ZoneData targetZone = ZoneManager.Instance.FindBestZone(PlayerRoot.CurrentZoneData);
+                    CalculatePatrolPath(targetZone);
                     StartBehavior(patrolBehavior);
 
                     blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
@@ -313,10 +321,14 @@ namespace AIBot
             }
         }
 
-        void CalculatePatrolPath()
+        void CalculatePatrolPath(ZoneData targetZoneData)
         {
             portalPointsToPatrol.Clear();
-            portalPointsToPatrol = ZoneManager.Instance.CalculatePath(PlayerRoot.GetCharacterRootTransform().position, PlayerRoot.CurrentZoneData);
+            portalPointsToPatrol = ZoneManager.Instance.CalculatePath(
+                PlayerRoot.GetCharacterRootTransform().position,
+                PlayerRoot.CurrentZoneData,
+                targetZoneData
+            );
             currenPortalIndex = 0;
         }
 
@@ -436,6 +448,13 @@ namespace AIBot
             // });
 
             blackboardLinker.SetLastKnownPlayerData(data);
+            ZoneData suspiciousZoneData = botTactics.PredictMostSuspiciousZone(data);
+
+            CalculatePatrolPath(suspiciousZoneData);
+
+            blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
+            blackboardLinker.SetIsMoving(true);
+            blackboardLinker.SetScanAllArea(false);
         }
 
         #endregion

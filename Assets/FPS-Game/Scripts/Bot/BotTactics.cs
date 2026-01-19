@@ -165,6 +165,47 @@ public class BotTactics : MonoBehaviour
         };
     }
 
+    public ZoneData PredictMostSuspiciousZone(TPointData lastKnownData)
+    {
+        if (!lastKnownData.IsValid())
+        {
+            Debug.LogWarning("[Predict] TPointData is null! Cannot predict.");
+            return null;
+        }
+
+        Zone currentZone = ZoneManager.Instance.GetZoneAt(lastKnownData.Position);
+        if (currentZone == null) return null;
+
+        ZoneData currentZoneData = currentZone.zoneData;
+
+        ZoneData targetZoneData = null;
+        Vector3 playerLookDir = (lastKnownData.Rotation * Vector3.forward).normalized;
+        float bestMatch = -0.5f;
+
+        Debug.Log($"Analyzing {currentZoneData.portals.Count} portals in {currentZoneData.name}. Player Dir: {playerLookDir}");
+        foreach (var portal in currentZoneData.portals)
+        {
+            Vector3 dirToPortal = (portal.position - lastKnownData.Position).normalized;
+            float dot = Vector3.Dot(playerLookDir, dirToPortal);
+
+            if (dot > bestMatch)
+            {
+                bestMatch = dot;
+                targetZoneData = portal.GetOtherZone(currentZoneData);
+            }
+        }
+
+        // Nếu sau vòng lặp mà bestMatch vẫn quá thấp, có thể người chơi chỉ đang đứng yên hoặc xoay vòng
+        if (bestMatch < 0.2f) // Ví dụ: góc lệch quá 78 độ
+        {
+            Debug.Log($"Confidence low (Best Dot: {bestMatch}). Staying in current zone: {currentZoneData.name}");
+            return currentZoneData; // Ở lại zone cũ để tìm kỹ hơn thay vì đoán bừa sang zone khác
+        }
+
+        Debug.Log($"Target identified: {targetZoneData.zoneID} with Match Score: {bestMatch}");
+        return targetZoneData;
+    }
+
     void Update()
     {
         if (!canScan) return;
@@ -209,88 +250,88 @@ public class BotTactics : MonoBehaviour
         }
     }
 
-    public List<Transform> GetPointsAroundLKP(Vector3 lkp)
-    {
-        List<Transform> candidatePoints = new List<Transform>();
+    // public List<Transform> GetPointsAroundLKP(Vector3 lkp)
+    // {
+    //     List<Transform> candidatePoints = new List<Transform>();
 
-        InGameManager instance = InGameManager.Instance;
+    //     InGameManager instance = InGameManager.Instance;
 
-        if (instance == null || instance.spawnInGameManager.GetTacticalPointsList() == null)
-        {
-            Debug.LogWarning("TacticalPointsList chưa được gán hoặc danh sách TP trống!");
-            return candidatePoints;
-        }
+    //     if (instance == null || instance.spawnInGameManager.GetTacticalPointsList() == null)
+    //     {
+    //         Debug.LogWarning("TacticalPointsList chưa được gán hoặc danh sách TP trống!");
+    //         return candidatePoints;
+    //     }
 
-        foreach (Transform tp in instance.spawnInGameManager.GetTacticalPointsList())
-        {
-            if (tp == null) continue;
+    //     foreach (Transform tp in instance.spawnInGameManager.GetTacticalPointsList())
+    //     {
+    //         if (tp == null) continue;
 
-            float distance = Vector3.Distance(lkp, tp.position);
+    //         float distance = Vector3.Distance(lkp, tp.position);
 
-            // Chỉ lấy các điểm nằm trong bán kính cho phép
-            if (distance <= searchRadius)
-            {
-                candidatePoints.Add(tp);
-            }
-        }
+    //         // Chỉ lấy các điểm nằm trong bán kính cho phép
+    //         if (distance <= searchRadius)
+    //         {
+    //             candidatePoints.Add(tp);
+    //         }
+    //     }
 
-        // Lưu lại vị trí để Gizmos có thể vẽ
-        lastDebugLKP = lkp;
+    //     // Lưu lại vị trí để Gizmos có thể vẽ
+    //     lastDebugLKP = lkp;
 
-        // Cập nhật danh sách cuối cùng để vẽ Line nối trong Gizmos
-        lastCandidates = candidatePoints.OrderBy(p => Vector3.Distance(lkp, p.position)).ToList();
-        return lastCandidates;
-    }
+    //     // Cập nhật danh sách cuối cùng để vẽ Line nối trong Gizmos
+    //     lastCandidates = candidatePoints.OrderBy(p => Vector3.Distance(lkp, p.position)).ToList();
+    //     return lastCandidates;
+    // }
 
-    public List<Transform> GetRankedPoints(Vector3 lkp, Vector3 lkDir)
-    {
-        List<ScoredPoint> scoredPoints = new List<ScoredPoint>();
-        var candidates = GetPointsAroundLKP(lkp); // Hàm bạn đã có
+    // public List<Transform> GetRankedPoints(Vector3 lkp, Vector3 lkDir)
+    // {
+    //     List<ScoredPoint> scoredPoints = new List<ScoredPoint>();
+    //     var candidates = GetPointsAroundLKP(lkp); // Hàm bạn đã có
 
-        foreach (Transform tp in candidates)
-        {
-            // 1. Tính toán Direction Score (Dùng Dot Product)
-            Vector3 dirToPoint = (tp.position - lkp).normalized;
-            float dot = Vector3.Dot(dirToPoint, lkDir.normalized);
-            // Chuẩn hóa dot từ [-1, 1] về [0, 1]
-            float directionScore = Mathf.Clamp01((dot + 1f) / 2f);
+    //     foreach (Transform tp in candidates)
+    //     {
+    //         // 1. Tính toán Direction Score (Dùng Dot Product)
+    //         Vector3 dirToPoint = (tp.position - lkp).normalized;
+    //         float dot = Vector3.Dot(dirToPoint, lkDir.normalized);
+    //         // Chuẩn hóa dot từ [-1, 1] về [0, 1]
+    //         float directionScore = Mathf.Clamp01((dot + 1f) / 2f);
 
-            // 2. Tính toán Distance Score (Càng gần LKP điểm càng cao)
-            float distToLKP = Vector3.Distance(tp.position, lkp);
-            float distanceScore = 1f - Mathf.Clamp01(distToLKP / searchRadius);
+    //         // 2. Tính toán Distance Score (Càng gần LKP điểm càng cao)
+    //         float distToLKP = Vector3.Distance(tp.position, lkp);
+    //         float distanceScore = 1f - Mathf.Clamp01(distToLKP / searchRadius);
 
-            // 3. Tổng hợp điểm số có trọng số
-            float finalScore = (directionScore * directionWeight) + (distanceScore * distanceWeight);
+    //         // 3. Tổng hợp điểm số có trọng số
+    //         float finalScore = (directionScore * directionWeight) + (distanceScore * distanceWeight);
 
-            scoredPoints.Add(new ScoredPoint { point = tp, score = finalScore });
-        }
+    //         scoredPoints.Add(new ScoredPoint { point = tp, score = finalScore });
+    //     }
 
-        // Sắp xếp giảm dần theo điểm số
-        return scoredPoints.OrderByDescending(sp => sp.score).Select(sp => sp.point).ToList();
-    }
+    //     // Sắp xếp giảm dần theo điểm số
+    //     return scoredPoints.OrderByDescending(sp => sp.score).Select(sp => sp.point).ToList();
+    // }
 
-    public void CalculateSearchPath(TPointData lastKnownData, Action<List<Transform>> onDoneCalculate)
-    {
-        if (!lastKnownData.IsValid()) return;
+    // public void CalculateSearchPath(TPointData lastKnownData, Action<List<Transform>> onDoneCalculate)
+    // {
+    //     if (!lastKnownData.IsValid()) return;
 
-        currentSearchPath.Clear();
-        currentSearchPath = GetRankedPoints(
-            lastKnownData.Position,
-            lastKnownData.Rotation.eulerAngles
-        );
+    //     currentSearchPath.Clear();
+    //     currentSearchPath = GetRankedPoints(
+    //         lastKnownData.Position,
+    //         lastKnownData.Rotation.eulerAngles
+    //     );
 
-        onDoneCalculate?.Invoke(currentSearchPath);
-    }
+    //     onDoneCalculate?.Invoke(currentSearchPath);
+    // }
 
-    public Transform GetNextPoint()
-    {
-        if (currentSearchPath.Count <= 0) return null;
+    // public Transform GetNextPoint()
+    // {
+    //     if (currentSearchPath.Count <= 0) return null;
 
-        Transform point = currentSearchPath[0];
-        currentSearchPath.RemoveAt(0);
+    //     Transform point = currentSearchPath[0];
+    //     currentSearchPath.RemoveAt(0);
 
-        return point;
-    }
+    //     return point;
+    // }
 
     private void OnDrawGizmos()
     {
