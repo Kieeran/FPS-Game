@@ -348,7 +348,7 @@ namespace AIBot
 
         void StartScanAreaProcess()
         {
-            CalculateDestinationZoneFromPortalRoute();
+            // CalculateDestinationZoneFromPortalRoute();
 
             PortalPoint currentPortal = portalPointsToPatrol[^1];
             // Lấy target portal dẫn tới target zone nằm trong danh sách portals của target zone
