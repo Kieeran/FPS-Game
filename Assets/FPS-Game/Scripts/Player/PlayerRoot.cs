@@ -220,14 +220,11 @@ public class PlayerRoot : NetworkBehaviour
     {
         if (ZoneManager.Instance != null)
         {
-            ZoneData zoneData = ZoneManager.Instance.CalculateCurrentZoneData(
-                GetCharacterRootTransform().position,
-                CurrentZoneData
-            );
+            Zone zone = ZoneManager.Instance.GetZoneAt(GetCharacterRootTransform().position);
 
-            if (zoneData != null)
+            if (zone != null)
             {
-                CurrentZoneData = zoneData;
+                CurrentZoneData = zone.zoneData;
             }
         }
     }

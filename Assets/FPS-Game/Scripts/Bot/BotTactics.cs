@@ -19,9 +19,9 @@ public class BotTactics : MonoBehaviour
     [Header("Search Settings")]
     [SerializeField] float searchRadius = 20f; // Bán kính tìm kiếm quanh LKP
 
-    [Header("Weights")]
-    [Range(0, 1)][SerializeField] float directionWeight = 0.6f; // Độ quan trọng của hướng chạy
-    [Range(0, 1)][SerializeField] float distanceWeight = 0.4f;  // Độ quan trọng của khoảng cách từ LKP
+    // [Header("Weights")]
+    // [Range(0, 1)][SerializeField] float directionWeight = 0.6f; // Độ quan trọng của hướng chạy
+    // [Range(0, 1)][SerializeField] float distanceWeight = 0.4f;  // Độ quan trọng của khoảng cách từ LKP
 
     // Cấu trúc bổ trợ để lưu điểm số
     public struct ScoredPoint
@@ -46,6 +46,8 @@ public class BotTactics : MonoBehaviour
     public InfoPoint currentInfoPoint = new();
     public ScanRange currentScanRange = new();
     public List<InfoPoint> currentVisiblePoint = new();
+
+    public ZoneData currentTargetZoneData;
 
     public event Action OnCurrentVisiblePointsCompleted;
     public event Action OnZoneFullyScanned;
@@ -366,26 +368,39 @@ public class BotTactics : MonoBehaviour
     [Header("Debug")]
     public bool drawcCurrentVisiblePoint = false;
     public bool drawcCurrentInfoPointsToScan = false;
-    public int remainingInfoPointsCount = 0;
+    public int remainingCurrentVisiblePoint = 0;
+    public int remainingCurrentInfoPointsToScan = 0;
 
     private void OnDrawGizmosSelected()
     {
-        if (drawcCurrentVisiblePoint)
+        if (currentVisiblePoint.Count > 0)
         {
-            if (currentVisiblePoint.Count <= 0) return;
+            remainingCurrentVisiblePoint = 0;
             foreach (var point in currentVisiblePoint)
             {
-                Gizmos.color = point.isChecked ? Color.green : Color.yellow;
-                Gizmos.DrawSphere(point.position, 0.2f);
-                // Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+                if (point.isChecked)
+                {
+                    Gizmos.color = Color.green;
+                }
+                else
+                {
+                    Gizmos.color = Color.yellow;
+                    remainingCurrentVisiblePoint++;
+                }
+
+                if (drawcCurrentVisiblePoint)
+                {
+#if UNITY_EDITOR
+                    Gizmos.DrawSphere(point.position, 0.2f);
+                    Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+#endif
+                }
             }
         }
 
-        if (drawcCurrentInfoPointsToScan)
+        if (currentInfoPointsToScan.Count > 0)
         {
-            if (currentInfoPointsToScan.Count <= 0) return;
-
-            remainingInfoPointsCount = 0;
+            remainingCurrentInfoPointsToScan = 0;
             foreach (var point in currentInfoPointsToScan)
             {
                 if (point.isChecked)
@@ -395,11 +410,16 @@ public class BotTactics : MonoBehaviour
                 else
                 {
                     Gizmos.color = Color.yellow;
-                    remainingInfoPointsCount++;
+                    remainingCurrentInfoPointsToScan++;
                 }
 
-                Gizmos.DrawSphere(point.position, 0.2f);
-                // Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+                if (drawcCurrentInfoPointsToScan)
+                {
+#if UNITY_EDITOR
+                    Gizmos.DrawSphere(point.position, 0.2f);
+                    Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+#endif
+                }
             }
         }
     }

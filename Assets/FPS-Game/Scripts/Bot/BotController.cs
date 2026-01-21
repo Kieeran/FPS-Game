@@ -252,6 +252,8 @@ namespace AIBot
 
                     ZoneData targetZone = ZoneManager.Instance.FindBestZone(PlayerRoot.CurrentZoneData);
                     CalculatePatrolPath(targetZone);
+                    botTactics.currentTargetZoneData = targetZone;
+
                     StartBehavior(patrolBehavior);
 
                     blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
@@ -353,7 +355,12 @@ namespace AIBot
             PortalPoint currentPortal = portalPointsToPatrol[^1];
             // Lấy target portal dẫn tới target zone nằm trong danh sách portals của target zone
             // Note: Portal tuy cùng liên kết hai khu vực A và B, nhưng giá trị portal lưu trong zone A khác với giá trị portal lưu trong zone B
-            foreach (var portal in PlayerRoot.CurrentZoneData.portals)
+            if (botTactics.currentTargetZoneData == null)
+            {
+                Debug.Log("botTactics.currentTargetZoneData == null");
+                return;
+            }
+            foreach (var portal in botTactics.currentTargetZoneData.portals)
             {
                 if (portal.portalName == currentPortal.portalName)
                 {
@@ -361,26 +368,26 @@ namespace AIBot
                     break;
                 }
             }
-            botTactics.InitializeZoneScanning(PlayerRoot.CurrentZoneData.masterPoints, currentPortal);
+            botTactics.InitializeZoneScanning(botTactics.currentTargetZoneData.masterPoints, currentPortal);
 
             blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
         }
 
-        void CalculateDestinationZoneFromPortalRoute()
-        {
-            PortalPoint currentPortal = portalPointsToPatrol[^1];
-            PortalPoint prevPortal = portalPointsToPatrol[^2];
+        // void CalculateDestinationZoneFromPortalRoute()
+        // {
+        //     PortalPoint currentPortal = portalPointsToPatrol[^1];
+        //     PortalPoint prevPortal = portalPointsToPatrol[^2];
 
-            if (currentPortal.zoneDataA.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataA.zoneID == prevPortal.zoneDataB.zoneID)
-            {
-                PlayerRoot.CurrentZoneData = currentPortal.zoneDataB;
-            }
-            else if (currentPortal.zoneDataB.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataB.zoneID == prevPortal.zoneDataB.zoneID)
-            {
-                PlayerRoot.CurrentZoneData = currentPortal.zoneDataA;
-            }
-            Debug.Log($"Target zone is {PlayerRoot.CurrentZoneData.zoneID}");
-        }
+        //     if (currentPortal.zoneDataA.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataA.zoneID == prevPortal.zoneDataB.zoneID)
+        //     {
+        //         PlayerRoot.CurrentZoneData = currentPortal.zoneDataB;
+        //     }
+        //     else if (currentPortal.zoneDataB.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataB.zoneID == prevPortal.zoneDataB.zoneID)
+        //     {
+        //         PlayerRoot.CurrentZoneData = currentPortal.zoneDataA;
+        //     }
+        //     Debug.Log($"Target zone is {PlayerRoot.CurrentZoneData.zoneID}");
+        // }
 
         public void HasReachedInfoPoint()
         {
