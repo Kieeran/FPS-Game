@@ -10688,6 +10688,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -4519703982101963498, guid: 021703fe0533f8f47870cfbab76d02ed, type: 3}
       insertIndex: 2
       addedObject: {fileID: 1758074997}
+    - targetCorrespondingSourceObject: {fileID: -8137258193555017451, guid: 021703fe0533f8f47870cfbab76d02ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2004238314}
     - targetCorrespondingSourceObject: {fileID: 306294767341203748, guid: 021703fe0533f8f47870cfbab76d02ed, type: 3}
       insertIndex: 2
       addedObject: {fileID: 1829279875}
@@ -10724,6 +10727,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2295664876133649412, guid: 021703fe0533f8f47870cfbab76d02ed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 803044249}
+    - targetCorrespondingSourceObject: {fileID: -4519172263548524076, guid: 021703fe0533f8f47870cfbab76d02ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1541124863}
     - targetCorrespondingSourceObject: {fileID: 3463226394882917817, guid: 021703fe0533f8f47870cfbab76d02ed, type: 3}
       insertIndex: 2
       addedObject: {fileID: 1719279063}
@@ -18228,7 +18234,7 @@ MonoBehaviour:
     type: 2
     priority: 79
     visibleIndices: 030000000400000005000000130000001400000015000000160000001700000018000000190000001a0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f0000004000000041000000420000004300000044000000450000004600000047000000490000004a0000004c0000004e0000004f000000520000005300000054000000570000005800000088000000890000008a0000008b0000008c0000008d0000008e0000008f00000090000000910000009200000093000000940000009500000096000000
-    isChecked: 0
+    isChecked: 1
     portalName: Market - Streets - 2
     zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
     zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
@@ -18264,7 +18270,7 @@ MonoBehaviour:
     type: 2
     priority: 121
     visibleIndices: 01000000020000000400000005000000080000000a0000000b0000000d0000000e000000100000001100000013000000140000001500000017000000180000001b0000001c0000001e0000001f000000200000002100000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f0000005000000051000000520000005300000054000000550000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a0000007b0000007c0000007d0000007e0000007f000000800000008100000082000000830000008400000085000000860000008700000088000000890000008a0000008b000000
-    isChecked: 1
+    isChecked: 0
     portalName: Stairs - Streets
     zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
     zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
@@ -19285,6 +19291,30 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531217823}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1541124862 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4519172263548524076, guid: 021703fe0533f8f47870cfbab76d02ed, type: 3}
+  m_PrefabInstance: {fileID: 803044247}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1541124863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541124862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1542023892
 GameObject:
   m_ObjectHideFlags: 0
@@ -23610,6 +23640,30 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996651759}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2004238313 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8137258193555017451, guid: 021703fe0533f8f47870cfbab76d02ed, type: 3}
+  m_PrefabInstance: {fileID: 803044247}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2004238314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004238313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &2022498051
 GameObject:
   m_ObjectHideFlags: 0
