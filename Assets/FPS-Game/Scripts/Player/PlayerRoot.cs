@@ -216,6 +216,19 @@ public class PlayerRoot : NetworkBehaviour
         InitOnNetworkSpawn(gameObject);
     }
 
+    void Update()
+    {
+        if (ZoneManager.Instance != null)
+        {
+            Zone zone = ZoneManager.Instance.GetZoneAt(GetCharacterRootTransform().position);
+
+            if (zone != null)
+            {
+                CurrentZoneData = zone.zoneData;
+            }
+        }
+    }
+
     GameObject FindChildWithTag(Transform parent, string tag)
     {
         foreach (Transform child in parent)

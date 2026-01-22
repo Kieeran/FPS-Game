@@ -86,7 +86,7 @@ namespace AIBot
         private Behavior _activeBehavior;
         public PlayerRoot PlayerRoot { get; private set; }
 
-        List<PortalPoint> portalPointsToPatrol = new();
+        public List<PortalPoint> portalPointsToPatrol = new();
         int currenPortalIndex = 0;
 
         void Awake()
@@ -142,6 +142,12 @@ namespace AIBot
                     PlayerRoot.AIInputFeeder.OnLook?.Invoke(blackboardLinker.GetLookEuler());
                     PlayerRoot.AIInputFeeder.OnAttack?.Invoke(blackboardLinker.GetAttack());
                     PlayerRoot.AIInputFeeder.OnMove?.Invoke(blackboardLinker.GetMovDir());
+
+                    if (currenPortalIndex >= portalPointsToPatrol.Count) break;
+                    if (Vector3.Distance(PlayerRoot.GetCharacterRootTransform().position, portalPointsToPatrol[currenPortalIndex].position) <= closeDistance)
+                    {
+                        NextPortal();
+                    }
 
                     // // If player currently not visible, start lost sight timer; otherwise reset
                     // if (!blackboardLinker?.isPlayerVisible ?? true)
@@ -243,7 +249,11 @@ namespace AIBot
                     break;
                 case State.Patrol:
                     Debug.Log("Entering Patrol State");
-                    CalculatePatrolPath();
+
+                    ZoneData targetZone = ZoneManager.Instance.FindBestZone(PlayerRoot.CurrentZoneData);
+                    CalculatePatrolPath(targetZone);
+                    botTactics.currentTargetZoneData = targetZone;
+
                     StartBehavior(patrolBehavior);
 
                     blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
@@ -313,10 +323,14 @@ namespace AIBot
             }
         }
 
-        void CalculatePatrolPath()
+        void CalculatePatrolPath(ZoneData targetZoneData)
         {
             portalPointsToPatrol.Clear();
-            portalPointsToPatrol = ZoneManager.Instance.CalculatePath(PlayerRoot.GetCharacterRootTransform().position, PlayerRoot.CurrentZoneData);
+            portalPointsToPatrol = ZoneManager.Instance.CalculatePath(
+                PlayerRoot.GetCharacterRootTransform().position,
+                PlayerRoot.CurrentZoneData,
+                targetZoneData
+            );
             currenPortalIndex = 0;
         }
 
@@ -336,12 +350,17 @@ namespace AIBot
 
         void StartScanAreaProcess()
         {
-            CalculateDestinationZoneFromPortalRoute();
+            // CalculateDestinationZoneFromPortalRoute();
 
             PortalPoint currentPortal = portalPointsToPatrol[^1];
             // Lấy target portal dẫn tới target zone nằm trong danh sách portals của target zone
             // Note: Portal tuy cùng liên kết hai khu vực A và B, nhưng giá trị portal lưu trong zone A khác với giá trị portal lưu trong zone B
-            foreach (var portal in PlayerRoot.CurrentZoneData.portals)
+            if (botTactics.currentTargetZoneData == null)
+            {
+                Debug.Log("botTactics.currentTargetZoneData == null");
+                return;
+            }
+            foreach (var portal in botTactics.currentTargetZoneData.portals)
             {
                 if (portal.portalName == currentPortal.portalName)
                 {
@@ -349,41 +368,43 @@ namespace AIBot
                     break;
                 }
             }
-            botTactics.InitializeZoneScanning(PlayerRoot.CurrentZoneData.masterPoints, currentPortal);
+            botTactics.InitializeZoneScanning(botTactics.currentTargetZoneData.masterPoints, currentPortal);
 
             blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
         }
 
-        void CalculateDestinationZoneFromPortalRoute()
-        {
-            PortalPoint currentPortal = portalPointsToPatrol[^1];
-            PortalPoint prevPortal = portalPointsToPatrol[^2];
+        // void CalculateDestinationZoneFromPortalRoute()
+        // {
+        //     PortalPoint currentPortal = portalPointsToPatrol[^1];
+        //     PortalPoint prevPortal = portalPointsToPatrol[^2];
 
-            if (currentPortal.zoneDataA.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataA.zoneID == prevPortal.zoneDataB.zoneID)
-            {
-                PlayerRoot.CurrentZoneData = currentPortal.zoneDataB;
-            }
-            else if (currentPortal.zoneDataB.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataB.zoneID == prevPortal.zoneDataB.zoneID)
-            {
-                PlayerRoot.CurrentZoneData = currentPortal.zoneDataA;
-            }
-            Debug.Log($"Target zone is {PlayerRoot.CurrentZoneData.zoneID}");
-        }
+        //     if (currentPortal.zoneDataA.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataA.zoneID == prevPortal.zoneDataB.zoneID)
+        //     {
+        //         PlayerRoot.CurrentZoneData = currentPortal.zoneDataB;
+        //     }
+        //     else if (currentPortal.zoneDataB.zoneID == prevPortal.zoneDataA.zoneID || currentPortal.zoneDataB.zoneID == prevPortal.zoneDataB.zoneID)
+        //     {
+        //         PlayerRoot.CurrentZoneData = currentPortal.zoneDataA;
+        //     }
+        //     Debug.Log($"Target zone is {PlayerRoot.CurrentZoneData.zoneID}");
+        // }
 
-        public void HasReachedInfoPoint()
+        public void HasReachedInfoPoint()       // Sau khi đã đến được PortalPoint
         {
             botTactics.CalculateCurrentVisiblePoint();
+            blackboardLinker.SetCurrentVisiblePoint(botTactics.currentVisiblePoint);
+            Debug.Log("HasReachedInfoPoint");
         }
 
-        public void CalculateNextTargetInfoPoint()
+        public void CalculateNextTargetInfoPoint()      // Đã quét xong các InfoPoints hiện tại, tính toán tới điểm InfoPoint tiếp theo
         {
             if (!botTactics.isZoneFullyScanned)
             {
                 botTactics.SetupNextScanSession(null);
 
                 blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
-                blackboardLinker.SetIsMoving(true);
                 blackboardLinker.SetTargetInfoPointToPatrol(botTactics.currentInfoPoint);
+                blackboardLinker.SetIsMoving(true);
             }
         }
 
@@ -436,6 +457,13 @@ namespace AIBot
             // });
 
             blackboardLinker.SetLastKnownPlayerData(data);
+            ZoneData suspiciousZoneData = botTactics.PredictMostSuspiciousZone(data);
+
+            CalculatePatrolPath(suspiciousZoneData);
+
+            blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
+            blackboardLinker.SetIsMoving(true);
+            blackboardLinker.SetScanAllArea(false);
         }
 
         #endregion

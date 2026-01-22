@@ -19,9 +19,9 @@ public class BotTactics : MonoBehaviour
     [Header("Search Settings")]
     [SerializeField] float searchRadius = 20f; // Bán kính tìm kiếm quanh LKP
 
-    [Header("Weights")]
-    [Range(0, 1)][SerializeField] float directionWeight = 0.6f; // Độ quan trọng của hướng chạy
-    [Range(0, 1)][SerializeField] float distanceWeight = 0.4f;  // Độ quan trọng của khoảng cách từ LKP
+    // [Header("Weights")]
+    // [Range(0, 1)][SerializeField] float directionWeight = 0.6f; // Độ quan trọng của hướng chạy
+    // [Range(0, 1)][SerializeField] float distanceWeight = 0.4f;  // Độ quan trọng của khoảng cách từ LKP
 
     // Cấu trúc bổ trợ để lưu điểm số
     public struct ScoredPoint
@@ -46,6 +46,8 @@ public class BotTactics : MonoBehaviour
     public InfoPoint currentInfoPoint = new();
     public ScanRange currentScanRange = new();
     public List<InfoPoint> currentVisiblePoint = new();
+
+    public ZoneData currentTargetZoneData;
 
     public event Action OnCurrentVisiblePointsCompleted;
     public event Action OnZoneFullyScanned;
@@ -109,7 +111,7 @@ public class BotTactics : MonoBehaviour
         return bestPoint;
     }
 
-    public void CalculateCurrentVisiblePoint()
+    public void CalculateCurrentVisiblePoint()      // Sau khi đã đến được PortalPoint
     {
         currentVisiblePoint.Clear();
         for (int i = 0; i < currentInfoPoint.visibleIndices.Count; i++)
@@ -127,6 +129,7 @@ public class BotTactics : MonoBehaviour
 
         List<InfoPoint> masterPoints = currentInfoPointsToScan;
 
+        // Lọc điểm đã check
         for (int i = indices.Count - 1; i >= 0; i--)
         {
             if (masterPoints[indices[i]].isChecked)
@@ -134,35 +137,103 @@ public class BotTactics : MonoBehaviour
                 indices.RemoveAt(i);
             }
         }
-        if (indices.Count == 0) return;
+        if (indices.Count < 2)
+        {
+            currentScanRange = null;
+            return;
+        }
 
-        // Chọn điểm đầu tiên làm Neo (Anchor)
-        Vector3 anchorPos = masterPoints[indices[0]].position;
-        Vector3 dirAnchor = (anchorPos - currentInfoPoint.position).normalized;
-
-        float minAngle = 0; // Lệch trái nhất so với Neo
-        float maxAngle = 0; // Lệch phải nhất so với Neo
-
-        // So sánh tất cả các điểm còn lại với Neo
+        // Tính góc tuyệt đối của tất cả các điểm
+        List<float> angles = new();
         for (int i = 0; i < indices.Count; i++)
         {
             Vector3 targetPos = masterPoints[indices[i]].position;
-            Vector3 dirTarget = (targetPos - currentInfoPoint.position).normalized;
-
-            // Tính góc lệch có dấu giữa Neo và điểm hiện tại
-            float angle = Vector3.SignedAngle(dirAnchor, dirTarget, Vector3.up);
-
-            if (angle < minAngle) minAngle = angle;
-            if (angle > maxAngle) maxAngle = angle;
+            Vector3 dir = (targetPos - currentInfoPoint.position).normalized;
+            float yaw = Quaternion.LookRotation(dir).eulerAngles.y;
+            angles.Add(yaw);
         }
+
+        angles.Sort();
+
+        // Tìm khoảng trống lớn nhất giữa các điểm liên tiếp
+        float maxGap = 0;
+        int gapStartIndex = 0;
+
+        for (int i = 0; i < angles.Count; i++)
+        {
+            int nextIndex = (i + 1) % angles.Count;
+            float gap = angles[nextIndex] - angles[i];
+
+            // Xử lý wrap around
+            if (gap < 0) gap += 360f;
+
+            if (gap > maxGap)
+            {
+                maxGap = gap;
+                gapStartIndex = nextIndex;
+            }
+        }
+
+        // Tính góc cần quét (phần còn lại sau khi trừ khoảng trống)
+        float scanAngle = 360f - maxGap;
+
+        // ===== LOGIC ĐÚNG: LUÔN QUÉT VÙNG CÓ CHỨA CÁC ĐIỂM =====
+        // Sau khi tìm maxGap, vùng cần quét là phần BÊN KIA của gap
+        // leftYaw = điểm đầu tiên sau gap (góc nhỏ nhất trong vùng có điểm)
+        // rightYaw = điểm cuối cùng trước gap (góc lớn nhất trong vùng có điểm)
+
+        float leftYaw = angles[gapStartIndex];
+        int rightIndex = (gapStartIndex - 1 + angles.Count) % angles.Count;
+        float rightYaw = angles[rightIndex];
+        float finalAngleRange = 360f - maxGap; // Góc chứa TẤT CẢ các điểm
 
         currentScanRange = new ScanRange
         {
-            // Biên trái là Neo xoay đi minAngle, Biên phải là Neo xoay đi maxAngle
-            leftDir = Quaternion.AngleAxis(minAngle, Vector3.up) * dirAnchor,
-            rightDir = Quaternion.AngleAxis(maxAngle, Vector3.up) * dirAnchor,
-            angleRange = maxAngle - minAngle
+            leftDir = Quaternion.Euler(0, leftYaw, 0) * Vector3.forward,
+            rightDir = Quaternion.Euler(0, rightYaw, 0) * Vector3.forward,
+            angleRange = finalAngleRange
         };
+    }
+
+    public ZoneData PredictMostSuspiciousZone(TPointData lastKnownData)
+    {
+        if (!lastKnownData.IsValid())
+        {
+            Debug.LogWarning("[Predict] TPointData is null! Cannot predict.");
+            return null;
+        }
+
+        Zone currentZone = ZoneManager.Instance.GetZoneAt(lastKnownData.Position);
+        if (currentZone == null) return null;
+
+        ZoneData currentZoneData = currentZone.zoneData;
+
+        ZoneData targetZoneData = null;
+        Vector3 playerLookDir = (lastKnownData.Rotation * Vector3.forward).normalized;
+        float bestMatch = -0.5f;
+
+        Debug.Log($"Analyzing {currentZoneData.portals.Count} portals in {currentZoneData.name}. Player Dir: {playerLookDir}");
+        foreach (var portal in currentZoneData.portals)
+        {
+            Vector3 dirToPortal = (portal.position - lastKnownData.Position).normalized;
+            float dot = Vector3.Dot(playerLookDir, dirToPortal);
+
+            if (dot > bestMatch)
+            {
+                bestMatch = dot;
+                targetZoneData = portal.GetOtherZone(currentZoneData);
+            }
+        }
+
+        // Nếu sau vòng lặp mà bestMatch vẫn quá thấp, có thể người chơi chỉ đang đứng yên hoặc xoay vòng
+        if (bestMatch < 0.2f) // Ví dụ: góc lệch quá 78 độ
+        {
+            Debug.Log($"Confidence low (Best Dot: {bestMatch}). Staying in current zone: {currentZoneData.name}");
+            return currentZoneData; // Ở lại zone cũ để tìm kỹ hơn thay vì đoán bừa sang zone khác
+        }
+
+        Debug.Log($"Target identified: {targetZoneData.zoneID} with Match Score: {bestMatch}");
+        return targetZoneData;
     }
 
     void Update()
@@ -185,6 +256,7 @@ public class BotTactics : MonoBehaviour
                 isZoneFullyScanned = true;
                 canScan = false;
 
+                Debug.Log("[BotTactics] Firing OnZoneFullyScanned");
                 OnZoneFullyScanned?.Invoke();
             }
             return;
@@ -203,94 +275,95 @@ public class BotTactics : MonoBehaviour
                 isCurrentVisiblePointsCompleted = true;
                 canScan = false;
 
+                Debug.Log("[BotTactics] Firing OnCurrentVisiblePointsCompleted");
                 OnCurrentVisiblePointsCompleted?.Invoke();
             }
             return;
         }
     }
 
-    public List<Transform> GetPointsAroundLKP(Vector3 lkp)
-    {
-        List<Transform> candidatePoints = new List<Transform>();
+    // public List<Transform> GetPointsAroundLKP(Vector3 lkp)
+    // {
+    //     List<Transform> candidatePoints = new List<Transform>();
 
-        InGameManager instance = InGameManager.Instance;
+    //     InGameManager instance = InGameManager.Instance;
 
-        if (instance == null || instance.spawnInGameManager.GetTacticalPointsList() == null)
-        {
-            Debug.LogWarning("TacticalPointsList chưa được gán hoặc danh sách TP trống!");
-            return candidatePoints;
-        }
+    //     if (instance == null || instance.spawnInGameManager.GetTacticalPointsList() == null)
+    //     {
+    //         Debug.LogWarning("TacticalPointsList chưa được gán hoặc danh sách TP trống!");
+    //         return candidatePoints;
+    //     }
 
-        foreach (Transform tp in instance.spawnInGameManager.GetTacticalPointsList())
-        {
-            if (tp == null) continue;
+    //     foreach (Transform tp in instance.spawnInGameManager.GetTacticalPointsList())
+    //     {
+    //         if (tp == null) continue;
 
-            float distance = Vector3.Distance(lkp, tp.position);
+    //         float distance = Vector3.Distance(lkp, tp.position);
 
-            // Chỉ lấy các điểm nằm trong bán kính cho phép
-            if (distance <= searchRadius)
-            {
-                candidatePoints.Add(tp);
-            }
-        }
+    //         // Chỉ lấy các điểm nằm trong bán kính cho phép
+    //         if (distance <= searchRadius)
+    //         {
+    //             candidatePoints.Add(tp);
+    //         }
+    //     }
 
-        // Lưu lại vị trí để Gizmos có thể vẽ
-        lastDebugLKP = lkp;
+    //     // Lưu lại vị trí để Gizmos có thể vẽ
+    //     lastDebugLKP = lkp;
 
-        // Cập nhật danh sách cuối cùng để vẽ Line nối trong Gizmos
-        lastCandidates = candidatePoints.OrderBy(p => Vector3.Distance(lkp, p.position)).ToList();
-        return lastCandidates;
-    }
+    //     // Cập nhật danh sách cuối cùng để vẽ Line nối trong Gizmos
+    //     lastCandidates = candidatePoints.OrderBy(p => Vector3.Distance(lkp, p.position)).ToList();
+    //     return lastCandidates;
+    // }
 
-    public List<Transform> GetRankedPoints(Vector3 lkp, Vector3 lkDir)
-    {
-        List<ScoredPoint> scoredPoints = new List<ScoredPoint>();
-        var candidates = GetPointsAroundLKP(lkp); // Hàm bạn đã có
+    // public List<Transform> GetRankedPoints(Vector3 lkp, Vector3 lkDir)
+    // {
+    //     List<ScoredPoint> scoredPoints = new List<ScoredPoint>();
+    //     var candidates = GetPointsAroundLKP(lkp); // Hàm bạn đã có
 
-        foreach (Transform tp in candidates)
-        {
-            // 1. Tính toán Direction Score (Dùng Dot Product)
-            Vector3 dirToPoint = (tp.position - lkp).normalized;
-            float dot = Vector3.Dot(dirToPoint, lkDir.normalized);
-            // Chuẩn hóa dot từ [-1, 1] về [0, 1]
-            float directionScore = Mathf.Clamp01((dot + 1f) / 2f);
+    //     foreach (Transform tp in candidates)
+    //     {
+    //         // 1. Tính toán Direction Score (Dùng Dot Product)
+    //         Vector3 dirToPoint = (tp.position - lkp).normalized;
+    //         float dot = Vector3.Dot(dirToPoint, lkDir.normalized);
+    //         // Chuẩn hóa dot từ [-1, 1] về [0, 1]
+    //         float directionScore = Mathf.Clamp01((dot + 1f) / 2f);
 
-            // 2. Tính toán Distance Score (Càng gần LKP điểm càng cao)
-            float distToLKP = Vector3.Distance(tp.position, lkp);
-            float distanceScore = 1f - Mathf.Clamp01(distToLKP / searchRadius);
+    //         // 2. Tính toán Distance Score (Càng gần LKP điểm càng cao)
+    //         float distToLKP = Vector3.Distance(tp.position, lkp);
+    //         float distanceScore = 1f - Mathf.Clamp01(distToLKP / searchRadius);
 
-            // 3. Tổng hợp điểm số có trọng số
-            float finalScore = (directionScore * directionWeight) + (distanceScore * distanceWeight);
+    //         // 3. Tổng hợp điểm số có trọng số
+    //         float finalScore = (directionScore * directionWeight) + (distanceScore * distanceWeight);
 
-            scoredPoints.Add(new ScoredPoint { point = tp, score = finalScore });
-        }
+    //         scoredPoints.Add(new ScoredPoint { point = tp, score = finalScore });
+    //     }
 
-        // Sắp xếp giảm dần theo điểm số
-        return scoredPoints.OrderByDescending(sp => sp.score).Select(sp => sp.point).ToList();
-    }
+    //     // Sắp xếp giảm dần theo điểm số
+    //     return scoredPoints.OrderByDescending(sp => sp.score).Select(sp => sp.point).ToList();
+    // }
 
-    public void CalculateSearchPath(TPointData lastKnownData, Action<List<Transform>> onDoneCalculate)
-    {
-        if (!lastKnownData.IsValid()) return;
+    // public void CalculateSearchPath(TPointData lastKnownData, Action<List<Transform>> onDoneCalculate)
+    // {
+    //     if (!lastKnownData.IsValid()) return;
 
-        currentSearchPath.Clear();
-        currentSearchPath = GetRankedPoints(
-            lastKnownData.Position,
-            lastKnownData.Rotation.eulerAngles
-        );
+    //     currentSearchPath.Clear();
+    //     currentSearchPath = GetRankedPoints(
+    //         lastKnownData.Position,
+    //         lastKnownData.Rotation.eulerAngles
+    //     );
 
-        onDoneCalculate?.Invoke(currentSearchPath);
-    }
+    //     onDoneCalculate?.Invoke(currentSearchPath);
+    // }
 
-    public Transform GetNextPoint()
-    {
-        if (currentSearchPath.Count <= 0) return null;
+    // public Transform GetNextPoint()
+    // {
+    //     if (currentSearchPath.Count <= 0) return null;
 
-        Transform point = currentSearchPath[0];
-        currentSearchPath.RemoveAt(0);
+    //     Transform point = currentSearchPath[0];
+    //     currentSearchPath.RemoveAt(0);
 
-        return point;
-    }
+    //     return point;
+    // }
 
     private void OnDrawGizmos()
     {
@@ -325,26 +398,39 @@ public class BotTactics : MonoBehaviour
     [Header("Debug")]
     public bool drawcCurrentVisiblePoint = false;
     public bool drawcCurrentInfoPointsToScan = false;
-    public int remainingInfoPointsCount = 0;
+    public int remainingCurrentVisiblePoint = 0;
+    public int remainingCurrentInfoPointsToScan = 0;
 
     private void OnDrawGizmosSelected()
     {
-        if (drawcCurrentVisiblePoint)
+        if (currentVisiblePoint.Count > 0)
         {
-            if (currentVisiblePoint.Count <= 0) return;
+            remainingCurrentVisiblePoint = 0;
             foreach (var point in currentVisiblePoint)
             {
-                Gizmos.color = point.isChecked ? Color.green : Color.yellow;
-                Gizmos.DrawSphere(point.position, 0.2f);
-                // Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+                if (point.isChecked)
+                {
+                    Gizmos.color = Color.green;
+                }
+                else
+                {
+                    Gizmos.color = Color.yellow;
+                    remainingCurrentVisiblePoint++;
+                }
+
+                if (drawcCurrentVisiblePoint)
+                {
+#if UNITY_EDITOR
+                    Gizmos.DrawSphere(point.position, 0.2f);
+                    Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+#endif
+                }
             }
         }
 
-        if (drawcCurrentInfoPointsToScan)
+        if (currentInfoPointsToScan.Count > 0)
         {
-            if (currentInfoPointsToScan.Count <= 0) return;
-
-            remainingInfoPointsCount = 0;
+            remainingCurrentInfoPointsToScan = 0;
             foreach (var point in currentInfoPointsToScan)
             {
                 if (point.isChecked)
@@ -354,11 +440,16 @@ public class BotTactics : MonoBehaviour
                 else
                 {
                     Gizmos.color = Color.yellow;
-                    remainingInfoPointsCount++;
+                    remainingCurrentInfoPointsToScan++;
                 }
 
-                Gizmos.DrawSphere(point.position, 0.2f);
-                // Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+                if (drawcCurrentInfoPointsToScan)
+                {
+#if UNITY_EDITOR
+                    Gizmos.DrawSphere(point.position, 0.2f);
+                    Handles.Label(point.position + Vector3.up * 0.5f, point.priority.ToString());
+#endif
+                }
             }
         }
     }

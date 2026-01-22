@@ -386,9 +386,8 @@ public class ZoneManager : MonoBehaviour
     // #endif
     //     }
 
-    public List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData currentZoneData)
+    public List<PortalPoint> CalculatePath(Vector3 botPosition, ZoneData currentZone, ZoneData targetZone)
     {
-        (ZoneData currentZone, ZoneData targetZone) = InitializeDijkstraData(botPosition, currentZoneData);
         Debug.Log($"Bắt đầu tính toán lộ trình tới Zone: {targetZone.zoneID}");
         // Khởi tạo danh sách đích (Targets)
         List<PortalPoint> targets = new();
@@ -403,20 +402,19 @@ public class ZoneManager : MonoBehaviour
         return Dijkstra(botPosition, currentZone, targets, adj);
     }
 
-    (ZoneData currentZone, ZoneData targetZone) InitializeDijkstraData(Vector3 botPosition, ZoneData currentZoneData)
+    public ZoneData CalculateCurrentZoneData(Vector3 botPosition, ZoneData currentZoneData)
     {
         Zone currentZone = GetZoneAt(botPosition);
         if (currentZone == null)
         {
             currentZone = GetZoneByID(currentZoneData.zoneID);
         }
-        Zone bestZone = FindBestZone(currentZone);
-
-        return (currentZone.zoneData, bestZone.zoneData);
+        return currentZone.zoneData;
     }
 
-    Zone FindBestZone(Zone currentZone)
+    public ZoneData FindBestZone(ZoneData currentZoneData)
     {
+        Zone currentZone = GetZoneByID(currentZoneData.zoneID);
         Zone bestZone;
         while (true)
         {
@@ -438,7 +436,7 @@ public class ZoneManager : MonoBehaviour
             }
             break;
         }
-        return bestZone;
+        return bestZone.zoneData;
     }
 
     Dictionary<PortalPoint, List<(PortalPoint v, float w)>> CalculateAdjacencyList()

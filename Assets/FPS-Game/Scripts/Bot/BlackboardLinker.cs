@@ -39,6 +39,15 @@ public class SharedScanRange : SharedVariable<ScanRange>
     }
 }
 
+[Serializable]
+public class SharedInfoPointList : SharedVariable<List<InfoPoint>>
+{
+    public static implicit operator SharedInfoPointList(List<InfoPoint> value)
+    {
+        return new SharedInfoPointList { Value = value };
+    }
+}
+
 namespace AIBot
 {
     [DisallowMultipleComponent]
@@ -138,6 +147,14 @@ namespace AIBot
             // SafeSet("targetPosition", chaseInfo.data.position);
             // SafeSet("pointVisibilityData", chaseInfo.data);
             // SafeSet("visibilityMatrix", chaseInfo.zone.visibilityMatrix);
+        }
+
+        public void SetCurrentVisiblePoint(List<InfoPoint> points)
+        {
+            SafeSet("currentVisiblePoint", new SharedInfoPointList()
+            {
+                Value = points
+            });
         }
 
         public void SetTargetInfoPointToPatrol(InfoPoint point)
