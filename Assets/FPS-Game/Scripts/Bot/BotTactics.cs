@@ -111,7 +111,7 @@ public class BotTactics : MonoBehaviour
         return bestPoint;
     }
 
-    public void CalculateCurrentVisiblePoint()
+    public void CalculateCurrentVisiblePoint()      // Sau khi đã đến được PortalPoint
     {
         currentVisiblePoint.Clear();
         for (int i = 0; i < currentInfoPoint.visibleIndices.Count; i++)
@@ -137,7 +137,11 @@ public class BotTactics : MonoBehaviour
                 indices.RemoveAt(i);
             }
         }
-        if (indices.Count == 0) return;
+        if (indices.Count < 2)
+        {
+            currentScanRange = null;
+            return;
+        }
 
         // Tính góc tuyệt đối của tất cả các điểm
         List<float> angles = new();
@@ -252,6 +256,7 @@ public class BotTactics : MonoBehaviour
                 isZoneFullyScanned = true;
                 canScan = false;
 
+                Debug.Log("[BotTactics] Firing OnZoneFullyScanned");
                 OnZoneFullyScanned?.Invoke();
             }
             return;
@@ -270,6 +275,7 @@ public class BotTactics : MonoBehaviour
                 isCurrentVisiblePointsCompleted = true;
                 canScan = false;
 
+                Debug.Log("[BotTactics] Firing OnCurrentVisiblePointsCompleted");
                 OnCurrentVisiblePointsCompleted?.Invoke();
             }
             return;

@@ -389,21 +389,22 @@ namespace AIBot
         //     Debug.Log($"Target zone is {PlayerRoot.CurrentZoneData.zoneID}");
         // }
 
-        public void HasReachedInfoPoint()
+        public void HasReachedInfoPoint()       // Sau khi đã đến được PortalPoint
         {
             botTactics.CalculateCurrentVisiblePoint();
             blackboardLinker.SetCurrentVisiblePoint(botTactics.currentVisiblePoint);
+            Debug.Log("HasReachedInfoPoint");
         }
 
-        public void CalculateNextTargetInfoPoint()
+        public void CalculateNextTargetInfoPoint()      // Đã quét xong các InfoPoints hiện tại, tính toán tới điểm InfoPoint tiếp theo
         {
             if (!botTactics.isZoneFullyScanned)
             {
                 botTactics.SetupNextScanSession(null);
 
                 blackboardLinker.SetCurrentScanRange(botTactics.currentScanRange);
-                blackboardLinker.SetIsMoving(true);
                 blackboardLinker.SetTargetInfoPointToPatrol(botTactics.currentInfoPoint);
+                blackboardLinker.SetIsMoving(true);
             }
         }
 
