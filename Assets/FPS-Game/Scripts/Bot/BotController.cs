@@ -392,6 +392,7 @@ namespace AIBot
         public void HasReachedInfoPoint()
         {
             botTactics.CalculateCurrentVisiblePoint();
+            blackboardLinker.SetCurrentVisiblePoint(botTactics.currentVisiblePoint);
         }
 
         public void CalculateNextTargetInfoPoint()

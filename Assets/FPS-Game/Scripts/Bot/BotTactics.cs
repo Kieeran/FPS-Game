@@ -129,6 +129,7 @@ public class BotTactics : MonoBehaviour
 
         List<InfoPoint> masterPoints = currentInfoPointsToScan;
 
+        // Lọc điểm đã check
         for (int i = indices.Count - 1; i >= 0; i--)
         {
             if (masterPoints[indices[i]].isChecked)
@@ -138,32 +139,55 @@ public class BotTactics : MonoBehaviour
         }
         if (indices.Count == 0) return;
 
-        // Chọn điểm đầu tiên làm Neo (Anchor)
-        Vector3 anchorPos = masterPoints[indices[0]].position;
-        Vector3 dirAnchor = (anchorPos - currentInfoPoint.position).normalized;
-
-        float minAngle = 0; // Lệch trái nhất so với Neo
-        float maxAngle = 0; // Lệch phải nhất so với Neo
-
-        // So sánh tất cả các điểm còn lại với Neo
+        // Tính góc tuyệt đối của tất cả các điểm
+        List<float> angles = new();
         for (int i = 0; i < indices.Count; i++)
         {
             Vector3 targetPos = masterPoints[indices[i]].position;
-            Vector3 dirTarget = (targetPos - currentInfoPoint.position).normalized;
-
-            // Tính góc lệch có dấu giữa Neo và điểm hiện tại
-            float angle = Vector3.SignedAngle(dirAnchor, dirTarget, Vector3.up);
-
-            if (angle < minAngle) minAngle = angle;
-            if (angle > maxAngle) maxAngle = angle;
+            Vector3 dir = (targetPos - currentInfoPoint.position).normalized;
+            float yaw = Quaternion.LookRotation(dir).eulerAngles.y;
+            angles.Add(yaw);
         }
+
+        angles.Sort();
+
+        // Tìm khoảng trống lớn nhất giữa các điểm liên tiếp
+        float maxGap = 0;
+        int gapStartIndex = 0;
+
+        for (int i = 0; i < angles.Count; i++)
+        {
+            int nextIndex = (i + 1) % angles.Count;
+            float gap = angles[nextIndex] - angles[i];
+
+            // Xử lý wrap around
+            if (gap < 0) gap += 360f;
+
+            if (gap > maxGap)
+            {
+                maxGap = gap;
+                gapStartIndex = nextIndex;
+            }
+        }
+
+        // Tính góc cần quét (phần còn lại sau khi trừ khoảng trống)
+        float scanAngle = 360f - maxGap;
+
+        // ===== LOGIC ĐÚNG: LUÔN QUÉT VÙNG CÓ CHỨA CÁC ĐIỂM =====
+        // Sau khi tìm maxGap, vùng cần quét là phần BÊN KIA của gap
+        // leftYaw = điểm đầu tiên sau gap (góc nhỏ nhất trong vùng có điểm)
+        // rightYaw = điểm cuối cùng trước gap (góc lớn nhất trong vùng có điểm)
+
+        float leftYaw = angles[gapStartIndex];
+        int rightIndex = (gapStartIndex - 1 + angles.Count) % angles.Count;
+        float rightYaw = angles[rightIndex];
+        float finalAngleRange = 360f - maxGap; // Góc chứa TẤT CẢ các điểm
 
         currentScanRange = new ScanRange
         {
-            // Biên trái là Neo xoay đi minAngle, Biên phải là Neo xoay đi maxAngle
-            leftDir = Quaternion.AngleAxis(minAngle, Vector3.up) * dirAnchor,
-            rightDir = Quaternion.AngleAxis(maxAngle, Vector3.up) * dirAnchor,
-            angleRange = maxAngle - minAngle
+            leftDir = Quaternion.Euler(0, leftYaw, 0) * Vector3.forward,
+            rightDir = Quaternion.Euler(0, rightYaw, 0) * Vector3.forward,
+            angleRange = finalAngleRange
         };
     }
 

@@ -11,14 +11,15 @@ namespace CustomTask
     {
         [Header("References")]
         [SerializeField] public SharedScanRange scanRange;
-        [SerializeField] SharedVector3 lookEuler; // Biến điều khiển góc xoay của Bot
+        [SerializeField] SharedVector3 lookEuler;
 
         [Header("Scan Settings")]
-        [SerializeField] float sweepSpeed = 60f; // Tốc độ lia tâm (độ/giây)
-        [SerializeField] float pauseAtEdge = 0.5f; // Thời gian khựng lại ở biên cho tự nhiên
+        [SerializeField] float sweepSpeed = 60f;
+        [SerializeField] float pauseAtEdge = 0.5f;
 
         private float leftYaw;
         private float rightYaw;
+        private float scanAngleRange;
         private bool isMovingToRight = true;
         private float pauseTimer;
 
@@ -30,14 +31,16 @@ namespace CustomTask
 
             leftYaw = Quaternion.LookRotation(scanRange.Value.leftDir).eulerAngles.y;
             rightYaw = Quaternion.LookRotation(scanRange.Value.rightDir).eulerAngles.y;
+            scanAngleRange = scanRange.Value.angleRange;
 
             float currentYaw = lookEuler.Value.y;
-            float distToLeft = Mathf.Abs(Mathf.DeltaAngle(currentYaw, leftYaw));
-            float distToRight = Mathf.Abs(Mathf.DeltaAngle(currentYaw, rightYaw));
 
-            // Nếu gần bên trái hơn, thì mục tiêu đầu tiên là bên phải (để bắt đầu quét ngay)
-            // Nếu gần bên phải hơn, thì mục tiêu đầu tiên là bên trái
-            isMovingToRight = distToLeft < distToRight;
+            // Tính khoảng cách góc THEO CHIỀU KIM ĐỒNG HỒ
+            float distToLeft = CalculateClockwiseDistance(currentYaw, leftYaw);
+            float distToRight = CalculateClockwiseDistance(currentYaw, rightYaw);
+
+            // Chọn điểm gần hơn làm target đầu tiên
+            isMovingToRight = distToRight < distToLeft;
 
             pauseTimer = 0;
         }
@@ -46,7 +49,6 @@ namespace CustomTask
         {
             if (scanRange.Value == null) return TaskStatus.Failure;
 
-            // Xử lý nghỉ tại biên
             if (pauseTimer > 0)
             {
                 pauseTimer -= Time.deltaTime;
@@ -54,20 +56,43 @@ namespace CustomTask
             }
 
             float currentYaw = lookEuler.Value.y;
-            float currentTarget = isMovingToRight ? rightYaw : leftYaw;
+            float targetYaw = isMovingToRight ? rightYaw : leftYaw;
 
-            // Thực hiện xoay mượt
-            float newYaw = Mathf.MoveTowardsAngle(currentYaw, currentTarget, sweepSpeed * Time.deltaTime);
+            // Tính hướng xoay
+            float distance = isMovingToRight
+                ? CalculateClockwiseDistance(currentYaw, targetYaw)
+                : CalculateCounterClockwiseDistance(currentYaw, targetYaw);
+
+            float step = Mathf.Min(sweepSpeed * Time.deltaTime, distance);
+            float newYaw = currentYaw + (isMovingToRight ? step : -step);
+
+            // Normalize về [0, 360]
+            newYaw = (newYaw % 360f + 360f) % 360f;
+
             lookEuler.Value = new Vector3(lookEuler.Value.x, newYaw, lookEuler.Value.z);
 
-            // Kiểm tra đã chạm biên chưa để đổi chiều
-            if (Mathf.Abs(Mathf.DeltaAngle(newYaw, currentTarget)) < 0.5f)
+            // Kiểm tra đã chạm biên
+            if (distance < 0.5f)
             {
                 isMovingToRight = !isMovingToRight;
                 pauseTimer = pauseAtEdge;
             }
 
             return TaskStatus.Running;
+        }
+
+        float CalculateClockwiseDistance(float from, float to)
+        {
+            float diff = to - from;
+            if (diff < 0) diff += 360f;
+            return diff;
+        }
+
+        float CalculateCounterClockwiseDistance(float from, float to)
+        {
+            float diff = from - to;
+            if (diff < 0) diff += 360f;
+            return diff;
         }
 
         public override void OnReset()
