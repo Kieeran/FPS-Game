@@ -20,6 +20,7 @@ public enum GunType
 public class PlayerShoot : PlayerBehaviour
 {
     [SerializeField] GameObject _hitEffect;
+    [SerializeField] LayerMask layersToIgnore;
     Gun _rifle, _sniper, _pistol;
 
     public override void InitializeAwake()
@@ -91,10 +92,10 @@ public class PlayerShoot : PlayerBehaviour
 
         Ray ray = new(point, spreadDirection);
 
-        int layerMask = ~(1 << 2);
+        int invertedMask = ~layersToIgnore.value;
 
-        // Raycast bỏ qua Ignore Raycast layer
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
+        // Raycast bỏ qua layersToIgnore
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, invertedMask))
         {
             BulletHitSpawn_ClientRpc(hit.point);
 
