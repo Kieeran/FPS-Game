@@ -15,7 +15,7 @@ public class PlayerTakeDamage : PlayerBehaviour
         HP.OnValueChanged += OnHPChanged;
         PlayerRoot.Events.OnPlayerRespawn += OnPlayerRespawn;
     }
-    
+
     // OnHPChanged được chạy ở local, HP được tự động cập nhật
     private void OnHPChanged(float previous, float current)
     {
@@ -27,6 +27,7 @@ public class PlayerTakeDamage : PlayerBehaviour
         if (current == 0)
         {
             PlayerRoot.Events.InvokeOnPlayerDead();
+            InGameManager.Instance.OnAnyPlayerDied?.Invoke(PlayerRoot);
             // InGameManager.Instance.GenerateHealthPickup.DropHealthPickup(transform.position);
         }
     }

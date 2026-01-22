@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using BehaviorDesigner.Runtime;
+using System.ComponentModel.Design.Serialization;
 
 namespace AIBot
 {
@@ -11,6 +12,7 @@ namespace AIBot
         [Header("Perception")]
         [Tooltip("Transform of the detected player.")]
         [SerializeField] Transform targetPlayer;
+        public PlayerRoot targetPlayerRoot;
         [Tooltip("Last seen world data (updated when spotted).")]
         [SerializeField] TPointData lastKnownData = new();
 
@@ -18,6 +20,7 @@ namespace AIBot
         [SerializeField] float viewDistance;
         [SerializeField] LayerMask obstacleMask;
 
+        public event Action OnTargetPlayerIsDead;
         public event Action<TPointData> OnPlayerLost;
         bool isTriggerOnPlayerLost = false;
 
@@ -45,6 +48,17 @@ namespace AIBot
         void Start()
         {
             CalculateBotFOV();
+
+            if (InGameManager.Instance != null)
+            {
+                InGameManager.Instance.OnAnyPlayerDied += (val) =>
+                {
+                    if (targetPlayerRoot != null && targetPlayerRoot == val)
+                    {
+                        OnTargetPlayerIsDead?.Invoke();
+                    }
+                };
+            }
         }
 
         private void Update()
@@ -52,16 +66,16 @@ namespace AIBot
             targetsDebug.Clear();
             if (InGameManager.Instance != null)
             {
-                PlayerRoot root = null;
                 if (!DebugManager.Instance.IgnorePlayer)
                 {
-                    root = CheckSurroundingFOV(InGameManager.Instance.AllCharacters, viewDistance, botHorizontalFOV, obstacleMask);
+                    targetPlayerRoot = CheckSurroundingFOV(InGameManager.Instance.AllCharacters, viewDistance, botHorizontalFOV, obstacleMask);
                 }
 
-                if (root != null)
+                if (targetPlayerRoot != null)
                 {
+                    if (targetPlayerRoot.PlayerTakeDamage.IsPlayerDead()) return;
                     // Debug.Log($"Nearest player: {root}");
-                    targetPlayer = root.PlayerCamera.GetPlayerCameraTarget();
+                    targetPlayer = targetPlayerRoot.PlayerCamera.GetPlayerCameraTarget();
 
                     isTriggerOnPlayerLost = false;
                 }
@@ -100,6 +114,11 @@ namespace AIBot
         public Transform GetTargetPlayerTransform()
         {
             return targetPlayer;
+        }
+
+        public void SetTargetPlayerTransform(Transform t)
+        {
+            targetPlayer = t;
         }
 
         public TPointData GetLastKnownPlayerData()
