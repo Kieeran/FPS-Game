@@ -458,7 +458,8 @@ namespace AIBot
 
             blackboardLinker.SetLastKnownPlayerData(data);
             ZoneData suspiciousZoneData = botTactics.PredictMostSuspiciousZone(data);
-
+            
+            botTactics.currentTargetZoneData = suspiciousZoneData;
             CalculatePatrolPath(suspiciousZoneData);
 
             blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
