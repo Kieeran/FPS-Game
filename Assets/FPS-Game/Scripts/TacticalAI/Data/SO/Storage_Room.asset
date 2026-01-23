@@ -39,106 +39,106 @@ MonoBehaviour:
   - pointID: 5
     position: {x: -23.64164, y: 2.8788438, z: 124.44}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 17
+    visibleIndices: 0000000001000000020000000300000004000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 6
     position: {x: -23.641636, y: 2.8788438, z: 126.394806}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 17
+    visibleIndices: 0000000001000000020000000300000004000000050000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 7
     position: {x: -21.641644, y: 2.9514215, z: 122.394806}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 17
+    visibleIndices: 0000000001000000020000000300000004000000050000000600000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 8
     position: {x: -21.64164, y: 2.8788438, z: 124.3948}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 17
+    visibleIndices: 0000000001000000020000000300000004000000050000000600000007000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 9
     position: {x: -21.64164, y: 2.8788438, z: 126.394806}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 17
+    visibleIndices: 0000000001000000020000000300000004000000050000000600000007000000080000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 10
     position: {x: -19.64164, y: 3.6946316, z: 122.39481}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 16
+    visibleIndices: 0000000002000000030000000400000005000000060000000700000008000000090000000b0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 11
     position: {x: -19.641636, y: 2.8788438, z: 124.3948}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 17
+    visibleIndices: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 12
     position: {x: -19.64164, y: 2.8788438, z: 126.394806}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 17
+    visibleIndices: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 13
     position: {x: -17.64164, y: 4.653979, z: 122.39481}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 16
+    visibleIndices: 0000000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 14
     position: {x: -17.68, y: 2.8788438, z: 124.394806}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 16
+    visibleIndices: 0000000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000f0000001000000011000000
     isChecked: 0
   - pointID: 15
     position: {x: -17.641636, y: 2.8788438, z: 126.394806}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 17
+    visibleIndices: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000001000000011000000
     isChecked: 0
   - pointID: 16
     position: {x: -15.641639, y: 5.671018, z: 122.39481}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 15
+    visibleIndices: 00000000020000000300000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000011000000
     isChecked: 0
   - pointID: 17
     position: {x: -15.965038, y: 2.8788438, z: 126.2562}
     type: 0
-    priority: 0
-    visibleIndices: 
+    priority: 16
+    visibleIndices: 0000000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000010000000
     isChecked: 0
   tacticalPoints:
   - pointID: 0
     position: {x: -24.331001, y: 2.8788438, z: 124.959}
     type: 1
-    priority: 0
-    visibleIndices: 
+    priority: 17
+    visibleIndices: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   - pointID: 1
     position: {x: -12.382, y: 2.8788438, z: 131.257}
     type: 1
-    priority: 0
-    visibleIndices: 
+    priority: 11
+    visibleIndices: 00000000020000000400000005000000060000000700000008000000090000000b0000000c0000000f000000
     isChecked: 0
   - pointID: 2
     position: {x: -23.084, y: 2.8788438, z: 137.175}
     type: 1
-    priority: 0
-    visibleIndices: 
+    priority: 16
+    visibleIndices: 00000000010000000300000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
   portals:
   - pointID: 3
     position: {x: -14.93, y: 6.067177, z: 122.1}
     type: 2
-    priority: 0
-    visibleIndices: 
+    priority: 15
+    visibleIndices: 000000000200000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
     isChecked: 0
     portalName: Stair_Room - Storage_Room
     zoneDataA: {fileID: 11400000}
@@ -146,8 +146,8 @@ MonoBehaviour:
   - pointID: 4
     position: {x: -12.92, y: 2.8788438, z: 139.8}
     type: 2
-    priority: 0
-    visibleIndices: 
+    priority: 14
+    visibleIndices: 000000000100000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000011000000
     isChecked: 0
     portalName: Storage_Room - Long_Cellar
     zoneDataA: {fileID: 11400000}
@@ -159,8 +159,8 @@ MonoBehaviour:
       pointID: 3
       position: {x: -14.93, y: 6.067177, z: 122.1}
       type: 2
-      priority: 0
-      visibleIndices: 
+      priority: 15
+      visibleIndices: 000000000200000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
       isChecked: 0
       portalName: Stair_Room - Storage_Room
       zoneDataA: {fileID: 11400000}
@@ -169,8 +169,8 @@ MonoBehaviour:
       pointID: 4
       position: {x: -12.92, y: 2.8788438, z: 139.8}
       type: 2
-      priority: 0
-      visibleIndices: 
+      priority: 14
+      visibleIndices: 000000000100000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000011000000
       isChecked: 0
       portalName: Storage_Room - Long_Cellar
       zoneDataA: {fileID: 11400000}
@@ -185,8 +185,8 @@ MonoBehaviour:
         pointID: 0
         position: {x: -24.331001, y: 2.8788438, z: 124.959}
         type: 1
-        priority: 0
-        visibleIndices: 
+        priority: 17
+        visibleIndices: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801553801260
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
@@ -194,8 +194,8 @@ MonoBehaviour:
         pointID: 1
         position: {x: -12.382, y: 2.8788438, z: 131.257}
         type: 1
-        priority: 0
-        visibleIndices: 
+        priority: 11
+        visibleIndices: 00000000020000000400000005000000060000000700000008000000090000000b0000000c0000000f000000
         isChecked: 0
     - rid: 7985690801553801261
       type: {class: TacticalPoint, ns: , asm: Assembly-CSharp}
@@ -203,8 +203,8 @@ MonoBehaviour:
         pointID: 2
         position: {x: -23.084, y: 2.8788438, z: 137.175}
         type: 1
-        priority: 0
-        visibleIndices: 
+        priority: 16
+        visibleIndices: 00000000010000000300000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801553801297
       type: {class: PortalPoint, ns: , asm: Assembly-CSharp}
@@ -212,8 +212,8 @@ MonoBehaviour:
         pointID: 3
         position: {x: -14.93, y: 6.067177, z: 122.1}
         type: 2
-        priority: 0
-        visibleIndices: 
+        priority: 15
+        visibleIndices: 000000000200000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
         portalName: Stair_Room - Storage_Room
         zoneDataA: {fileID: 11400000}
@@ -224,8 +224,8 @@ MonoBehaviour:
         pointID: 4
         position: {x: -12.92, y: 2.8788438, z: 139.8}
         type: 2
-        priority: 0
-        visibleIndices: 
+        priority: 14
+        visibleIndices: 000000000100000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000011000000
         isChecked: 0
         portalName: Storage_Room - Long_Cellar
         zoneDataA: {fileID: 11400000}
@@ -236,8 +236,8 @@ MonoBehaviour:
         pointID: 5
         position: {x: -23.64164, y: 2.8788438, z: 124.44}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 17
+        visibleIndices: 0000000001000000020000000300000004000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782036
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -245,8 +245,8 @@ MonoBehaviour:
         pointID: 6
         position: {x: -23.641636, y: 2.8788438, z: 126.394806}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 17
+        visibleIndices: 0000000001000000020000000300000004000000050000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782037
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -254,8 +254,8 @@ MonoBehaviour:
         pointID: 7
         position: {x: -21.641644, y: 2.9514215, z: 122.394806}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 17
+        visibleIndices: 0000000001000000020000000300000004000000050000000600000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782038
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -263,8 +263,8 @@ MonoBehaviour:
         pointID: 8
         position: {x: -21.64164, y: 2.8788438, z: 124.3948}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 17
+        visibleIndices: 0000000001000000020000000300000004000000050000000600000007000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782039
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -272,8 +272,8 @@ MonoBehaviour:
         pointID: 9
         position: {x: -21.64164, y: 2.8788438, z: 126.394806}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 17
+        visibleIndices: 0000000001000000020000000300000004000000050000000600000007000000080000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782040
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -281,8 +281,8 @@ MonoBehaviour:
         pointID: 10
         position: {x: -19.64164, y: 3.6946316, z: 122.39481}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 16
+        visibleIndices: 0000000002000000030000000400000005000000060000000700000008000000090000000b0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782041
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -290,8 +290,8 @@ MonoBehaviour:
         pointID: 11
         position: {x: -19.641636, y: 2.8788438, z: 124.3948}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 17
+        visibleIndices: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000c0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782042
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -299,8 +299,8 @@ MonoBehaviour:
         pointID: 12
         position: {x: -19.64164, y: 2.8788438, z: 126.394806}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 17
+        visibleIndices: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000d0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782043
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -308,8 +308,8 @@ MonoBehaviour:
         pointID: 13
         position: {x: -17.64164, y: 4.653979, z: 122.39481}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 16
+        visibleIndices: 0000000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000e0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782044
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -317,8 +317,8 @@ MonoBehaviour:
         pointID: 14
         position: {x: -17.68, y: 2.8788438, z: 124.394806}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 16
+        visibleIndices: 0000000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000f0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782045
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -326,8 +326,8 @@ MonoBehaviour:
         pointID: 15
         position: {x: -17.641636, y: 2.8788438, z: 126.394806}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 17
+        visibleIndices: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000001000000011000000
         isChecked: 0
     - rid: 7985690801558782046
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -335,8 +335,8 @@ MonoBehaviour:
         pointID: 16
         position: {x: -15.641639, y: 5.671018, z: 122.39481}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 15
+        visibleIndices: 00000000020000000300000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000011000000
         isChecked: 0
     - rid: 7985690801558782047
       type: {class: InfoPoint, ns: , asm: Assembly-CSharp}
@@ -344,6 +344,6 @@ MonoBehaviour:
         pointID: 17
         position: {x: -15.965038, y: 2.8788438, z: 126.2562}
         type: 0
-        priority: 0
-        visibleIndices: 
+        priority: 16
+        visibleIndices: 0000000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000010000000
         isChecked: 0
