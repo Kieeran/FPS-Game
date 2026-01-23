@@ -465,6 +465,7 @@ namespace AIBot
             ZoneData suspiciousZoneData = botTactics.PredictMostSuspiciousZone(data);
 
             botTactics.currentTargetZoneData = suspiciousZoneData;
+            suspiciousZoneData.ResetIsChecked();
             CalculatePatrolPath(suspiciousZoneData);
 
             blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);

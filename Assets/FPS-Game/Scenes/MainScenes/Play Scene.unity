@@ -1945,21 +1945,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsHolder: {fileID: 472574746}
   pointsDebug:
-  - {x: -16.04, y: 2.652177, z: 70.13}
   - {x: -4.2800007, y: -0.040445328, z: 25}
-  - {x: 4.7700005, y: -0.06782317, z: 25}
+  - {x: -16.04, y: 2.652177, z: 70.13}
   - {x: -5.299, y: 8.432178, z: 98.04}
   - {x: 11.58, y: 8.205511, z: 136.16}
-  - {x: 15.64, y: 2.8788438, z: 130.07}
   - {x: -12.92, y: 2.8788438, z: 139.8}
-  - {x: 33.32, y: 2.652177, z: 73.5}
-  - {x: 55.91, y: 2.8788438, z: 73.5}
-  - {x: 15.7, y: 2.8788438, z: 53.729996}
-  - {x: -14.93, y: 6.067177, z: 122.1}
+  - {x: 15.64, y: 2.8788438, z: 130.07}
   - {x: -16.24, y: 8.431116, z: 112.899994}
+  - {x: -14.93, y: 6.067177, z: 122.1}
   - {x: -16.17, y: 2.652177, z: 102.31}
-  - {x: 19.369999, y: 2.6564474, z: 131.76}
   - {x: 49.7, y: 2.652177, z: 84.61}
+  - {x: 19.369999, y: 2.6564474, z: 131.76}
+  - {x: 55.91, y: 2.8788438, z: 73.5}
+  - {x: 33.32, y: 2.652177, z: 73.5}
   - {x: 47.31, y: 8.205511, z: 132.37}
   pointSizeGizmos: 0.2
   pointColorGizmos: {r: 1, g: 0, b: 1, a: 1}
@@ -3640,60 +3638,46 @@ MonoBehaviour:
   pointsHolder: {fileID: 1230551896}
   pointsDebug:
   - {x: -15.158001, y: 2.652177, z: 69.49}
-  - {x: 10.72, y: 2.652177, z: 59.8}
-  - {x: 10.85, y: 2.652177, z: 49.35}
-  - {x: 0.25, y: -0.06756759, z: 23.84}
-  - {x: -12.060001, y: 2.8788438, z: 16.879997}
-  - {x: 10.707, y: 8.432178, z: 87.792}
-  - {x: 8.539, y: 7.072177, z: 65.73334}
-  - {x: 6.2749996, y: 8.432178, z: 84.866}
-  - {x: 8.882, y: 8.432178, z: 83.18667}
-  - {x: 6.993, y: 8.432178, z: 90.207}
   - {x: -1.7250004, y: 8.432178, z: 94.919}
-  - {x: 9.943, y: 8.205511, z: 137.528}
+  - {x: 6.993, y: 8.432178, z: 90.207}
+  - {x: 8.882, y: 8.432178, z: 83.18667}
+  - {x: 6.2749996, y: 8.432178, z: 84.866}
+  - {x: 8.539, y: 7.072177, z: 65.73334}
+  - {x: 10.707, y: 8.432178, z: 87.792}
   - {x: -3.9780006, y: 8.205511, z: 130.8}
+  - {x: 9.943, y: 8.205511, z: 137.528}
   - {x: -8.404999, y: 2.8788438, z: 140.76001}
-  - {x: 55.4, y: 2.8788438, z: 68.46}
-  - {x: 51.54, y: 2.8123255, z: 64.93}
-  - {x: 58.03, y: 2.8788438, z: 44.69}
-  - {x: 29.142, y: 2.8788438, z: 43.58}
-  - {x: 28.998, y: 2.9171898, z: 72.42}
-  - {x: 34.72, y: 2.652177, z: 68.541}
-  - {x: 38.36, y: 2.7655103, z: 64.72}
-  - {x: 17.09, y: 2.8788438, z: 53.6}
-  - {x: 25.56, y: 2.8788438, z: 53.6}
-  - {x: 28.998, y: 2.8788438, z: 64.924}
-  - {x: -13.73, y: 6.278844, z: 125.11}
-  - {x: -14.111, y: 8.432178, z: 110.455}
   - {x: -14.258999, y: 8.432178, z: 108.808}
-  - {x: -27.91, y: 2.652177, z: 75.57}
-  - {x: -18.16, y: 2.652177, z: 108.066}
+  - {x: -14.111, y: 8.432178, z: 110.455}
+  - {x: -13.73, y: 6.278844, z: 125.11}
   - {x: -18.169998, y: 2.652177, z: 96.267}
-  - {x: -23.084, y: 2.8788438, z: 137.175}
-  - {x: -12.382, y: 2.8788438, z: 131.257}
+  - {x: -18.16, y: 2.652177, z: 108.066}
+  - {x: -27.91, y: 2.652177, z: 75.57}
   - {x: -24.331001, y: 2.8788438, z: 124.959}
-  - {x: 32.75, y: 2.652177, z: 80.82}
-  - {x: 20.69, y: 2.652177, z: 111.92}
-  - {x: 21.533335, y: 2.652177, z: 119.23}
-  - {x: -10.130001, y: 2.652177, z: 100.39}
-  - {x: -2.716999, y: 2.652177, z: 100.303}
-  - {x: 13.78, y: 2.652177, z: 104.4}
-  - {x: 18.24, y: 2.652177, z: 94.42}
-  - {x: 32.16, y: 2.652177, z: 93.74}
+  - {x: -12.382, y: 2.8788438, z: 131.257}
+  - {x: -23.084, y: 2.8788438, z: 137.175}
   - {x: 56.21, y: 2.8788438, z: 83.09}
-  - {x: 56.48, y: 12.625511, z: 134.82}
-  - {x: 50.291, y: 12.625511, z: 143.8586}
-  - {x: 46.318, y: 12.625511, z: 150.239}
-  - {x: 54.085, y: 12.625511, z: 149.6}
-  - {x: 46.507, y: 8.205511, z: 149.196}
-  - {x: 53.264, y: 12.625511, z: 143.676}
-  - {x: 24.82, y: 8.205511, z: 134.771}
-  - {x: 39.1, y: 8.205511, z: 152.77}
+  - {x: 32.16, y: 2.652177, z: 93.74}
+  - {x: 18.24, y: 2.652177, z: 94.42}
+  - {x: 13.78, y: 2.652177, z: 104.4}
+  - {x: -2.716999, y: 2.652177, z: 100.303}
+  - {x: -10.130001, y: 2.652177, z: 100.39}
+  - {x: 21.533335, y: 2.652177, z: 119.23}
+  - {x: 20.69, y: 2.652177, z: 111.92}
+  - {x: 32.75, y: 2.652177, z: 80.82}
   - {x: 53.264, y: 8.205511, z: 134.62}
-  - {x: 54.3, y: 5.9388437, z: 112.628}
-  - {x: 53.978, y: 4.918844, z: 103.68}
-  - {x: 53.574, y: 3.7344205, z: 95.789}
+  - {x: 39.1, y: 8.205511, z: 152.77}
+  - {x: 24.82, y: 8.205511, z: 134.771}
+  - {x: 53.264, y: 12.625511, z: 143.676}
+  - {x: 46.507, y: 8.205511, z: 149.196}
+  - {x: 54.085, y: 12.625511, z: 149.6}
+  - {x: 46.318, y: 12.625511, z: 150.239}
+  - {x: 50.291, y: 12.625511, z: 143.8586}
+  - {x: 56.48, y: 12.625511, z: 134.82}
   - {x: 49.45, y: 2.6968434, z: 87.26}
+  - {x: 53.574, y: 3.7344205, z: 95.789}
+  - {x: 53.978, y: 4.918844, z: 103.68}
+  - {x: 54.3, y: 5.9388437, z: 112.628}
   pointSizeGizmos: 0.2
   pointColorGizmos: {r: 0, g: 1, b: 1, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
@@ -18578,7 +18562,7 @@ MonoBehaviour:
   - {fileID: 392971426}
   - {fileID: 568983210}
   allPortals:
-  - pointID: 1
+  - pointID: 0
     position: {x: -4.2800007, y: -0.040445328, z: 25}
     type: 2
     priority: 0
@@ -18587,7 +18571,7 @@ MonoBehaviour:
     portalName: CT_Spawn - CT_Left
     zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
     zoneDataB: {fileID: 11400000, guid: 22283718b238c2d4daa1c54ae4426cec, type: 2}
-  - pointID: 2
+  - pointID: 1
     position: {x: -16.04, y: 2.652177, z: 70.13}
     type: 2
     priority: 0
@@ -18596,24 +18580,6 @@ MonoBehaviour:
     portalName: CT_Left - Stairs
     zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
     zoneDataB: {fileID: 11400000, guid: 22283718b238c2d4daa1c54ae4426cec, type: 2}
-  - pointID: 2
-    position: {x: 15.7, y: 2.8788438, z: 53.729996}
-    type: 2
-    priority: 0
-    visibleIndices: 
-    isChecked: 0
-    portalName: CT_Right - Market
-    zoneDataA: {fileID: 11400000, guid: 03cfa90d6d1563c49a2378c05af105f9, type: 2}
-    zoneDataB: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
-  - pointID: 3
-    position: {x: 4.7700005, y: -0.06782317, z: 25}
-    type: 2
-    priority: 0
-    visibleIndices: 
-    isChecked: 0
-    portalName: CT_Spawn - CT_Right
-    zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
-    zoneDataB: {fileID: 11400000, guid: 03cfa90d6d1563c49a2378c05af105f9, type: 2}
   - pointID: 6
     position: {x: -5.299, y: 8.432178, z: 98.04}
     type: 2
@@ -18649,24 +18615,6 @@ MonoBehaviour:
     isChecked: 0
     portalName: Streets - Long_Cellar
     zoneDataA: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
-    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
-  - pointID: 11
-    position: {x: 55.91, y: 2.8788438, z: 73.5}
-    type: 2
-    priority: 0
-    visibleIndices: 
-    isChecked: 0
-    portalName: Market - Streets
-    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
-    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
-  - pointID: 12
-    position: {x: 33.32, y: 2.652177, z: 73.5}
-    type: 2
-    priority: 0
-    visibleIndices: 
-    isChecked: 0
-    portalName: Market - Streets - 2
-    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
     zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
   - pointID: 3
     position: {x: -16.24, y: 8.431116, z: 112.899994}
@@ -18712,6 +18660,24 @@ MonoBehaviour:
     isChecked: 0
     portalName: Streets - T_Spawn
     zoneDataA: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+  - pointID: 12
+    position: {x: 55.91, y: 2.8788438, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    isChecked: 0
+    portalName: Market - Streets
+    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+  - pointID: 13
+    position: {x: 33.32, y: 2.652177, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    isChecked: 1
+    portalName: Market - Streets - 2
+    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
     zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
   - pointID: 9
     position: {x: 47.31, y: 8.205511, z: 132.37}
