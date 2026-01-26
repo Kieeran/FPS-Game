@@ -35,6 +35,7 @@ The goal of this thesis is to design, implement, and evaluate a scalable multipl
 - [NGO (Netcode for GameObjects)](https://docs-multiplayer.unity3d.com/netcode/current/about/)
 - [Unity Relay](https://docs.unity.com/ugs/manual/relay/manual/introduction)
 - [Unity Lobby](https://docs.unity.com/ugs/manual/lobby/manual/unity-lobby-service)
+- [Behavior Designer](https://opsive.com/support/documentation/behavior-designer/overview/)
   
 # Status
 Completed and closed after successful Graduation Thesis defense. Only minor refinements and bug fixes remain.
