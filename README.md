@@ -18,7 +18,7 @@
   Current Limitations and Future Development
 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#current-limitations">Current Limitations</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#future-development-graduation-thesis-phase">Future Development</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#future-development">Future Development</a><br/>
 <a href="#credits">Credits</a>
 
 # Introduction
@@ -62,8 +62,8 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
       * Unity NavMesh is used for local pathfinding and movement within individual zones
 - Zone-based spatial reasoning system:
     + ZoneData and InfoPoint structures support area scanning, tactical positioning, and target pursuit
-    + These spatial data are baked in the Unity Editor and serialized as ScriptableObjects, providing a structured and persistent representation of the environment
-    + At runtime, the system loads and leverages these data to support AI decision-making and navigation processes
+    + These spatial data are baked in the Unity Editor and serialized as ScriptableObjects
+    + At runtime, the system loads and use these data to support AI decision-making and navigation processes
     + This approach enables bots to evaluate visible areas, select navigation targets, and perform contextual pathfinding
 
 # How to Run
@@ -128,7 +128,7 @@ AI bots utilize the spatial data provided by these point types to perform area s
 - AI bot movement is sometimes unnatural, particularly when navigating sharp corners or narrow passages
 - Area scanning and perception behaviors remain mechanical and lack human-like variation
 
-## Future Development (Graduation Thesis Phase)
+## Future Development
 - Improve UI/UX (main menu, HUD, scoreboard, lobby navigation)
 - Add game modes (Team Deathmatch, Bomb Defusal)
 - Polish character animation, effects, and network optimization
