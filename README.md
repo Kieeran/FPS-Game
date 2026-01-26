@@ -42,13 +42,19 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 # Features
 - Full basic movement sync (idle, walk, run, jump)
 - Complete weapon system including:
-    + Rifle, Sniper, Pistol, Melee, and Grenade
-    + Shooting, aiming, reloading mechanics
-    + Damage system with hit effects and death effects
-- Character model: players now use a full humanoid model instead of capsule (from Phase 1)
+    + Weapon: Rifle, Sniper, Pistol, Melee, and Grenade
+    + Core mechanics: shooting, aiming, reloading, and weapon switching
+    + Server-authoritative damage system with hit and death effects to prevent cheating
+- Character model: fully humanoid player model
 - Fully playable match loop:
     + Scoreboard system
     + Win/Loss (Victory / Defeat) conditions
+- AI Bots with a hybrid FSM–Behavior Tree architecture:
+    + High-level states: Idle, Patrol, Combat
+    + Detailed behaviors implemented as BT tasks: LookAround, ScanArea, Seek, AimAtPlayer, Attack
+- Zone-based spatial reasoning system:
+    + ZoneData and InfoPoint structures support area scanning, tactical positioning, and target pursuit
+    + Enables bots to evaluate visible areas, select navigation targets, and perform contextual pathfinding
 
 # How to Run
 ## In Unity Editor
