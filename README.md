@@ -92,6 +92,12 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 
 ![Capture4](https://github.com/user-attachments/assets/7a03938e-69b4-4b23-bdec-6d78d944d6aa)
 
+## Map Overview and Zone Partitioning
+
+<img width="518" height="287" alt="Screenshot 2026-01-26 130817" src="https://github.com/user-attachments/assets/5c31ce7d-daed-418d-bdaf-968f2b067cd4" />
+Top-down view of the Italy-inspired map illustrating zone partitioning.
+The map is divided into multiple zones, each managing its own spatial data, forming the foundation for graph-based pathfinding algorithms Dijkstra.
+
 ## Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
 ## Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
 
@@ -115,7 +121,7 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 - Increase the number of AI bots, group behaviour
 
 # Credits
-Developed by [Kieeran](https://github.com/Kieeran) and [Haiseus](https://github.com/Haiseus) as part of the graduation project<br>
+Developed by [Kieeran](https://github.com/Kieeran) and [Haiseus](https://github.com/Haiseus)<br>
 Special thanks to:<br>
 - [Haiseus](https://github.com/Haiseus) - for your help with this project
 
