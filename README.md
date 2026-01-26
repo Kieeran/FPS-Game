@@ -95,7 +95,7 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 
 ## Map Overview and Zone Partitioning
 
-<img width="283" height="510" alt="Screenshot 2026-01-26 132402" src="https://github.com/user-attachments/assets/627b2e06-6c8b-4abc-bc67-3a342b119122" />
+<img width="510" height="283" alt="Screenshot 2026-01-26 132402" src="https://github.com/user-attachments/assets/83d1e72d-758e-4d12-8dfe-bd461ea83fa5" />
 
 Top-down view of the Italy-inspired map illustrating zone partitioning.
 The map is divided into multiple zones, each managing its own spatial data, forming the foundation for graph-based pathfinding algorithms Dijkstra.
