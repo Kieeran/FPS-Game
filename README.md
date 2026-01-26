@@ -13,6 +13,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-4-play-scene">Scene 4: Play Scene</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#map-overview-and-zone-partitioning">Map Overview and Zone Partitioning</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#infopoints">InfoPoints</a><br/>
+<a href="#links">Links</a><br/>
 <a href="#current-limitations-and-future-development">
   Current Limitations and Future Development
 </a><br/>
@@ -56,9 +57,14 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 - AI Bots with a hybrid FSM–Behavior Tree architecture:
     + High-level states: Idle, Patrol, Combat
     + Detailed behaviors implemented as BT tasks: LookAround, ScanArea, Seek, AimAtPlayer, Attack
+    + Hierarchical pathfinding system combining graph-based and navigation mesh approaches:
+      * Dijkstra’s algorithm is used to compute paths between zones at the strategic level
+      * Unity NavMesh is used for local pathfinding and movement within individual zones
 - Zone-based spatial reasoning system:
     + ZoneData and InfoPoint structures support area scanning, tactical positioning, and target pursuit
-    + Enables bots to evaluate visible areas, select navigation targets, and perform contextual pathfinding
+    + These spatial data are baked in the Unity Editor and serialized as ScriptableObjects, providing a structured and persistent representation of the environment
+    + At runtime, the system loads and leverages these data to support AI decision-making and navigation processes
+    + This approach enables bots to evaluate visible areas, select navigation targets, and perform contextual pathfinding
 
 # How to Run
 ## In Unity Editor
@@ -109,8 +115,9 @@ Visualization of InfoPoints in the T_Spawn area of the map.
 Yellow markers - InfoPoints, blue markers - TacticalPoints, and purple markers - PortalPoints. 
 AI bots utilize the spatial data provided by these point types to perform area scanning within the zone.
 
-## Video demo: [Link video youtube](https://www.youtube.com/watch?v=3OFp4c57-aE)
-## Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
+# Links
+- Video demo: [Link video youtube](https://www.youtube.com/watch?v=3OFp4c57-aE)
+- Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
 
 # Current Limitations and Future Development
 ## Current Limitations
