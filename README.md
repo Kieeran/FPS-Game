@@ -40,12 +40,13 @@ The goal of this thesis is to design, implement, and evaluate a scalable multipl
 Completed and closed after successful Graduation Thesis defense. Only minor refinements and bug fixes remain.
 
 # Features
+- Map game: the *Italy* map inspired by Counter-Strike
+- Character model: fully humanoid player model
 - Full basic movement sync (idle, walk, run, jump)
 - Complete weapon system including:
     + Weapon: Rifle, Sniper, Pistol, Melee, and Grenade
     + Core mechanics: shooting, aiming, reloading, and weapon switching
     + Server-authoritative damage system with hit and death effects to prevent cheating
-- Character model: fully humanoid player model
 - Fully playable match loop:
     + Scoreboard system
     + Win/Loss (Victory / Defeat) conditions
