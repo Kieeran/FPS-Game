@@ -27,7 +27,7 @@ This project is a course assignment focused on building a multiplayer game using
   The Lobby service provides a way for players to discover and connect to each other to accomplish a variety of multiplayer gaming scenarios. The Lobby can persist for the duration of the game session to provide a mechanism for users to re-join an existing game session or facilitate host-migration after an unexpected disconnect.
   
 ## Status
-This project has been completed up to Phase 2 (Project 2). The next step will be the final phase: the Graduation Thesis.
+Completed and closed after successful Graduation Thesis defense. Only minor refinements and bug fixes remain.
 
 ## Features
 - Full basic movement sync (idle, walk, run, jump)
