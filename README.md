@@ -95,10 +95,18 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 
 ## Map Overview and Zone Partitioning
 
-<img width="518" height="287" alt="Screenshot 2026-01-26 130817" src="https://github.com/user-attachments/assets/5c31ce7d-daed-418d-bdaf-968f2b067cd4" />
+<img width="283" height="510" alt="Screenshot 2026-01-26 132402" src="https://github.com/user-attachments/assets/627b2e06-6c8b-4abc-bc67-3a342b119122" />
 
 Top-down view of the Italy-inspired map illustrating zone partitioning.
 The map is divided into multiple zones, each managing its own spatial data, forming the foundation for graph-based pathfinding algorithms Dijkstra.
+
+## InfoPoints
+
+<img width="1155" height="550" alt="Screenshot 2026-01-26 132737" src="https://github.com/user-attachments/assets/675ca31a-3bd6-4874-bd2a-7ea84fee3282" />
+
+Visualization of InfoPoints in the T_Spawn area of the map. 
+Yellow markers - InfoPoints, blue markers - TacticalPoints, and purple markers - PortalPoints. 
+AI bots utilize the spatial data provided by these point types to perform area scanning within the zone.
 
 ## Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
 ## Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
