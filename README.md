@@ -1,12 +1,12 @@
-# Table of Contents
-[Introduction](#introduction)
-[Built with](#built-with)
-[Status](#status)
-[Features](#features)
-[How to Run](#how-to-run)
-[Sample Results](#sample-results)
-[Current Limitations and Future Development](#current-limitations-and-future-development)
-[Credits](#credits)
+## Table of Contents
+<a href="#introduction">Introduction</a><br/>
+<a href="#built-with">Built with</a><br/>
+<a href="#status">Status</a><br/>
+<a href="#features">Features</a><br/>
+<a href="#how-to-run">How to Run</a><br/>
+<a href="#sample-results">Sample Results</a><br/>
+<a href="#current-limitations-and-future-development">Current Limitations and Future Development</a><br/>
+<a href="#credits">Credits</a>
 
 ## Introduction
 ![IntroGameFPS](https://github.com/user-attachments/assets/a4015f2c-a13e-4d2c-b6ff-c8f0f4c08a54)
