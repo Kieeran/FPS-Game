@@ -15,9 +15,7 @@
   Current Limitations and Future Development
 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#current-limitations">Current Limitations</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#future-development-graduation-thesis-phase">
-  Future Development (Graduation Thesis Phase)
-</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#future-development-graduation-thesis-phase">Future Development</a><br/>
 <a href="#credits">Credits</a>
 
 # Introduction
@@ -102,6 +100,6 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 # Credits
 Developed by [Kieeran](https://github.com/Kieeran) and [Haiseus](https://github.com/Haiseus) as part of the graduation project<br>
 Special thanks to:<br>
-- [Haiseus](https://github.com/Haiseus) - for your help with this projec
+- [Haiseus](https://github.com/Haiseus) - for your help with this project
 
 And thanks to everyone who have helped with suggestions and feedback! 
