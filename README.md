@@ -5,6 +5,19 @@
 ## Description
 This project is a course assignment focused on building a multiplayer game using Unity 3D and Unity's official services. The game leverages Relay to establish serverless communication between players, Netcode for GameObject to handle real-time networking for game objects, and Lobby for player matchmaking and room creation. The entire project is developed in C# and showcases the implementation of multiplayer functionalities in a seamless and engaging gaming experience.
 
+<details>
+<summary><strong>Table of Contents</strong></summary>
+
+- [Built with](#built-with)
+- [Status](#status)
+- [Features](#features)
+- [How to Run](#how-to-run)
+- [Sample Results](#sample-results)
+- [Current Limitations and Future Development](#current-limitations-and-future-development)
+- [Credits](#credits)
+
+</details>
+
 ## Built with
 
 - [![C#](https://img.shields.io/badge/C%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)](https://learn.microsoft.com/en-us/dotnet/csharp/)
