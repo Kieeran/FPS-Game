@@ -12,6 +12,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-3-lobby-room">Scene 3: Lobby Room</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-4-play-scene">Scene 4: Play Scene</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#map-overview-and-zone-partitioning">Map Overview and Zone Partitioning</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#infopoints">InfoPoints</a><br/>
 <a href="#current-limitations-and-future-development">
   Current Limitations and Future Development
 </a><br/>
@@ -108,7 +109,7 @@ Visualization of InfoPoints in the T_Spawn area of the map.
 Yellow markers - InfoPoints, blue markers - TacticalPoints, and purple markers - PortalPoints. 
 AI bots utilize the spatial data provided by these point types to perform area scanning within the zone.
 
-## Video demo: [Link video youtube](https://www.youtube.com/watch?v=Jn3rT69-qWA)
+## Video demo: [Link video youtube](https://www.youtube.com/watch?v=3OFp4c57-aE)
 ## Flow chart: [Link draw.io](https://drive.google.com/file/d/1SavhWu40WVZ4tlYFkBoMBUBUQ3jDOio6/view?usp=sharing)
 
 # Current Limitations and Future Development
