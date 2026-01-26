@@ -20,7 +20,12 @@
 
 # Introduction
 ![IntroGameFPS](https://github.com/user-attachments/assets/a4015f2c-a13e-4d2c-b6ff-c8f0f4c08a54)
-This project is a course assignment focused on building a multiplayer game using Unity 3D and Unity's official services. The game leverages Relay to establish serverless communication between players, Netcode for GameObject to handle real-time networking for game objects, and Lobby for player matchmaking and room creation. The entire project is developed in C# and showcases the implementation of multiplayer functionalities in a seamless and engaging gaming experience.
+This project is a graduation thesis presents the development of a server-authoritative 3D multiplayer FPS game built using Unity and Unity Gaming Services. The system utilizes Unity Relay for serverless connectivity, Netcode for GameObjects (NGO) for real-time synchronization of networked entities, and Unity Lobby for matchmaking and session management.
+
+Beyond basic multiplayer functionality, the project focuses on the integration of AI-controlled bots operating in a networked environment. These bots are fully controlled by the host and synchronized across all clients, ensuring consistent behavior and fairness in gameplay. A hybrid Finite State Machine – Behavior Tree (FSM–BT) architecture is employed to manage bot decision-making, balancing structured state control with flexible behavior execution.
+
+The goal of this thesis is to design, implement, and evaluate a scalable multiplayer FPS architecture that supports both human players and network-synchronized AI agents using modern Unity networking services.
+
 
 # Built with
 
