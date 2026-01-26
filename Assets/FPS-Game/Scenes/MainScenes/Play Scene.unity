@@ -1945,22 +1945,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsHolder: {fileID: 472574746}
   pointsDebug:
-  - {x: -4.2800007, y: 0, z: 25}
-  - {x: 4.7700005, y: 0, z: 25}
-  - {x: -16.04, y: 1.3, z: 70.13}
-  - {x: -16.24, y: 6.67, z: 112.899994}
-  - {x: -16.17, y: 0.99, z: 102.31}
-  - {x: -14.93, y: 4.58, z: 122.1}
-  - {x: -12.92, y: 0.86, z: 139.8}
-  - {x: 15.7, y: 1.469, z: 53.729996}
-  - {x: 55.91, y: 1.469, z: 73.5}
-  - {x: 33.32, y: 1.469, z: 73.5}
-  - {x: 49.7, y: 1.469, z: 84.61}
-  - {x: 47.31, y: 6.61, z: 132.37}
-  - {x: 11.58, y: 6.61, z: 136.16}
-  - {x: -5.299, y: 6.61, z: 98.04}
-  - {x: 19.369999, y: 1.469, z: 131.76}
-  - {x: 15.64, y: 1.469, z: 130.07}
+  - {x: -4.2800007, y: -0.040445328, z: 25}
+  - {x: -16.04, y: 2.652177, z: 70.13}
+  - {x: -5.299, y: 8.432178, z: 98.04}
+  - {x: 11.58, y: 8.205511, z: 136.16}
+  - {x: -12.92, y: 2.8788438, z: 139.8}
+  - {x: 15.64, y: 2.8788438, z: 130.07}
+  - {x: -16.24, y: 8.431116, z: 112.899994}
+  - {x: -14.93, y: 6.067177, z: 122.1}
+  - {x: -16.17, y: 2.652177, z: 102.31}
+  - {x: 49.7, y: 2.652177, z: 84.61}
+  - {x: 19.369999, y: 2.6564474, z: 131.76}
+  - {x: 55.91, y: 2.8788438, z: 73.5}
+  - {x: 33.32, y: 2.652177, z: 73.5}
+  - {x: 47.31, y: 8.205511, z: 132.37}
   pointSizeGizmos: 0.2
   pointColorGizmos: {r: 1, g: 0, b: 1, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
@@ -2794,6 +2792,102 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 154366757}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &157597158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 157597159}
+  - component: {fileID: 157597162}
+  - component: {fileID: 157597161}
+  - component: {fileID: 157597160}
+  m_Layer: 0
+  m_Name: Pos8
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &157597159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157597158}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9998416, z: -0, w: -0.017801253}
+  m_LocalPosition: {x: 10.93, y: 0.856, z: 60.04}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 552126578}
+  m_LocalEulerAnglesHint: {x: 0, y: 182.04, z: 0}
+--- !u!114 &157597160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157597158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72cde5f452402248b2f056e72d9e51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!23 &157597161
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157597158}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &157597162
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157597158}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &167982058
 GameObject:
   m_ObjectHideFlags: 0
@@ -3543,61 +3637,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsHolder: {fileID: 1230551896}
   pointsDebug:
-  - {x: 28.998, y: 2.8788438, z: 64.924}
-  - {x: 56.21, y: 2.8788438, z: 83.09}
-  - {x: 49.45, y: 2.6968434, z: 87.26}
-  - {x: 53.574, y: 3.7344205, z: 95.789}
-  - {x: 53.978, y: 4.918844, z: 103.68}
-  - {x: 54.3, y: 5.9388437, z: 112.628}
-  - {x: 53.264, y: 8.205511, z: 134.62}
-  - {x: 39.1, y: 8.205511, z: 152.77}
-  - {x: 24.82, y: 8.205511, z: 134.771}
-  - {x: -3.9780006, y: 8.205511, z: 130.8}
+  - {x: -15.158001, y: 2.652177, z: 69.49}
   - {x: -1.7250004, y: 8.432178, z: 94.919}
   - {x: 6.993, y: 8.432178, z: 90.207}
   - {x: 8.882, y: 8.432178, z: 83.18667}
   - {x: 6.2749996, y: 8.432178, z: 84.866}
   - {x: 8.539, y: 7.072177, z: 65.73334}
   - {x: 10.707, y: 8.432178, z: 87.792}
+  - {x: -3.9780006, y: 8.205511, z: 130.8}
+  - {x: 9.943, y: 8.205511, z: 137.528}
+  - {x: -8.404999, y: 2.8788438, z: 140.76001}
+  - {x: -14.258999, y: 8.432178, z: 108.808}
+  - {x: -14.111, y: 8.432178, z: 110.455}
+  - {x: -13.73, y: 6.278844, z: 125.11}
+  - {x: -18.169998, y: 2.652177, z: 96.267}
+  - {x: -18.16, y: 2.652177, z: 108.066}
+  - {x: -27.91, y: 2.652177, z: 75.57}
+  - {x: -24.331001, y: 2.8788438, z: 124.959}
+  - {x: -12.382, y: 2.8788438, z: 131.257}
+  - {x: -23.084, y: 2.8788438, z: 137.175}
+  - {x: 56.21, y: 2.8788438, z: 83.09}
+  - {x: 32.16, y: 2.652177, z: 93.74}
+  - {x: 18.24, y: 2.652177, z: 94.42}
+  - {x: 13.78, y: 2.652177, z: 104.4}
+  - {x: -2.716999, y: 2.652177, z: 100.303}
+  - {x: -10.130001, y: 2.652177, z: 100.39}
+  - {x: 21.533335, y: 2.652177, z: 119.23}
+  - {x: 20.69, y: 2.652177, z: 111.92}
+  - {x: 32.75, y: 2.652177, z: 80.82}
+  - {x: 53.264, y: 8.205511, z: 134.62}
+  - {x: 39.1, y: 8.205511, z: 152.77}
+  - {x: 24.82, y: 8.205511, z: 134.771}
   - {x: 53.264, y: 12.625511, z: 143.676}
   - {x: 46.507, y: 8.205511, z: 149.196}
   - {x: 54.085, y: 12.625511, z: 149.6}
   - {x: 46.318, y: 12.625511, z: 150.239}
   - {x: 50.291, y: 12.625511, z: 143.8586}
   - {x: 56.48, y: 12.625511, z: 134.82}
-  - {x: 32.16, y: 2.652177, z: 93.74}
-  - {x: 18.24, y: 2.652177, z: 94.42}
-  - {x: 13.78, y: 2.652177, z: 104.4}
-  - {x: -2.716999, y: 2.652177, z: 100.303}
-  - {x: -10.130001, y: 2.652177, z: 100.39}
-  - {x: -14.258999, y: 8.432178, z: 108.808}
-  - {x: -14.111, y: 8.432178, z: 110.455}
-  - {x: -13.73, y: 6.278844, z: 125.11}
-  - {x: -24.331001, y: 2.8788438, z: 124.959}
-  - {x: -12.382, y: 2.8788438, z: 131.257}
-  - {x: -23.084, y: 2.8788438, z: 137.175}
-  - {x: -8.404999, y: 2.8788438, z: 140.76001}
-  - {x: 9.943, y: 8.205511, z: 137.528}
-  - {x: 21.533335, y: 2.652177, z: 119.23}
-  - {x: 20.69, y: 2.652177, z: 111.92}
-  - {x: -18.169998, y: 2.652177, z: 96.267}
-  - {x: -18.16, y: 2.652177, z: 108.066}
-  - {x: -27.91, y: 2.652177, z: 75.57}
-  - {x: -15.158001, y: 2.652177, z: 69.49}
-  - {x: -12.060001, y: 2.8788438, z: 16.879997}
-  - {x: 0.25, y: -0.06756759, z: 23.84}
-  - {x: 32.75, y: 2.652177, z: 80.82}
-  - {x: 25.56, y: 2.8788438, z: 53.6}
-  - {x: 17.09, y: 2.8788438, z: 53.6}
-  - {x: 10.85, y: 2.652177, z: 49.35}
-  - {x: 10.72, y: 2.652177, z: 59.8}
-  - {x: 38.36, y: 2.7655103, z: 64.72}
-  - {x: 34.72, y: 2.652177, z: 68.541}
-  - {x: 28.998, y: 2.9171898, z: 72.42}
-  - {x: 29.142, y: 2.8788438, z: 43.58}
-  - {x: 58.03, y: 2.8788438, z: 44.69}
-  - {x: 51.54, y: 2.8123255, z: 64.93}
-  - {x: 55.4, y: 2.8788438, z: 68.46}
+  - {x: 49.45, y: 2.6968434, z: 87.26}
+  - {x: 53.574, y: 3.7344205, z: 95.789}
+  - {x: 53.978, y: 4.918844, z: 103.68}
+  - {x: 54.3, y: 5.9388437, z: 112.628}
   pointSizeGizmos: 0.2
   pointColorGizmos: {r: 0, g: 1, b: 1, a: 1}
   invalidPointColorGizmos: {r: 1, g: 0, b: 0, a: 1}
@@ -5777,11 +5857,12 @@ MonoBehaviour:
   - {x: 54.263, y: 2.8788438, z: 63.78293}
   - {x: 56.263, y: 2.8788438, z: 43.782925}
   - {x: 56.263, y: 2.8788438, z: 45.78293}
-  - {x: 56.263, y: 2.8788438, z: 63.78293}
-  - {x: 56.263, y: 2.8788438, z: 65.78293}
+  - {x: 55.966705, y: 2.8788438, z: 63.486633}
+  - {x: 56.136906, y: 2.8788438, z: 66.03512}
   - {x: 56.263, y: 2.8788438, z: 67.78293}
   - {x: 58.263004, y: 2.8788438, z: 43.782925}
   - {x: 58.263, y: 2.8788438, z: 45.78293}
+  - {x: 58.70667, y: 2.8788438, z: 64.37334}
   - {x: 58.263004, y: 2.8788438, z: 65.78293}
   - {x: 58.263, y: 2.8788438, z: 67.09334}
   - {x: 59.84, y: 2.8788438, z: 43.782925}
@@ -5810,7 +5891,7 @@ MonoBehaviour:
   - {x: 55.741085, y: 2.8788438, z: 71.73005}
   - {x: 55.74108, y: 2.8788438, z: 73.73004}
   - {x: 55.741085, y: 2.8788438, z: 75.73004}
-  - {x: 57.741085, y: 2.8788438, z: 65.73004}
+  - {x: 57.77899, y: 2.8788438, z: 65.995384}
   - {x: 57.74108, y: 2.8788438, z: 67.09334}
   - {x: 59.74109, y: 2.8788438, z: 65.73005}
   - {x: 59.741085, y: 2.8788438, z: 67.09334}
@@ -6284,7 +6365,7 @@ MonoBehaviour:
   - {x: 36.445164, y: 8.205511, z: 140.65578}
   - {x: 36.445164, y: 8.205511, z: 142.65578}
   - {x: 36.445164, y: 8.205511, z: 144.65579}
-  - {x: 36.445164, y: 8.205511, z: 146.65579}
+  - {x: 36.04, y: 8.205511, z: 146.65579}
   - {x: 36.445164, y: 8.205511, z: 148.65578}
   - {x: 36.445164, y: 8.205511, z: 150.65579}
   - {x: 36.445164, y: 8.205511, z: 152.65579}
@@ -7464,6 +7545,42 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536685329}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &552126577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 552126578}
+  m_Layer: 0
+  m_Name: SpawnPositions_Report
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &552126578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552126577}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 880324290}
+  - {fileID: 1360051391}
+  - {fileID: 2026743271}
+  - {fileID: 1216911710}
+  - {fileID: 157597159}
+  m_Father: {fileID: 2108533777}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &568880134
 GameObject:
   m_ObjectHideFlags: 0
@@ -12067,6 +12184,102 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &880324289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 880324290}
+  - component: {fileID: 880324293}
+  - component: {fileID: 880324292}
+  - component: {fileID: 880324291}
+  m_Layer: 0
+  m_Name: Pos1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &880324290
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880324289}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.85, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 552126578}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &880324291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880324289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72cde5f452402248b2f056e72d9e51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!23 &880324292
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880324289}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &880324293
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880324289}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &890133074
 GameObject:
   m_ObjectHideFlags: 0
@@ -15109,6 +15322,102 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1216911709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1216911710}
+  - component: {fileID: 1216911713}
+  - component: {fileID: 1216911712}
+  - component: {fileID: 1216911711}
+  m_Layer: 0
+  m_Name: Pos9
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1216911710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216911709}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.9101421, z: -0, w: 0.41429618}
+  m_LocalPosition: {x: 38.66, y: 0.45, z: 96.95}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 552126578}
+  m_LocalEulerAnglesHint: {x: 0, y: -131.05, z: 0}
+--- !u!114 &1216911711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216911709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72cde5f452402248b2f056e72d9e51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!23 &1216911712
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216911709}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1216911713
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216911709}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1219418591
 GameObject:
   m_ObjectHideFlags: 0
@@ -16518,6 +16827,102 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341766272}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1360051390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1360051391}
+  - component: {fileID: 1360051394}
+  - component: {fileID: 1360051393}
+  - component: {fileID: 1360051392}
+  m_Layer: 0
+  m_Name: Pos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1360051391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360051390}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.40960452, z: -0, w: 0.9122632}
+  m_LocalPosition: {x: -21.47, y: 0.9, z: 69.01}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 552126578}
+  m_LocalEulerAnglesHint: {x: 0, y: 48.36, z: 0}
+--- !u!114 &1360051392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360051390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72cde5f452402248b2f056e72d9e51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!23 &1360051393
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360051390}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1360051394
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360051390}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1361586400
 GameObject:
   m_ObjectHideFlags: 0
@@ -18157,146 +18562,128 @@ MonoBehaviour:
   - {fileID: 392971426}
   - {fileID: 568983210}
   allPortals:
-  - pointID: 1
-    position: {x: -16.04, y: 2.652177, z: 70.13}
-    type: 2
-    priority: 15
-    visibleIndices: 000000000300000004000000050000000600000018000000190000001a0000001b0000002c0000002d0000002e0000002f0000003000000031000000
-    isChecked: 0
-    portalName: CT_Left - Stairs
-    zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
-    zoneDataB: {fileID: 11400000, guid: 22283718b238c2d4daa1c54ae4426cec, type: 2}
-  - pointID: 2
+  - pointID: 0
     position: {x: -4.2800007, y: -0.040445328, z: 25}
     type: 2
-    priority: 57
-    visibleIndices: 05000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b00000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f00000040000000410000004200000043000000
+    priority: 0
+    visibleIndices: 
     isChecked: 0
     portalName: CT_Spawn - CT_Left
     zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
     zoneDataB: {fileID: 11400000, guid: 22283718b238c2d4daa1c54ae4426cec, type: 2}
-  - pointID: 2
-    position: {x: 15.7, y: 2.8788438, z: 53.729996}
+  - pointID: 1
+    position: {x: -16.04, y: 2.652177, z: 70.13}
     type: 2
-    priority: 21
-    visibleIndices: 000000000100000018000000190000001a0000001b0000001c0000001d0000001e0000001f00000028000000290000002a0000002b0000002c0000002d0000002e00000036000000370000003800000039000000
+    priority: 0
+    visibleIndices: 
     isChecked: 0
-    portalName: CT_Right - Market
-    zoneDataA: {fileID: 11400000, guid: 03cfa90d6d1563c49a2378c05af105f9, type: 2}
-    zoneDataB: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
-  - pointID: 3
-    position: {x: 4.7700005, y: -0.06782317, z: 25}
-    type: 2
-    priority: 53
-    visibleIndices: 00000000010000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f00000030000000310000003200000033000000340000003500000036000000370000003800000039000000
-    isChecked: 0
-    portalName: CT_Spawn - CT_Right
-    zoneDataA: {fileID: 11400000, guid: 1c1311b16558ad8428ef4300b4cb5f79, type: 2}
-    zoneDataB: {fileID: 11400000, guid: 03cfa90d6d1563c49a2378c05af105f9, type: 2}
+    portalName: CT_Left - Stairs
+    zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 22283718b238c2d4daa1c54ae4426cec, type: 2}
   - pointID: 6
     position: {x: -5.299, y: 8.432178, z: 98.04}
     type: 2
-    priority: 2
-    visibleIndices: 0700000008000000
+    priority: 0
+    visibleIndices: 
     isChecked: 0
     portalName: Long - House
     zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
     zoneDataB: {fileID: 11400000, guid: 12276391b5724e64ab088db6bfc0c4f1, type: 2}
-  - pointID: 3
+  - pointID: 2
     position: {x: 11.58, y: 8.205511, z: 136.16}
     type: 2
-    priority: 38
-    visibleIndices: 00000000150000001600000017000000180000002a0000002b0000002c0000002d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a000000
-    isChecked: 1
+    priority: 0
+    visibleIndices: 
+    isChecked: 0
     portalName: T_Spawn - Long
     zoneDataA: {fileID: 11400000, guid: 8d2fd7e6ebb109a418955dde74afd9b7, type: 2}
     zoneDataB: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
   - pointID: 1
-    position: {x: 15.64, y: 2.8788438, z: 130.07}
-    type: 2
-    priority: 9
-    visibleIndices: 28000000290000002b0000002c0000002d00000031000000320000003700000038000000
-    isChecked: 0
-    portalName: Streets - Long_Cellar
-    zoneDataA: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
-    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
-  - pointID: 2
     position: {x: -12.92, y: 2.8788438, z: 139.8}
     type: 2
-    priority: 30
-    visibleIndices: 00000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001c0000001e000000210000002400000027000000
+    priority: 0
+    visibleIndices: 
     isChecked: 0
     portalName: Storage_Room - Long_Cellar
     zoneDataA: {fileID: 11400000, guid: 83fedd6943c3ddd44bc920b4e8338640, type: 2}
     zoneDataB: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
-  - pointID: 10
-    position: {x: 33.32, y: 2.652177, z: 73.5}
+  - pointID: 2
+    position: {x: 15.64, y: 2.8788438, z: 130.07}
     type: 2
-    priority: 79
-    visibleIndices: 030000000400000005000000130000001400000015000000160000001700000018000000190000001a0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f0000004000000041000000420000004300000044000000450000004600000047000000490000004a0000004c0000004e0000004f000000520000005300000054000000570000005800000088000000890000008a0000008b0000008c0000008d0000008e0000008f00000090000000910000009200000093000000940000009500000096000000
-    isChecked: 1
-    portalName: Market - Streets - 2
-    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
-    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
-  - pointID: 11
-    position: {x: 55.91, y: 2.8788438, z: 73.5}
-    type: 2
-    priority: 18
-    visibleIndices: 0000000061000000620000006c0000006d0000006e0000006f000000790000007c0000007d0000007e0000009700000098000000990000009a0000009b0000009c0000009d000000
+    priority: 0
+    visibleIndices: 
     isChecked: 0
-    portalName: Market - Streets
-    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    portalName: Streets - Long_Cellar
+    zoneDataA: {fileID: 11400000, guid: 6ee45f8539b382b488f95a7fdf01d284, type: 2}
     zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
   - pointID: 3
-    position: {x: -14.93, y: 6.067177, z: 122.1}
-    type: 2
-    priority: 9
-    visibleIndices: 000000000a0000000b00000012000000130000001400000015000000190000001a000000
-    isChecked: 0
-    portalName: Stair_Room - Storage_Room
-    zoneDataA: {fileID: 11400000, guid: 83fedd6943c3ddd44bc920b4e8338640, type: 2}
-    zoneDataB: {fileID: 11400000, guid: 8afa3929c9de5214aa416aac56d7c814, type: 2}
-  - pointID: 4
     position: {x: -16.24, y: 8.431116, z: 112.899994}
     type: 2
-    priority: 17
-    visibleIndices: 010000000700000008000000090000000c0000000d0000000e0000000f00000010000000160000001700000018000000190000001a0000001c0000001d0000001e000000
+    priority: 0
+    visibleIndices: 
     isChecked: 0
     portalName: Stairs - Stair_Room
     zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
     zoneDataB: {fileID: 11400000, guid: 8afa3929c9de5214aa416aac56d7c814, type: 2}
+  - pointID: 4
+    position: {x: -14.93, y: 6.067177, z: 122.1}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    isChecked: 0
+    portalName: Stair_Room - Storage_Room
+    zoneDataA: {fileID: 11400000, guid: 83fedd6943c3ddd44bc920b4e8338640, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 8afa3929c9de5214aa416aac56d7c814, type: 2}
   - pointID: 3
     position: {x: -16.17, y: 2.652177, z: 102.31}
     type: 2
-    priority: 121
-    visibleIndices: 01000000020000000400000005000000080000000a0000000b0000000d0000000e000000100000001100000013000000140000001500000017000000180000001b0000001c0000001e0000001f000000200000002100000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f0000005000000051000000520000005300000054000000550000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a0000007b0000007c0000007d0000007e0000007f000000800000008100000082000000830000008400000085000000860000008700000088000000890000008a0000008b000000
+    priority: 0
+    visibleIndices: 
     isChecked: 0
     portalName: Stairs - Streets
     zoneDataA: {fileID: 11400000, guid: 9002742df86686d45a611d4dc261fd0d, type: 2}
     zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+  - pointID: 9
+    position: {x: 49.7, y: 2.652177, z: 84.61}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    isChecked: 0
+    portalName: Streets - Tunnel
+    zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
   - pointID: 10
     position: {x: 19.369999, y: 2.6564474, z: 131.76}
     type: 2
-    priority: 50
-    visibleIndices: 020000000600000009000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a0000007b0000007c0000007d0000007e0000007f0000008000000081000000820000008300000084000000850000008600000088000000890000008a0000008b0000008c0000008d0000008e000000990000009a0000009b0000009c0000009d0000009e0000009f000000
+    priority: 0
+    visibleIndices: 
     isChecked: 0
     portalName: Streets - T_Spawn
     zoneDataA: {fileID: 11400000, guid: 80e83f2236cf4a942befd61df384c50b, type: 2}
     zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
-  - pointID: 11
-    position: {x: 49.7, y: 2.652177, z: 84.61}
+  - pointID: 12
+    position: {x: 55.91, y: 2.8788438, z: 73.5}
     type: 2
-    priority: 47
-    visibleIndices: 00000000080000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000b2000000ba000000c2000000
-    isChecked: 1
-    portalName: Streets - Tunnel
-    zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
+    priority: 0
+    visibleIndices: 
+    isChecked: 0
+    portalName: Market - Streets
+    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
     zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
-  - pointID: 11
+  - pointID: 13
+    position: {x: 33.32, y: 2.652177, z: 73.5}
+    type: 2
+    priority: 0
+    visibleIndices: 
+    isChecked: 1
+    portalName: Market - Streets - 2
+    zoneDataA: {fileID: 11400000, guid: e69dd4f5c074dc44faa9e9a90cb8cb13, type: 2}
+    zoneDataB: {fileID: 11400000, guid: 369348e6f5eb7654d9c53526368aa7dd, type: 2}
+  - pointID: 9
     position: {x: 47.31, y: 8.205511, z: 132.37}
     type: 2
-    priority: 106
-    visibleIndices: 08000000170000001800000019000000230000002400000025000000260000002c0000003000000031000000320000003300000034000000350000003600000037000000380000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000048000000490000004a0000004b0000004c0000004d0000004e0000004f00000050000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005f000000600000006100000062000000630000006400000065000000660000006b0000006c0000006d0000006e0000006f0000007000000071000000760000007700000078000000790000007a0000007b00000082000000830000008400000085000000860000008b0000008c0000008d0000008e00000092000000930000009400000095000000960000009700000098000000990000009a0000009b0000009c0000009d0000009e0000009f000000a0000000a1000000a2000000a3000000a4000000a5000000a6000000a7000000a8000000a9000000ab000000ac000000ad000000af000000b0000000b1000000
+    priority: 0
+    visibleIndices: 
     isChecked: 0
     portalName: Tunnel - T_Spawn
     zoneDataA: {fileID: 11400000, guid: 0d816efd777b387419237f83e19bb848, type: 2}
@@ -23747,6 +24134,102 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2022498051}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2026743270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2026743271}
+  - component: {fileID: 2026743274}
+  - component: {fileID: 2026743273}
+  - component: {fileID: 2026743272}
+  m_Layer: 0
+  m_Name: Pos7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2026743271
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026743270}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.50859064, z: -0, w: 0.8610085}
+  m_LocalPosition: {x: 56.3, y: 1.07, z: 44.48}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 552126578}
+  m_LocalEulerAnglesHint: {x: 0, y: -61.14, z: 0}
+--- !u!114 &2026743272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026743270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72cde5f452402248b2f056e72d9e51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!23 &2026743273
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026743270}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &2026743274
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026743270}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2037649068
 GameObject:
   m_ObjectHideFlags: 0
@@ -24557,6 +25040,7 @@ Transform:
   m_Children:
   - {fileID: 869183239}
   - {fileID: 1408114439473238345}
+  - {fileID: 552126578}
   - {fileID: 5858090780237407506}
   - {fileID: 4597485204937674607}
   - {fileID: 221784742}
@@ -24575,7 +25059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inGameManagerPrefab: {fileID: 4920083990778913584, guid: 68b291ab46bd15948b0c6f6ca2ce4897, type: 3}
-  spawnPositions: {fileID: 5858090780237407506}
+  spawnPositions: {fileID: 552126578}
   waypoints: {fileID: 221784742}
   zonesContainer: {fileID: 348272423}
   zonesPortalContainer: {fileID: 130521716}
@@ -26767,7 +27251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &4468130382155234792
 CanvasRenderer:
   m_ObjectHideFlags: 0

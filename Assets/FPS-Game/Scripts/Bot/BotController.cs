@@ -99,6 +99,7 @@ namespace AIBot
             });
 
             sensor.OnPlayerLost += HandlePlayerLost;
+            sensor.OnTargetPlayerIsDead += OnTargetPlayerIsDead;
 
             botTactics.OnCurrentVisiblePointsCompleted += CalculateNextTargetInfoPoint;
             botTactics.OnZoneFullyScanned += () =>
@@ -245,6 +246,9 @@ namespace AIBot
             {
                 case State.Idle:
                     Debug.Log("Entering Idle State");
+                    
+                    blackboardLinker.SetTargetPlayer(null);
+                    sensor.SetTargetPlayerTransform(null);
                     StartBehavior(idleBehavior);
                     break;
                 case State.Patrol:
@@ -263,6 +267,7 @@ namespace AIBot
                 case State.Combat:
                     Debug.Log("Entering Combat State");
                     StartBehavior(combatBehavior);
+                    blackboardLinker.SetTargetPlayerIsDead(false);
                     break;
             }
 
@@ -459,11 +464,19 @@ namespace AIBot
             blackboardLinker.SetLastKnownPlayerData(data);
             ZoneData suspiciousZoneData = botTactics.PredictMostSuspiciousZone(data);
 
+            botTactics.currentTargetZoneData = suspiciousZoneData;
+            suspiciousZoneData.ResetIsChecked();
             CalculatePatrolPath(suspiciousZoneData);
 
             blackboardLinker.SetTargetInfoPointToPatrol(portalPointsToPatrol[currenPortalIndex]);
             blackboardLinker.SetIsMoving(true);
             blackboardLinker.SetScanAllArea(false);
+        }
+
+        void OnTargetPlayerIsDead()
+        {
+            blackboardLinker.SetTargetPlayerIsDead(true);
+            Debug.Log("Đã hạ gục người chơi");
         }
 
         #endregion

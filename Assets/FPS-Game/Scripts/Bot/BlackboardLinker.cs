@@ -182,6 +182,11 @@ namespace AIBot
             SafeSet("targetPortalListEmpty", b);
         }
 
+        public void SetTargetPlayerIsDead(bool b)
+        {
+            SafeSet("targetPlayerIsDead", b);
+        }
+
         void Update()
         {
             GetValuesSharedVariables();

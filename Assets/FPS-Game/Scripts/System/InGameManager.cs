@@ -5,6 +5,7 @@ using Unity.Netcode;
 using System.Collections;
 using UnityEngine.AI;
 using System.Linq;
+using System;
 
 public struct PlayerInfo
 {
@@ -91,6 +92,7 @@ public class InGameManager : NetworkBehaviour
     public System.Action<List<PlayerInfo>> OnReceivedPlayerInfo;
 
     public List<PlayerRoot> AllCharacters = new();
+    public Action<PlayerRoot> OnAnyPlayerDied;
 
     void Awake()
     {

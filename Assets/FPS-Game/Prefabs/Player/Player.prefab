@@ -4367,7 +4367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885f634163afce642b3299ff1a9484e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Capacity: 15
+  Capacity: 999
   InitSupplies: 45
   CurrentMagazineAmmo: 5
   TotalSupplies: 10
@@ -5897,6 +5897,8 @@ MonoBehaviour:
         byte0027: 0
         byte0028: 0
         byte0029: 0
+  CurrentZone: {fileID: 0}
+  CurrentZoneData: {fileID: 0}
 --- !u!114 &411114129890139701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6062,6 +6064,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitEffect: {fileID: 5238538877814813142, guid: 6fd107565fc41ea4ba6ecc9e2e7b230c, type: 3}
+  layersToIgnore:
+    serializedVersion: 2
+    m_Bits: 16388
 --- !u!114 &3776603355074829376
 MonoBehaviour:
   m_ObjectHideFlags: 0
