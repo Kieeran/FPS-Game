@@ -4,26 +4,20 @@
 <a href="#status">Status</a><br/>
 <a href="#features">Features</a><br/>
 <a href="#how-to-run">How to Run</a><br/>
-
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#in-unity-editor">In Unity Editor</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#from-build-standalone">From Build (Standalone)</a><br/>
-
 <a href="#sample-results">Sample Results</a><br/>
-
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-1-sign-in">Scene 1: Sign in</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-2-lobby-list">Scene 2: Lobby List</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-3-lobby-room">Scene 3: Lobby Room</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-4-play-scene">Scene 4: Play Scene</a><br/>
-
 <a href="#current-limitations-and-future-development">
   Current Limitations and Future Development
 </a><br/>
-
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#current-limitations">Current Limitations</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#future-development-graduation-thesis-phase">
   Future Development (Graduation Thesis Phase)
 </a><br/>
-
 <a href="#credits">Credits</a>
 
 # Introduction
@@ -35,21 +29,9 @@ This project is a course assignment focused on building a multiplayer game using
 - [![C#](https://img.shields.io/badge/C%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)](https://learn.microsoft.com/en-us/dotnet/csharp/)
 - [![Unity](https://img.shields.io/badge/Unity-%23000000.svg?style=for-the-badge&logo=unity&logoColor=white)](https://unity.com/)
 - [![.NET Framework](https://img.shields.io/badge/.NET_Framework-%235C2D91.svg?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/en-us/)
-
 - [NGO (Netcode for GameObjects)](https://docs-multiplayer.unity3d.com/netcode/current/about/)
-![501ec0daf62aa78f5744b0c6e973f4b373dd24d1-800x450](https://github.com/user-attachments/assets/93553ec0-aed1-4ccb-8a6f-77a7c54e79f5)
-
-  Netcode for GameObjects (Netcode) is a high-level networking library built for Unity for you to abstract networking logic. It enables you to send GameObjects and world data across a networking session to many players at once. With Netcode, you can focus on building your game instead of low-level protocols and networking frameworks.
-
 - [Unity Relay](https://docs.unity.com/ugs/manual/relay/manual/introduction)
-![image](https://github.com/user-attachments/assets/f0758b91-1a1f-403a-b43b-79ce49d11983)
-
-  Unity Relay exposes a way for game developers to securely offer increased connectivity between players by using a join code style workflow without needing to invest in a third-party solution, maintain dedicated game servers (DGS), or worry about the network complexities of a peer-to-peer game. Instead of using DGS, the Relay service provides connectivity through a universal Relay server acting as a proxy.
-
 - [Unity Lobby](https://docs.unity.com/ugs/manual/lobby/manual/unity-lobby-service)
-![image](https://github.com/user-attachments/assets/7f8c9cde-6f60-4409-b2a5-0998f084625a)
-
-  The Lobby service provides a way for players to discover and connect to each other to accomplish a variety of multiplayer gaming scenarios. The Lobby can persist for the duration of the game session to provide a mechanism for users to re-join an existing game session or facilitate host-migration after an unexpected disconnect.
   
 # Status
 Completed and closed after successful Graduation Thesis defense. Only minor refinements and bug fixes remain.
