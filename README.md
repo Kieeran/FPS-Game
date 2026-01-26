@@ -11,6 +11,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-2-lobby-list">Scene 2: Lobby List</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-3-lobby-room">Scene 3: Lobby Room</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-4-play-scene">Scene 4: Play Scene</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#map-overview-and-zone-partitioning">Map Overview and Zone Partitioning</a><br/>
 <a href="#current-limitations-and-future-development">
   Current Limitations and Future Development
 </a><br/>
@@ -95,6 +96,7 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 ## Map Overview and Zone Partitioning
 
 <img width="518" height="287" alt="Screenshot 2026-01-26 130817" src="https://github.com/user-attachments/assets/5c31ce7d-daed-418d-bdaf-968f2b067cd4" />
+
 Top-down view of the Italy-inspired map illustrating zone partitioning.
 The map is divided into multiple zones, each managing its own spatial data, forming the foundation for graph-based pathfinding algorithms Dijkstra.
 
