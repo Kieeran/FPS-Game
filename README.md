@@ -5,33 +5,26 @@
 <a href="#features">Features</a><br/>
 <a href="#how-to-run">How to Run</a><br/>
 
-<span style="margin-left:20px">
-  <a href="#in-unity-editor">In Unity Editor</a><br/>
-  <a href="#from-build-standalone">From Build (Standalone)</a><br/>
-</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#in-unity-editor">In Unity Editor</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#from-build-standalone">From Build (Standalone)</a><br/>
 
 <a href="#sample-results">Sample Results</a><br/>
 
-<span style="margin-left:20px">
-  <a href="#scene-1-sign-in">Scene 1: Sign in</a><br/>
-  <a href="#scene-2-lobby-list">Scene 2: Lobby List</a><br/>
-  <a href="#scene-3-lobby-room">Scene 3: Lobby Room</a><br/>
-  <a href="#scene-4-play-scene">Scene 4: Play Scene</a><br/>
-</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-1-sign-in">Scene 1: Sign in</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-2-lobby-list">Scene 2: Lobby List</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-3-lobby-room">Scene 3: Lobby Room</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#scene-4-play-scene">Scene 4: Play Scene</a><br/>
 
 <a href="#current-limitations-and-future-development">
   Current Limitations and Future Development
 </a><br/>
 
-<span style="margin-left:20px">
-  <a href="#current-limitations">Current Limitations</a><br/>
-  <a href="#future-development-graduation-thesis-phase">
-    Future Development (Graduation Thesis Phase)
-  </a><br/>
-</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#current-limitations">Current Limitations</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#future-development-graduation-thesis-phase">
+  Future Development (Graduation Thesis Phase)
+</a><br/>
 
 <a href="#credits">Credits</a>
-
 
 # Introduction
 ![IntroGameFPS](https://github.com/user-attachments/assets/a4015f2c-a13e-4d2c-b6ff-c8f0f4c08a54)
