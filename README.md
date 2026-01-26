@@ -61,8 +61,7 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 ## In Unity Editor
 1. Open the project in Unity (version 2022.3+ recommended)
 2. Install all dependencies via Unity Package Manager
-3. Install dependencies via Unity Package Manager
-4. Press `Play` to start
+3. Press `Play` to start
 
 ## From Build (Standalone)
 1. Ensure the project is linked to Unity Services (Relay + Authentication enabled)
@@ -97,17 +96,22 @@ Completed and closed after successful Graduation Thesis defense. Only minor refi
 
 # Current Limitations and Future Development
 ## Current Limitations
-- UI/UX is still basic and under development
+- UI/UX is still basic
 - Player character animations are not natural; movement lacks polish and proper animation logic
 - The game still experiences noticeable lag
 - High latency difference between host and clients causes gameplay imbalance
+- AI bot movement is sometimes unnatural, particularly when navigating sharp corners or narrow passages
+- Area scanning and perception behaviors remain mechanical and lack human-like variation
 
 ## Future Development (Graduation Thesis Phase)
-- Add AI bots for training or offline play
 - Improve UI/UX (main menu, HUD, scoreboard, lobby navigation)
 - Add game modes (Team Deathmatch, Bomb Defusal)
 - Polish character animation, effects, and network optimization
 - Add save/load, progression, or stats system (optional for polish)
+- Develop more advanced combat behaviors (seeking cover, retreating)
+- Enable bots to use other weapon types(Grenade, Melee, ...)
+- Enhance perception systems (sound-based target detection)
+- Increase the number of AI bots, group behaviour
 
 # Credits
 Developed by [Kieeran](https://github.com/Kieeran) and [Haiseus](https://github.com/Haiseus) as part of the graduation project<br>
