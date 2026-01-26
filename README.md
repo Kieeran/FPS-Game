@@ -1,13 +1,14 @@
 # Table of Contents
-- [Built with](#built-with)
-- [Status](#status)
-- [Features](#features)
-- [How to Run](#how-to-run)
-- [Sample Results](#sample-results)
-- [Current Limitations and Future Development](#current-limitations-and-future-development)
-- [Credits](#credits)
+[Introduction](#introduction)
+[Built with](#built-with)
+[Status](#status)
+[Features](#features)
+[How to Run](#how-to-run)
+[Sample Results](#sample-results)
+[Current Limitations and Future Development](#current-limitations-and-future-development)
+[Credits](#credits)
 
-## Description
+## Introduction
 ![IntroGameFPS](https://github.com/user-attachments/assets/a4015f2c-a13e-4d2c-b6ff-c8f0f4c08a54)
 This project is a course assignment focused on building a multiplayer game using Unity 3D and Unity's official services. The game leverages Relay to establish serverless communication between players, Netcode for GameObject to handle real-time networking for game objects, and Lobby for player matchmaking and room creation. The entire project is developed in C# and showcases the implementation of multiplayer functionalities in a seamless and engaging gaming experience.
 
