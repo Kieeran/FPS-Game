@@ -1,4 +1,6 @@
 # Table of Contents
+<a href="#license">License</a><br/>
+<a href="#disclaimer">Disclaimer</a><br/>
 <a href="#introduction">Introduction</a><br/>
 <a href="#built-with">Built with</a><br/>
 <a href="#status">Status</a><br/>
@@ -20,6 +22,17 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#current-limitations">Current Limitations</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#future-development">Future Development</a><br/>
 <a href="#credits">Credits</a>
+
+# License
+
+This project is licensed under the MIT License.
+
+# Disclaimer
+
+This project was developed for academic purposes.
+
+It may contain components or approaches that are not intended for
+commercial or production use. Commercial use is not recommended.
 
 # Introduction
 ![IntroGameFPS](https://github.com/user-attachments/assets/a4015f2c-a13e-4d2c-b6ff-c8f0f4c08a54)
